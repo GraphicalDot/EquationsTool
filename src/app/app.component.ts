@@ -21,12 +21,12 @@ export class AppComponent {
   ngOnInit(){
       if(this.userData == null) {
     	 			console.log("No user found")
-    				this.router.navigate(["/home"])
+    				this.router.navigate(["/home/editor"])
     			
     		}else{
     			//this.router.navigate(["/register"])
 					console.log("User has been found");
-    			this.router.navigate(["/home"])
+    			this.router.navigate(["/home/editor"])
 					
     		}
 

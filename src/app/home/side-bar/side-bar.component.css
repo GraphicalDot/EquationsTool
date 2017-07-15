@@ -1,0 +1,17 @@
+.fresh {
+        background-color:  #373737;
+        color : #C0B283 !important ;
+        text-align: center;
+}
+
+li a {
+    background-color:  #373737;
+        color : #C0B283 !important ;
+        text-align: center;
+
+
+}
+    
+li a:hover { 
+    background-color: #F4F4F4;
+}
