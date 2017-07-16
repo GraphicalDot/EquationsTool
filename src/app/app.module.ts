@@ -10,12 +10,16 @@ import { UrlResolver } from '@angular/compiler';
 import { SideBarComponent } from './home/side-bar/side-bar.component';
 import { NavBarComponent } from './home/nav-bar/nav-bar.component';
 import { EditorComponent } from './home/side-bar/editor/editor.component';
+import { UsersComponent } from './home/side-bar/users/users.component';
+import { QuestionsComponent } from './home/side-bar/questions/questions.component';
 
 const routes: Routes = 
 [
 { path: 'home', component: HomeComponent, 
 children: [
-{ path: 'editor', component: EditorComponent}
+{ path: 'editor', component: EditorComponent},
+{ path: 'users', component: UsersComponent},
+{ path: 'questions', component: QuestionsComponent},
 ]}
 ]
 
@@ -25,7 +29,9 @@ children: [
     HomeComponent,
     SideBarComponent,
     NavBarComponent,
-    EditorComponent
+    EditorComponent,
+    UsersComponent,
+    QuestionsComponent
   ],
   imports: [
     BrowserModule, 

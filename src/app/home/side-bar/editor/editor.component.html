@@ -3,10 +3,18 @@
     <canvas id="fstage"  width="1700px" height="300px" ></canvas>
 </div>
 <div class="row">
-    <div class="col s2">
-        <a class="waves-effect waves-light btn fresh"><i class="material-icons">import_export</i>Download</a>
+    <div class="col s1">
+        <button class="btn-flat" (click)= "download()">Download</button>
+    </div>
+    <div class="col s1">
+         <button class="btn-flat" (click)="clear()">Refresh</button>
+    </div>
+
+
+    <div class="col s1">
+         <button class="btn-flat" (click)="undo()">undo</button>
     </div>
     <div class="col s2">
-         <a class="waves-effect waves-light btn fresh"><i class="material-icons">replay</i>Remove</a>
+         <button class="btn-flat" (click)="redo()" [disabled]='isValid()'>redo</button>
     </div>
 </div>
