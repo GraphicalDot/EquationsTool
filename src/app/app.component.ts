@@ -23,7 +23,8 @@ export class AppComponent {
     	 			console.log("No user found")
     				this.router.navigate(["/home/editor"])
     			
-    		}else{
+        }
+      else{
     			//this.router.navigate(["/register"])
 					console.log("User has been found");
     			this.router.navigate(["/home/editor"])

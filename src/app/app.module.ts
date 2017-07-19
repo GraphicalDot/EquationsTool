@@ -12,6 +12,8 @@ import { NavBarComponent } from './home/nav-bar/nav-bar.component';
 import { EditorComponent } from './home/side-bar/editor/editor.component';
 import { UsersComponent } from './home/side-bar/users/users.component';
 import { QuestionsComponent } from './home/side-bar/questions/questions.component';
+import { MaterializeModule } from 'angular2-materialize';
+import { OntologyComponent } from './home/side-bar/ontology/ontology.component';
 
 const routes: Routes = 
 [
@@ -20,6 +22,8 @@ children: [
 { path: 'editor', component: EditorComponent},
 { path: 'users', component: UsersComponent},
 { path: 'questions', component: QuestionsComponent},
+{ path: 'ontology', component: OntologyComponent},
+
 ]}
 ]
 
@@ -31,12 +35,14 @@ children: [
     NavBarComponent,
     EditorComponent,
     UsersComponent,
-    QuestionsComponent
+    QuestionsComponent,
+    OntologyComponent
   ],
   imports: [
     BrowserModule, 
     FormsModule,
     HttpModule,
+    MaterializeModule,
           RouterModule.forRoot(routes, { useHash: true })
 
   ],

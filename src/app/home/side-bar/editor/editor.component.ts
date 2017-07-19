@@ -43,6 +43,8 @@ export class EditorComponent implements AfterViewInit, AfterContentInit,  OnInit
         this.canvas.on('path:created',(event) =>  {
             this.state_arr.push(event.path);
             console.log(JSON.stringify(event.path))
+            console.log(JSON.stringify(event.path.path))
+            console.log(JSON.stringify(event.path.toJSON()))
             console.log(this.state_arr.length); })
 
         //Getting context for 2d for the object this.canvas

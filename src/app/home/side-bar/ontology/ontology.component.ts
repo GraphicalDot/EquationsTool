@@ -1,22 +1,19 @@
 import { Component, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'app-users',
-  templateUrl: './users.component.html',
-  styleUrls: ['./users.component.css']
+  selector: 'app-ontology',
+  templateUrl: './ontology.component.html',
+  styleUrls: ['./ontology.component.css']
 })
-export class UsersComponent implements OnInit {
-  userCreate: boolean;
-  roles: Array<Object> = ["Admin", "reviewer_one", "reviewer_two", "reviewer_three", "validator"
+export class OntologyComponent implements OnInit {
+  userCreate = false;
+   roles: Array<Object> = ["Admin", "reviewer_one", "reviewer_two", "reviewer_three", "validator"
       ];
   constructor() { }
 
   ngOnInit() {
-    this.userCreate = false;
   }
-
-
-  addUser(){
+addUser(){
     console.log("Add user form has been created");
     this.userCreate = true;
     
@@ -37,6 +34,5 @@ export class UsersComponent implements OnInit {
                        error =>  this.errorMessage = <any>error);
       
  */  }
-
 
 }
