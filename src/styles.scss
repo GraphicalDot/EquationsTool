@@ -1,0 +1,20 @@
+/* You can add global styles to this file, and also import other style files */
+$roboto-font-path: "~materialize-css/dist/fonts/roboto/";
+@import "~materialize-css/sass/materialize";
+//@import "~font-awesome/scss/font-awesome.scss";
+
+@import '~materialize-css/sass/components/color';
+$secondary-color: color("blue", "darken-4");
+$primary-color: #373737;
+$primary-color-light: color( "teal", "darken-4");
+$primary-color-dark: false !default;
+$secondary-color: color("teal", "lighten-1") !default;
+$success-color: color("green", "base") !default;
+$error-color: color("blue", "base") !default;
+
+$link-color: color("light-blue", "darken-1") !default;
+
+nav {
+    color: #373737; // #ffd040
+    background: #373737; // #ffefc0
+}

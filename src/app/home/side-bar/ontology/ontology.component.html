@@ -2,8 +2,28 @@
     <a class="btn-floating btn-large waves-effect waves-light red" (click)="addUser()"><i class="material-icons">add</i></a>
 </div>
 
+<div class="row">
+        
+  <nav>
+    <div class="nav-wrapper">
+      <div class="col s12">
+        <a href="#!" class="breadcrumb">First</a>
+        <a href="#!" class="breadcrumb">Second</a>
+        <a href="#!" class="breadcrumb">Third</a>
+        <a href="#!" class="breadcrumb">Fourth</a>
+        <a href="#!" class="breadcrumb">Fifth</a>
+        <a href="#!" class="breadcrumb">Sixth</a>
+        <a href="#!" class="breadcrumb">Seventh</a>
+      </div>
+    </div>
+  </nav>
+</div>
+
+<div class="row">
+
+
 <div *ngIf="userCreate">
-    <div class="row">
+    <div class="col s6">
        <form materialize class="col s12" #form="ngForm" (ngSubmit)="submitForm(form.value)">
           <div class="row">
               <div class="input-field col s6">
@@ -42,4 +62,6 @@
           </button>
         </form>
     </div>
+</div>
+
 </div>

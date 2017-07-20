@@ -1,18 +1,11 @@
-<div class="container-fluid" style="min-height: 100vh; background: white ">
-      <div class="row">
-        <div class="col s12 m2 l2" style="min-height: 100vh">
+<div class="container-fluid" style="min-height: 100vh; background: white">
+      <div class="row" style="margin-top: 2%; margin-right: 1%">
             <!-- Grey navigation panel -->
-            <app-side-bar></app-side-bar>
+        <app-side-bar class="col s2" ></app-side-bar>
+        <div class="col s1" >
         </div>
-
-        <div class="col s12 m10 l10 z-depth-5" style="min-height: 100vh; overflow-y : 100%;">
-            <!-- Teal page content  -->
-            <div class="row">
-                <app-nav-bar></app-nav-bar>
-            </div>
-            <div class="row">
-                <router-outlet></router-outlet>
-            </div>
+        <div class="col s9" >
+                <router-outlet class="row"></router-outlet>
         </div>
 
     </div>
