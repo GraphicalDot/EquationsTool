@@ -1,0 +1,7 @@
+
+
+
+export const ADD_NANOSKILL = "ADD_NANOSKILL";
+export const DELETE_NANOSKILL = "DELETE_NANOSKILL";
+export const EDIT_NANOSKILL = "EDIT_NANOSKILL";
+export const ADD_CHILDREN = "ADD_CHILDREN";
