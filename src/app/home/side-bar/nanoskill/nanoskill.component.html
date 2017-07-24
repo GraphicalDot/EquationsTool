@@ -63,5 +63,12 @@
         </form>
     </div>
 </div>
-{{ operations | json }}
+    <span class="count">Number of Nanoskills: </span>
+<div class="freelancer fade thumbail" *ngFor="let nanoskill of nanoskills | async">
+    <button type="button" class="close" aria-label="Close" (click)="delete(nanoskill)"><span aria-hidden="true">&times;</span></button><br>
+    <div class="info"><span><strong>Name: </strong>{{freelancer.name}}</span>
+        <span><strong>Email: </strong>{{nanoskill.name}}</span></div>
+    <a class="btn btn-default">{{nanoskill.desciption}}</a>
+</div>    
+
 </div>

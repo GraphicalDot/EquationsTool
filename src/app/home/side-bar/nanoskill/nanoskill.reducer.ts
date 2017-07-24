@@ -3,33 +3,33 @@ import { NanoskillModule } from './nanoskill.module';
 
 import { ActionReducer, Action, State } from '@ngrx/store';
 import { NanoskillModel} from './nanoskill.model';
-import {ADD_NANOSKILL, DELETE_NANOSKILL, EDIT_NANOSKILL, ADD_CHILDREN} from "./nanoskill.actions";
+import {NANOSKILLS_ACTIONS} from "./nanoskill.actions";
 
 
 
 
-export function NanoskillReducer(state, action) {
+export function NanoskillReducer(state: Array<NanoskillModel> = [], {type, payload}): Array<NanoskillModel> {
 
-    switch(action.type){
-            case ADD_NANOSKILL:
-                const operation: NanoskillModel = action.payload;
-                return [...state, operation];
+    switch(type){
+            case NANOSKILLS_ACTIONS.LOAD_NANOSKILL:
+                return Array.prototype.concat(payload);                
 
-            case DELETE_NANOSKILL:
-                return state.filter(NanoskillModel=>{
+            case NANOSKILLS_ACTIONS.ADD_NANOSKILL:
+                return [...state, payload];
 
-                        return NanoskillModel.id !== action.payload.id;
+            case NANOSKILLS_ACTIONS.DELETE_NANOSKILL:
+                state.splice(state.indexOf(payload), 1);
+                // We need to create another reference
+                return Array.prototype.concat(state);
 
-                })
 
-
-            case EDIT_NANOSKILL:
+            case NANOSKILLS_ACTIONS.EDIT_NANOSKILL:
                  return state.map(item => {
-                        return item.id === action.payload.id ? Object.assign({}, item, action.payload) : item;
+                        return item.id === payload.id ? Object.assign({}, item, payload) : item;
                   });
 
 
-            case ADD_CHILDREN:
+            case NANOSKILLS_ACTIONS.ADD_CHILDREN:
 
 
             default:

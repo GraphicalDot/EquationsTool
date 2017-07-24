@@ -2,7 +2,8 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
 import { FormsModule } from '@angular/forms';
-import { HttpModule } from '@angular/http';
+import {Headers, Http, HttpModule, BaseRequestOptions, RequestOptions} from '@angular/http';
+
 import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
 import { Routes, RouterModule } from '@angular/router';
@@ -27,6 +28,13 @@ import {NanoskillModule} from "./home/side-bar/nanoskill/nanoskill.module";
 import {NanoskillComponent} from "./home/side-bar/nanoskill/nanoskill.component";
 
 import { NanoskillReducer } from "./home/side-bar/nanoskill/nanoskill.reducer";
+
+class CustomRequestOptions extends BaseRequestOptions {
+  constructor () {
+    super();
+    this.headers.append('Authorization', localStorage.getItem('user_token'));
+  }
+} 
 
 const routes: Routes = 
 [
@@ -76,7 +84,7 @@ children: [
 
 
   ],
-  providers: [],
+  providers: [ {provide: RequestOptions, useClass: CustomRequestOptions}],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
