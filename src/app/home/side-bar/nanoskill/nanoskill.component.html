@@ -22,7 +22,7 @@
 <div class="row">
 
 
-<div *ngIf="userCreate">
+<div *ngIf="nanoskillCreate">
     <div class="col s6">
        <form materialize class="col s12" #form="ngForm" (ngSubmit)="submitForm(form.value)">
           <div class="row">
@@ -64,11 +64,29 @@
     </div>
 </div>
     <span class="count">Number of Nanoskills: </span>
-<div class="freelancer fade thumbail" *ngFor="let nanoskill of nanoskills | async">
-    <button type="button" class="close" aria-label="Close" (click)="delete(nanoskill)"><span aria-hidden="true">&times;</span></button><br>
-    <div class="info"><span><strong>Name: </strong>{{freelancer.name}}</span>
-        <span><strong>Email: </strong>{{nanoskill.name}}</span></div>
-    <a class="btn btn-default">{{nanoskill.desciption}}</a>
-</div>    
+
+        <table>
+        <thead>
+          <tr>
+              <th>Name</th>
+              <th>description</th>
+              <th>Edit</th>
+              <th>Delete</th>
+              <th>Add subjects</th>
+          </tr>
+        </thead>
+
+        <tbody *ngFor="let nanoskill of nanoskills | async">
+            <tr>
+                    <td>{{nanoskill.name}}</td>
+                    <td>{{nanoskill.description}}</td>
+                    <td><button class="btn waves-effect waves-light" >Edit</button></td>
+                    <td><button class="btn waves-effect waves-light" (click) = "delete(nanoskill)">Delete</button></td>
+                    <td><button class="btn waves-effect waves-light">Subjects</button></td>
+            </tr>
+
+        </tbody>
+        </table>
+
 
 </div>

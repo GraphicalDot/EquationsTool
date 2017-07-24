@@ -13,7 +13,7 @@ import {NanoskillService} from "./nanoskill.service";
   //changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class NanoskillComponent implements OnInit, OnDestroy {
-
+    public nanoskillCreate: boolean
    public nanoskills: Observable<Array<NanoskillModel>>;
       constructor(private store: Store<NanoskillStore>, private service: NanoskillService,) { 
 
@@ -30,14 +30,11 @@ export class NanoskillComponent implements OnInit, OnDestroy {
   };
 
   delete(nanoskill) {
-    this.store.dispatch({
-      type: NANOSKILLS_ACTIONS.DELETE_NANOSKILL,
-      payload: nanoskill,
-    })
+      this.service.deleteItem(nanoskill);
   }
 
   addUser(){
-    console.log("Add user form has been created");
+    this.nanoskillCreate = true;    
     
   }
      submitForm(value: any){

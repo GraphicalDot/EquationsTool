@@ -1,3 +1,4 @@
+import { NgAnalyzedModules } from '@angular/compiler';
 import { NanoskillRoutes } from './nanoskill.route';
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
@@ -11,7 +12,7 @@ import 'rxjs/Rx';
 @Injectable()
 export class NanoskillService {
   
-  private USER_API_URL = 'http://localhost:8000/nanoskills/39816f6a9ebaf24c8cdd3c9df8fd09072b8b27db'
+  private USER_API_URL = 'http://localhost:8000/nanoskills'
   public nanoskills: Observable<Array<NanoskillModel>>;
 
   constructor(private store: Store<NanoskillStore>, private http: Http) {
@@ -41,10 +42,10 @@ export class NanoskillService {
   public loaditems() {
     console.log("Entering into loaditems")
      this.http.request(this._request)
-    .map(res => res.json())
+    .map(res => res.json()["data"])
     .map(payload => ({ type: NANOSKILLS_ACTIONS.LOAD_NANOSKILL, payload}))
-    .subscribe(action => console.log(action)), 
-               err => console.log(err)
+    .subscribe(action => this.store.dispatch(action)) 
+  
                }
 
   /*
@@ -58,11 +59,13 @@ export class NanoskillService {
   this.http.put(`${BASE_URL}${item.id}`, JSON.stringify(item), HEADER)
     .subscribe(action => this.store.dispatch({ type: 'UPDATE_ITEM', payload: item }));
 }
-
-  deleteItem(item: Item) {
-    this.http.delete(`${BASE_URL}${item.id}`)
-    .subscribe(action => this.store.dispatch({ type: 'DELETE_ITEM', payload: item }));
-  }
   */
+
+  deleteItem(nanoskill: NanoskillModel) {
+    console.log(nanoskill)
+    var url = this.USER_API_URL + "/" + nanoskill.nanoskill_id
+    this.http.delete(url)
+    .subscribe(action => this.store.dispatch({ type: NANOSKILLS_ACTIONS.DELETE_NANOSKILL, payload: nanoskill }));
+  }
 
   }
