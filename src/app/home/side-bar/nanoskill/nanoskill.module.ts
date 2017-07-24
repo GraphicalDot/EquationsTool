@@ -1,3 +1,4 @@
+import { NanoskillStore } from './nanoskill.store';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { NanoskillRoutes} from "./nanoskill.route";
@@ -7,6 +8,10 @@ import {NanoskillComponent} from "./nanoskill.component";
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import {NanoskillService} from "./nanoskill.service";
+import {StoreModule} from "@ngrx/store"
+import {NanoskillReducer} from "./nanoskill.reducer"
+
+
 
 @NgModule({
   declarations: [NanoskillComponent],
@@ -15,6 +20,7 @@ import {NanoskillService} from "./nanoskill.service";
     FormsModule,
     HttpModule, 
     RouterModule.forChild(NanoskillRoutes),
+     StoreModule.forRoot({NanoskillReducer}),
   ],
     providers: [NanoskillService],
     exports: [RouterModule, NanoskillComponent],

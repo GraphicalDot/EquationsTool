@@ -18,7 +18,7 @@ export class NanoskillComponent implements OnInit, OnDestroy {
       constructor(private store: Store<NanoskillStore>, private service: NanoskillService,) { 
 
           this.nanoskills = service.nanoskills;
-          service.loaditems(); 
+          service.loaditems();
       }
 
     ngOnInit() {

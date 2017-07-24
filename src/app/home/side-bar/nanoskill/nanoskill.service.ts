@@ -1,7 +1,7 @@
 import { NanoskillRoutes } from './nanoskill.route';
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { Http, Response } from '@angular/http';
+import { Http, Response, Request} from '@angular/http';
 import {NanoskillModel} from "./nanoskill.model"
 import {Observable} from "rxjs/Observable";
 import {NanoskillStore} from "./nanoskill.store"
@@ -16,15 +16,36 @@ export class NanoskillService {
 
   constructor(private store: Store<NanoskillStore>, private http: Http) {
       this.nanoskills = store.select("nanoskills")
-      console.log(this.http.head)
+
 
    }
 
+    private _serverError(err: any) {
+        console.log('sever error:', err);  // debug
+        if(err instanceof Response) {
+          return Observable.throw(err.json().error || 'backend server error');
+          // if you're using lite-server, use the following line
+          // instead of the line above:
+          //return Observable.throw(err.text() || 'backend server error');
+        }
+        return Observable.throw(err || 'backend server error');
+    }
+    private _request = new Request({
+        method: "GET",
+        // change url to "./data/data.junk" to generate an error
+        url: this.USER_API_URL
+    });
+    // 
+
 
   public loaditems() {
-    this.http.get(this.USER_API_URL).map(res => res.json())
+    console.log("Entering into loaditems")
+     this.http.request(this._request)
+    .map(res => res.json())
     .map(payload => ({ type: NANOSKILLS_ACTIONS.LOAD_NANOSKILL, payload}))
-    .subscribe(action => this.store.dispatch(action));}
+    .subscribe(action => console.log(action)), 
+               err => console.log(err)
+               }
 
   /*
   createItem(item: Item) {

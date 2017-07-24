@@ -7,11 +7,11 @@ import {NANOSKILLS_ACTIONS} from "./nanoskill.actions";
 
 
 
-
 export function NanoskillReducer(state: Array<NanoskillModel> = [], {type, payload}): Array<NanoskillModel> {
 
     switch(type){
             case NANOSKILLS_ACTIONS.LOAD_NANOSKILL:
+                console.log(payload)
                 return Array.prototype.concat(payload);                
 
             case NANOSKILLS_ACTIONS.ADD_NANOSKILL:
@@ -25,7 +25,7 @@ export function NanoskillReducer(state: Array<NanoskillModel> = [], {type, paylo
 
             case NANOSKILLS_ACTIONS.EDIT_NANOSKILL:
                  return state.map(item => {
-                        return item.id === payload.id ? Object.assign({}, item, payload) : item;
+                        return item.nanoskill_id === payload.nanoskill_id ? Object.assign({}, item, payload) : item;
                   });
 
 

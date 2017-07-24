@@ -84,7 +84,7 @@ children: [
 
 
   ],
-  providers: [ {provide: RequestOptions, useClass: CustomRequestOptions}],
+ // providers: [ {provide: RequestOptions, useClass: CustomRequestOptions}],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
