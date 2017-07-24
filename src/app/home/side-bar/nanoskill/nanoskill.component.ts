@@ -14,8 +14,11 @@ import {NanoskillService} from "./nanoskill.service";
 })
 export class NanoskillComponent implements OnInit, OnDestroy {
     public nanoskillCreate: boolean
-   public nanoskills: Observable<Array<NanoskillModel>>;
-      constructor(private store: Store<NanoskillStore>, private service: NanoskillService,) { 
+    public nanoskillEdit: boolean
+    public nanoskills: Observable<Array<NanoskillModel>>;
+    public nanoskill: any;
+    
+    constructor(private store: Store<NanoskillStore>, private service: NanoskillService,) { 
 
           this.nanoskills = service.nanoskills;
           service.loaditems();
@@ -33,12 +36,26 @@ export class NanoskillComponent implements OnInit, OnDestroy {
       this.service.deleteItem(nanoskill);
   }
 
-  addUser(){
+  addUser(value: any){
     this.nanoskillCreate = true;    
     
   }
-     submitForm(value: any){
-      
+     submitForm(nanoskill){
+      this.service.createItem(nanoskill);
+      this.nanoskillCreate = false;  
+  }
+  
+  edit(nanoskill) {
+      this.nanoskillEdit= true;    
+      this.nanoskillCreate = false; //This will close the add new nanoskill form just to avoid confusion   
+      this.nanoskill = nanoskill;
+    }
+
+  submitEdit() {
+    console.log(this.nanoskill)
+    this.service.editItem(this.nanoskill);
+
+
   }
 
 

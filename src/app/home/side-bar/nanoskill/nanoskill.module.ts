@@ -18,7 +18,6 @@ import {NanoskillReducer} from "./nanoskill.reducer"
   imports: [
     CommonModule,
     FormsModule,
-    HttpModule, 
     RouterModule.forChild(NanoskillRoutes),
      StoreModule.forRoot({NanoskillReducer}),
   ],

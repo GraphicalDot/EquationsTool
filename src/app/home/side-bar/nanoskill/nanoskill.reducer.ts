@@ -15,7 +15,7 @@ export function NanoskillReducer(state: Array<NanoskillModel> = [], {type, paylo
                 return Array.prototype.concat(payload);                
 
             case NANOSKILLS_ACTIONS.ADD_NANOSKILL:
-                return [...state, payload];
+                return [payload, ...state];
 
             case NANOSKILLS_ACTIONS.DELETE_NANOSKILL:
                 state.splice(state.indexOf(payload), 1);
