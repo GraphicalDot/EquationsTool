@@ -6,7 +6,6 @@ import { NanoskillModel} from './nanoskill.model';
 import {NANOSKILLS_ACTIONS} from "./nanoskill.actions";
 
 
-
 export function NanoskillReducer(state: Array<NanoskillModel> = [], {type, payload}): Array<NanoskillModel> {
 
     switch(type){

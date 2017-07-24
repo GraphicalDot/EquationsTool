@@ -29,12 +29,6 @@ import {NanoskillComponent} from "./home/side-bar/nanoskill/nanoskill.component"
 
 import { NanoskillReducer } from "./home/side-bar/nanoskill/nanoskill.reducer";
 
-class CustomRequestOptions extends BaseRequestOptions {
-  constructor () {
-    super();
-    this.headers.append('Authorization', localStorage.getItem('user_token'));
-  }
-} 
 
 const routes: Routes = 
 [
@@ -84,7 +78,6 @@ children: [
 
 
   ],
- // providers: [ {provide: RequestOptions, useClass: CustomRequestOptions}],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
