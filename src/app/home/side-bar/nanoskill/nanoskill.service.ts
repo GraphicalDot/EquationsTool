@@ -23,9 +23,9 @@ export class NanoskillService {
    }
 
   public loaditems() {
-    let headers = new Headers({"Authorization": localStorage.getItem('user_token'), "Access-Control-Allow-Headers": "X-Requested-With"});
+    let headers = new Headers({"Authorization": localStorage.getItem('user_token')});
     let options = new RequestOptions({headers});   
-     this.http.get(this.USER_API_URL)
+     this.http.get(this.USER_API_URL, options)
     .map(res => res.json()["data"])
     .map(payload => ({ type: NANOSKILLS_ACTIONS.LOAD_NANOSKILL, payload}))
     .subscribe(action => this.store.dispatch(action)) 
@@ -39,8 +39,9 @@ export class NanoskillService {
     .subscribe(action => this.store.dispatch(action))
   }
 
+  //This is not working, Please change the backend for it to function
   editItem(nanoskill: NanoskillModel) {
-     let headers = new Headers({'Content-Type': 'application/json', "Authorization": localStorage.getItem('user_token')});
+    let headers = new Headers({'Content-Type': 'application/json', "Authorization": localStorage.getItem('user_token')});
     let options = new RequestOptions({headers});
     var url = this.USER_API_URL + "/" + nanoskill.nanoskill_id
     this.http.put(url, JSON.stringify(nanoskill), options)
@@ -48,9 +49,19 @@ export class NanoskillService {
 }
 
   deleteItem(nanoskill: NanoskillModel) {
+    let headers = new Headers({'Content-Type': 'application/json', "Authorization": localStorage.getItem('user_token')});
+    let options = new RequestOptions({headers});
     var url = this.USER_API_URL + "/" + nanoskill.nanoskill_id
-    this.http.delete(url)
-    .subscribe(action => this.store.dispatch({ type: NANOSKILLS_ACTIONS.DELETE_NANOSKILL, payload: nanoskill }));
+    this.http.delete(url, options)
+    .subscribe(
+          action =>  {this.store.dispatch({ type: NANOSKILLS_ACTIONS.DELETE_NANOSKILL, payload: nanoskill })
+                      console.log(`$(nanoskill)` + "deleted")
+                    }, 
+          error => console.log(error)
+          
+  
+      );
   }
+}
 
-  }
+
