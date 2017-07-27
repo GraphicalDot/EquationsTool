@@ -4,6 +4,8 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import {Headers, Http, HttpModule, BaseRequestOptions, RequestOptions} from '@angular/http';
 
+import {HashLocationStrategy, LocationStrategy} from "@angular/common";
+
 import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
 import { Routes, RouterModule } from '@angular/router';
@@ -27,6 +29,10 @@ import { TemplatesComponent } from './home/side-bar/templates/templates.componen
 import {NanoskillModule} from "./home/side-bar/nanoskill/nanoskill.module";
 import {NanoskillComponent} from "./home/side-bar/nanoskill/nanoskill.component";
 
+import {DomainModule} from "./home/side-bar/domain/domain.module";
+import {DomainComponent} from "./home/side-bar/domain/domain.component";
+
+
 import { NanoskillReducer } from "./home/side-bar/nanoskill/nanoskill.reducer";
 
 
@@ -40,7 +46,7 @@ children: [
 { path: 'permissions', component: PermissionsComponent},
 { path: 'variables', component: VariablesComponent},
 { path: 'templates', component: TemplatesComponent},
-{ path: 'nanoskills', component: NanoskillComponent},
+{ path: 'domain', component: DomainComponent},
 
 
 ]}
@@ -66,6 +72,7 @@ children: [
     HttpModule,
     MaterializeModule,
     NanoskillModule,
+    DomainModule,
     RouterModule.forRoot(routes, { useHash: true }),
     StoreModule.forRoot({nanoskills: NanoskillReducer})
     /* StoreDevtoolsModule.instrumentStore({
@@ -78,6 +85,6 @@ children: [
 
 
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
 export class AppModule { }
