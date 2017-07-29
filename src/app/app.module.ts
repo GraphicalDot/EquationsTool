@@ -73,7 +73,7 @@ children: [
     MaterializeModule,
     NanoskillModule,
     DomainModule,
-    RouterModule.forRoot(routes, { useHash: true }),
+    RouterModule.forRoot(routes, {useHash: true}),
     StoreModule.forRoot({nanoskills: NanoskillReducer})
     /* StoreDevtoolsModule.instrumentStore({
       monitor: useLogMonitor({

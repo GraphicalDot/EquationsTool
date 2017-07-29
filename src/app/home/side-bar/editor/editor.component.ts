@@ -30,6 +30,13 @@ export class EditorComponent implements AfterViewInit, AfterContentInit,  OnInit
     */
     //@ViewChild("mycanvas") Canvas: ElementRef; 
     constructor() {}
+ ngAfterViewInit() {
+        console.log("after view init")
+}
+
+  ngAfterContentInit(){
+      console.log('After content Init');
+  };
 
     ngOnInit() {
         this.canvas = new fabric.Canvas('fstage', {
@@ -49,7 +56,6 @@ export class EditorComponent implements AfterViewInit, AfterContentInit,  OnInit
 
         //Getting context for 2d for the object this.canvas
         this.ctx = this.canvas.getContext('2d');
-        
 
 
 
@@ -120,13 +126,7 @@ else {
         this.render();
     }
  */
-    ngAfterViewInit() {
-        }
-
-  ngAfterContentInit(){
-      console.log('After content Init');
-  };
-
+   
 
 
 }

@@ -1,4 +1,6 @@
+import { JQueryStyleEventEmitter } from 'rxjs/observable/FromEventObservable';
 import { Component, OnInit } from '@angular/core';
+import {MaterializeDirective} from "angular2-materialize";
 
 @Component({
   selector: 'app-domain',

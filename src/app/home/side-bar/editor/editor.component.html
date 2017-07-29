@@ -10,11 +10,16 @@
          <button class="btn-flat" (click)="clear()">Refresh</button>
     </div>
 
-
+    <template>
     <div class="col s1">
          <button class="btn-flat" (click)="undo()">undo</button>
     </div>
+
     <div class="col s2">
          <button class="btn-flat" (click)="redo()" [disabled]='isValid()'>redo</button>
     </div>
+    </template>
 </div>
+
+
+
