@@ -4,10 +4,10 @@ import {MaterializeDirective} from "angular2-materialize";
 
 @Component({
   selector: 'app-domain',
-  templateUrl: './domain.component.html',
-  styleUrls: ['./domain.component.css']
+  templateUrl: './ontology.component.html',
+  styleUrls: ['./ontology.component.css']
 })
-export class DomainComponent implements OnInit {
+export class OntologyComponent implements OnInit {
   
     selectOptions: Array<any>;
     constructor() { }

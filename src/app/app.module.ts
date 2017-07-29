@@ -29,8 +29,8 @@ import { TemplatesComponent } from './home/side-bar/templates/templates.componen
 import {NanoskillModule} from "./home/side-bar/nanoskill/nanoskill.module";
 import {NanoskillComponent} from "./home/side-bar/nanoskill/nanoskill.component";
 
-import {DomainModule} from "./home/side-bar/domain/domain.module";
-import {DomainComponent} from "./home/side-bar/domain/domain.component";
+import {OntologyModule} from "./home/side-bar/ontology/ontology.module";
+import {OntologyComponent} from "./home/side-bar/ontology/ontology.component";
 
 
 import { NanoskillReducer } from "./home/side-bar/nanoskill/nanoskill.reducer";
@@ -46,7 +46,7 @@ children: [
 { path: 'permissions', component: PermissionsComponent},
 { path: 'variables', component: VariablesComponent},
 { path: 'templates', component: TemplatesComponent},
-{ path: 'domain', component: DomainComponent},
+{ path: 'ontology', component: OntologyComponent},
 
 
 ]}
@@ -72,7 +72,7 @@ children: [
     HttpModule,
     MaterializeModule,
     NanoskillModule,
-    DomainModule,
+    OntologyModule,
     RouterModule.forRoot(routes, {useHash: true}),
     StoreModule.forRoot({nanoskills: NanoskillReducer})
     /* StoreDevtoolsModule.instrumentStore({
