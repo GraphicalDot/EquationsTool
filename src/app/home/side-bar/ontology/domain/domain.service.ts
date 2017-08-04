@@ -2,20 +2,20 @@ import { NgAnalyzedModules } from '@angular/compiler';
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Http, Response, Request, RequestOptions, Headers} from '@angular/http';
-import {NanoskillModel} from "./nanoskill.model"
+import {DomainModel} from "./domain.model"
 import {Observable} from "rxjs/Observable";
-import {NanoskillStore} from "./nanoskill.store"
-import {NANOSKILLS_ACTIONS} from "./nanoskill.actions";
+import {ApplicationStore} from "../../../../app.store"
+import {DOMAIN_ACTIONS} from "./domain.actions";
 import 'rxjs/Rx';
 
 @Injectable()
-export class NanoskillService {
+export class DomainService {
   
-  private DOMAIN_API_URL = 'http://localhost:8000/nanoskills'
-  public nanoskills: Observable<Array<NanoskillModel>>;
+  private DOMAIN_API_URL = 'http://localhost:8000/domains'
+  public domains: Observable<Array<DomainModel>>;
 
-  constructor(private store: Store<NanoskillStore>, private http: Http) {
-      this.nanoskills = store.select("nanoskills")
+  constructor(private store: Store<ApplicationStore>, private http: Http) {
+      this.domains = store.select("domains")
 
 
    }
@@ -25,34 +25,35 @@ export class NanoskillService {
     let options = new RequestOptions({headers});   
      this.http.get(this.DOMAIN_API_URL, options)
     .map(res => res.json()["data"])
-    .map(payload => ({ type: NANOSKILLS_ACTIONS.LOAD_NANOSKILL, payload}))
+    .map(payload => ({ type: DOMAIN_ACTIONS.LOAD_DOMAIN, payload}))
     .subscribe(action => this.store.dispatch(action)) 
   
                }
 
-  createItem(nanoskill: NanoskillModel) {
-    this.http.post(this.DOMAIN_API_URL, JSON.stringify(nanoskill))
+  createDomain(domain: DomainModel) {
+    this.http.post(this.DOMAIN_API_URL, JSON.stringify(domain))
     .map(res => res.json()["data"])
-    .map(payload => ({ type: NANOSKILLS_ACTIONS.ADD_NANOSKILL, payload }))
+    .map(payload => ({ type: DOMAIN_ACTIONS.ADD_DOMAIN, payload }))
     .subscribe(action => this.store.dispatch(action))
   }
 
   //This is not working, Please change the backend for it to function
-  editItem(nanoskill: NanoskillModel) {
+  editDomain(domain: DomainModel) {
+    console.log("Put Request has been clicked")
     let headers = new Headers({'Content-Type': 'application/json', "Authorization": localStorage.getItem('user_token')});
     let options = new RequestOptions({headers});
-    var url = this.DOMAIN_API_URL + "/" + nanoskill.nanoskill_id
-    this.http.put(url, JSON.stringify(nanoskill), options)
-    .subscribe(action => this.store.dispatch({ type: NANOSKILLS_ACTIONS.EDIT_NANOSKILL, payload: nanoskill }));
+    var url = this.DOMAIN_API_URL + "/" + domain.domain_id
+    this.http.put(url, JSON.stringify(domain), options)
+    .subscribe(action => this.store.dispatch({ type: DOMAIN_ACTIONS.EDIT_DOMAIN, payload: domain }));
 }
 
-  deleteItem(nanoskill: NanoskillModel) {
+  deleteDomain(domain: DomainModel) {
     let headers = new Headers({'Content-Type': 'application/json', "Authorization": localStorage.getItem('user_token')});
     let options = new RequestOptions({headers});
-    var url = this.DOMAIN_API_URL + "/" + nanoskill.nanoskill_id
+    var url = this.DOMAIN_API_URL + "/" + domain.domain_id
     this.http.delete(url, options)
     .subscribe(
-          action =>  {this.store.dispatch({ type: NANOSKILLS_ACTIONS.DELETE_NANOSKILL, payload: nanoskill })
+          action =>  {this.store.dispatch({ type: DOMAIN_ACTIONS.DELETE_DOMAIN, payload: domain})
                       console.log(`$(nanoskill)` + "deleted")
                     }, 
           error => console.log(error)

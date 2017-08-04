@@ -8,8 +8,8 @@ import { HttpModule, JsonpModule } from '@angular/http';
 import { SubconceptComponent } from './subconcept/subconcept.component';
 import { ConceptComponent } from './concept/concept.component';
 import { NanoskillComponent } from './nanoskill/nanoskill.component';
-import { SubjectComponent } from './subject/subject.component';
-import { BoardComponent } from './board/board.component';
+import { DomainComponent } from './domain/domain.component';
+import { DomainService} from './domain/domain.service';
 
 
 
@@ -21,7 +21,8 @@ import { BoardComponent } from './board/board.component';
     FormsModule, 
     HttpModule
   ],
-  declarations: [OntologyComponent, SubconceptComponent, ConceptComponent, NanoskillComponent, SubjectComponent, BoardComponent],
-  exports: [OntologyComponent]
+  declarations: [OntologyComponent, SubconceptComponent, ConceptComponent, NanoskillComponent, DomainComponent],
+  exports: [OntologyComponent],
+  providers: [DomainService]
 })
 export class OntologyModule { }

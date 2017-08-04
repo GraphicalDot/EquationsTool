@@ -1,4 +1,6 @@
+import { NanoskillModule } from './nanoskill.module';
 import { NgAnalyzedModules } from '@angular/compiler';
+import { NanoskillRoutes } from './nanoskill.route';
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Http, Response, Request, RequestOptions, Headers} from '@angular/http';

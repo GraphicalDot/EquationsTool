@@ -13,7 +13,6 @@ export class OntologyComponent implements OnInit {
     constructor() { }
 
     ngOnInit() {
-      this.selectOptions = [{"name": "One", "value": 1}, {"name": "Two", "value": 2}]
   }
 
 

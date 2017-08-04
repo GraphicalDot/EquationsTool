@@ -34,6 +34,7 @@ import {OntologyComponent} from "./home/side-bar/ontology/ontology.component";
 
 
 import { NanoskillReducer } from "./home/side-bar/nanoskill/nanoskill.reducer";
+import {DomainReducer} from "./home/side-bar/ontology/domain/domain.reducer";
 
 
 const routes: Routes = 
@@ -74,7 +75,7 @@ children: [
     NanoskillModule,
     OntologyModule,
     RouterModule.forRoot(routes, {useHash: true}),
-    StoreModule.forRoot({nanoskills: NanoskillReducer})
+    StoreModule.forRoot({domains: DomainReducer})
     /* StoreDevtoolsModule.instrumentStore({
       monitor: useLogMonitor({
         visible: false,
