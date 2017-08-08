@@ -9,7 +9,7 @@ import {ApplicationStore} from "../../../../app.store"
   selector: 'app-childdomain',
   templateUrl: './domain.component.html',
   styleUrls: ['./domain.component.css'], 
-    changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 
 export class DomainComponent implements OnInit, OnDestroy {
@@ -26,7 +26,7 @@ export class DomainComponent implements OnInit, OnDestroy {
 
     ngOnInit(){};
     ngOnDestroy(){};
-    shiftTab(domain: DomainModel) {
+    addConcept(domain: DomainModel) {
         this.switchToConcept.emit(domain);
     }
     delete(domain) {
@@ -40,13 +40,10 @@ export class DomainComponent implements OnInit, OnDestroy {
         this.submitDomain.emit(domain);
     }
   
-  edit(domain) {
+    edit(domain) {
       this.domainEdit= true;    
       this.domainCreate = false; //This will close the add new nanoskill form just to avoid confusion   
       this.domain = domain;
       this.editDomain.emit(domain);
     }
-
-
-
 }

@@ -15,7 +15,6 @@ import {ApplicationStore} from "../../../app.store"
 export class OntologyComponent implements OnInit {
 
     public domains: Observable<Array<DomainModel>>;
-
     public globalDomain: DomainModel;
     constructor(private store: Store<ApplicationStore>, private service: OntologyService) {
         this.domains = service.domains;
@@ -25,10 +24,9 @@ export class OntologyComponent implements OnInit {
     ngOnInit() {
   }
 
-    domainChange(domain: DomainModel){
+    _addConcept(domain: DomainModel){
         console.log(domain)
         this.globalDomain = domain;
-        console.log("This somain has been chosen")
     }
 
     _submitDomain(domain: DomainModel){
@@ -46,6 +44,7 @@ export class OntologyComponent implements OnInit {
         this.service.deleteDomain(domain)
 
     }
+
 
   
 
