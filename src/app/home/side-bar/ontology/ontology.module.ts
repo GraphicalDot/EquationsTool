@@ -9,8 +9,7 @@ import { SubconceptComponent } from './subconcept/subconcept.component';
 import { ConceptComponent } from './concept/concept.component';
 import { NanoskillComponent } from './nanoskill/nanoskill.component';
 import { DomainComponent } from './domain/domain.component';
-import { DomainService} from './domain/domain.service';
-
+import {OntologyService} from "./ontology.service";
 
 
 @NgModule({
@@ -23,6 +22,6 @@ import { DomainService} from './domain/domain.service';
   ],
   declarations: [OntologyComponent, SubconceptComponent, ConceptComponent, NanoskillComponent, DomainComponent],
   exports: [OntologyComponent],
-  providers: [DomainService]
+  providers: [OntologyService]
 })
 export class OntologyModule { }

@@ -1,3 +1,4 @@
+import { ConceptComponent } from './home/side-bar/ontology/concept/concept.component';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
@@ -34,7 +35,7 @@ import {OntologyComponent} from "./home/side-bar/ontology/ontology.component";
 
 
 import { NanoskillReducer } from "./home/side-bar/nanoskill/nanoskill.reducer";
-import {DomainReducer} from "./home/side-bar/ontology/domain/domain.reducer";
+import {OntologyReducer} from "./home/side-bar/ontology/ontology.reducer";
 
 
 const routes: Routes = 
@@ -75,7 +76,7 @@ children: [
     NanoskillModule,
     OntologyModule,
     RouterModule.forRoot(routes, {useHash: true}),
-    StoreModule.forRoot({domains: DomainReducer})
+    StoreModule.forRoot({domains: OntologyReducer})
     /* StoreDevtoolsModule.instrumentStore({
       monitor: useLogMonitor({
         visible: false,
