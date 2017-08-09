@@ -77,7 +77,7 @@ children: [
     NanoskillModule,
     OntologyModule,
     RouterModule.forRoot(routes, {useHash: true}),
-    StoreModule.forRoot({domains: OntologyReducer, concepts: ConceptReducer})
+    StoreModule.provideStore({domains: OntologyReducer, concepts: ConceptReducer})
     /* StoreDevtoolsModule.instrumentStore({
       monitor: useLogMonitor({
         visible: false,

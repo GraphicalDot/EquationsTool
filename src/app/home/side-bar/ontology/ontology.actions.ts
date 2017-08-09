@@ -1,3 +1,6 @@
+import {Action} from "@ngrx/store"
+import {DomainModel} from "./ontology.models"
+
 
 
 export const ONTOLOGY_ACTIONS = {
@@ -24,3 +27,57 @@ export const ONTOLOGY_ACTIONS = {
 
 
 }
+
+export const LOAD_DOMAIN = "[Domains] Load Domain"
+export const LOAD_DOMAIN_SUCCESS = "[Domains] Load Domain Success"
+export const LOAD_DOMAIN_FAILURE = "[Domains] Load Domain Failure"
+
+export const ADD_DOMAIN = "[Domains] Add Domain"
+export const ADD_DOMAIN_SUCCESS = "[Domains] Add Domain Success"
+export const ADD_DOMAIN_FAILURE = "[Domains] Add Domain Failure"
+
+
+export class Loaddomain implements Action{
+    readonly type = LOAD_DOMAIN
+    constructor(){}
+}
+
+
+
+export class Loaddomainsuccess implements Action{
+    readonly type = LOAD_DOMAIN_SUCCESS
+    constructor(){}
+}
+
+
+export class Loaddomainfailure implements Action{
+    readonly type = LOAD_DOMAIN_FAILURE
+    constructor(){}
+}
+
+
+
+
+export class Adddomain implements Action{
+    readonly type = ADD_DOMAIN
+    constructor(public payload: DomainModel){}
+}
+
+export class Adddomainsuccess implements Action{
+    readonly type = ADD_DOMAIN_SUCCESS
+    constructor(public payload: DomainModel){}
+}
+
+export class Adddomainfailure implements Action{
+    readonly type = ADD_DOMAIN_FAILURE
+    constructor(public payload: DomainModel){}
+}
+
+
+export type Actions = Loaddomain|
+                        Loaddomainsuccess|
+                        Loaddomainsuccess|
+                        Adddomain|
+                        Adddomainsuccess|
+                        Adddomainfailure
+
