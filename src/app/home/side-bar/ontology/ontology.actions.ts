@@ -24,8 +24,6 @@ export const ONTOLOGY_ACTIONS = {
     ADD_NANOSKILL: "ADD_NANOSKILL",
     DELETE_NANOSKILL: "DELETE_NANOSKILL",
     EDIT_NANOSKILL: "EDIT_NANOSKILL",
-
-
 }
 
 export const LOAD_DOMAIN = "[Domains] Load Domain"
@@ -36,6 +34,14 @@ export const ADD_DOMAIN = "[Domains] Add Domain"
 export const ADD_DOMAIN_SUCCESS = "[Domains] Add Domain Success"
 export const ADD_DOMAIN_FAILURE = "[Domains] Add Domain Failure"
 
+export const DELETE_DOMAIN = "[Domains] Delete Domain"
+export const DELETE_DOMAIN_SUCCESS = "[Domains] Delete Domain Success"
+export const DELETE_DOMAIN_FAILURE = "[Domains] Delete Domain Failure"
+
+export const EDIT_DOMAIN = "[Domains] Edit Domain"
+export const EDIT_DOMAIN_SUCCESS = "[Domains] Edit Domain Success"
+
+export const EDIT_DOMAIN_FAILURE = "[Domains] Edit Domain Failure"
 
 export class Loaddomain implements Action{
     readonly type = LOAD_DOMAIN
@@ -74,10 +80,50 @@ export class Adddomainfailure implements Action{
 }
 
 
+
+export class Deletedomain implements Action{
+    readonly type = DELETE_DOMAIN
+    constructor(public payload: DomainModel){}
+}
+
+export class Deletedomainsuccess implements Action{
+    readonly type = DELETE_DOMAIN_SUCCESS
+    constructor(public payload: DomainModel){}
+}
+
+export class Deletedomainfailure implements Action{
+    readonly type = DELETE_DOMAIN_FAILURE
+    constructor(public payload: DomainModel){}
+}
+
+
+
+export class Editdomain implements Action{
+    readonly type = EDIT_DOMAIN
+    constructor(public payload: DomainModel){}
+}
+
+export class Editdomainsuccess implements Action{
+    readonly type = EDIT_DOMAIN_SUCCESS
+    constructor(public payload: DomainModel){}
+}
+
+export class Editdomainfailure implements Action{
+    readonly type = EDIT_DOMAIN_FAILURE
+    constructor(public payload: DomainModel){}
+}
+
+
 export type Actions = Loaddomain|
                         Loaddomainsuccess|
                         Loaddomainsuccess|
                         Adddomain|
                         Adddomainsuccess|
-                        Adddomainfailure
+                        Adddomainfailure|
+                        Deletedomain|
+                        Deletedomainsuccess|
+                        Deletedomainfailure|
+                        Editdomain|
+                        Editdomainsuccess|
+                        Editdomainsuccess
 
