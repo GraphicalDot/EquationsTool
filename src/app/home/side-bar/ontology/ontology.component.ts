@@ -7,7 +7,7 @@ import {DomainModel, ConceptModel} from "./ontology.models";
 import {OntologyService} from "./ontology.service"
 import { Store } from '@ngrx/store';
 import {ApplicationStore} from "../../../app.store"
-import{ONTOLOGY_ACTIONS} from "./ontology.actions"
+import * as OntologyActions from "./ontology.actions"
 
 @Component({
   selector: 'app-domain',
@@ -17,16 +17,18 @@ import{ONTOLOGY_ACTIONS} from "./ontology.actions"
 export class OntologyComponent implements OnInit {
 
     public domains: Observable<Array<DomainModel>>;
-    public concepts: Observable<Array<ConceptModel>>;
+    //public concepts: Observable<Array<ConceptModel>>;
     public globalDomain: DomainModel;
     public globalConcept: ConceptModel;
-    constructor(private store: Store<ApplicationStore>, private service: OntologyService, domains: Observable<any>) {
+    constructor(private store: Store<ApplicationStore>, private service: OntologyService) {
         this.domains = store.select("domains");
         /*
         this.concepts = store.select(state=> state.concepts.concept_id)
                         .filter(this.globalDomain.domain_id)
         */
         //this.concepts = store.select("concepts")
+        //this.store.dispatch(new OntologyActions.Loaddomain())
+        
     }
           
     ngOnInit() {
@@ -39,29 +41,27 @@ export class OntologyComponent implements OnInit {
 
     _submitDomain(domain: DomainModel){
         console.log(domain)
-        this.service.createDomain(domain)
-        this.store.dispatch({type: ONTOLOGY_ACTIONS.LOAD_DOMAIN})
+        this.store.dispatch(new OntologyActions.Adddomain(domain))
 
     }
 
     _submitConcept(concept: ConceptModel){
         console.log(concept)
         this.service.createConcept(concept)
-        this.store.dispatch({type: ONTOLOGY_ACTIONS.LOAD_CONCEPT})
+        //this.store.dispatch({type: ONTOLOGY_ACTIONS.LOAD_CONCEPT})
 
     }
 
     _editDomain(domain: DomainModel){
         console.log(domain)
         this.service.editDomain(domain)
-        this.store.dispatch({type: ONTOLOGY_ACTIONS.LOAD_DOMAIN})
+        //this.store.dispatch({type: ONTOLOGY_ACTIONS.LOAD_DOMAIN})
         
 
     }
    _deleteDomain(domain: DomainModel){
         console.log("Domain That needs to be deleted" + domain)
-        this.service.deleteDomain(domain)
-        this.store.dispatch({type: ONTOLOGY_ACTIONS.LOAD_DOMAIN})
+        this.store.dispatch(new OntologyActions.Deletedomain(domain))
         
     }
 

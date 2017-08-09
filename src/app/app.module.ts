@@ -1,7 +1,7 @@
 import { ConceptComponent } from './home/side-bar/ontology/concept/concept.component';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-
+import {EffectsModule} from '@ngrx/effects';
 import { FormsModule } from '@angular/forms';
 import {Headers, Http, HttpModule, BaseRequestOptions, RequestOptions} from '@angular/http';
 
@@ -32,6 +32,7 @@ import {NanoskillComponent} from "./home/side-bar/nanoskill/nanoskill.component"
 
 import {OntologyModule} from "./home/side-bar/ontology/ontology.module";
 import {OntologyComponent} from "./home/side-bar/ontology/ontology.component";
+import {OntologyEffects} from "./home/side-bar/ontology/ontology.effects";
 
 
 import { NanoskillReducer } from "./home/side-bar/nanoskill/nanoskill.reducer";
@@ -77,7 +78,8 @@ children: [
     NanoskillModule,
     OntologyModule,
     RouterModule.forRoot(routes, {useHash: true}),
-    StoreModule.provideStore({domains: OntologyReducer, concepts: ConceptReducer})
+    StoreModule.provideStore({domains: OntologyReducer, concepts: ConceptReducer}),
+    EffectsModule.run(OntologyEffects)
     /* StoreDevtoolsModule.instrumentStore({
       monitor: useLogMonitor({
         visible: false,

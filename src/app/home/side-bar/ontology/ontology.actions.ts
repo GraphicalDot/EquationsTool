@@ -52,13 +52,13 @@ export class Loaddomain implements Action{
 
 export class Loaddomainsuccess implements Action{
     readonly type = LOAD_DOMAIN_SUCCESS
-    constructor(){}
+    constructor(public payload: DomainModel[]){}
 }
 
 
 export class Loaddomainfailure implements Action{
     readonly type = LOAD_DOMAIN_FAILURE
-    constructor(){}
+    constructor(public payload: any){}
 }
 
 
@@ -74,9 +74,11 @@ export class Adddomainsuccess implements Action{
     constructor(public payload: DomainModel){}
 }
 
+
+//Because the error given to this class will be of object or string
 export class Adddomainfailure implements Action{
     readonly type = ADD_DOMAIN_FAILURE
-    constructor(public payload: DomainModel){}
+    constructor(public payload: any){}
 }
 
 
@@ -88,12 +90,12 @@ export class Deletedomain implements Action{
 
 export class Deletedomainsuccess implements Action{
     readonly type = DELETE_DOMAIN_SUCCESS
-    constructor(public payload: DomainModel){}
+    constructor(public payload: any){}
 }
 
 export class Deletedomainfailure implements Action{
     readonly type = DELETE_DOMAIN_FAILURE
-    constructor(public payload: DomainModel){}
+    constructor(public payload: any){}
 }
 
 

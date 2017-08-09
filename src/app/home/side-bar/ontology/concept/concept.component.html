@@ -63,21 +63,30 @@
           </div>
 
           <div class="row">
-              <div class="input-field col s6">
-                  <input id="icon_prefix" type="text" class="validate"  [(ngModel)]="blooms_taxonomy" name="blooms_taxonomy" required ng-pristine>
-                  <label>Blooms Taxonomy</label>
+                 <div class="input-field col s6">
+                  <select [(ngModel)]="blooms_taxonomy" name="blooms_taxonomy"  multiple  materialize="material_select">
+                      <option [value]="remembering">Remembering</option>
+                      <option [value]="understanding">Understanding</option>
+                      <option [value]="applyinging">Applying</option>
+                      <option [value]="analyzing">Analyzing</option>
+                      <option [value]="synthesizing">Synthesizing</option>
+                      <option [value]="evaluating">Evaluating</option>
+                  </select>
+
               </div>
+
               <div class="input-field col s6">
-                  <input id="icon_telephone" type="array" class="validate"  [(ngModel)]="connections" name="connections" required>
-                  <label>Connections</label>
+                  <select [(ngModel)]="connections" name="conncetions"  multiple  materialize="material_select">
+                      <option *ngFor="let concept of concepts | async" [value]="concept.concept_id">{{concept.concept_name}}</option>
+                  </select>
+
               </div>
                 
           </div>
 
           <div class="row">
               <div class="input-field col s6">
-                  <label>Required Domains</label>
-                  <select [(ngModel)]="objValue" name="required_domains">
+                  <select [(ngModel)]="required_domains" name="required_domains"  multiple  materialize="material_select">
                       <option *ngFor="let domain of domains | async" [value]="domain.domain_id">{{domain.domain_name}}</option>
                   </select>
 
