@@ -10,7 +10,7 @@
             </div>
             <div class="card-content">
                     <div id="domain"><app-childdomain [domains] = "domains" (submitDomain)="_submitDomain($event)" (editDomain)="_editDomain($event)" (deleteDomain)="_deleteDomain($event)" (switchToConcept)= "_addConcept($event)"></app-childdomain></div>
-                    <div id="concept"><app-concept [domains] = "domains" [concepts] = "concepts" [domain]= "globalDomain" (submitDomain)="_submitConcept($event)" (editDomain)="_editConcept($event)" (deleteDomain)="_deleteConcept($event)" (switchToConcept)= "_addSubConcept($event)"></app-concept></div>
+                    <div id="concept"><app-concept [domains] = "domains" [concepts] = "concepts" [domain]= "globalDomain" (submitConcept)="_submitConcept($event)" (editConcept)="_editConcept($event)" (deleteConcept)="_deleteConcept($event)" (addSubConcept)= "_addSubConceptHandler($event)"></app-concept></div>
                     <div id="subconcept"><app-subconcept></app-subconcept></div>
                     <div id="nanoskill"><app-nanoskill></app-nanoskill></div>
             </div>

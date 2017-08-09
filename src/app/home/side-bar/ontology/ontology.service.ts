@@ -2,7 +2,7 @@ import { NgAnalyzedModules } from '@angular/compiler';
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Http, Response, Request, RequestOptions, Headers} from '@angular/http';
-import {DomainModel} from "./ontology.models"
+import {DomainModel, ConceptModel} from "./ontology.models"
 import {Observable} from "rxjs/Observable";
 import {ApplicationStore} from "../../../app.store"
 import {ONTOLOGY_ACTIONS} from "./ontology.actions";
@@ -12,10 +12,13 @@ import 'rxjs/Rx';
 export class OntologyService {
   
   private DOMAIN_API_URL = 'http://localhost:8000/domains'
+  private CONCEPT_API_URL = 'http://localhost:8000/concepts'
   public domains: Observable<Array<DomainModel>>;
-
+  public concepts: Observable<Array<ConceptModel>>;
   constructor(private store: Store<ApplicationStore>, private http: Http) {
       this.domains = store.select("domains")
+      this.concepts = store.select("concepts")
+      
       console.log("constructor called");
 
 
@@ -28,8 +31,27 @@ export class OntologyService {
     .map(res => res.json()["data"])
     .map(payload => ({ type: ONTOLOGY_ACTIONS.LOAD_DOMAIN, payload}))
     .subscribe(action => this.store.dispatch(action)) 
+    }
+
   
-               }
+  public loadConcepts() {
+    let headers = new Headers({"Authorization": localStorage.getItem('user_token')});
+    let options = new RequestOptions({headers});   
+     this.http.get(this.CONCEPT_API_URL, options)
+    .map(res => res.json()["data"])
+    .map(payload => ({ type: ONTOLOGY_ACTIONS.LOAD_CONCEPT, payload}))
+    .subscribe(action => this.store.dispatch(action)) 
+    }
+
+  
+  createConcept(concept: ConceptModel) {
+    this.http.post(this.DOMAIN_API_URL, JSON.stringify(concept))
+    .map(res => {res.json()["data"], console.log(concept)})
+    .map(payload => ({ type: ONTOLOGY_ACTIONS.ADD_CONCEPT, payload }))
+    .subscribe(action => this.store.dispatch(action))
+  }
+
+
 
   createDomain(domain: DomainModel) {
     this.http.post(this.DOMAIN_API_URL, JSON.stringify(domain))
