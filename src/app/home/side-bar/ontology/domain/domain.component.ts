@@ -5,6 +5,29 @@ import {Observable} from "rxjs/Observable";
 import {ApplicationStore} from "../../../../app.store"
  
 
+/*
+Intend to use normalizer to make things easier for ngrx store
+for example nested objects like
+    id
+    title
+        author:{}
+        comments:[
+                id:
+                content
+                    commentrator:
+                        id
+                        name
+
+        ]
+
+inour case, the nested objects will be like
+domains:
+    concepts:
+        suconcepts:
+            nanoskills
+
+*/
+
 @Component({
   selector: 'app-childdomain',
   templateUrl: './domain.component.html',

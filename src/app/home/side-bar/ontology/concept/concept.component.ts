@@ -1,14 +1,17 @@
 import { Conditional } from '@angular/compiler';
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { ConceptModel, DomainModel, SubConceptModel } from '../ontology.models';
 import {State, Store} from "@ngrx/store"
 import {Observable} from "rxjs/Observable";
 import {ApplicationStore} from "../../../../app.store"
+import { Component, OnInit, OnDestroy, EventEmitter, Output, Input, ChangeDetectionStrategy } from '@angular/core';
+
 
 @Component({
   selector: 'app-concept',
   templateUrl: './concept.component.html',
-  styleUrls: ['./concept.component.scss']
+  styleUrls: ['./concept.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush
+
 })
 export class ConceptComponent implements OnInit {
 

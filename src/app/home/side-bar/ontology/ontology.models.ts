@@ -16,11 +16,11 @@ export class ConceptModel {
 
     constructor(
         public concept_id: number,
-        public parent_id: number,
+        public parent_id: number, //domain id of parent of this concept
         public concept_name: string,
-        public connections: Array<any>,
-        public bloom_taxonomy: Array<any>,
-        public required_domains: Array<any>,
+        public connections: Array<string>, //string of ids for domains
+        public bloom_taxonomy: Array<string>,
+        public required_domains: Array<string>, //string of ids for domains 
         public description: string,
         indian_time: string,
         public detailed? : string      
