@@ -37,6 +37,14 @@ import {OntologyEffects} from "./home/side-bar/ontology/ontology.effects";
 import { NanoskillReducer } from "./home/side-bar/nanoskill/nanoskill.reducer";
 import {OntologyReducer, SelectedDomainReducer} from "./home/side-bar/ontology/ontology.reducer";
 import {ConceptReducer} from "./home/side-bar/ontology/concept.reducer";
+import { combineReducers } from '@ngrx/store';
+import { compose } from '@ngrx/core/compose';
+
+export const reducer = compose(combineReducers)({
+   domains: OntologyReducer,
+   concepts: ConceptReducer,
+   Selecteddomain: SelectedDomainReducer
+});
 
 
 const routes: Routes = 
@@ -77,7 +85,7 @@ children: [
     NanoskillModule,
     OntologyModule,
     RouterModule.forRoot(routes, {useHash: true}),
-    StoreModule.provideStore({domains: OntologyReducer, concepts: ConceptReducer, Selecteddomain: SelectedDomainReducer}),
+    StoreModule.provideStore(reducer),
     EffectsModule.run(OntologyEffects),
     StoreDevtoolsModule.instrumentStore({
       monitor: useLogMonitor({

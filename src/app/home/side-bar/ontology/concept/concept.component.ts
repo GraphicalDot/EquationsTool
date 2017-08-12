@@ -3,7 +3,7 @@ import { ConceptModel, DomainModel, SubConceptModel } from '../ontology.models';
 import {State, Store} from "@ngrx/store"
 import {Observable} from "rxjs/Observable";
 import {ApplicationStore} from "../../../../app.store"
-import { Component, OnInit, OnDestroy, EventEmitter, Output, Input, ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnInit, OnDestroy, EventEmitter, Output, Input, ChangeDetectionStrategy, AfterViewInit } from '@angular/core';
 import {MaterializeDirective} from "angular2-materialize";
 import * as Materialize from "angular2-materialize";
 
@@ -25,6 +25,7 @@ export class ConceptComponent implements OnInit {
     public conceptEdit: boolean
     public concept: ConceptModel;
     selected_domain: Observable<DomainModel>;
+    //selected_domain: DomainModel;
     blooms= ["remembering", "understanding", "applyinging", "analyzing","synthesizing","evaluating"]
     ifDomain: boolean = false;
     @Input() concepts: Array<ConceptModel>
@@ -46,6 +47,7 @@ export class ConceptComponent implements OnInit {
                 this.ifDomain = true;
             }
     };
+        
     ngOnDestroy(){};
     addSubConcept(concept: ConceptModel) {
         this.addSubConceptHandler.emit(concept);
