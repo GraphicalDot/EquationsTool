@@ -4,31 +4,48 @@ import {State, Store} from "@ngrx/store"
 import {Observable} from "rxjs/Observable";
 import {ApplicationStore} from "../../../../app.store"
 import { Component, OnInit, OnDestroy, EventEmitter, Output, Input, ChangeDetectionStrategy } from '@angular/core';
+import {MaterializeDirective} from "angular2-materialize";
+import * as Materialize from "angular2-materialize";
 
 
 @Component({
   selector: 'app-concept',
   templateUrl: './concept.component.html',
   styleUrls: ['./concept.component.scss'],
+
     changeDetection: ChangeDetectionStrategy.OnPush
 
 })
 export class ConceptComponent implements OnInit {
-
+     model: string;
+     domain_name: string;
+     domain_id: number;
+    modelChange = new EventEmitter();
     public conceptCreate: boolean
     public conceptEdit: boolean
     public concept: ConceptModel;
+    selected_domain: Observable<DomainModel>;
+    blooms= ["remembering", "understanding", "applyinging", "analyzing","synthesizing","evaluating"]
+    ifDomain: boolean = false;
     @Input() concepts: Array<ConceptModel>
-    @Input() domain: DomainModel[];
+    //@Input() domain: Observable<DomainModel>;
     @Input() domains: Array<DomainModel>;
     @Output() addSubConceptHandler = new EventEmitter<ConceptModel>();
     @Output() submitConcept = new EventEmitter<ConceptModel>();
     @Output() editConcept = new EventEmitter<ConceptModel>();
     @Output() deleteConcept = new EventEmitter<ConceptModel>();
-    //constructor(private store: Store<ApplicationStore>, private service: DomainService,) { 
-    constructor() {}
 
-    ngOnInit(){};
+    
+    //constructor(private store: Store<ApplicationStore>, private service: DomainService,) { 
+    constructor(private store: Store<ApplicationStore>) {
+        this.selected_domain = this.store.select("Selecteddomain")
+    }
+
+    ngOnInit(){
+            if (this.selected_domain != undefined){
+                this.ifDomain = true;
+            }
+    };
     ngOnDestroy(){};
     addSubConcept(concept: ConceptModel) {
         this.addSubConceptHandler.emit(concept);
@@ -53,5 +70,11 @@ export class ConceptComponent implements OnInit {
       this.conceptCreate = false; //This will close the add new nanoskill form just to avoid confusion   
       this.concept = concept;
       this.editConcept.emit(concept);
+    }
+    change(newValue) {
+      Materialize.toast('child select', 2000)
+      this.model = newValue;
+      this.modelChange.emit(newValue);
+      console.log(this.selected_domain)
     }
 }

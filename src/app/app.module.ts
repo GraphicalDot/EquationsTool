@@ -4,7 +4,6 @@ import { NgModule } from '@angular/core';
 import {EffectsModule} from '@ngrx/effects';
 import { FormsModule } from '@angular/forms';
 import {Headers, Http, HttpModule, BaseRequestOptions, RequestOptions} from '@angular/http';
-
 import {HashLocationStrategy, LocationStrategy} from "@angular/common";
 
 import { AppComponent } from './app.component';
@@ -36,7 +35,7 @@ import {OntologyEffects} from "./home/side-bar/ontology/ontology.effects";
 
 
 import { NanoskillReducer } from "./home/side-bar/nanoskill/nanoskill.reducer";
-import {OntologyReducer} from "./home/side-bar/ontology/ontology.reducer";
+import {OntologyReducer, SelectedDomainReducer} from "./home/side-bar/ontology/ontology.reducer";
 import {ConceptReducer} from "./home/side-bar/ontology/concept.reducer";
 
 
@@ -78,14 +77,14 @@ children: [
     NanoskillModule,
     OntologyModule,
     RouterModule.forRoot(routes, {useHash: true}),
-    StoreModule.provideStore({domains: OntologyReducer, concepts: ConceptReducer}),
-    EffectsModule.run(OntologyEffects)
-    /* StoreDevtoolsModule.instrumentStore({
+    StoreModule.provideStore({domains: OntologyReducer, concepts: ConceptReducer, Selecteddomain: SelectedDomainReducer}),
+    EffectsModule.run(OntologyEffects),
+    StoreDevtoolsModule.instrumentStore({
       monitor: useLogMonitor({
         visible: false,
         position: 'right'
       })
-    }), */
+    }), 
    // StoreLogMonitorModule
 
 

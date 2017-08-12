@@ -1,28 +1,30 @@
 import { ActionReducer, Action, State } from '@ngrx/store';
 import { ConceptModel} from './ontology.models';
 import {ONTOLOGY_ACTIONS} from "./ontology.actions";
+import * as OntologyActions from "./ontology.actions"
 
 
-export function ConceptReducer(state: Array<any> = [], {type, payload}): Array<any> {
+export function ConceptReducer(state: Array<any> = [],  action: OntologyActions.Actions): Array<any> {
 
-    switch(type){
-            case ONTOLOGY_ACTIONS.LOAD_CONCEPT:
-                return Array.prototype.concat(payload);                
+    switch(action.type){
+            case OntologyActions.LOAD_CONCEPT_SUCCESS:
+                return action.payload;                
 
-            case ONTOLOGY_ACTIONS.ADD_CONCEPT:
-                return [payload, ...state];
+            case OntologyActions.ADD_CONCEPT_SUCCESS:
+                return [action.payload, ...state];
 
-            case ONTOLOGY_ACTIONS.DELETE_CONCEPT:
-                state.splice(state.indexOf(payload), 1);
+            case OntologyActions.DELETE_CONCEPT_SUCCESS:
+                state.splice(state.indexOf(action.payload), 1);
                 // We need to create another reference
                 return Array.prototype.concat(state);
 
 
-            case ONTOLOGY_ACTIONS.EDIT_CONCEPT:
+            case OntologyActions.EDIT_CONCEPT_SUCCESS:
                  return state.map(item => {
-                        return item.concept_id === payload.concept_id ? Object.assign({}, item, payload) : item;
+                        return item.concept_id === action.payload.concept_id ? Object.assign({}, item, action.payload) : item;
                   });
 
+                  
             default:
                 return state
 

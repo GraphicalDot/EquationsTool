@@ -15,7 +15,7 @@ export class OntologyService {
     private headerContent = {'Content-Type': 'application/json', "Authorization": localStorage.getItem('user_token')}
     constructor(private http: Http) {}
   
-    loadDomains(): Observable<DomainModel[]> {
+    loadDomain_service(): Observable<DomainModel[]> {
         let headers = new Headers(this.headerContent);
         let options = new RequestOptions({headers});   
          return this.http.get(this.DOMAIN_API_URL, options)
@@ -31,16 +31,17 @@ export class OntologyService {
       }
   
     
-    createConcept(concept: ConceptModel) {
-        return this.http.post(this.DOMAIN_API_URL, JSON.stringify(concept))
-          .map(res => {res.json()["data"], console.log(concept)})
+    addConcept(concept: ConceptModel): Observable<ConceptModel> {
+        return this.http.post(this.CONCEPT_API_URL, JSON.stringify(concept))
+          .map(res => res.json()["data"])
     }
   
   
   
-    addDomain(domain: DomainModel) {
+    addDomain(domain: DomainModel):  Observable<DomainModel> {
         return this.http.post(this.DOMAIN_API_URL, JSON.stringify(domain))
       .map(res => res.json()["data"])
+      
     }
   
     //This is not working, Please change the backend for it to function

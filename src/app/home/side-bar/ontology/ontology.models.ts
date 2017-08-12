@@ -22,6 +22,7 @@ export class ConceptModel {
         public bloom_taxonomy: Array<string>,
         public required_domains: Array<string>, //string of ids for domains 
         public description: string,
+        public difficulty_level: number,
         indian_time: string,
         public detailed? : string      
     ){}

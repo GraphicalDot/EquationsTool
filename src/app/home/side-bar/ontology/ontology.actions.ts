@@ -24,6 +24,18 @@ export const ONTOLOGY_ACTIONS = {
     DELETE_NANOSKILL: "DELETE_NANOSKILL",
     EDIT_NANOSKILL: "EDIT_NANOSKILL",
 }
+export const ERROR_HANDLER = "[ERROR] Error Handler"
+
+export class Errorhandler implements Action{
+    readonly type = ERROR_HANDLER
+    constructor(public payload: any){}
+}
+
+export const SELECTED_SUBCONCEPT= "[Subconcepts] Selected Subconcept"
+export const SELECTED_NANOSKILL= "[Nanoskill] Selected Nanoskill"
+
+
+
 
 export const LOAD_DOMAIN = "[Domains] Load Domain"
 export const LOAD_DOMAIN_SUCCESS = "[Domains] Load Domain Success"
@@ -59,10 +71,33 @@ export const EDIT_CONCEPT = "[Concepts] Edit Domain"
 export const EDIT_CONCEPT_SUCCESS = "[Concepts] Edit Concept Success"
 export const EDIT_CONCEPT_FAILURE = "[Concepts] Edit Concept Failure"
 
+
+
 export class Loadconcept implements Action{
     readonly type = LOAD_CONCEPT
     constructor(){}
 }
+
+export const SELECTED_DOMAIN = "[Domains] Selected Domain"
+export class Selecteddomain implements Action{
+    readonly type = SELECTED_DOMAIN
+    constructor(public payload: DomainModel){}
+}
+
+export const SELECTED_DOMAIN_SUCCESS = "[Domains] Selected Domain Success"
+export class Selecteddomainsuccess implements Action{
+    readonly type = SELECTED_DOMAIN_SUCCESS
+    constructor(public payload: DomainModel){}
+}
+
+export const SELECTED_CONCEPT = "[Concepts] Selected Concept"
+export class Selectedconcept implements Action{
+    readonly type = SELECTED_CONCEPT
+    constructor(public payload: ConceptModel){}
+}
+
+
+
 export class Loadconceptsuccess implements Action{
     readonly type = LOAD_CONCEPT_SUCCESS
     constructor(public payload: ConceptModel[]){}
@@ -200,4 +235,9 @@ export type Actions = Loaddomain|
                         Editconceptsuccess|
 
                         Editdomainsuccess|
-                        Editconceptsuccess
+                        Editconceptsuccess|
+
+
+                        Selecteddomain|
+                        Selecteddomainsuccess|
+                        Selectedconcept

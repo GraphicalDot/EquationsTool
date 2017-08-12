@@ -1,4 +1,4 @@
-import { DomainModel } from './ontology.models';
+import { DomainModel, ConceptModel } from './ontology.models';
 import { OntologyReducer } from './ontology.reducer';
 import {Injectable} from "@angular/core"
 import {OntologyService} from "./ontology.service"
@@ -23,19 +23,31 @@ it calls a new Action(either an Action for success
 or an action for failure) with a new payload, thus updating the data in the Store.
 */
 
+//Beautiful article explaning error handling in observables 
+//https://blog.iamturns.com/continue-rxjs-streams-when-errors-occur-c6a031f9a6cf
+
 @Injectable()
 export class OntologyEffects {
 
     constructor(private actions$: Actions, private service: OntologyService) {}
 
+    @Effect() SelectedDomain$: Observable<Action> = this.actions$
+        .ofType(OntologyActions.SELECTED_DOMAIN)
+        .map((action: OntologyActions.Selecteddomain) => action.payload)
+        .map((payload: DomainModel) => new OntologyActions.Selecteddomainsuccess(payload))
+        
+
+
+
+
     @Effect() loadDomains$: Observable<Action> = this.actions$
         .ofType(OntologyActions.LOAD_DOMAIN)
         .startWith(new OntologyActions.Loaddomain())
         .switchMap(() => 
-              this.service.loadDomains()
+              this.service.loadDomain_service()
               .map((domains: DomainModel[]) => new OntologyActions.Loaddomainsuccess(domains))
               .catch(err => of(new OntologyActions.Loaddomainfailure(err)))
-        );
+        )
 
     @Effect() createDomain$: Observable<Action> = this.actions$
         .ofType(OntologyActions.ADD_DOMAIN)
@@ -56,6 +68,26 @@ export class OntologyEffects {
               .catch(err => of(new OntologyActions.Deletedomainfailure(err)))
         );
 
+
+
+    
+    @Effect() loadConcepts$: Observable<Action> = this.actions$
+        .ofType(OntologyActions.LOAD_CONCEPT)
+        .startWith(new OntologyActions.Loadconcept())
+        .switchMap(() => 
+              this.service.loadConcepts()
+              .map((concepts: ConceptModel[]) => new OntologyActions.Loadconceptsuccess(concepts))
+              .catch(err => of(new OntologyActions.Loadconceptfailure(err)))
+        )
+
+    @Effect() createConcept$: Observable<Action> = this.actions$
+        .ofType(OntologyActions.ADD_CONCEPT)
+        .map((action: OntologyActions.Addconcept) => action.payload)
+        .switchMap((payload) => 
+              this.service.addConcept(payload)
+              .map((concept: ConceptModel) => new OntologyActions.Addconceptsuccess(concept))
+              .catch(err => of(new OntologyActions.Addconceptfailure(err)))
+        );
 
 
 }

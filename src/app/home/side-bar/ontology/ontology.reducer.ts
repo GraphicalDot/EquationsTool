@@ -3,6 +3,14 @@ import { DomainModel} from './ontology.models';
 //import {ONTOLOGY_ACTIONS} from "./ontology.actions";
 import * as OntologyActions from "./ontology.actions"
 
+export function SelectedDomainReducer(state: DomainModel, action: OntologyActions.Actions): DomainModel {
+switch(action.type){
+        case OntologyActions.SELECTED_DOMAIN_SUCCESS:
+                return action.payload
+      };            
+
+}
+
 export function OntologyReducer(state: Array<any> = [], action: OntologyActions.Actions): Array<any> {
 
     switch(action.type){
@@ -21,8 +29,7 @@ export function OntologyReducer(state: Array<any> = [], action: OntologyActions.
                 return Array.prototype.concat(state);
             
             case OntologyActions.DELETE_DOMAIN_FAILURE:
-                return [...state];
-
+                return [...state];          
 
             default:
                 return state

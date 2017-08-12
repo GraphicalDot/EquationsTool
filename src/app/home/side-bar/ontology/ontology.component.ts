@@ -17,11 +17,15 @@ import * as OntologyActions from "./ontology.actions"
 export class OntologyComponent implements OnInit {
 
     public domains: Observable<Array<DomainModel>>;
+    public concepts: Observable<Array<ConceptModel>>;
     //public concepts: Observable<Array<ConceptModel>>;
-    public globalDomain: DomainModel;
+    //public globalDomain: Observable<DomainModel>;
+    //public globalDomain: DomainModel;
     public globalConcept: ConceptModel;
     constructor(private store: Store<ApplicationStore>, private service: OntologyService) {
         this.domains = store.select("domains");
+        this.concepts = store.select("concepts");
+        //this.globalDomain = store.select("Selecteddomain")
         /*
         this.concepts = store.select(state=> state.concepts.concept_id)
                         .filter(this.globalDomain.domain_id)
@@ -36,7 +40,8 @@ export class OntologyComponent implements OnInit {
 
     _addConcept(domain: DomainModel){
         console.log(domain)
-        this.globalDomain = domain;
+        //this.globalDomain = domain
+        this.store.dispatch(new OntologyActions.Selecteddomain(domain))
     }
 
     _submitDomain(domain: DomainModel){
@@ -47,8 +52,8 @@ export class OntologyComponent implements OnInit {
 
     _submitConcept(concept: ConceptModel){
         console.log(concept)
-        this.service.createConcept(concept)
-        //this.store.dispatch({type: ONTOLOGY_ACTIONS.LOAD_CONCEPT})
+        this.service.addConcept(concept)
+        this.store.dispatch(new OntologyActions.Addconcept(concept))
 
     }
 
