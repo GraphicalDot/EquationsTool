@@ -26,15 +26,12 @@ import {StoreLogMonitorModule, useLogMonitor} from '@ngrx/store-log-monitor';
 import { VariablesComponent } from './home/side-bar/variables/variables.component';
 import { PermissionsComponent } from './home/side-bar/permissions/permissions.component';
 import { TemplatesComponent } from './home/side-bar/templates/templates.component';
-import {NanoskillModule} from "./home/side-bar/nanoskill/nanoskill.module";
-import {NanoskillComponent} from "./home/side-bar/nanoskill/nanoskill.component";
 
 import {OntologyModule} from "./home/side-bar/ontology/ontology.module";
 import {OntologyComponent} from "./home/side-bar/ontology/ontology.component";
 import {OntologyEffects} from "./home/side-bar/ontology/ontology.effects";
 
 
-import { NanoskillReducer } from "./home/side-bar/nanoskill/nanoskill.reducer";
 import {OntologyReducer, SelectedDomainReducer} from "./home/side-bar/ontology/ontology.reducer";
 import {ConceptReducer} from "./home/side-bar/ontology/concept.reducer";
 import { combineReducers } from '@ngrx/store';
@@ -50,14 +47,14 @@ import {UsersEffects} from "./effects/users.effects"
  * exception will be thrown. This is useful during development mode to
  * ensure that none of the reducers accidentally mutates the state.
  */
-export const reducer = compose(storeFreeze, combineReducers)(
+export const reducer =// compose(storeFreeze, combineReducers)(
   {
    domains: OntologyReducer,
    concepts: ConceptReducer,
    Selecteddomain: SelectedDomainReducer, 
    users: UsersReducer
 }
-);
+//);
 
 
 const routes: Routes = 
@@ -76,11 +73,6 @@ children: [
 
 ]}
 ]
-
-const appEffectsRun = [
-  EffectsModule.run(UsersEffects),
-  EffectsModule.run(OntologyEffects),
-];
 
 
 @NgModule({
@@ -103,16 +95,12 @@ const appEffectsRun = [
     FormsModule,
     HttpModule,
     MaterializeModule,
-    NanoskillModule,
     OntologyModule,
     RouterModule.forRoot(routes, {useHash: true}),
-    StoreModule.provideStore(reducer),
-    EffectsModule.run(OntologyEffects),
-    //EffectsModule.run(UsersEffects),
-    //EffectsModule.run(UsersEffects),
+    StoreModule.forRoot(reducer),
+        EffectsModule.forFeature([OntologyEffects, UsersEffects]),
     //EffectsModule.runAfterBootstrap(UsersEffects),
-    appEffectsRun,
-    StoreDevtoolsModule.instrumentStore({
+    StoreDevtoolsModule.instrument({
       monitor: useLogMonitor({
         visible: false,
         position: 'right'
