@@ -1,42 +1,61 @@
-import { Component, OnInit } from '@angular/core';
+
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import {State, Store} from "@ngrx/store"
+import {Observable} from "rxjs/Observable";
+import { UserModel } from '../../../models/user.model';
+import { UsersEffects } from '../../../effects/users.effects';
+import {ApplicationStore} from "../../../app.store"
+import * as UserActions from '../../../actions/users.actions';
 
 @Component({
   selector: 'app-users',
   templateUrl: './users.component.html',
-  styleUrls: ['./users.component.css']
+  styleUrls: ['./users.component.css'],
+  changeDetection: ChangeDetectionStrategy.OnPush
+
 })
 export class UsersComponent implements OnInit {
   userCreate: boolean;
-  roles: Array<Object> = ["Admin", "reviewer_one", "reviewer_two", "reviewer_three", "validator"
-      ];
-  constructor() { }
-
+  userEdit: boolean;
+  user: UserModel ;
+  public users: Observable<Array<UserModel>>;
+  constructor(private store: Store<ApplicationStore>) { 
+        this.users = store.select("users")
+  }
+        
   ngOnInit() {
     this.userCreate = false;
+    
   }
 
 
   addUser(){
     console.log("Add user form has been created");
     this.userCreate = true;
+    this.userEdit= false;    
+
+  }
+  
+  addUserSubmit(user: UserModel){
+        this.store.dispatch(new UserActions.Adduser(user))
+  	    console.log("request Completed for adding user");
+      }
+
+  editUserSubmit(user: UserModel){
+        this.store.dispatch(new UserActions.Edituser(user))
+        this.userEdit= false;    
+        
+  }
+  
+  deleteUser(user: UserModel){
+        this.store.dispatch(new UserActions.Deleteuser(user))
     
   }
-     submitForm(value: any){
-  	    console.log(value);
-  	    console.log("gadhe");
-/*         this.signinService.getUser(value.username, value.password)
-                 .subscribe(
-                       data => {if(data.error)
-                            this.errorMessage = data.message;
-                            else {
-                              console.log(data.token)
-                              localStorage.setItem('user_token', data.token)
-                            }
-                      
-                      },
-                       error =>  this.errorMessage = <any>error);
-      
- */  }
 
+  editUser(user: UserModel){
+      this.userCreate = false;
+      this.userEdit= true;    
+      this.user = user
+  }
 
 }

@@ -4,65 +4,115 @@
 
 <div *ngIf="userCreate">
     <div class="row">
-       <form materialize class="col s12" #form="ngForm" (ngSubmit)="submitForm(form.value)">
+       <form materialize class="col s12" #createForm="ngForm" (ngSubmit)="addUserSubmit(createForm.value)">
           <div class="row">
               <div class="input-field col s6">
-                  <input id="icon_prefix" type="text" class="validate"  [(ngModel)]="first_name" name="first_name">
-                  <label for="icon_prefix">First Name</label>
+                  <input id="first_name" type="text" class="validate"  [(ngModel)]="first_name" name="first_name" required>
+                  <label for="first_name">First Name</label>
               </div>
               <div class="input-field col s6">
-                  <input id="icon_telephone" type="tel" class="validate"  [(ngModel)]="last_name" name="last_name">
-                  <label for="icon_telephone">Last Name</label>
+                  <input id="last_name" type="text" class="validate"  [(ngModel)]="last_name" name="last_name" required>
+                  <label for="last_name">Last Name</label>
               </div>
           </div>
           <div class="row">
               <div class="input-field col s6">
-                  <input id="icon_prefix" type="text" class="validate"  [(ngModel)]="email" name="email">
-                  <label for="icon_prefix">Email</label>
+                  <input id="email" type="email" class="validate"  [(ngModel)]="email" name="email" required>
+                  <label for="email">Email</label>
               </div>
               <div class="input-field col s6">
-                  <input id="icon_telephone" type="tel" class="validate"  [(ngModel)]="telephone" name="telephone">
-                  <label for="icon_telephone">Telephone</label>
-              </div>
-          </div>
-            <div class="row">
-              <div class="input-field col s6">
-                  <input id="icon_prefix" type="text" class="validate"  [(ngModel)]="pan_card" name="pan_card">
-                  <label for="icon_prefix">Pan Card</label>
-              </div>
-              <div class="input-field col s6">
-                  <input id="icon_telephone" type="tel" class="validate"  [(ngModel)]="adhaar_number" name="adhaar_number">
-                  <label for="icon_telephone">Adhaar Number</label>
+                  <input id="phone_number" type="tel" class="validate"  [(ngModel)]="phone_number" name="phone_number" required>
+                  <label for="phone_number">Telephone</label>
               </div>
           </div>
 
-    
-
-          <div class="row col s6">
-                <label for="icon_telephone">Role</label>
-                
-                <div class="input-field col s12">
-                    <select  class="browser-default" name="role" [(ngModel)]="role">
-                        <option value="" disabled selected>Choose your option</option>
-                        <option *ngFor="let role of roles" [ngValue]="role" > {{role}} </option>
-                    </select>
-                </div>
-          </div>
-          <div class="row col s6">
-              <label for="icon_telephone">some random value</label>
-              <div class="input-field col s12">
-                    <select class="browser-default">
-                        <option value="" disabled selected>Choose your option</option>
-                        <option value="1">Option 1</option>
-                        <option value="2">Option 2</option>
-                        <option value="3">Option 3</option>
-                    </select>
+           <div class="row">
+              <div class="input-field col s6">
+                  <input id="password" type="password" class="validate"  [(ngModel)]="password" name="password" required>
+                  <label for="passsword">Password</label>
+              </div>
+              <div class="input-field col s6">
+                  <input id="is_admin" type="checkbox" class="validate"  [(ngModel)]="is_admin" name="is_admin">
+                  <label for="is_admin">Administrator</label>
               </div>
           </div>
 
-          <button class="btn waves-effect waves-light" type="submit" name="action">Submit
+          <button class="btn waves-effect waves-light" type="submit"  [disabled]="!createForm.form.valid" name="action">Submit
               <i class="material-icons right">send</i>
           </button>
         </form>
     </div>
+</div>
+<div>
+
+
+
+<div *ngIf="userEdit">
+    <div class="row">
+       <form materialize class="col s12" #editForm="ngForm" (ngSubmit)="editUserSubmit(editForm.value)">
+          <div class="row">
+              <div class="input-field col s6">
+                  <input id="first_name" type="text" class="validate"  [(ngModel)]="user.first_name" name="first_name" required>
+                  <label for="first_name">First Name</label>
+              </div>
+              <div class="input-field col s6">
+                  <input id="last_name" type="text" class="validate"  [(ngModel)]="user.last_name" name="last_name" required>
+                  <label for="last_name">Last Name</label>
+              </div>
+          </div>
+          <div class="row">
+              <div class="input-field col s6">
+                  <input id="email" type="email" class="validate"  [(ngModel)]="user.email" name="email" required>
+                  <label for="email">Email</label>
+              </div>
+              <div class="input-field col s6">
+                  <input id="phone_number" type="tel" class="validate"  [(ngModel)]="user.phone_number" name="phone_number" required>
+                  <label for="phone_number">Telephone</label>
+              </div>
+          </div>
+
+           <div class="row">
+              <div class="input-field col s6">
+                  <input id="password" type="password" class="validate"  [(ngModel)]="user.password" name="password" required>
+                  <label for="passsword">Password</label>
+              </div>
+              <div class="input-field col s6">
+                  <input id="is_admin" type="checkbox" class="validate"  [(ngModel)]="user.is_admin" name="is_admin">
+                  <label for="is_admin">Administrator</label>
+              </div>
+          </div>
+
+          <button class="btn waves-effect waves-light" type="submit"  [disabled]="!editForm.form.valid" name="action">Submit
+              <i class="material-icons right">send</i>
+          </button>
+        </form>
+    </div>
+</div>
+<div>
+
+        <table>
+        <thead>
+          <tr>
+              <th>First Name</th>
+              <th>Last Name</th>
+              <th>Email</th>
+              <th>CreatedOn</th>
+              <th>Edit user</th>
+              <th>Delete user</th>
+              <th></th>
+          </tr>
+        </thead>
+
+        <tbody *ngFor="let user of users | async">
+            <tr>
+                    <td>{{user.first_name}}</td>
+                    <td>{{user.last_name}}</td>
+                    <td>{{user.email}}</td>
+                    <td>{{user.indian_time}}</td>
+                    <td><button class="btn waves-effect waves-light" (click) = "editUser(user)" >Edit</button></td>
+                    <td><button class="btn waves-effect waves-light" (click) = "deleteUser(user)">Delete</button></td>
+            </tr>
+
+        </tbody>
+        </table>
 </div>

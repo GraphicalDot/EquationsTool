@@ -39,13 +39,17 @@ export class DomainComponent implements OnInit, OnDestroy {
     public domainCreate: boolean
     public domainEdit: boolean
     public domain: DomainModel;
-    @Input() domains: DomainModel[];
+    domains: Observable<Array<DomainModel>>;
     @Output() switchToConcept = new EventEmitter<DomainModel>();
     @Output() submitDomain = new EventEmitter<DomainModel>();
     @Output() editDomain = new EventEmitter<DomainModel>();
     @Output() deleteDomain = new EventEmitter<DomainModel>();
     //constructor(private store: Store<ApplicationStore>, private service: DomainService,) { 
-    constructor() {}
+    constructor(private store: Store<ApplicationStore>) {
+
+                this.domains = this.store.select("domains")
+
+    }
 
     ngOnInit(){};
     ngOnDestroy(){};

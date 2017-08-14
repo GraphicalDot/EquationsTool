@@ -39,12 +39,25 @@ import {OntologyReducer, SelectedDomainReducer} from "./home/side-bar/ontology/o
 import {ConceptReducer} from "./home/side-bar/ontology/concept.reducer";
 import { combineReducers } from '@ngrx/store';
 import { compose } from '@ngrx/core/compose';
+import { UserprofileComponent } from './home/side-bar/userprofile/userprofile.component';
+import { storeFreeze } from 'ngrx-store-freeze';
+import {UsersReducer} from "./reducers/users.reducer"
+import {UsersService} from "./services/users.service"
+import {UsersEffects} from "./effects/users.effects"
 
-export const reducer = compose(combineReducers)({
+/**
+ * storeFreeze prevents state from being mutated. When mutation occurs, an
+ * exception will be thrown. This is useful during development mode to
+ * ensure that none of the reducers accidentally mutates the state.
+ */
+export const reducer = compose(storeFreeze, combineReducers)(
+  {
    domains: OntologyReducer,
    concepts: ConceptReducer,
-   Selecteddomain: SelectedDomainReducer
-});
+   Selecteddomain: SelectedDomainReducer, 
+   users: UsersReducer
+}
+);
 
 
 const routes: Routes = 
@@ -58,10 +71,17 @@ children: [
 { path: 'variables', component: VariablesComponent},
 { path: 'templates', component: TemplatesComponent},
 { path: 'ontology', component: OntologyComponent},
+{path: 'userprofile', component: UserprofileComponent}
 
 
 ]}
 ]
+
+const appEffectsRun = [
+  EffectsModule.run(UsersEffects),
+  EffectsModule.run(OntologyEffects),
+];
+
 
 @NgModule({
   declarations: [
@@ -75,7 +95,8 @@ children: [
     GradesComponent,
     VariablesComponent,
     PermissionsComponent,
-    TemplatesComponent
+    TemplatesComponent,
+    UserprofileComponent,
   ],
   imports: [
     BrowserModule, 
@@ -87,6 +108,10 @@ children: [
     RouterModule.forRoot(routes, {useHash: true}),
     StoreModule.provideStore(reducer),
     EffectsModule.run(OntologyEffects),
+    //EffectsModule.run(UsersEffects),
+    //EffectsModule.run(UsersEffects),
+    //EffectsModule.runAfterBootstrap(UsersEffects),
+    appEffectsRun,
     StoreDevtoolsModule.instrumentStore({
       monitor: useLogMonitor({
         visible: false,
@@ -97,6 +122,8 @@ children: [
 
 
   ],
+  providers: [
+      UsersService],
   bootstrap: [AppComponent],
 })
 export class AppModule { }

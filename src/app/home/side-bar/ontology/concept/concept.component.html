@@ -46,7 +46,7 @@
 
 <div *ngIf="conceptCreate">
     <div class="col s12">
-       <form materialize class="col s12" #form="ngForm" (ngSubmit)="submitForm(form.value)">
+       <form materialize class="col s12" #form="ngForm" (ngSubmit)="submitForm(form.value)"  class="ui form">
           <div class="row">
               <div class="input-field col s4">
                   <input id="icon_prefix" type="text" class="validate"  [(ngModel)]="concept_name" name="concept_name" required ng-pristine>
