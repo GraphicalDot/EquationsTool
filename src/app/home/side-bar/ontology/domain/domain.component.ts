@@ -1,8 +1,8 @@
 import { Component, OnInit, OnDestroy, EventEmitter, Output, Input, ChangeDetectionStrategy } from '@angular/core';
-import {DomainModel} from "../ontology.models"
+import {DomainModel} from "../../../../models/ontology.models"
 import {State, Store} from "@ngrx/store"
 import {Observable} from "rxjs/Observable";
-import {ApplicationStore} from "../../../../app.store"
+import * as fromRoot from "../../../../reducers"
  
 
 /*
@@ -39,15 +39,15 @@ export class DomainComponent implements OnInit, OnDestroy {
     public domainCreate: boolean
     public domainEdit: boolean
     public domain: DomainModel;
-    domains: Observable<Array<DomainModel>>;
+    domains: Observable<any>;
     @Output() switchToConcept = new EventEmitter<DomainModel>();
     @Output() submitDomain = new EventEmitter<DomainModel>();
     @Output() editDomain = new EventEmitter<DomainModel>();
     @Output() deleteDomain = new EventEmitter<DomainModel>();
     //constructor(private store: Store<ApplicationStore>, private service: DomainService,) { 
-    constructor(private store: Store<ApplicationStore>) {
+    constructor(private store: Store<fromRoot.AppState>) {
+                        this.domains = this.store.select(fromRoot.getDomains);
 
-                this.domains = this.store.select("domains")
 
     }
 

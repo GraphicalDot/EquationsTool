@@ -1,5 +1,5 @@
 import {Action} from "@ngrx/store"
-import {DomainModel, ConceptModel} from "./ontology.models"
+import {DomainModel, ConceptModel} from "../models/ontology.models"
 
 
 export const ONTOLOGY_ACTIONS = {
@@ -96,11 +96,17 @@ export class Selectedconcept implements Action{
     constructor(public payload: ConceptModel){}
 }
 
+export const SELECTED_CONCEPT_SUCCESS = "[Concepts] Selected Concept Success"
+export class Selectedconceptsuccess implements Action{
+    readonly type = SELECTED_CONCEPT_SUCCESS
+    constructor(public payload: ConceptModel){}
+}
+
 
 
 export class Loadconceptsuccess implements Action{
     readonly type = LOAD_CONCEPT_SUCCESS
-    constructor(public payload: ConceptModel[]){}
+    constructor(public payload: any){}
 }
 export class Loadconceptfailure implements Action{
     readonly type = LOAD_CONCEPT_FAILURE
@@ -112,7 +118,7 @@ export class Addconcept implements Action{
 }
 export class Addconceptsuccess implements Action{
     readonly type = ADD_CONCEPT_SUCCESS
-    constructor(public payload: ConceptModel){}
+    constructor(public payload: any){}
 }
 //Because the error given to this class will be of object or string
 export class Addconceptfailure implements Action{
@@ -153,7 +159,7 @@ export class Loaddomain implements Action{
 }
 export class Loaddomainsuccess implements Action{
     readonly type = LOAD_DOMAIN_SUCCESS
-    constructor(public payload: DomainModel[]){}
+    constructor(public payload: any){}
 }
 export class Loaddomainfailure implements Action{
     readonly type = LOAD_DOMAIN_FAILURE
@@ -165,7 +171,7 @@ export class Adddomain implements Action{
 }
 export class Adddomainsuccess implements Action{
     readonly type = ADD_DOMAIN_SUCCESS
-    constructor(public payload: DomainModel){}
+    constructor(public payload: any){}
 }
 //Because the error given to this class will be of object or string
 export class Adddomainfailure implements Action{
@@ -240,4 +246,5 @@ export type Actions = Loaddomain|
 
                         Selecteddomain|
                         Selecteddomainsuccess|
-                        Selectedconcept
+                        Selectedconcept|
+                        Selectedconceptsuccess

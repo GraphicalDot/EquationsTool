@@ -2,10 +2,10 @@ import { NgAnalyzedModules } from '@angular/compiler';
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Http, Response, Request, RequestOptions, Headers} from '@angular/http';
-import {DomainModel, ConceptModel} from "./ontology.models"
+import {DomainModel, ConceptModel} from "../models/ontology.models"
 import {Observable} from "rxjs/Observable";
-import {ApplicationStore} from "../../../app.store"
-import {ONTOLOGY_ACTIONS} from "./ontology.actions";
+import {ApplicationStore} from "../app.store"
+import {ONTOLOGY_ACTIONS} from "../actions/ontology.actions";
 import 'rxjs/Rx';
 
 @Injectable()

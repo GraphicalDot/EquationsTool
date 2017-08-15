@@ -3,7 +3,11 @@ import { UserModel } from '../models/user.model';
 
 
 
-
+export const SELECT_USER = "[Users] Select User"
+export class Selectuser implements Action{
+    readonly type = SELECT_USER
+    constructor(public payload: any){}
+}
 
 
 
@@ -127,4 +131,5 @@ export type Actions = Loadusers|
 
                         Deleteuser|
                         Deleteuserfailure|
-                        Deleteusersuccess
+                        Deleteusersuccess|
+                        Selectuser

@@ -1,3 +1,4 @@
+import { ApplicationStore } from './app.store';
 import { ConceptComponent } from './home/side-bar/ontology/concept/concept.component';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
@@ -29,31 +30,24 @@ import { TemplatesComponent } from './home/side-bar/templates/templates.componen
 
 import {OntologyModule} from "./home/side-bar/ontology/ontology.module";
 import {OntologyComponent} from "./home/side-bar/ontology/ontology.component";
-import {OntologyEffects} from "./home/side-bar/ontology/ontology.effects";
+import {OntologyEffects} from "./effects/ontology.effects";
+import {OntologyService} from "./services/ontology.service";
 
-
-import {OntologyReducer, SelectedDomainReducer} from "./home/side-bar/ontology/ontology.reducer";
-import {ConceptReducer} from "./home/side-bar/ontology/concept.reducer";
+import {DomainReducer} from "./reducers/domain.reducer";
+import {ConceptReducer} from "./reducers/concept.reducer";
 import { combineReducers } from '@ngrx/store';
-import { compose } from '@ngrx/core/compose';
+import { compose } from '@ngrx/store';
 import { UserprofileComponent } from './home/side-bar/userprofile/userprofile.component';
 import { storeFreeze } from 'ngrx-store-freeze';
 import {UsersReducer} from "./reducers/users.reducer"
 import {UsersService} from "./services/users.service"
 import {UsersEffects} from "./effects/users.effects"
-
+import {reducer} from "./reducers"
 /**
  * storeFreeze prevents state from being mutated. When mutation occurs, an
  * exception will be thrown. This is useful during development mode to
  * ensure that none of the reducers accidentally mutates the state.
  */
-export const reducer =// compose(storeFreeze, combineReducers)(
-  {
-   domains: OntologyReducer,
-   concepts: ConceptReducer,
-   Selecteddomain: SelectedDomainReducer, 
-   users: UsersReducer
-}
 //);
 
 
@@ -98,7 +92,7 @@ children: [
     OntologyModule,
     RouterModule.forRoot(routes, {useHash: true}),
     StoreModule.forRoot(reducer),
-        EffectsModule.forFeature([OntologyEffects, UsersEffects]),
+        EffectsModule.forRoot([OntologyEffects, UsersEffects]),
     //EffectsModule.runAfterBootstrap(UsersEffects),
     StoreDevtoolsModule.instrument({
       monitor: useLogMonitor({
@@ -110,8 +104,7 @@ children: [
 
 
   ],
-  providers: [
-      UsersService],
+  providers: [UsersService, OntologyService],
   bootstrap: [AppComponent],
 })
 export class AppModule { }

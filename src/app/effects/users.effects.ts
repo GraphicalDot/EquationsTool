@@ -36,14 +36,22 @@ export class UsersEffects {
 
     constructor(private actions$: Actions, private service: UsersService) {}
 
+    @Effect() errorStatus401$ = this.actions$
+    .ofType(ObjectActions.LOAD_USERS_FAILURE)
+    .map((action: ObjectActions.Loadusersfailure) => action.payload)
+    .switchMap(payload => {
+        console.log(payload)
+        return Observable.empty();
+    });
 
     @Effect() loadUsers$: Observable<Action> = this.actions$
         .ofType(ObjectActions.LOAD_USERS)
         .startWith(new ObjectActions.Loadusers())
         .switchMap(() => 
               this.service.loadUsers()
-              .map((users: UserModel[]) => new ObjectActions.Loaduserssuccess(users))
+              .map((users: UserModel[]) =>  new ObjectActions.Loaduserssuccess(users))
               .catch(err => of(new ObjectActions.Loadusersfailure(err)))
+              .finally(() => console.log("Request is done"))
         )
 
     @Effect() AddUser$: Observable<Action> = this.actions$

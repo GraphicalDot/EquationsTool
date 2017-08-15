@@ -1,6 +1,6 @@
-import { Selectedconcept, Selecteddomain } from './home/side-bar/ontology/ontology.actions';
+import { Selectedconcept, Selecteddomain } from './actions/ontology.actions';
 
-import {DomainModel, ConceptModel} from "./home/side-bar/ontology/ontology.models";
+import {DomainModel, ConceptModel} from "./models/ontology.models";
 import { UserModel } from './models/user.model'
 
 export interface ApplicationStore {

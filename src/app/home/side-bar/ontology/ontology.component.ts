@@ -3,11 +3,13 @@ import { Observable } from 'rxjs/Rx';
 import { JQueryStyleEventEmitter } from 'rxjs/observable/FromEventObservable';
 import { Component, OnInit } from '@angular/core';
 import {MaterializeDirective} from "angular2-materialize";
-import {DomainModel, ConceptModel} from "./ontology.models";
-import {OntologyService} from "./ontology.service"
+import {DomainModel, ConceptModel} from "../../../models/ontology.models";
+import {OntologyService} from "../../../services/ontology.service"
 import { Store } from '@ngrx/store';
 import {ApplicationStore} from "../../../app.store"
-import * as OntologyActions from "./ontology.actions"
+import * as OntologyActions from "../../../actions/ontology.actions"
+import * as fromRoot from "../../../reducers"
+
 
 @Component({
   selector: 'app-domain',
@@ -16,15 +18,15 @@ import * as OntologyActions from "./ontology.actions"
 })
 export class OntologyComponent implements OnInit {
 
-    public domains: Observable<Array<DomainModel>>;
-    public concepts: Observable<Array<ConceptModel>>;
+    public domains: Observable<any>;
+    public concepts: Observable<any>;
     //public concepts: Observable<Array<ConceptModel>>;
     //public globalDomain: Observable<DomainModel>;
     //public globalDomain: DomainModel;
     public globalConcept: ConceptModel;
-    constructor(private store: Store<ApplicationStore>, private service: OntologyService) {
-        this.domains = store.select("domains");
-        this.concepts = store.select("concepts");
+    constructor(private store: Store<fromRoot.AppState>) {
+        this.domains = this.store.select(fromRoot.getDomains);
+        this.concepts = this.store.select(fromRoot.getConcepts);
         //this.globalDomain = store.select("Selecteddomain")
         /*
         this.concepts = store.select(state=> state.concepts.concept_id)
@@ -52,14 +54,14 @@ export class OntologyComponent implements OnInit {
 
     _submitConcept(concept: ConceptModel){
         console.log(concept)
-        this.service.addConcept(concept)
+        //this.service.addConcept(concept)
         this.store.dispatch(new OntologyActions.Addconcept(concept))
 
     }
 
     _editDomain(domain: DomainModel){
         console.log(domain)
-        this.service.editDomain(domain)
+        //this.service.editDomain(domain)
         //this.store.dispatch({type: ONTOLOGY_ACTIONS.LOAD_DOMAIN})
         
 

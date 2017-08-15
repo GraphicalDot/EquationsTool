@@ -1,8 +1,7 @@
-import { DomainModel, ConceptModel } from './ontology.models';
-import { OntologyReducer } from './ontology.reducer';
+import { DomainModel, ConceptModel } from '../models/ontology.models';
 import {Injectable} from "@angular/core"
-import {OntologyService} from "./ontology.service"
-import * as OntologyActions from './ontology.actions';
+import {OntologyService} from "../services/ontology.service"
+import * as OntologyActions from '../actions/ontology.actions';
 import {Effect, Actions} from "@ngrx/effects"
 import {Action} from "@ngrx/store"
 import { Observable } from 'rxjs/Observable';

@@ -8,10 +8,9 @@ import {ApplicationStore} from "../app.store"
 import 'rxjs/Rx';
 @Injectable()
 export class UsersService {
-    private DOMAIN_API_URL = ''
+    private DOMAIN_API_URL = 'http://localhost:8000/users'
     private headerContent = {'Content-Type': 'application/json', "Authorization": localStorage.getItem('user_token')}
-    constructor(private http: Http, private api: string) {
-        this.api = "http://localhost:8000/users"
+    constructor(private http: Http) {
     }
   
   
@@ -19,22 +18,23 @@ export class UsersService {
     loadUsers(): Observable<Array<UserModel>> {
         let headers = new Headers(this.headerContent);
         let options = new RequestOptions({headers});   
-        return this.http.get(this.api, options)
+        return this.http.get(this.DOMAIN_API_URL, options)
+        
             .map(res => res.json()["data"])
+            
       }
   
     
     addUser(user: UserModel): Observable<UserModel> {
-        console.log("sending request for addUser")
-        return this.http.post(this.api, JSON.stringify(user))
+        return this.http.post(this.DOMAIN_API_URL, JSON.stringify(user))
           .map(res => res.json()["data"])
     }
   
   
   
     getUser(object: UserModel):  Observable<UserModel> {
-        var url = this.api + "/" + object.user_id
-        return this.http.get(this.api, JSON.stringify(object))
+        var url = this.DOMAIN_API_URL + "/" + object.user_id
+        return this.http.get(this.DOMAIN_API_URL, JSON.stringify(object))
       .map(res => res.json()["data"])
       
     }
@@ -43,7 +43,7 @@ export class UsersService {
     editUser(object: UserModel): Observable<UserModel> {
         let headers = new Headers(this.headerContent);
         let options = new RequestOptions({headers});
-        var url = this.api + "/" + object.user_id
+        var url = this.DOMAIN_API_URL + "/" + object.user_id
         return this.http.put(url, JSON.stringify(object), options)
           .map(res => res.json()["data"])
   }
@@ -52,7 +52,7 @@ export class UsersService {
       let headers = new Headers(this.headerContent);
       let options = new RequestOptions({headers});
       console.log(object.user_id + "from the delete user")
-      var url = this.api + "/" + object.user_id
+      var url = this.DOMAIN_API_URL + "/" + object.user_id
       return this.http.delete(url, options)
             .map(res => res.json()["data"])
       

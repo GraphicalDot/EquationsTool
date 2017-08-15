@@ -8,7 +8,6 @@ import { HttpModule, JsonpModule } from '@angular/http';
 import { SubconceptComponent } from './subconcept/subconcept.component';
 import { ConceptComponent } from './concept/concept.component';
 import { DomainComponent } from './domain/domain.component';
-import {OntologyService} from "./ontology.service";
 
 
 @NgModule({
@@ -21,6 +20,5 @@ import {OntologyService} from "./ontology.service";
   ],
   declarations: [OntologyComponent, SubconceptComponent, ConceptComponent, DomainComponent],
   exports: [OntologyComponent],
-  providers: [OntologyService]
 })
 export class OntologyModule { }

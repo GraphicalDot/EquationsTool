@@ -4,8 +4,9 @@ import {State, Store} from "@ngrx/store"
 import {Observable} from "rxjs/Observable";
 import { UserModel } from '../../../models/user.model';
 import { UsersEffects } from '../../../effects/users.effects';
-import {ApplicationStore} from "../../../app.store"
+//import {ApplicationStore} from "../../../app.store"
 import * as UserActions from '../../../actions/users.actions';
+import * as fromRoot from "../../../reducers"
 
 @Component({
   selector: 'app-users',
@@ -18,11 +19,13 @@ export class UsersComponent implements OnInit {
   userCreate: boolean;
   userEdit: boolean;
   user: UserModel ;
-  public users: Observable<Array<UserModel>>;
-  constructor(private store: Store<ApplicationStore>) { 
-        this.users = store.select("users")
+  users$: Observable<any>;
+  constructor(private store: Store<fromRoot.AppState>) { 
+            this.users$ = this.store.select(fromRoot.getUsers);
+            //this.users$.subscribe((user) => console.log(user))
+
   }
-        
+                                                                                                           
   ngOnInit() {
     this.userCreate = false;
     
