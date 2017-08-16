@@ -36,7 +36,6 @@ import {OntologyService} from "./services/ontology.service";
 import {DomainReducer} from "./reducers/domain.reducer";
 import {ConceptReducer} from "./reducers/concept.reducer";
 import { combineReducers } from '@ngrx/store';
-import { compose } from '@ngrx/store';
 import { UserprofileComponent } from './home/side-bar/userprofile/userprofile.component';
 import { storeFreeze } from 'ngrx-store-freeze';
 import {UsersReducer} from "./reducers/users.reducer"
@@ -91,10 +90,11 @@ children: [
     MaterializeModule,
     OntologyModule,
     RouterModule.forRoot(routes, {useHash: true}),
-    StoreModule.forRoot(reducer),
-        EffectsModule.forRoot([OntologyEffects, UsersEffects]),
+    StoreModule.provideStore(reducer),
+        EffectsModule.run(OntologyEffects),
+        EffectsModule.run(UsersEffects),
     //EffectsModule.runAfterBootstrap(UsersEffects),
-    StoreDevtoolsModule.instrument({
+    StoreDevtoolsModule.instrumentOnlyWithExtension({
       monitor: useLogMonitor({
         visible: false,
         position: 'right'
