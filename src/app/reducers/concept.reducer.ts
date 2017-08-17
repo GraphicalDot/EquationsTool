@@ -22,7 +22,7 @@ export function ConceptReducer(state = initialState,  action: ConceptActions.Act
             case ConceptActions.LOAD_CONCEPT_SUCCESS:
                    {
                       return {
-                          concept_ids: action.payload.concept_id,
+                          concept_ids: action.payload.concept_ids,
                           concepts: action.payload.concepts,
                           selectedConceptId: null
                       }

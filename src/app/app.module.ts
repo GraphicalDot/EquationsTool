@@ -94,12 +94,15 @@ children: [
         EffectsModule.run(OntologyEffects),
         EffectsModule.run(UsersEffects),
     //EffectsModule.runAfterBootstrap(UsersEffects),
-    StoreDevtoolsModule.instrumentOnlyWithExtension({
+    StoreDevtoolsModule.instrumentOnlyWithExtension(
+    /*    {
       monitor: useLogMonitor({
         visible: false,
         position: 'right'
-      })
-    }), 
+      }
+    )}
+    */
+  ), 
    // StoreLogMonitorModule
 
 
