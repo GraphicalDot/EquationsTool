@@ -6,7 +6,40 @@ import { UserModel } from '../models/user.model';
 export const SELECT_USER = "[Users] Select User"
 export class Selectuser implements Action{
     readonly type = SELECT_USER
+    constructor(public payload: any= null){}
+}
+
+
+
+export const LOGIN_USER = "[Users] Login User"
+export class Loginuser implements Action{
+    readonly type = LOGIN_USER
     constructor(public payload: any){}
+}
+
+
+export const LOGIN_USER_SUCCESS = "[Users] Login User Success"
+export class Loginusersuccess implements Action{
+    readonly type = LOGIN_USER_SUCCESS
+    constructor(public payload: UserModel){}
+}
+
+
+
+export const LOGIN_USER_FAILURE = "[Users] Login User Failure"
+export class Loginuserfailure implements Action{
+    readonly type = LOGIN_USER_FAILURE
+    constructor(public payload:string ){}
+}
+
+
+
+
+
+export const LOGOUT_USER = "[Users] Logout User"
+export class Logoutuser implements Action{
+    readonly type = LOGOUT_USER
+    constructor(public payload: any = null){}
 }
 
 
@@ -20,13 +53,13 @@ export class Loadusers implements Action{
 export const LOAD_USERS_SUCCESS = "[Users] Load User Success"
 export class Loaduserssuccess implements Action{
     readonly type = LOAD_USERS_SUCCESS
-    constructor(public payload: any){}
+    constructor(public payload: any= null){}
 }
 
 export const LOAD_USERS_FAILURE = "[Users] Load User Failure"
 export class Loadusersfailure implements Action{
     readonly type = LOAD_USERS_FAILURE
-    constructor(public payload: any){}
+    constructor(public payload: any= null){}
 }
 
 export const GET_USER = "[Users] Get User"
@@ -132,4 +165,8 @@ export type Actions = Loadusers|
                         Deleteuser|
                         Deleteuserfailure|
                         Deleteusersuccess|
-                        Selectuser
+                        Selectuser|
+                        Loginuser|
+                        Loginusersuccess|
+                        Loginuserfailure|
+                        Logoutuser

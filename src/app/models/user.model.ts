@@ -1,11 +1,18 @@
 
 
+export interface LoginData{
+        username: string,
+        password: string
+
+}
+
 export interface UserModel{
-    userName: string,
-    userEmail: string,
+    username: string,
+    first_name: string,
+    last_name: string,
+    user_email: string,
     user_id: string,
-    permissions: Array<string>,
-    userId: string,
-    email: string,
-    phone_number: string
+    phone_number: string,
+    user_type: string,
+    token?: string
 }

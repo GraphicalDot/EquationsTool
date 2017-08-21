@@ -13,6 +13,10 @@ import 'rxjs/add/operator/switchMap';
 import 'rxjs/add/operator/mergeMap';
 import 'rxjs/add/operator/toArray';
 import { of } from 'rxjs/observable/of';
+import { Database } from '@ngrx/db';
+import { defer } from 'rxjs/observable/defer';
+
+import { go } from '@ngrx/router-store';
 
 /*
 It is recommended to use NGRX Effects. When you implement NGRX Effects along with the Store,
@@ -34,7 +38,7 @@ or an action for failure) with a new payload, thus updating the data in the Stor
 @Injectable()
 export class UsersEffects {
 
-    constructor(private actions$: Actions, private service: UsersService) {}
+
 
     @Effect() errorStatus401$ = this.actions$
     .ofType(ObjectActions.LOAD_USERS_FAILURE)
@@ -42,6 +46,17 @@ export class UsersEffects {
     .switchMap(payload => {
         console.log(payload)
         return Observable.empty();
+    });
+
+    @Effect() logInUser$: Observable<Action> = this.actions$
+    .ofType(ObjectActions.LOGIN_USER)
+    .map((action: ObjectActions.Loginuser) => action.payload)
+    .switchMap(payload => {
+        return this.service.loginUser(payload)
+        .map((user: any) =>  new ObjectActions.Loginusersuccess(user))
+        .catch(err => of(new ObjectActions.Loadusersfailure(err)))
+              
+
     });
 
     @Effect() loadUsers$: Observable<Action> = this.actions$
@@ -94,6 +109,7 @@ export class UsersEffects {
               .catch(err => of(new ObjectActions.Deleteuserfailure(err)))
         );
 
+    constructor(private actions$: Actions, private service: UsersService) {}
     
 
 

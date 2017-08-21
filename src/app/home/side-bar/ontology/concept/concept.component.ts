@@ -1,4 +1,3 @@
-import { observable } from 'rxjs/symbol/observable';
 import { baseServeCommandOptions } from '@angular/cli/commands/serve';
 import { Conditional } from '@angular/compiler';
 import { ConceptModel, DomainModel, SubConceptModel } from '../../../../models/ontology.models';

@@ -2,24 +2,29 @@ import { NgAnalyzedModules } from '@angular/compiler';
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Http, Response, Request, RequestOptions, Headers} from '@angular/http';
-import {UserModel} from "../models/user.model"
+import {UserModel, LoginData} from "../models/user.model"
 import {Observable} from "rxjs/Observable";
 import {ApplicationStore} from "../app.store"
 import 'rxjs/Rx';
 @Injectable()
 export class UsersService {
     private DOMAIN_API_URL = 'http://localhost:8000/users'
+    private USER_API = 'http://localhost:8000/login'
     private headerContent = {'Content-Type': 'application/json', "Authorization": localStorage.getItem('user_token')}
     constructor(private http: Http) {
     }
   
+  
+    loginUser(data: any): Observable<LoginData> {
+        return this.http.post(this.USER_API, JSON.stringify(data))
+          .map(res => res.json()["data"])
+    }
   
     
     loadUsers(): Observable<Array<UserModel>> {
         let headers = new Headers(this.headerContent);
         let options = new RequestOptions({headers});   
         return this.http.get(this.DOMAIN_API_URL, options)
-        
             .map(res => res.json()["data"])
             
       }

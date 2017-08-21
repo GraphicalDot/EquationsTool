@@ -16,6 +16,48 @@ const initialState: UserState = {
     selectedUserId: null
 }
 
+export interface LoginState {
+    user_id: string
+    username: string
+    token: string| null;
+    user_type: string;
+    first_name: string;
+    last_name: string;
+}
+
+
+const LoginState: LoginState = {
+    user_id: null,
+    username: null,
+    token: null,
+    user_type: null,
+    first_name: null,
+    last_name: null,
+}
+
+
+
+export function LoginReducer(state = initialState, action: UserActions.Actions): LoginState {
+
+    switch(action.type){
+            case UserActions.LOGIN_USER_SUCCESS:
+                      return {
+                           user_id: action.payload.user_id,
+                            username: action.payload.username,
+                            token: action.payload.token,
+                            user_type: action.payload.user_type,
+                            first_name: action.payload.first_name,
+                            last_name: action.payload.last_name
+}
+            case UserActions.LOGIN_USER_FAILURE:
+                console.log("failure in loging user")
+            
+            case UserActions.LOGOUT_USER:
+                     console.log("error")
+    }
+}
+
+
 export function UsersReducer(state = initialState, action: UserActions.Actions): UserState {
 
     switch(action.type){
@@ -61,6 +103,11 @@ export function UsersReducer(state = initialState, action: UserActions.Actions):
 
     }
 }
+
+
+export const userId= (state: LoginState) => state.user_id
+export const userType= (state: LoginState) => state.user_type
+export const userName= (state: LoginState) => state.username
 
 //This will select the list of ids of all the users
 export const getUsersId= (state: UserState) => state.user_ids

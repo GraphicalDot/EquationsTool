@@ -6,7 +6,7 @@ import {EffectsModule} from '@ngrx/effects';
 import { FormsModule } from '@angular/forms';
 import {Headers, Http, HttpModule, BaseRequestOptions, RequestOptions} from '@angular/http';
 import {HashLocationStrategy, LocationStrategy} from "@angular/common";
-
+import { routerReducer, RouterStoreModule } from '@ngrx/router-store';
 import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
 import { Routes, RouterModule } from '@angular/router';
@@ -19,11 +19,13 @@ import { QuestionsComponent } from './home/side-bar/questions/questions.componen
 import { MaterializeModule } from 'angular2-materialize';
 import { GradesComponent } from './home/side-bar/grades/grades.component';
 import { Grade } from './home/side-bar/grades/grades.model';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
 
 
 import {StoreModule} from '@ngrx/store';
 import {StoreDevtoolsModule} from '@ngrx/store-devtools';
-import {StoreLogMonitorModule, useLogMonitor} from '@ngrx/store-log-monitor';
+//import {StoreLogMonitorModule, useLogMonitor} from '@ngrx/store-log-monitor';
 import { VariablesComponent } from './home/side-bar/variables/variables.component';
 import { PermissionsComponent } from './home/side-bar/permissions/permissions.component';
 import { TemplatesComponent } from './home/side-bar/templates/templates.component';
@@ -41,7 +43,8 @@ import { storeFreeze } from 'ngrx-store-freeze';
 import {UsersReducer} from "./reducers/users.reducer"
 import {UsersService} from "./services/users.service"
 import {UsersEffects} from "./effects/users.effects"
-import {reducer} from "./reducers"
+import {reducer} from "./reducers";
+import { LoginComponent } from './login/login.component'
 /**
  * storeFreeze prevents state from being mutated. When mutation occurs, an
  * exception will be thrown. This is useful during development mode to
@@ -49,24 +52,24 @@ import {reducer} from "./reducers"
  */
 //);
 
+//Very good tutorial http://brianflove.com/2017/04/10/angular-reactive-authentication/
 
 const routes: Routes = 
 [
-{ path: 'home', component: HomeComponent, 
-children: [
-{ path: 'editor', component: EditorComponent},
-{ path: 'users', component: UsersComponent},
-{ path: 'questions', component: QuestionsComponent},
-{ path: 'permissions', component: PermissionsComponent},
-{ path: 'variables', component: VariablesComponent},
-{ path: 'templates', component: TemplatesComponent},
-{ path: 'ontology', component: OntologyComponent},
-{path: 'userprofile', component: UserprofileComponent}
-
+{ path: 'login', component: LoginComponent},
+ { path: 'home', component: HomeComponent, 
+    children: [
+      { path: 'editor', component: EditorComponent},
+      { path: 'users', component: UsersComponent},
+      { path: 'questions', component: QuestionsComponent},
+      { path: 'permissions', component: PermissionsComponent},
+      { path: 'variables', component: VariablesComponent},
+      { path: 'templates', component: TemplatesComponent},
+      { path: 'ontology', component: OntologyComponent},
+      {path: 'userprofile', component: UserprofileComponent}
 
 ]}
 ]
-
 
 @NgModule({
   declarations: [
@@ -82,6 +85,7 @@ children: [
     PermissionsComponent,
     TemplatesComponent,
     UserprofileComponent,
+    LoginComponent,
   ],
   imports: [
     BrowserModule, 
@@ -93,21 +97,12 @@ children: [
     StoreModule.provideStore(reducer),
         EffectsModule.run(OntologyEffects),
         EffectsModule.run(UsersEffects),
+            RouterStoreModule.connectRouter(),
+
     //EffectsModule.runAfterBootstrap(UsersEffects),
-    StoreDevtoolsModule.instrumentOnlyWithExtension(
-    /*    {
-      monitor: useLogMonitor({
-        visible: false,
-        position: 'right'
-      }
-    )}
-    */
-  ), 
-   // StoreLogMonitorModule
-
-
+    StoreDevtoolsModule.instrumentStore(), 
   ],
-  providers: [UsersService, OntologyService],
+  providers: [UsersService, OntologyService, BrowserAnimationsModule],
   bootstrap: [AppComponent],
 })
 export class AppModule { }

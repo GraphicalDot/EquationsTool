@@ -1,3 +1,4 @@
+//import { RouterState } from '@angular/router';
 import { Selecteddomain } from '../actions/ontology.actions';
 import { combineReducers } from '@ngrx/store';
 import { storeFreeze } from 'ngrx-store-freeze';
@@ -11,11 +12,14 @@ import * as fromDomain from './domain.reducer';
 import * as fromConcept from './concept.reducer';
 import * as fromUser from './users.reducer';
 
+import * as fromRouter from '@ngrx/router-store';
 
 export interface AppState {
   domains: fromDomain.DomainState;
   concepts: fromConcept.ConceptState;
   users: fromUser.UserState;
+  loggedUser: fromUser.LoginState,
+  router: fromRouter.RouterState
 }
 
 
@@ -25,6 +29,9 @@ export const reducers  = {
   domains: fromDomain.DomainReducer,
   concepts: fromConcept.ConceptReducer,
   users: fromUser.UsersReducer,
+  loggedUser: fromUser.LoginReducer, 
+    router: fromRouter.routerReducer
+
 };
 
 
@@ -45,6 +52,7 @@ export const reducer: ActionReducer<AppState> = compose(storeFreeze, combineRedu
 export const getUserAppState =   (state: AppState) => state.users;
 export const getDomainAppState =  (state: AppState) => state.domains;
 export const getConceptAppState =  (state: AppState) => state.concepts;
+export const getLoginAppState =  (state: AppState) => state.loggedUser;
 
 
 /**
@@ -70,6 +78,12 @@ export const getConceptState = createSelector(
   (state: AppState) => state.concepts
 );
  */
+
+
+
+export const getLoggedUserId = createSelector(getLoginAppState, fromUser.userId)
+export const getLoggedUserType = createSelector(getLoginAppState, fromUser.userType)
+export const getLoggedUserName = createSelector(getLoginAppState, fromUser.userName)
 
 
 

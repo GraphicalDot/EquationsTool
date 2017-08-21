@@ -1,4 +1,3 @@
-import { observable } from 'rxjs/symbol/observable';
 import { Observable } from 'rxjs/Rx';
 import { JQueryStyleEventEmitter } from 'rxjs/observable/FromEventObservable';
 import { Component, OnInit } from '@angular/core';
