@@ -11,15 +11,15 @@ import { createSelector } from 'reselect';
 import * as fromDomain from './domain.reducer';
 import * as fromConcept from './concept.reducer';
 import * as fromUser from './users.reducer';
-
+import * as fromAuthentication from "./authentication.reducer"
 import * as fromRouter from '@ngrx/router-store';
 
 export interface AppState {
   domains: fromDomain.DomainState;
   concepts: fromConcept.ConceptState;
   users: fromUser.UserState;
-  loggedUser: fromUser.LoginState,
-  router: fromRouter.RouterState
+  router: fromRouter.RouterState,
+  authentication: fromAuthentication.AuthenticateState
 }
 
 
@@ -29,8 +29,8 @@ export const reducers  = {
   domains: fromDomain.DomainReducer,
   concepts: fromConcept.ConceptReducer,
   users: fromUser.UsersReducer,
-  loggedUser: fromUser.LoginReducer, 
-    router: fromRouter.routerReducer
+  router: fromRouter.routerReducer,
+  authentication: fromAuthentication.AuthenticationReducer
 
 };
 
@@ -52,7 +52,7 @@ export const reducer: ActionReducer<AppState> = compose(storeFreeze, combineRedu
 export const getUserAppState =   (state: AppState) => state.users;
 export const getDomainAppState =  (state: AppState) => state.domains;
 export const getConceptAppState =  (state: AppState) => state.concepts;
-export const getLoginAppState =  (state: AppState) => state.loggedUser;
+export const getAuthAppState =  (state: AppState) => state.authentication;
 
 
 /**
@@ -80,10 +80,11 @@ export const getConceptState = createSelector(
  */
 
 
-
-export const getLoggedUserId = createSelector(getLoginAppState, fromUser.userId)
-export const getLoggedUserType = createSelector(getLoginAppState, fromUser.userType)
-export const getLoggedUserName = createSelector(getLoginAppState, fromUser.userName)
+export const getAuthenticatedUser = createSelector(getAuthAppState, fromAuthentication.getAuthenticatedUser);
+export const getAuthenticationError = createSelector(getAuthAppState, fromAuthentication.getAuthenticationError);
+export const isAuthenticated = createSelector(getAuthAppState, fromAuthentication.isAuthenticated);
+export const isAuthenticatedLoaded = createSelector(getAuthAppState, fromAuthentication.isAuthenticatedLoaded);
+export const isAuthenticationLoading = createSelector(getAuthAppState, fromAuthentication.isLoading);
 
 
 

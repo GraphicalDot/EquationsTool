@@ -1,4 +1,4 @@
-import { ActionReducer, Action, State } from '@ngrx/store';
+                                                                                                    import { ActionReducer, Action, State } from '@ngrx/store';
 import { ConceptModel} from '../models/ontology.models';
 import * as ConceptActions from "../actions/ontology.actions"
 import {createSelector} from "reselect"

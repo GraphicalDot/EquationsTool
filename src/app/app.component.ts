@@ -22,7 +22,7 @@ export class AppComponent {
           this.userData = localStorage.removeItem('user_token')
     			this.userData = localStorage.getItem('user_token');
           console.log(this.userData);
-          this.user_id$ = this.store.select(fromRoot.getLoggedUserId)
+          //this.user_id$ = this.store.select(fromRoot.getLoggedUserId)
           this.store.dispatch(go(['/login']));
           
 

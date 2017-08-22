@@ -16,7 +16,7 @@ export class LoginComponent implements OnInit {
   password: string;
   userid$: Observable<string>;
   constructor(private store: Store<fromRoot.AppState>) { 
-            this.userid$ = this.store.select(fromRoot.getLoggedUserId) 
+            //this.userid$ = this.store.select(fromRoot.getLoggedUserId) 
           }
 
   ngOnInit() {

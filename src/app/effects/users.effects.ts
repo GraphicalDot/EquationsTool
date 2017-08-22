@@ -48,16 +48,16 @@ export class UsersEffects {
         return Observable.empty();
     });
 
-    @Effect() logInUser$: Observable<Action> = this.actions$
-    .ofType(ObjectActions.LOGIN_USER)
-    .map((action: ObjectActions.Loginuser) => action.payload)
-    .switchMap(payload => {
-        return this.service.loginUser(payload)
-        .map((user: any) =>  new ObjectActions.Loginusersuccess(user))
-        .catch(err => of(new ObjectActions.Loadusersfailure(err)))
+    // @Effect() logInUser$: Observable<Action> = this.actions$
+    // .ofType(ObjectActions.LOGIN_USER)
+    // .map((action: ObjectActions.Loginuser) => action.payload)
+    // .switchMap(payload => {
+    //     return this.service.loginUser(payload)
+    //     .map((user: any) =>  new ObjectActions.Loginusersuccess(user))
+    //     .catch(err => of(new ObjectActions.Loadusersfailure(err)))
               
 
-    });
+    // });
 
     @Effect() loadUsers$: Observable<Action> = this.actions$
         .ofType(ObjectActions.LOAD_USERS)
