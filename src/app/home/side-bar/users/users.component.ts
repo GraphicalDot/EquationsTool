@@ -21,13 +21,15 @@ export class UsersComponent implements OnInit {
   user: UserModel ;
   users$: Observable<any>;
   constructor(private store: Store<fromRoot.AppState>) { 
-            this.users$ = this.store.select(fromRoot.getUsers);
             //this.users$.subscribe((user) => console.log(user))
+            this.users$ = this.store.select(fromRoot.getUsers);
+    //this.store.dispatch(new UserActions.Loadusers())
 
   }
                                                                                                            
   ngOnInit() {
     this.userCreate = false;
+    //this.store.dispatch(new UserActions.Loadusers())
     
   }
 

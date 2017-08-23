@@ -88,7 +88,7 @@ export const isAuthenticationLoading = createSelector(getAuthAppState, fromAuthe
 
 
 
-export const getUsers = createSelector(getUserAppState, fromUser.getAllUsers)
+export const getUsers = createSelector(getUserAppState, fromUser.getUsers)
 export const getUserIds = createSelector(getUserAppState, fromUser.getUsersId)
 export const getSelectdUserId = createSelector(getUserAppState, fromUser.selectedUserId)
 export const getSelectedUser = createSelector(getUserAppState, fromUser.getSelectedUser)

@@ -90,12 +90,14 @@
 </div>
 <div>
 
-        <table>
+        <table materialize>
         <thead>
           <tr>
               <th>First Name</th>
               <th>Last Name</th>
               <th>Email</th>
+              <th>Create Domain</th>
+              <th>Admin</th>
               <th>CreatedOn</th>
               <th>Edit user</th>
               <th>Delete user</th>
@@ -108,6 +110,12 @@
                     <td>{{user.first_name}}</td>
                     <td>{{user.last_name}}</td>
                     <td>{{user.email}}</td>
+                    <td>
+                        <input disable type="radio" [checked]="user.create_domain"/><label class="black-text flow-text"></label>
+                    </td>
+                    <td>
+                        <input disable type="radio" [checked]="user.user_type == 'admin'"/><label class="black-text flow-text"></label>
+                    </td>
                     <td>{{user.indian_time}}</td>
                     <td><button class="btn waves-effect waves-light" (click) = "editUser(user)" >Edit</button></td>
                     <td><button class="btn waves-effect waves-light" (click) = "deleteUser(user)">Delete</button></td>

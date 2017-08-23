@@ -92,7 +92,7 @@ export class Adduser implements Action{
 export const ADD_USER_FAILURE = "[Users] Add User Failure"
 export class Adduserfailure implements Action{
     readonly type = ADD_USER_FAILURE
-    constructor(public payload: string){
+    constructor(public payload: any){
         console.log("Request received from actions for add user failure")
         
     }

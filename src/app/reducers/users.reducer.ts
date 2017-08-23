@@ -5,15 +5,21 @@ import * as UserActions from '../actions/users.actions';
 import { createSelector } from 'reselect';
 
 export interface UserState {
-    user_ids: string[]
-    users: {[id: string]: Array<UserModel>}
-    selectedUserId: string| null;
+    user_ids?: string[] | null
+    users?: {[id: string]: Array<UserModel>} | null
+    selectedUserId?: string| null
+    loading: boolean |null,
+    loaded: boolean| null,
+    error?: string | null
 }
 
 const initialState: UserState = {
     user_ids: [],
     users: {},
-    selectedUserId: null
+    selectedUserId: null,
+    loading: false,
+    loaded: false, 
+    error: null,
 }
 
 
@@ -21,34 +27,63 @@ const initialState: UserState = {
 export function UsersReducer(state = initialState, action: UserActions.Actions): UserState {
 
     switch(action.type){
+            case UserActions.LOAD_USERS:
+                    return {
+                        loading: true,
+                        error: undefined,
+                        loaded: false    
+                    }            
             case UserActions.LOAD_USERS_SUCCESS:
                       return {
                           user_ids: action.payload.user_ids,
                           users: action.payload.users,
-                          selectedUserId: null
+                          selectedUserId: null,
+                          loaded: true,
+                          loading: false
                       }
 
             case UserActions.LOAD_USERS_FAILURE:
-                     console.log("error")
+                     return {
+                          user_ids: undefined,
+                          users: undefined,
+                          selectedUserId: null,
+                          loaded: true,
+                          loading: false,
+                          error: action.payload._body
+
+
+                     }
+            case UserActions.ADD_USER_SUCCESS:
+                    return {
+                        loading: true,
+                        error: undefined,
+                        loaded: false    
+
+                    }
 
             case UserActions.ADD_USER_SUCCESS:
                     return {
                             user_ids: [ ...state.user_ids, action.payload.user_id],
                             users: Object.assign({}, state.users, { [action.payload.user_id]: action.payload}),
-                            selectedUserId: state.selectedUserId
+                            selectedUserId: state.selectedUserId,
+                            loaded: true,
+                            loading: false
                         };
             case UserActions.ADD_USER_FAILURE:
+                    return {
+                            user_ids: state.user_ids,
+                            users: state.users,
+                            selectedUserId: state.selectedUserId,
+                            loaded: true,
+                            loading: false,
+                            error: action.payload._body
+                        };
                     
             
 
             case UserActions.GET_USER_SUCCESS:
 
             case UserActions.SELECT_USER:
-                      return {
-                        user_ids: state.user_ids,
-                        users: state.users,
-                        selectedUserId: action.payload,
-                          }
 
             case UserActions.DELETE_USER_SUCCESS:
                 /*
@@ -72,9 +107,10 @@ export const getUsersId= (state: UserState) => state.user_ids
 export const getUsers = (state: UserState) => state.users
 
 //Return list of users
-export const getAllUsers = createSelector(getUsers, getUsersId, (entities, ids) => {
+/* export const getAllUsers = createSelector(getUsers, getUsersId, (entities, ids) => {
   return ids.map(id => entities[id]);
-});
+  
+}); */
 
 
 //select selectUserId

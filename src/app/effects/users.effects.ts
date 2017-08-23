@@ -3,7 +3,7 @@ import { UsersReducer } from '../reducers/users.reducer';
 import {Injectable} from "@angular/core"
 import {UsersService} from "../services/users.service"
 import * as ObjectActions from '../actions/users.actions';
-import {Effect, Actions} from "@ngrx/effects"
+import {Effect, Actions, toPayload} from "@ngrx/effects"
 import {Action} from "@ngrx/store"
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
@@ -39,14 +39,6 @@ or an action for failure) with a new payload, thus updating the data in the Stor
 export class UsersEffects {
 
 
-
-    @Effect() errorStatus401$ = this.actions$
-    .ofType(ObjectActions.LOAD_USERS_FAILURE)
-    .map((action: ObjectActions.Loadusersfailure) => action.payload)
-    .switchMap(payload => {
-        console.log(payload)
-        return Observable.empty();
-    });
 
     // @Effect() logInUser$: Observable<Action> = this.actions$
     // .ofType(ObjectActions.LOGIN_USER)
