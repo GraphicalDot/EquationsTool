@@ -9,7 +9,7 @@ export const AUTHENTICATE = "[Authentication] Authenticate"
 export class AuthenticateAction implements Action {
         readonly type = AUTHENTICATE;
 
-  constructor(public payload: {email: string, password: string}) {}
+  constructor(public payload: any) {}
 }
 
 /**
@@ -43,12 +43,14 @@ export class AuthenticatedErrorAction implements Action {
         constructor(public payload?: any) {}
 }
 
+//This will be called if there is an error on the /login api
 export const AUTHENTICATE_ERROR = "[Authentication] Authenticate error"
 export class AuthenticationErrorAction implements Action {
         readonly type = AUTHENTICATE_ERROR;
         constructor(public payload?: any) {}
 }
 
+//This will be called if there is an success on the /login api
 export const AUTHENTICATE_SUCCESS = "[Authentication] Authenticate success"
 export class AuthenticationSuccessAction implements Action {
         readonly type = AUTHENTICATE_SUCCESS;
@@ -62,7 +64,7 @@ export class SignOutAction implements Action {
 }
 
 
-export const SIGN_OUT_SUCCESS = "[Authentication] Sign out success"
+export const SIGN_OUT_SUCCESS = "[Authentication] Sign out"
 export class SignOutSuccessAction implements Action {
         readonly type: string = SIGN_OUT_SUCCESS;
         constructor(public payload?: any) {}

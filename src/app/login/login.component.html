@@ -2,7 +2,28 @@
     <div class="row">
        <div class="col s5 offset-s7 card transparent animated tada z-depth-5 hoverable fadeInUp" style="margin-top: 10%">
          <form materialize class="col s12"  (ngSubmit)="onSubmit(myForm.value)" #myForm="ngForm">
-              <div class="row">
+            <div class="row">
+                <span><p class>{{authError$ | async}}</p></span>
+            </div>
+
+        <!--
+            <div class="row" disable>
+                <div class="preloader-wrapper big active">
+                    <div class="spinner-layer spinner-blue">
+                        <div class="circle-clipper left">
+                            <div class="circle"></div>
+                        </div>
+                        <div class="gap-patch">
+                            <div class="circle"></div>
+                        </div>
+                        <div class="circle-clipper right">
+                            <div class="circle"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        -->
+            <div class="row">
                   <div class="input-field col s12">
                       <input  id="username" type="text" class="validate" [(ngModel)]="username" name="username" required>
                       <label for="username">User Name</label>
@@ -21,7 +42,7 @@
               <i class="material-icons right">send</i>
           </button>
               </div>
-        <p> {{userid$ |async}}</p>
+    
         </form>
         
 

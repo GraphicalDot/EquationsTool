@@ -41,7 +41,10 @@ import { UserprofileComponent } from './home/side-bar/userprofile/userprofile.co
 import { storeFreeze } from 'ngrx-store-freeze';
 import {UsersReducer} from "./reducers/users.reducer"
 import {UsersService} from "./services/users.service"
+import {AuthenticationService} from "./services/authentication.service"
+import {AuthenticatedGuard} from "./authentication.guard"
 import {UsersEffects} from "./effects/users.effects"
+import {AuthenticationEffects} from "./effects/authentication.effects"
 import {reducer} from "./reducers"
 /**
  * storeFreeze prevents state from being mutated. When mutation occurs, an
@@ -98,15 +101,16 @@ children: [
     StoreModule.provideStore(reducer),
     RouterStoreModule.connectRouter(),
 
-        EffectsModule.run(OntologyEffects),
-        EffectsModule.run(UsersEffects),
+    EffectsModule.run(OntologyEffects),
+    EffectsModule.run(UsersEffects),
+    EffectsModule.run(AuthenticationEffects),
     //EffectsModule.runAfterBootstrap(UsersEffects),
     StoreDevtoolsModule.instrumentStore(),
    // StoreLogMonitorModule
 
 
   ],
-  providers: [UsersService, OntologyService],
+  providers: [UsersService, OntologyService, AuthenticationService, AuthenticatedGuard],
   bootstrap: [AppComponent],
 })
 export class AppModule { }

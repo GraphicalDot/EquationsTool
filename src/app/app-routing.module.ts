@@ -18,11 +18,13 @@ import { PermissionsComponent } from './home/side-bar/permissions/permissions.co
 import { TemplatesComponent } from './home/side-bar/templates/templates.component';
 import {OntologyComponent} from "./home/side-bar/ontology/ontology.component";
 import {LoginComponent} from "./login/login.component"
+import { AuthenticatedGuard } from "./authentication.guard";
 
 
 const routes: Routes = 
 [{ path: 'login', component: LoginComponent},
-{ path: 'home', component: HomeComponent, 
+{ path: 'home', component: HomeComponent,     canActivate: [AuthenticatedGuard],
+
 children: [
 { path: 'editor', component: EditorComponent},
 { path: 'users', component: UsersComponent},

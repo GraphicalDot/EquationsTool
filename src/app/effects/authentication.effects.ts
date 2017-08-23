@@ -29,6 +29,7 @@ export class AuthenticationEffects {
     .debounceTime(500)
     .map(toPayload)
     .switchMap(payload => {
+      console.log("This is the payload" + payload)
       return this.service.authentication(payload)
         .map((user: any) => new ObjectActions.AuthenticationSuccessAction(user))
         .catch(error => Observable.of(new ObjectActions.AuthenticationErrorAction(error)));
@@ -56,15 +57,14 @@ export class AuthenticationEffects {
 //         .catch(error => Observable.of(new SignUpErrorAction({ error: error })));
 //     });
 // */
-// @Effect()
-// public signOut: Observable<Action> = this.actions
-//     .ofType(ObjectActions.SIGN_OUT)
-//     .map(toPayload)
-//     .switchMap(payload => {
-//       return this.service.signout()
-//         .map(value => new ObjectActions.SignOutSuccessAction())
-//         .catch(error => Observable.of(new ObjectActions.SignOutErrorAction({ error: error })));
-//     });
+ @Effect()
+public signOut: Observable<Action> = this.actions
+     .ofType(ObjectActions.SIGN_OUT)
+      .map(toPayload)
+
+         .map(value => new ObjectActions.SignOutSuccessAction())
+         .catch(error => Observable.of(new ObjectActions.SignOutErrorAction({ error: error })));
+  
 
   constructor(
     private actions: Actions,

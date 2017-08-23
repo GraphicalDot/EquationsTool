@@ -34,9 +34,10 @@ export function AuthenticationReducer(state: any = initialState, action: Authent
       });
 
     case AuthenticateActions.AUTHENTICATE_ERROR:
+      console.log("from + AUTHENTICATE_ERROR" + action.payload)
       return Object.assign({}, state, {
         authenticated: false,
-        error: action.payload.error.message,
+        error: action.payload._body,
         loaded: true,
         loading: false
       });
@@ -46,7 +47,8 @@ export function AuthenticationReducer(state: any = initialState, action: Authent
         authenticated: true,
         loaded: true,
         loading: false,
-        user: action.payload.user
+        user: action.payload.user,
+        token: action.payload.token
       });
 
     case AuthenticateActions.AUTHENTICATE_ERROR:

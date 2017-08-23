@@ -1,6 +1,7 @@
   <ul id="slide-out" class="side-nav fixed fresh">
       <li class=""><h2 style="text-align: center">Editor</h2></li>
-      <li><a [routerLink]="['editor']">Logout</a></li>
+      <li class=""><h6 style="text-align: center">Welcome {{(user$ | async).first_name}}</h6></li>
+
       <li><a [routerLink]="['userprofile']">Profile</a></li>
       <li><a [routerLink]="['editor']">Editor</a></li>
       <li ><a [routerLink]="['questions']">Questions</a></li>
@@ -9,5 +10,6 @@
       <li ><a [routerLink]="['permissions']">Permissions</a></li>
       <li ><a [routerLink]="['variables']">Variables</a></li>
       <li ><a [routerLink]="['templates']">Templates</a></li>
+      <li><button (click)="logout()">Logout</button></li>
       
   </ul>

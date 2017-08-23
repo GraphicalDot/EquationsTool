@@ -4,6 +4,7 @@ import "rxjs/add/observable/throw";
 import {UserModel, LoginData} from "../models/user.model";
 import { Http, Response, Request, RequestOptions, Headers} from '@angular/http';
 
+@Injectable()
 export class AuthenticationService {
 
     private _authenticated = false;

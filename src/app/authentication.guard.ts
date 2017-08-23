@@ -16,44 +16,33 @@ import * as fromRoot from "./reducers";
 @Injectable()
 export class AuthenticatedGuard implements CanActivate, CanLoad {
 
-  /**
-   * @constructor
-   */
   constructor(private store: Store<fromRoot.AppState>) {}
 
-  /**
-   * True when user is authenticated
-   * @method canActivate
-   */
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> | boolean {
-    // get observable
-    const observable = this.store.select(fromRoot.isAuthenticated);
+      // get observable
+      const observable = this.store.select(fromRoot.isAuthenticated);
+      // redirect to sign in page if user is not authenticated
+      observable.subscribe(authenticated => {
+          if (!authenticated) {
+            this.store.dispatch(go("/login"));
+          }
+        });
+        
+      return observable;
+    }
 
-    // redirect to sign in page if user is not authenticated
-    observable.subscribe(authenticated => {
-      if (!authenticated) {
-        this.store.dispatch(go("/users/sign-in"));
-      }
-    });
 
-    return observable;
-  }
 
-  /**
-   * True when user is authenticated
-   * @method canLoad
-   */
   canLoad(route: Route): Observable<boolean> | Promise<boolean> | boolean {
-    // get observable
-    const observable = this.store.select(fromRoot.isAuthenticated);
-
-    // redirect to sign in page if user is not authenticated
-    observable.subscribe(authenticated => {
-      if (!authenticated) {
-        this.store.dispatch(go("/users/sign-in"));
-      }
-    });
-
-    return observable;
+      // get observable
+      const observable = this.store.select(fromRoot.isAuthenticated);
+      
+      // redirect to sign in page if user is not authenticated
+      observable.subscribe(authenticated => {
+        if (!authenticated) {
+          this.store.dispatch(go("/login"));
+        }
+      });
+      return observable;
   }
 }
