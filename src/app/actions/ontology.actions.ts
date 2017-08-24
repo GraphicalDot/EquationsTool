@@ -155,7 +155,7 @@ export class Editconceptfailure implements Action{
 
 export class Loaddomain implements Action{
     readonly type = LOAD_DOMAIN
-    constructor(){}
+    constructor(public payload: any){}
 }
 export class Loaddomainsuccess implements Action{
     readonly type = LOAD_DOMAIN_SUCCESS

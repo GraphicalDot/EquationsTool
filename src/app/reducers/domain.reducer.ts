@@ -4,15 +4,21 @@ import {createSelector} from "reselect"
 import * as DomainActions from "../actions/ontology.actions"
 
 export interface DomainState {
-    domain_ids: string[],
-    domains: {[id: string]: Array<DomainModel>}
-    selectedDomainId: string| null;
+    domain_ids?: string[],
+    domains?: {[id: string]: Array<DomainModel>}
+    selectedDomainId?: string| null;
+    loading: boolean| null,
+    loaded: boolean| null,
+    error?: string
 }
 
 const initialState: DomainState = {
     domain_ids: [],
     domains: {},
-    selectedDomainId: null
+    selectedDomainId: null,
+    loading: false,
+    loaded: false, 
+    error: null
 }
 
 
@@ -20,24 +26,58 @@ const initialState: DomainState = {
 export function DomainReducer(state = initialState, action: DomainActions.Actions): DomainState {
 
     switch(action.type){
+            case DomainActions.LOAD_DOMAIN:
+                {
+                    return {
+                        loading: true,
+                    error: undefined,
+                    loaded: false   
+                    }
+                }
+
+
             case DomainActions.LOAD_DOMAIN_SUCCESS:
                   {
                       return {
-                          domain_ids: action.payload.domain_id,
-                          domains: action.payload.domains,
-                          selectedDomainId: null
+                          domain_ids: action.payload.module_ids,
+                          domains: action.payload.modules,
+                          selectedDomainId: null,
+                            loaded: true,
+                          loading: false
                       }
                 }             
+
+            case DomainActions.LOAD_DOMAIN_FAILURE:
+                                 return {
+                          domain_ids: undefined,
+                          domains: undefined,
+                          selectedDomainId: null,
+                          loaded: true,
+                          loading: false,
+                          error: action.payload._body
+
+
+                     }
                 
 
             case DomainActions.ADD_DOMAIN_SUCCESS:
-                return {
-                            domain_ids: [ ...state.domain_ids, action.payload.domain_id],
-                            domains: Object.assign({}, state.domains, { [action.payload.domain_id]: action.payload}),
-                            selectedDomainId: state.selectedDomainId
+                 return {
+                            domain_ids: [ ...state.domain_ids, action.payload.module_id],
+                            domains: Object.assign({}, state.domains, { [action.payload.module_id]: action.payload}),
+                            selectedDomainId: state.selectedDomainId,
+                            loaded: true,
+                            loading: false
                         };
 
             case DomainActions.ADD_DOMAIN_FAILURE:
+                    return {
+                            domain_ids: state.domain_ids,
+                            domains: state.domains,
+                            selectedDomainId: state.selectedDomainId,
+                            loaded: true,
+                            loading: false,
+                            error: action.payload._body
+                        };
 
             case DomainActions.DELETE_DOMAIN_SUCCESS:
                 
@@ -47,6 +87,8 @@ export function DomainReducer(state = initialState, action: DomainActions.Action
                         domain_ids: state.domain_ids,
                         domains: state.domains,
                         selectedDomainId: action.payload,
+                        loaded: true,
+                        loading: false
                           }
 
             /*state.splice(state.indexOf(action.payload), 1);
@@ -71,9 +113,9 @@ export const getDomainIds= (state: DomainState) => state.domain_ids
 export const getDomains = (state: DomainState) => state.domains
 
 //Return list of domains in a list format
-export const getAllDomains = createSelector(getDomains, getDomainIds, (entities, ids) => {
-  return ids.map(id => entities[id]);
-});
+//export const getAllDomains = createSelector(getDomains, getDomainIds, (entities, ids) => {
+ // return ids.map(id => entities[id]);
+//});
 
 
 //select selectUserId

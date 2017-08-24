@@ -1,3 +1,4 @@
+import { OntologyModule } from '../ontology.module';
 import { baseServeCommandOptions } from '@angular/cli/commands/serve';
 import { Conditional } from '@angular/compiler';
 import { ConceptModel, DomainModel, SubConceptModel } from '../../../../models/ontology.models';
@@ -7,7 +8,7 @@ import {ApplicationStore} from "../../../../app.store"
 import { Component, OnInit, OnDestroy, EventEmitter, Output, Input, ChangeDetectionStrategy, AfterViewInit } from '@angular/core';
 import {MaterializeDirective} from "angular2-materialize";
 import * as Materialize from 'angular2-materialize';
-import * as fromRoot from "../../../../reducers"
+import * as fromRoot from '../../../../reducers';
 
 
 @Component({
@@ -32,7 +33,7 @@ export class ConceptComponent implements OnInit {
     ifDomain: boolean = false;
     //@Input() domain: Observable<DomainModel>;
     //@Input() domains: Array<DomainModel>;
-    domains: Observable<Array<any>>;
+    public domains$: Observable<any>;
     concepts: Observable<Array<any>>;
     @Output() addSubConceptHandler = new EventEmitter<ConceptModel>();
     @Output() submitConcept = new EventEmitter<ConceptModel>();
@@ -43,7 +44,7 @@ export class ConceptComponent implements OnInit {
     //constructor(private store: Store<ApplicationStore>, private service: DomainService,) { 
     constructor(private store: Store<fromRoot.AppState>) {
         //this.selected_domain = this.store.select("Selecteddomain")
-        this.domains = this.store.select(fromRoot.getDomains);
+        this.domains$ = this.store.select(fromRoot.getDomains);
         this.concepts = this.store.select(fromRoot.getConcepts);
 
     }

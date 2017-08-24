@@ -94,7 +94,7 @@ export const getSelectdUserId = createSelector(getUserAppState, fromUser.selecte
 export const getSelectedUser = createSelector(getUserAppState, fromUser.getSelectedUser)
 
 
-export const getDomains = createSelector(getDomainAppState, fromDomain.getAllDomains)
+export const getDomains = createSelector(getDomainAppState, fromDomain.getDomains)
 export const getDomainIds = createSelector(getDomainAppState, fromDomain.getDomainIds)
 export const getSelectdDomainId = createSelector(getDomainAppState, fromDomain.selectedDomainId)
 export const getSelectedDomain = createSelector(getDomainAppState, fromDomain.getSelectedDomain)

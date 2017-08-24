@@ -1,7 +1,7 @@
 import { NgAnalyzedModules } from '@angular/compiler';
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { Http, Response, Request, RequestOptions, Headers} from '@angular/http';
+import { Http, Response, Request, RequestOptions, Headers, URLSearchParams} from '@angular/http';
 import {DomainModel, ConceptModel} from "../models/ontology.models"
 import {Observable} from "rxjs/Observable";
 import {ApplicationStore} from "../app.store"
@@ -15,10 +15,12 @@ export class OntologyService {
     private headerContent = {'Content-Type': 'application/json', "Authorization": localStorage.getItem('user_token')}
     constructor(private http: Http) {}
   
-    loadDomain_service(): Observable<DomainModel[]> {
+    loadDomain_service(user_id: string): Observable<DomainModel[]> {
+
         let headers = new Headers(this.headerContent);
         let options = new RequestOptions({headers});   
-         return this.http.get(this.DOMAIN_API_URL, options)
+        var url = this.DOMAIN_API_URL + "/" + user_id
+         return this.http.get(url, options)
                 .map(res => res.json()["data"])
       }
   

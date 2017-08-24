@@ -41,9 +41,9 @@ export class OntologyEffects {
 
     @Effect() loadDomains$: Observable<Action> = this.actions$
         .ofType(OntologyActions.LOAD_DOMAIN)
-        .startWith(new OntologyActions.Loaddomain())
-        .switchMap(() => 
-              this.service.loadDomain_service()
+        .map((action: OntologyActions.Loaddomain) => action.payload)
+        .switchMap((payload) => 
+              this.service.loadDomain_service(payload)
               .map((domains: DomainModel[]) => new OntologyActions.Loaddomainsuccess(domains))
               .catch(err => of(new OntologyActions.Loaddomainfailure(err)))
         )

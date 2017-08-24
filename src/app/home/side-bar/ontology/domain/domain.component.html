@@ -28,7 +28,7 @@
        <form materialize class="col s12" #form="ngForm" (ngSubmit)="editDomain(domain)">
           <div class="row">
               <div class="input-field col s4">
-                  <input id="icon_prefix" type="text" class="validate"  [(ngModel)]="domain.domain_name" name="domain_name">
+                  <input id="icon_prefix" type="text" class="validate"  [(ngModel)]="domain.module_name" name="domain_name">
               </div>
               <div class="input-field col s4">
                   <input id="icon_telephone" type="tel" class="validate"  [(ngModel)]="domain.description" name="description">
@@ -49,17 +49,14 @@
        <form materialize class="col s12" #form="ngForm" (ngSubmit)="submitForm(form.value)">
           <div class="row">
               <div class="input-field col s4">
-                  <input id="icon_prefix" type="text" class="validate"  [(ngModel)]="domain_name" name="domain_name" required ng-pristine>
+                  <input id="icon_prefix" type="text" class="validate"  [(ngModel)]="module_name" name="module_name" required ng-pristine>
                   <label>Name</label>
               </div>
               <div class="input-field col s4">
                   <input id="icon_telephone" type="tel" class="validate"  [(ngModel)]="description" name="description" required>
                   <label>Description</label>
               </div>
-              <div class="input-field col s4">
-                  <input id="icon_prefix" type="text" class="validate"  [(ngModel)]="user_type" name="user_type" required>
-                  <label for="user_type">User Type</label>
-              </div>
+              
           </div>
           <button class="btn waves-effect waves-light" type="submit" name="action">Submit
               <i class="material-icons right">send</i>
@@ -73,20 +70,31 @@
         <thead>
           <tr>
               <th>Name</th>
-              <th>description</th>
+              <th>Creator</th>
+              <th>Created on</th>
+              <th>Creation approval</th>
+              <th>Children</th>
+              <th>Status</th>
               <th>Edit</th>
               <th>Delete</th>
-              <th>Add subjects</th>
+              <th>Add Concepts</th>
           </tr>
         </thead>
 
-        <tbody *ngFor="let domain of domains | async">
+        <tbody *ngFor="let domain of domains$ | async">
             <tr>
-                    <td>{{domain.domain_name}}</td>
-                    <td>{{domain.description}}</td>
-                    <td><button class="btn waves-effect waves-light" (click) = "edit(domain)" >Edit</button></td>
+                    <td>{{domain.module_name}}</td>
+                    <td>{{domain.username}}</td>
+                    <td>{{domain.indian_time}}</td>
+                    <td>
+                        <input disable type="radio" [checked]="domain.creation_approval"/><label class="black-text flow-text"></label>
+                    </td>
+                    <td>{{ domain.children?.length || '0' }}</td>
+                    <td>{{domain.status}}</td>
+                    
+                     <td><button class="btn waves-effect waves-light" (click) = "edit(domain)" >Edit</button></td>
                     <td><button class="btn waves-effect waves-light" (click) = "delete(domain)">Delete</button></td>
-                    <td><button class="btn waves-effect waves-light" (click)="addConcept(domain)">Subjects</button></td>
+                    <td><button class="btn waves-effect waves-light" (click)="addConcept(domain)">Add concepts</button></td>
             </tr>
 
         </tbody>

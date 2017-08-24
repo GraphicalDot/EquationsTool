@@ -24,12 +24,11 @@ export class UsersComponent implements OnInit {
             //this.users$.subscribe((user) => console.log(user))
             this.users$ = this.store.select(fromRoot.getUsers);
     //this.store.dispatch(new UserActions.Loadusers())
-
   }
                                                                                                            
   ngOnInit() {
     this.userCreate = false;
-    //this.store.dispatch(new UserActions.Loadusers())
+    this.store.dispatch(new UserActions.Loadusers())
     
   }
 
