@@ -55,7 +55,7 @@ export class DomainComponent implements OnInit, OnDestroy {
                         this.domains$ = this.store.select(fromRoot.getDomains);
                         //this.user$ = this.store.select(fromRoot.getAuthenticatedUser) 
     //                    this.user$ = this.store.select(fromRoot.getAuthenticatedUser) 
-    }
+}
 
     ngOnInit(){
         this.store.select(fromRoot.getAuthenticatedUser)
@@ -63,6 +63,8 @@ export class DomainComponent implements OnInit, OnDestroy {
             console.log("Authenticated user" + value.user_id)
             this.user = value
         });
+
+
 
         this.store.dispatch(new actions.Loaddomain(this.user.user_id))
 

@@ -4,21 +4,23 @@ import {createSelector} from "reselect"
 import * as DomainActions from "../actions/ontology.actions"
 
 export interface DomainState {
-    domain_ids?: string[],
-    domains?: {[id: string]: Array<DomainModel>}
-    selectedDomainId?: string| null;
+    module_ids?: string[],
+    modules?: {[id: string]: Array<DomainModel>}
+    selectedModuleId?: string| null;
     loading: boolean| null,
     loaded: boolean| null,
-    error?: string
+    error?: string,
+    parent_id?: null
 }
 
 const initialState: DomainState = {
-    domain_ids: [],
-    domains: {},
-    selectedDomainId: null,
+    module_ids: [],
+    modules: {},
+    selectedModuleId: null,
     loading: false,
     loaded: false, 
-    error: null
+    error: null,
+    parent_id: null
 }
 
 
@@ -39,19 +41,19 @@ export function DomainReducer(state = initialState, action: DomainActions.Action
             case DomainActions.LOAD_DOMAIN_SUCCESS:
                   {
                       return {
-                          domain_ids: action.payload.module_ids,
-                          domains: action.payload.modules,
-                          selectedDomainId: null,
+                          module_ids: action.payload.module_ids,
+                          modules: action.payload.modules,
+                          selectedModuleId: null,
                             loaded: true,
                           loading: false
                       }
                 }             
 
             case DomainActions.LOAD_DOMAIN_FAILURE:
-                                 return {
-                          domain_ids: undefined,
-                          domains: undefined,
-                          selectedDomainId: null,
+                    return {
+                          module_ids: undefined,
+                          modules: undefined,
+                          selectedModuleId: null,
                           loaded: true,
                           loading: false,
                           error: action.payload._body
@@ -62,31 +64,63 @@ export function DomainReducer(state = initialState, action: DomainActions.Action
 
             case DomainActions.ADD_DOMAIN_SUCCESS:
                  return {
-                            domain_ids: [ ...state.domain_ids, action.payload.module_id],
-                            domains: Object.assign({}, state.domains, { [action.payload.module_id]: action.payload}),
-                            selectedDomainId: state.selectedDomainId,
+                            module_ids: [ ...state.module_ids, action.payload.module_id],
+                            modules: Object.assign({}, state.modules, { [action.payload.module_id]: action.payload}),
+                            selectedModuleId: state.selectedModuleId,
                             loaded: true,
                             loading: false
                         };
 
             case DomainActions.ADD_DOMAIN_FAILURE:
                     return {
-                            domain_ids: state.domain_ids,
-                            domains: state.domains,
-                            selectedDomainId: state.selectedDomainId,
+                            module_ids: state.module_ids,
+                            modules: state.modules,
+                            selectedModuleId: state.selectedModuleId,
                             loaded: true,
                             loading: false,
                             error: action.payload._body
                         };
 
+
+            case DomainActions.DELETE_DOMAIN:
+                    {
+                        return {
+                                loading: true,
+                                error: undefined,
+                                loaded: false   
+                            }
+                    }
+
+
             case DomainActions.DELETE_DOMAIN_SUCCESS:
-                
+                    return {
+                            module_ids: state.module_ids,
+                            modules: state.modules,
+                            selectedModuleId: state.selectedModuleId,
+                            loaded: true,
+                            loading: false,
+                            error: action.payload._body
+                        }
+            case DomainActions.DELETE_DOMAIN_FAILURE:
+                    return {
+                            module_ids: state.module_ids,
+                            modules: state.modules,
+                            selectedModuleId: state.selectedModuleId,
+                            loaded: true,
+                            loading: false,
+                            error: action.payload._body
+                        }
+
+
+            case DomainActions.SELECTED_DOMAIN:
+            case DomainActions.SELECTED_DOMAIN_FAILURE:
+
             case DomainActions.SELECTED_DOMAIN_SUCCESS:
             
                  return {
-                        domain_ids: state.domain_ids,
-                        domains: state.domains,
-                        selectedDomainId: action.payload,
+                        module_ids: state.module_ids,
+                        modules: state.modules,
+                        selectedModuleId: action.payload,
                         loaded: true,
                         loading: false
                           }
@@ -95,7 +129,6 @@ export function DomainReducer(state = initialState, action: DomainActions.Action
                 // We need to create another reference
                 return Array.prototype.concat(state);
             */
-            case DomainActions.DELETE_DOMAIN_FAILURE:
 
             default:
                 return state
@@ -107,10 +140,10 @@ export function DomainReducer(state = initialState, action: DomainActions.Action
 
 
 //This will select the list of ids of all the domains
-export const getDomainIds= (state: DomainState) => state.domain_ids
+export const getDomainIds= (state: DomainState) => state.module_ids
 
 //This will select the dictionary of id: User
-export const getDomains = (state: DomainState) => state.domains
+export const getDomains = (state: DomainState) => state.modules
 
 //Return list of domains in a list format
 //export const getAllDomains = createSelector(getDomains, getDomainIds, (entities, ids) => {
@@ -119,7 +152,7 @@ export const getDomains = (state: DomainState) => state.domains
 
 
 //select selectUserId
-export const selectedDomainId = (state: DomainState) => state.selectedDomainId;
+export const selectedDomainId = (state: DomainState) => state.selectedModuleId;
 
 //Get SElected user from the selectedUserId
 export const getSelectedDomain = createSelector(getDomains, selectedDomainId, (entities, selectedId) => {

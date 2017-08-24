@@ -1,7 +1,9 @@
+import { selectedDomainId } from '../../../../reducers/domain.reducer';
 import { OntologyModule } from '../ontology.module';
 import { baseServeCommandOptions } from '@angular/cli/commands/serve';
 import { Conditional } from '@angular/compiler';
 import { ConceptModel, DomainModel, SubConceptModel } from '../../../../models/ontology.models';
+import { UserModel} from '../../../../models/user.model';
 import {State, Store} from "@ngrx/store"
 import {Observable} from "rxjs/Observable";
 import {ApplicationStore} from "../../../../app.store"
@@ -9,6 +11,7 @@ import { Component, OnInit, OnDestroy, EventEmitter, Output, Input, ChangeDetect
 import {MaterializeDirective} from "angular2-materialize";
 import * as Materialize from 'angular2-materialize';
 import * as fromRoot from '../../../../reducers';
+import * as actions from '../../../../actions/ontology.actions';
 
 
 @Component({
@@ -27,14 +30,16 @@ export class ConceptComponent implements OnInit {
     public conceptCreate: boolean
     public conceptEdit: boolean
     public concept: ConceptModel;
-    selected_domain: Observable<DomainModel>;
+    selectedDomainId: string
     //selected_domain: DomainModel;
     blooms= ["remembering", "understanding", "applyinging", "analyzing","synthesizing","evaluating"]
     ifDomain: boolean = false;
     //@Input() domain: Observable<DomainModel>;
     //@Input() domains: Array<DomainModel>;
     public domains$: Observable<any>;
-    concepts: Observable<Array<any>>;
+    public user: UserModel
+    public concepts$: Observable<any>;
+
     @Output() addSubConceptHandler = new EventEmitter<ConceptModel>();
     @Output() submitConcept = new EventEmitter<ConceptModel>();
     @Output() editConcept = new EventEmitter<ConceptModel>();
@@ -45,14 +50,26 @@ export class ConceptComponent implements OnInit {
     constructor(private store: Store<fromRoot.AppState>) {
         //this.selected_domain = this.store.select("Selecteddomain")
         this.domains$ = this.store.select(fromRoot.getDomains);
-        this.concepts = this.store.select(fromRoot.getConcepts);
+        this.concepts$ = this.store.select(fromRoot.getConcepts);
+       // this.selectedDomain$ = this.store.select(fromRoot.getSelectdDomainId) 
 
     }
 
     ngOnInit(){
-            if (this.selected_domain != undefined){
-                this.ifDomain = true;
-            }
+        this.store.select(fromRoot.getAuthenticatedUser)
+            .subscribe(value => {
+            this.user = value
+        });
+
+
+        this.store.select(fromRoot.getSelectdDomainId)
+            .subscribe(value => {
+            this.selectedDomainId = value;
+            this.store.dispatch(new actions.Loadconcept({"parent_id": value, "user_id": this.user.user_id}))
+
+        });
+
+        console.log(this.selectedDomainId)
     };
         
     ngOnDestroy(){};
@@ -84,6 +101,5 @@ export class ConceptComponent implements OnInit {
       Materialize.toast('child select', 2000)
       this.model = newValue;
       this.modelChange.emit(newValue);
-      console.log(this.selected_domain)
     }
 }

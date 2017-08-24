@@ -75,20 +75,27 @@ export const EDIT_CONCEPT_FAILURE = "[Concepts] Edit Concept Failure"
 
 export class Loadconcept implements Action{
     readonly type = LOAD_CONCEPT
-    constructor(){}
+    constructor(public payload: any){}
 }
 
 export const SELECTED_DOMAIN = "[Domains] Selected Domain"
 export class Selecteddomain implements Action{
     readonly type = SELECTED_DOMAIN
-    constructor(public payload: DomainModel){}
+    constructor(public payload: any){}
 }
 
 export const SELECTED_DOMAIN_SUCCESS = "[Domains] Selected Domain Success"
 export class Selecteddomainsuccess implements Action{
     readonly type = SELECTED_DOMAIN_SUCCESS
-    constructor(public payload: DomainModel){}
+    constructor(public payload: any){}
 }
+
+export const SELECTED_DOMAIN_FAILURE = "[Domains] Selected Domain Success"
+export class Selecteddomainfailure implements Action{
+    readonly type = SELECTED_DOMAIN_FAILURE
+    constructor(public payload: any){}
+}
+
 
 export const SELECTED_CONCEPT = "[Concepts] Selected Concept"
 export class Selectedconcept implements Action{
@@ -99,10 +106,20 @@ export class Selectedconcept implements Action{
 export const SELECTED_CONCEPT_SUCCESS = "[Concepts] Selected Concept Success"
 export class Selectedconceptsuccess implements Action{
     readonly type = SELECTED_CONCEPT_SUCCESS
-    constructor(public payload: ConceptModel){}
+    constructor(public payload: any){}
 }
 
+export const SELECTED_CONCEPT_FAILURE = "[Concepts] Selected Concept Failure"
+export class Selectedconceptfailure implements Action{
+    readonly type = SELECTED_CONCEPT_FAILURE
+    constructor(public payload: any){}
+}
 
+export const SET_CONCEPT_PARENT_SUCCESS= "[Concepts] Set Concept Parent Success"
+export class Setconceptparentsuccess implements Action{
+    readonly type = SET_CONCEPT_PARENT_SUCCESS
+    constructor(public payload: any){}
+}
 
 export class Loadconceptsuccess implements Action{
     readonly type = LOAD_CONCEPT_SUCCESS
@@ -180,7 +197,7 @@ export class Adddomainfailure implements Action{
 }
 export class Deletedomain implements Action{
     readonly type = DELETE_DOMAIN
-    constructor(public payload: DomainModel){}
+    constructor(public payload: any){}
 }
 export class Deletedomainsuccess implements Action{
     readonly type = DELETE_DOMAIN_SUCCESS
@@ -192,7 +209,7 @@ export class Deletedomainfailure implements Action{
 }
 export class Editdomain implements Action{
     readonly type = EDIT_DOMAIN
-    constructor(public payload: DomainModel){}
+    constructor(public payload: any){}
 }
 export class Editdomainsuccess implements Action{
     readonly type = EDIT_DOMAIN_SUCCESS
@@ -246,5 +263,8 @@ export type Actions = Loaddomain|
 
                         Selecteddomain|
                         Selecteddomainsuccess|
+                        Selecteddomainfailure|
                         Selectedconcept|
-                        Selectedconceptsuccess
+                        Selectedconceptsuccess|
+                        Selectedconceptfailure|
+                        Setconceptparentsuccess

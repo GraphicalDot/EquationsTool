@@ -100,7 +100,7 @@ export const getSelectdDomainId = createSelector(getDomainAppState, fromDomain.s
 export const getSelectedDomain = createSelector(getDomainAppState, fromDomain.getSelectedDomain)
 
 
-export const getConcepts = createSelector(getConceptAppState, fromConcept.getAllConcepts)
+export const getConcepts = createSelector(getConceptAppState, fromConcept.getConcepts)
 export const getConceptIds = createSelector(getConceptAppState, fromConcept.getConceptIds)
 export const getSelectdConceptId = createSelector(getConceptAppState, fromConcept.selectedConceptId)
 export const getSelectedConcept = createSelector(getConceptAppState, fromConcept.getSelectedConcept )

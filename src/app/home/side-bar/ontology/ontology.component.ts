@@ -1,8 +1,9 @@
 import { Observable } from 'rxjs/Rx';
 import { JQueryStyleEventEmitter } from 'rxjs/observable/FromEventObservable';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import {MaterializeDirective} from "angular2-materialize";
 import {DomainModel, ConceptModel} from "../../../models/ontology.models";
+import {UserModel} from "../../../models/user.model";
 import {OntologyService} from "../../../services/ontology.service"
 import { Store } from '@ngrx/store';
 import {ApplicationStore} from "../../../app.store"
@@ -13,12 +14,19 @@ import * as fromRoot from "../../../reducers"
 @Component({
   selector: 'app-domain',
   templateUrl: './ontology.component.html',
-  styleUrls: ['./ontology.component.css']
+  styleUrls: ['./ontology.component.css'],
+changeDetection: ChangeDetectionStrategy.OnPush
+
 })
 export class OntologyComponent implements OnInit {
 
     public domains: Observable<any>;
     public concepts: Observable<any>;
+    public user: UserModel
+    public selectedDomainId: string;
+    public selectedConceptId: string;
+    public selectedSubconceptId: string;
+    
     //public concepts: Observable<Array<ConceptModel>>;
     //public globalDomain: Observable<DomainModel>;
     //public globalDomain: DomainModel;
@@ -26,6 +34,7 @@ export class OntologyComponent implements OnInit {
     constructor(private store: Store<fromRoot.AppState>) {
         this.domains = this.store.select(fromRoot.getDomains);
         this.concepts = this.store.select(fromRoot.getConcepts);
+
         //this.globalDomain = store.select("Selecteddomain")
         /*
         this.concepts = store.select(state=> state.concepts.concept_id)
@@ -37,12 +46,27 @@ export class OntologyComponent implements OnInit {
     }
           
     ngOnInit() {
+          this.store.select(fromRoot.getAuthenticatedUser)
+            .subscribe(value => {
+            console.log("Authenticated user" + value.user_id)
+            this.user = value
+        });
+
+
+        this.store.select(fromRoot.getSelectdDomainId)
+            .subscribe(value => {
+            this.selectedDomainId = value
+        });
   }
 
-    _addConcept(domain: DomainModel){
-        console.log(domain)
+    _clickConcept(domain: DomainModel){
+        console.log(this.selectedDomainId)
+
         //this.globalDomain = domain
-        this.store.dispatch(new OntologyActions.Selecteddomain(domain))
+        
+        this.store.dispatch(new OntologyActions.Selecteddomain(domain.module_id))
+        this.store.dispatch(new OntologyActions.Setconceptparentsuccess(this.selectedDomainId))
+        
     }
 
     _submitDomain(domain: DomainModel){
@@ -61,13 +85,13 @@ export class OntologyComponent implements OnInit {
     _editDomain(domain: DomainModel){
         console.log(domain)
         //this.service.editDomain(domain)
-        //this.store.dispatch({type: ONTOLOGY_ACTIONS.LOAD_DOMAIN})
+        this.store.dispatch(new OntologyActions.Editdomain({"domain": domain, "user": this.user}))
         
 
     }
    _deleteDomain(domain: DomainModel){
         console.log("Domain That needs to be deleted" + domain)
-        this.store.dispatch(new OntologyActions.Deletedomain(domain))
+        this.store.dispatch(new OntologyActions.Deletedomain({"domain": domain, "user": this.user}))
         
     }
 

@@ -63,7 +63,7 @@ export class OntologyEffects {
         .switchMap((domain) =>
              
               this.service.deleteDomain(domain)
-              .map((msg: any) => new OntologyActions.Deletedomainsuccess(msg))
+              .map((msg) => new OntologyActions.Deletedomainsuccess(msg))
               .catch(err => of(new OntologyActions.Deletedomainfailure(err)))
         );
 
@@ -72,9 +72,9 @@ export class OntologyEffects {
     
     @Effect() loadConcepts$: Observable<Action> = this.actions$
         .ofType(OntologyActions.LOAD_CONCEPT)
-        .startWith(new OntologyActions.Loadconcept())
-        .switchMap(() => 
-              this.service.loadConcepts()
+         .map((action: OntologyActions.Loadconcept) => action.payload)
+        .switchMap((payload) => 
+              this.service.loadConcepts(payload)
               .map((concepts: ConceptModel[]) => new OntologyActions.Loadconceptsuccess(concepts))
               .catch(err => of(new OntologyActions.Loadconceptfailure(err)))
         )

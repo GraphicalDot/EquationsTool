@@ -1,5 +1,5 @@
 /* You can add global styles to this file, and also import other style files */
-$roboto-font-path: "~materialize-css/dist/fonts/roboto/";
+/* $roboto-font-path: "~materialize-css/dist/fonts/roboto/";
 @import "~materialize-css/sass/materialize";
 //@import "~font-awesome/scss/font-awesome.scss";
 
@@ -13,12 +13,21 @@ $success-color: color("green", "base") !default;
 $error-color: color("blue", "base") !default;
 
 $link-color: color("light-blue", "darken-1") !default;
-
+ */
 nav {
-    color: #373737; // #ffd040
-    background: #373737; // #ffefc0
+    color: #373737; 
+    background: #373737; 
 }
 
 body {
   background:url('bg15.jpg');
+
+
+    position: fixed; 
+  top: 0; 
+  left: 0; 
+
+  /* Preserve aspet ratio */
+  min-width: 100%;
+  min-height: 100%;
 }

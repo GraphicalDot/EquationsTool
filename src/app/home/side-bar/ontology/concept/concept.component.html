@@ -117,7 +117,7 @@
           </tr>
         </thead>
 
-        <tbody *ngFor="let concept of concepts | async">
+        <tbody *ngFor="let concept of concepts$ | async">
             <tr>
                     <td>{{concept.concept_name}}</td>
                     <td>{{concept.description}}</td>
