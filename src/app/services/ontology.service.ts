@@ -33,7 +33,7 @@ export class OntologyService {
         let params = new URLSearchParams();
         params.set("user_id", payload.user_id)
         params.set("parent_id", payload.parent_id)
-
+        console.log("payload from loadconcepts" + payload.parent_id)
         let headers = new Headers(this.headerContent);
         //let options = new RequestOptions({headers});   
         let options = new RequestOptions({search: params});   

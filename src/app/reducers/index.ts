@@ -10,6 +10,8 @@ import { ActionReducer } from '@ngrx/store';
 import { createSelector } from 'reselect';
 import * as fromDomain from './domain.reducer';
 import * as fromConcept from './concept.reducer';
+import * as fromSubconcept from './subconcept.reducer';
+
 import * as fromUser from './users.reducer';
 import * as fromAuthentication from "./authentication.reducer"
 import * as fromRouter from '@ngrx/router-store';
@@ -17,6 +19,7 @@ import * as fromRouter from '@ngrx/router-store';
 export interface AppState {
   domains: fromDomain.DomainState;
   concepts: fromConcept.ConceptState;
+  subconcepts: fromSubconcept.SubconceptState;
   users: fromUser.UserState;
   router: fromRouter.RouterState,
   authentication: fromAuthentication.AuthenticateState
@@ -28,6 +31,7 @@ export interface AppState {
 export const reducers  = {
   domains: fromDomain.DomainReducer,
   concepts: fromConcept.ConceptReducer,
+  subconcepts: fromSubconcept.SubconceptReducer,
   users: fromUser.UsersReducer,
   router: fromRouter.routerReducer,
   authentication: fromAuthentication.AuthenticationReducer
@@ -51,6 +55,8 @@ export const reducer: ActionReducer<AppState> = compose(storeFreeze, combineRedu
 
 export const getUserAppState =   (state: AppState) => state.users;
 export const getDomainAppState =  (state: AppState) => state.domains;
+export const SubconceptAppState =  (state: AppState) => state.subconcepts;
+
 export const getConceptAppState =  (state: AppState) => state.concepts;
 export const getAuthAppState =  (state: AppState) => state.authentication;
 
@@ -94,16 +100,21 @@ export const getSelectdUserId = createSelector(getUserAppState, fromUser.selecte
 export const getSelectedUser = createSelector(getUserAppState, fromUser.getSelectedUser)
 
 
-export const getDomains = createSelector(getDomainAppState, fromDomain.getDomains)
-export const getDomainIds = createSelector(getDomainAppState, fromDomain.getDomainIds)
-export const getSelectdDomainId = createSelector(getDomainAppState, fromDomain.selectedDomainId)
-export const getSelectedDomain = createSelector(getDomainAppState, fromDomain.getSelectedDomain)
+export const getDomains = createSelector(getDomainAppState, fromDomain.Getdomains)
+export const getDomainIds = createSelector(getDomainAppState, fromDomain.Getdomainids)
+export const getSelectedDomain = createSelector(getDomainAppState, fromDomain.Getselecteddomain)
 
 
-export const getConcepts = createSelector(getConceptAppState, fromConcept.getConcepts)
-export const getConceptIds = createSelector(getConceptAppState, fromConcept.getConceptIds)
-export const getSelectdConceptId = createSelector(getConceptAppState, fromConcept.selectedConceptId)
-export const getSelectedConcept = createSelector(getConceptAppState, fromConcept.getSelectedConcept )
+export const getConcepts = createSelector(getConceptAppState, fromConcept.Getconcepts)
+export const getConceptIds = createSelector(getConceptAppState, fromConcept.Getconceptids)
+export const getSelectedConcept = createSelector(getConceptAppState, fromConcept.Getselectedconcept )
+
+
+
+export const getSubConcepts = createSelector(SubconceptAppState, fromSubconcept.Getsubconcepts)
+export const getSubConceptIds = createSelector(SubconceptAppState, fromSubconcept.Getsubconceptids)
+export const getSelectedSubConcept = createSelector(SubconceptAppState, fromSubconcept.Getselectedsubconcept )
+
 
 
 

@@ -4,11 +4,13 @@ import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import {MaterializeDirective} from "angular2-materialize";
 import {DomainModel, ConceptModel} from "../../../models/ontology.models";
 import {UserModel} from "../../../models/user.model";
-import {OntologyService} from "../../../services/ontology.service"
+import {SubconceptModel} from "../../../models/subconcept.model";
+
 import { Store } from '@ngrx/store';
 import {ApplicationStore} from "../../../app.store"
 import * as OntologyActions from "../../../actions/ontology.actions"
 import * as fromRoot from "../../../reducers"
+import * as Subconceptactions from "../../../actions/subconcept.actions"
 
 
 @Component({
@@ -23,9 +25,10 @@ export class OntologyComponent implements OnInit {
     public domains: Observable<any>;
     public concepts: Observable<any>;
     public user: UserModel
-    public selectedDomainId: string;
-    public selectedConceptId: string;
-    public selectedSubconceptId: string;
+    public selectedDomain: DomainModel;
+    public selectedConcept: ConceptModel;
+    public selectedSubconcept: SubconceptModel;
+    public selectedNanoskill: string;
     
     //public concepts: Observable<Array<ConceptModel>>;
     //public globalDomain: Observable<DomainModel>;
@@ -53,21 +56,38 @@ export class OntologyComponent implements OnInit {
         });
 
 
-        this.store.select(fromRoot.getSelectdDomainId)
+        this.store.select(fromRoot.getSelectedDomain)
             .subscribe(value => {
-            this.selectedDomainId = value
+                console.log(value)
+                this.selectedDomain = value
         });
-  }
 
-    _clickConcept(domain: DomainModel){
-        console.log(this.selectedDomainId)
+        this.store.select(fromRoot.getSelectedConcept)
+            .subscribe(value => {
+            this.selectedConcept = value
+        });
+
+    }
+
+    _selectedDomain(domain: DomainModel){
+        console.log("This is what received in ontology compoenent" + domain.module_id)
+        //this.globalDomain = domain
+        
+        this.store.dispatch(new OntologyActions.Selecteddomain(domain))
+        this.store.dispatch(new OntologyActions.Setconceptparentsuccess(this.selectedDomain.module_id))
+        
+    }
+
+    _selectedConcept(concept: ConceptModel){
+        console.log(this.selectedConcept)
 
         //this.globalDomain = domain
         
-        this.store.dispatch(new OntologyActions.Selecteddomain(domain.module_id))
-        this.store.dispatch(new OntologyActions.Setconceptparentsuccess(this.selectedDomainId))
+        this.store.dispatch(new OntologyActions.Selectedconcept(concept))
+        this.store.dispatch(new Subconceptactions.Setsubconceptparentsuccess(this.selectedConcept.module_id))
         
     }
+
 
     _submitDomain(domain: DomainModel){
         console.log(domain)
@@ -79,16 +99,23 @@ export class OntologyComponent implements OnInit {
         console.log(concept)
         //this.service.addConcept(concept)
         this.store.dispatch(new OntologyActions.Addconcept(concept))
+    }
+
+    _submitSubConcept(subconcept: SubconceptModel){
+        console.log(subconcept)
+        //this.service.addConcept(concept)
+        this.store.dispatch(new Subconceptactions.Addsubconcept(subconcept))
 
     }
+
 
     _editDomain(domain: DomainModel){
         console.log(domain)
         //this.service.editDomain(domain)
         this.store.dispatch(new OntologyActions.Editdomain({"domain": domain, "user": this.user}))
-        
-
     }
+
+
    _deleteDomain(domain: DomainModel){
         console.log("Domain That needs to be deleted" + domain)
         this.store.dispatch(new OntologyActions.Deletedomain({"domain": domain, "user": this.user}))

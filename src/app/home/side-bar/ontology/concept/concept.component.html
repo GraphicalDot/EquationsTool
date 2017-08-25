@@ -110,24 +110,34 @@
         <thead>
           <tr>
               <th>Name</th>
-              <th>description</th>
+              <th>Creator</th>
+              <th>Created on</th>
+              <th>Creation approval</th>
+              <th>Children</th>
+              <th>Status</th>
               <th>Edit</th>
               <th>Delete</th>
-              <th>Add SubConcepts</th>
+              <th>Add Concepts</th>
           </tr>
         </thead>
 
-        <tbody *ngFor="let concept of concepts$ | async">
+        <tbody *ngFor="let domain of concepts$ | async">
             <tr>
-                    <td>{{concept.concept_name}}</td>
-                    <td>{{concept.description}}</td>
-                    <td><button class="btn waves-effect waves-light" (click) = "edit(concept)" >Edit</button></td>
-                    <td><button class="btn waves-effect waves-light" (click) = "delete(concept)">Delete</button></td>
-                    <td><button class="btn waves-effect waves-light" (click)="addSubConcept(concept)">Subjects</button></td>
+                    <td>{{domain.module_name}}</td>
+                    <td>{{domain.username}}</td>
+                    <td>{{domain.indian_time}}</td>
+                    <td>
+                        <input disable type="radio" [checked]="domain.creation_approval"/><label class="black-text flow-text"></label>
+                    </td>
+                    <td>{{ domain.children?.length || '0' }}</td>
+                    <td>{{domain.status}}</td>
+                    
+                     <td><button class="btn waves-effect waves-light" (click) = "edit(domain)" >Edit</button></td>
+                    <td><button class="btn waves-effect waves-light" (click) = "delete(domain)">Delete</button></td>
+                    <td><button class="btn waves-effect waves-light" (click)="selectModule(domain)">Add concepts</button></td>
             </tr>
 
         </tbody>
         </table>
-
 
 </div>

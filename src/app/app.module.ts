@@ -34,6 +34,9 @@ import {OntologyComponent} from "./home/side-bar/ontology/ontology.component";
 import {OntologyEffects} from "./effects/ontology.effects";
 import {OntologyService} from "./services/ontology.service";
 
+import {SubconceptService} from "./services/subconcept.service"
+import {SubconceptEffects} from "./effects/subconcept.effects"
+
 import {DomainReducer} from "./reducers/domain.reducer";
 import {ConceptReducer} from "./reducers/concept.reducer";
 import { combineReducers } from '@ngrx/store';
@@ -101,16 +104,17 @@ children: [
     StoreModule.provideStore(reducer),
     RouterStoreModule.connectRouter(),
 
-    EffectsModule.run(OntologyEffects),
-    EffectsModule.run(UsersEffects),
     EffectsModule.run(AuthenticationEffects),
+    EffectsModule.run(UsersEffects),
+    EffectsModule.run(OntologyEffects),
+    EffectsModule.run(SubconceptEffects),
     //EffectsModule.runAfterBootstrap(UsersEffects),
     StoreDevtoolsModule.instrumentStore(),
    // StoreLogMonitorModule
 
 
   ],
-  providers: [UsersService, OntologyService, AuthenticationService, AuthenticatedGuard],
+  providers: [UsersService, OntologyService, AuthenticationService, AuthenticatedGuard, SubconceptService],
   bootstrap: [AppComponent],
 })
 export class AppModule { }

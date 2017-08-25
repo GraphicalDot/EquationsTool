@@ -30,27 +30,3 @@ export class ConceptModel {
 } 
 
 
-export class SubConceptModel {
-
-    constructor(
-        public module_id: number,
-        public module_name: string,
-        public description: string,
-        public parent_id: string,
-        indian_time: string,
-        public detailed? : string      
-    ){}
-} 
-
-
-export class NanoskillsModel {
-
-    constructor(
-        public module_id: number,
-        public module_name: string,
-        public description: string,
-        public parent_id : string,
-        indian_time: string,
-        public detailed? : string      
-    ){}
-} 

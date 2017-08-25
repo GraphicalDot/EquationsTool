@@ -8,6 +8,7 @@ import { HttpModule, JsonpModule } from '@angular/http';
 import { SubconceptComponent } from './subconcept/subconcept.component';
 import { ConceptComponent } from './concept/concept.component';
 import { DomainComponent } from './domain/domain.component';
+import { NanoskillComponent } from './nanoskill/nanoskill.component';
 
 
 @NgModule({
@@ -18,7 +19,7 @@ import { DomainComponent } from './domain/domain.component';
     FormsModule, 
     HttpModule
   ],
-  declarations: [OntologyComponent, SubconceptComponent, ConceptComponent, DomainComponent],
+  declarations: [OntologyComponent, SubconceptComponent, ConceptComponent, DomainComponent, NanoskillComponent],
   exports: [OntologyComponent],
 })
 export class OntologyModule { }

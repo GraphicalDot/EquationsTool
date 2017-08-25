@@ -46,7 +46,7 @@ export class DomainComponent implements OnInit, OnDestroy {
     public moduleType: "domain"
     public data
     //public user$: Observable<UserModel>;
-    @Output() switchToConcept = new EventEmitter<DomainModel>();
+    @Output() selectedDomain = new EventEmitter<DomainModel>();
     @Output() submitDomain = new EventEmitter<DomainModel>();
     @Output() editDomain = new EventEmitter<DomainModel>();
     @Output() deleteDomain = new EventEmitter<DomainModel>();
@@ -70,8 +70,9 @@ export class DomainComponent implements OnInit, OnDestroy {
 
     };
     ngOnDestroy(){};
-    addConcept(domain: DomainModel) {
-        this.switchToConcept.emit(domain);
+    selectModule(domain: DomainModel) {
+        console.log("This is the domain which was selecetd from domain componenet" + DomainModel)
+        this.selectedDomain.emit(domain);
     }
     delete(domain) {
         this.deleteDomain.emit(domain);

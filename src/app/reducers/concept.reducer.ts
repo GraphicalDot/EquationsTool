@@ -5,8 +5,8 @@ import {createSelector} from "reselect"
 
 export interface ConceptState {
     module_ids?: string[],
-    modules?: {[id: string]: Array<ConceptModel>}
-    selectedModuleId?: string| null;
+    modules?: Array<ConceptModel>
+    selectedModule?: ConceptModel| null,
     parent_id?: string| null,
     loading: boolean| null,
     loaded: boolean| null,
@@ -16,8 +16,8 @@ export interface ConceptState {
 
 const initialState: ConceptState = {
     module_ids: [],
-    modules: {},
-    selectedModuleId: null,
+    modules: [],
+    selectedModule: null,
     loading: false,
     loaded: false, 
     error: null,
@@ -54,7 +54,7 @@ export function ConceptReducer(state = initialState,  action: ConceptActions.Act
                       return {
                           module_ids: action.payload.module_ids,
                           modules: action.payload.modules,
-                          selectedModuleId: null,
+                          selectedModule: null,
                             loaded: true,
                           loading: false,
                           parent_id: state.parent_id
@@ -65,7 +65,7 @@ export function ConceptReducer(state = initialState,  action: ConceptActions.Act
                     return {
                           module_ids: undefined,
                           modules: undefined,
-                          selectedModuleId: null,
+                          selectedModule: null,
                           loaded: true,
                           loading: false,
                           error: action.payload._body,
@@ -74,11 +74,20 @@ export function ConceptReducer(state = initialState,  action: ConceptActions.Act
 
                      }
                         
+
+            case ConceptActions.ADD_CONCEPT:
+                    {
+                        return {
+                             loading: true,
+                            error: undefined,
+                            loaded: false
+                        }
+                    }
             case ConceptActions.ADD_CONCEPT_SUCCESS:
                  return {
                             module_ids: [ ...state.module_ids, action.payload.module_id],
                             modules: Object.assign({}, state.modules, { [action.payload.module_id]: action.payload}),
-                            selectedModuleId: state.selectedModuleId,
+                            selectedModule: state.selectedModule,
                             loaded: true,
                             loading: false,
                             parent_id: state.parent_id
@@ -88,7 +97,7 @@ export function ConceptReducer(state = initialState,  action: ConceptActions.Act
                     return {
                             module_ids: state.module_ids,
                             modules: state.modules,
-                            selectedModuleId: state.selectedModuleId,
+                            selectedModule: state.selectedModule,
                             loaded: true,
                             loading: false,
                             error: action.payload._body,
@@ -113,7 +122,7 @@ export function ConceptReducer(state = initialState,  action: ConceptActions.Act
                     return {
                             module_ids: state.module_ids,
                             modules: state.modules,
-                            selectedModuleId: state.selectedModuleId,
+                            selectedModule: state.selectedModule,
                             loaded: true,
                             loading: false,
                             error: action.payload._body,
@@ -124,7 +133,7 @@ export function ConceptReducer(state = initialState,  action: ConceptActions.Act
                     return {
                             module_ids: state.module_ids,
                             modules: state.modules,
-                            selectedModuleId: state.selectedModuleId,
+                            selectedModule: state.selectedModule,
                             loaded: true,
                             loading: false,
                             error: action.payload._body,
@@ -138,7 +147,7 @@ export function ConceptReducer(state = initialState,  action: ConceptActions.Act
                  return {
                         module_ids: state.module_ids,
                         modules: state.modules,
-                        selectedModuleId: action.payload,
+                        selectedModule: action.payload,
                         parent_id: state.parent_id,
                         loaded: true,
                         loading: false,
@@ -154,10 +163,10 @@ export function ConceptReducer(state = initialState,  action: ConceptActions.Act
 
 
 //This will select the list of ids of all the domains
-export const getConceptIds= (state: ConceptState) => state.module_ids
+export const Getconceptids= (state: ConceptState) => state.module_ids
 
 //This will select the dictionary of id: User
-export const getConcepts = (state: ConceptState) => state.modules
+export const Getconcepts = (state: ConceptState) => state.modules
 
 //Return list of domains in a list format
 /* export const getAllConcepts = createSelector(getConcepts, getConceptIds, (entities, ids) => {
@@ -166,9 +175,10 @@ export const getConcepts = (state: ConceptState) => state.modules
  */
 
 //select selectUserId
-export const selectedConceptId = (state: ConceptState) => state.selectedModuleId;
+export const Getselectedconcept = (state: ConceptState) => state.selectedModule;
 
+/* 
 //Get SElected user from the selectedUserId
-export const getSelectedConcept = createSelector(getConcepts, selectedConceptId, (entities, selectedId) => {
+export const getSelectedConceptId = createSelector(getConcepts, selectedConceptId, (entities, selectedId) => {
   return entities[selectedId];
-});
+}); */

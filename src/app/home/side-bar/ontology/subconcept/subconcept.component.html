@@ -1,3 +1,135 @@
-<p>
-  subconcept works!
-</p>
+
+<!-- This is to add add+ button only when a parent module has already been selected -->
+<div class="row">
+    <a class="btn-floating btn-large waves-effect waves-light red"  *ngIf="selectedParentId$| async" (click)="addModuleButton()"><i class="material-icons">add</i></a>
+</div>
+
+<div class="row">
+        <!--
+        
+  <nav>
+    <div class="nav-wrapper">
+      <div class="col s12">
+        <a href="#!" class="breadcrumb">First</a>
+        <a href="#!" class="breadcrumb">Second</a>
+        <a href="#!" class="breadcrumb">Third</a>
+        <a href="#!" class="breadcrumb">Fourth</a>
+        <a href="#!" class="breadcrumb">Fifth</a>
+        <a href="#!" class="breadcrumb">Sixth</a>
+        <a href="#!" class="breadcrumb">Seventh</a>
+        </div>
+    </div>
+  </nav>
+        -->
+</div>
+
+<div class="row">
+
+<div *ngIf="openEdit">
+    <div class="col s12">
+       <form materialize class="col s12" #form="ngForm" (ngSubmit)="editModule(module.value)">
+          <div class="row">
+              <div class="input-field col s4">
+                  <input id="icon_prefix" type="text" class="validate"  [(ngModel)]="module.module_name" name="module_name">
+              </div>
+              <div class="input-field col s4">
+                  <input id="icon_telephone" type="tel" class="validate"  [(ngModel)]="module.description" name="description">
+              </div>
+          </div>
+          <button class="btn waves-effect waves-light" type="submit" name="action">Submit
+              <i class="material-icons right">send</i>
+          </button>
+        </form>
+    </div>
+</div>
+
+
+
+
+<div *ngIf="openAdd">
+    <div class="col s12">
+       <form materialize class="col s12" #form="ngForm" (ngSubmit)="addModule(form.value)"  class="ui form">
+          <div class="row">
+              <div class="input-field col s4">
+                  <input id="icon_prefix" type="text" class="validate"  [(ngModel)]="module_name" name="module_name" required ng-pristine>
+                  <label>Name</label>
+              </div>
+              <div class="input-field col s4">
+                  <input id="icon_telephone" type="tel" class="validate"  [(ngModel)]="description" name="description" required>
+                  <label>Description</label>
+              </div>
+              <div class="input-field col s4">
+                  <input id="icon_prefix" type="text" class="validate"  [(ngModel)]="user_type" name="user_type" required>
+                  <label for="user_type">User Type</label>
+              </div>
+          </div>
+
+          <div class="row">
+                 <div class="input-field col s6">
+                  <select [(ngModel)]="bloom_taxonomy" name="bloom_taxonomy" (ngModelChange)="change($event)" [materializeSelectOptions]="selectOptions" multiple  materialize="material_select">
+                        <option value="" disabled selected>Blooms Taxonomy</option>
+                        <option *ngFor="let bloom of blooms" [value]="bloom">{{bloom}}</option>
+                      
+                  </select>
+
+              </div>
+
+              <div class="input-field col s6">
+                  <select [(ngModel)]="connections" name="connections"  multiple  materialize="material_select">
+                        <option value="" disabled selected>Connections with other subconcepts</option>
+                        <option *ngFor="let module of subconcepts | async" [value]="module.mdoule_id">{{module.module_name}}</option>
+                  </select>
+
+              </div>
+                
+          </div>
+
+          <div class="row">
+              <div class="input-field col s6">
+                  <select [(ngModel)]="required_concepts" name="required_concepts" (ngModelChange)="change($event)" [materializeSelectOptions]="selectOptions" multiple  materialize="material_select">
+                        <option value="" disabled selected>Required Concepts</option>
+                      <option *ngFor="let module of concepts | async" [value]="module.module_id">{{module.module_name}}</option>
+                  </select>
+
+              </div>
+              <div class="input-field col s6">
+                  <input type="text" name="module_id"  disabled [attr.value]="(selectedModule| async)?.module_name">
+                  <label for="disabled">SubConcept Name</label>
+              </div>
+              
+          </div>
+
+
+          <button class="btn waves-effect waves-light" type="submit" name="action">Submit
+              <i class="material-icons right">send</i>
+          </button>
+        </form>
+    </div>
+</div>
+   
+
+        <table>
+        <thead>
+          <tr>
+              <th>Name</th>
+              <th>description</th>
+              <th>Edit</th>
+              <th>Delete</th>
+              <th>Add Nanoskills</th>
+          </tr>
+        </thead>
+
+        <tbody *ngFor="let module of subconcepts$ | async">
+            <tr>
+                    <td>{{module.concept_name}}</td>
+                    <td>{{module.description}}</td>
+                    <td><button class="btn waves-effect waves-light" (click) = "edit(module)" >Edit</button></td>
+                    <td><button class="btn waves-effect waves-light" (click) = "delete(module)">Delete</button></td>
+                    <td><button class="btn waves-effect waves-light" (click)="select(module)">Nanoskills</button></td>
+            </tr>
+
+        </tbody>
+        </table>
+
+
+</div>

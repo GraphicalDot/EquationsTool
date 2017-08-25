@@ -9,9 +9,11 @@
                     </ul>
             </div>
             <div class="card-content">
-                    <div id="domain"><app-childdomain (submitDomain)="_submitDomain($event)" (editDomain)="_editDomain($event)" (deleteDomain)="_deleteDomain($event)" (switchToConcept)= "_clickConcept($event)"></app-childdomain></div>
-                    <div id="concept"><app-concept (submitConcept)="_submitConcept($event)" (editConcept)="_editConcept($event)" (deleteConcept)="_deleteConcept($event)" (addSubConcept)= "_addSubConceptHandler($event)"></app-concept></div>
-                    <div id="subconcept"><app-subconcept></app-subconcept></div>
+                    <div id="domain"><app-childdomain (submitDomain)="_submitDomain($event)" (editDomain)="_editDomain($event)" (deleteDomain)="_deleteDomain($event)" (selectedDomain)= "_selectedDomain($event)"></app-childdomain></div>
+                    <div id="concept"><app-concept (submitConcept)="_submitConcept($event)" (editConcept)="_editConcept($event)" (deleteConcept)="_deleteConcept($event)" (selectedConceptModule)= "_selectedConcept($event)"></app-concept></div>
+                    <div id="subconcept"><app-subconcept (submitSubconcept)="_submitSubconcept($event)" (editSubconcept)="_editSubconcept($event)" (deleteSubconcept)="_deleteSubconcept($event)" (selectedModule)= "_selectedSubconcept($event)"></app-subconcept></div>
+                    <div id="nanoskill"><app-nanoskill></app-nanoskill></div>
+                    
             </div>
     </div>
 </div>

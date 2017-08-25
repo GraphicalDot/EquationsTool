@@ -1,8 +1,7 @@
-import { selectedDomainId } from '../../../../reducers/domain.reducer';
 import { OntologyModule } from '../ontology.module';
 import { baseServeCommandOptions } from '@angular/cli/commands/serve';
 import { Conditional } from '@angular/compiler';
-import { ConceptModel, DomainModel, SubConceptModel } from '../../../../models/ontology.models';
+import { ConceptModel, DomainModel} from '../../../../models/ontology.models';
 import { UserModel} from '../../../../models/user.model';
 import {State, Store} from "@ngrx/store"
 import {Observable} from "rxjs/Observable";
@@ -30,17 +29,18 @@ export class ConceptComponent implements OnInit {
     public conceptCreate: boolean
     public conceptEdit: boolean
     public concept: ConceptModel;
-    selectedDomainId: string
+    selectedDomain: DomainModel;
     //selected_domain: DomainModel;
     blooms= ["remembering", "understanding", "applyinging", "analyzing","synthesizing","evaluating"]
-    ifDomain: boolean = false;
     //@Input() domain: Observable<DomainModel>;
     //@Input() domains: Array<DomainModel>;
     public domains$: Observable<any>;
     public user: UserModel
     public concepts$: Observable<any>;
 
-    @Output() addSubConceptHandler = new EventEmitter<ConceptModel>();
+    public subscriber_one 
+    public subscriber_two 
+    @Output() selectedConceptModule = new EventEmitter<ConceptModel>();
     @Output() submitConcept = new EventEmitter<ConceptModel>();
     @Output() editConcept = new EventEmitter<ConceptModel>();
     @Output() deleteConcept = new EventEmitter<ConceptModel>();
@@ -55,26 +55,33 @@ export class ConceptComponent implements OnInit {
 
     }
 
-    ngOnInit(){
-        this.store.select(fromRoot.getAuthenticatedUser)
-            .subscribe(value => {
+    ngOnInit(
+    ){
+        this.subscriber_one = this.store.select(fromRoot.getAuthenticatedUser)
+        this.subscriber_one.subscribe(value => {
             this.user = value
         });
 
 
-        this.store.select(fromRoot.getSelectdDomainId)
+        this.store.select(fromRoot.getSelectedDomain)
+            .filter(value => value != undefined)
             .subscribe(value => {
-            this.selectedDomainId = value;
-            this.store.dispatch(new actions.Loadconcept({"parent_id": value, "user_id": this.user.user_id}))
+            this.selectedDomain = value;
+            console.log(value)
+            this.store.dispatch(new actions.Loadconcept({"parent_id": value.module_id, "user_id": this.user.user_id}))
 
         });
 
-        console.log(this.selectedDomainId)
+        console.log(this.selectedDomain)
     };
         
-    ngOnDestroy(){};
-    addSubConcept(concept: ConceptModel) {
-        this.addSubConceptHandler.emit(concept);
+    ngOnDestroy(
+    ){
+        this.subscriber_one.unsubscribe()
+        this.subscriber_two.unsubscribe()
+    };
+    selectModule(concept: ConceptModel) {
+        this.selectedConceptModule.emit(concept);
     }
     delete(domain) {
         this.deleteConcept.emit(domain);
