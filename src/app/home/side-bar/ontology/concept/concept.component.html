@@ -1,5 +1,5 @@
 <div class="row">
-    <a class="btn-floating btn-large waves-effect waves-light red"  *ngIf="selected_domain| async" (click)="addConcept()"><i class="material-icons">add</i></a>
+    <a class="btn-floating btn-large waves-effect waves-light red"  *ngIf="selectedDomain" (click)="addConcept()"><i class="material-icons">add</i></a>
 </div>
 
 <div class="row">
@@ -75,7 +75,7 @@
               <div class="input-field col s6">
                   <select [(ngModel)]="connections" name="connections"  multiple  materialize="material_select">
                         <option value="" disabled selected>Connections with other concepts</option>
-                        <option *ngFor="let concept of concepts | async" [value]="concept.concept_id">{{concept.concept_name}}</option>
+                        <option *ngFor="let concept of concepts$ | async" [value]="concept.concept_id">{{concept.concept_name}}</option>
                   </select>
 
               </div>
@@ -86,12 +86,12 @@
               <div class="input-field col s6">
                   <select [(ngModel)]="required_domains" name="required_domains" (ngModelChange)="change($event)" [materializeSelectOptions]="selectOptions" multiple  materialize="material_select">
                         <option value="" disabled selected>Required Domains</option>
-                      <option *ngFor="let domain of domains | async" [value]="domain.domain_id">{{domain.domain_name}}</option>
+                      <option *ngFor="let domain of domains$ | async" [value]="domain.domain_id">{{domain.domain_name}}</option>
                   </select>
 
               </div>
               <div class="input-field col s6">
-                  <input type="text" name="domain_id"  disabled [attr.value]="(selected_domain| async)?.domain_name">
+                  <input type="text" name="domain_id"  disabled [attr.value]="(selected_domain| async)?.module_name">
                   <label for="disabled">Domain Name</label>
               </div>
               

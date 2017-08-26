@@ -5,7 +5,7 @@ import * as DomainActions from "../actions/ontology.actions"
 
 export interface DomainState {
     module_ids?: string[],
-    modules?: {[id: string]: Array<DomainModel>}
+    modules?: Array<any>
     selectedModule?: DomainModel| null;
     loading: boolean| null,
     loaded: boolean| null,
@@ -15,7 +15,7 @@ export interface DomainState {
 
 const initialState: DomainState = {
     module_ids: [],
-    modules: {},
+    modules: [],
     selectedModule: null,
     loading: false,
     loaded: false, 
@@ -71,9 +71,10 @@ export function DomainReducer(state = initialState, action: DomainActions.Action
                     }
 
             case DomainActions.ADD_DOMAIN_SUCCESS:
+                console.log(action.payload)
                  return {
-                            module_ids: [ ...state.module_ids, action.payload.module_id],
-                            modules: Object.assign({}, state.modules, { [action.payload.module_id]: action.payload}),
+                            module_ids: [...state.module_ids, action.payload.module_id] ,
+                            modules: [...state.modules, action.payload],
                             selectedModule: state.selectedModule,
                             loaded: true,
                             loading: false
@@ -101,14 +102,13 @@ export function DomainReducer(state = initialState, action: DomainActions.Action
 
 
             case DomainActions.DELETE_DOMAIN_SUCCESS:
-                    return {
-                            module_ids: state.module_ids,
-                            modules: state.modules,
-                            selectedModule: state.selectedModule,
-                            loaded: true,
-                            loading: false,
-                            error: action.payload._body
-                        }
+                        const idToRemove = action.payload.module_id;
+                        const ids = state.module_ids.filter((id) => id == action.payload.module_id)
+                        const newEntities = state.module_ids;
+                        delete newEntities[idToRemove];
+                        return Object.assign({}, state, {
+                            modules: newEntities, loaded: true, loading: false, module_ids: ids
+                        });
             case DomainActions.DELETE_DOMAIN_FAILURE:
                     return {
                             module_ids: state.module_ids,

@@ -6,7 +6,7 @@ import * as actions from "../actions/subconcept.actions"
 export interface SubconceptState {
     module_ids?: string[],
     modules?: Array<SubconceptModel>,
-    selectedModule?: string| null;
+    selectedModule?: SubconceptModel;
     loading: boolean| null,
     loaded: boolean| null,
     error?: string,

@@ -5,12 +5,14 @@ import {MaterializeDirective} from "angular2-materialize";
 import {DomainModel, ConceptModel} from "../../../models/ontology.models";
 import {UserModel} from "../../../models/user.model";
 import {SubconceptModel} from "../../../models/subconcept.model";
+import {NanoskillModel} from  "../../../models/nanoskill.model";
 
 import { Store } from '@ngrx/store';
 import {ApplicationStore} from "../../../app.store"
 import * as OntologyActions from "../../../actions/ontology.actions"
 import * as fromRoot from "../../../reducers"
 import * as Subconceptactions from "../../../actions/subconcept.actions"
+import * as Nanoskillactions from "../../../actions/nanoskill.actions"
 
 
 @Component({
@@ -67,6 +69,11 @@ export class OntologyComponent implements OnInit {
             this.selectedConcept = value
         });
 
+        this.store.select(fromRoot.getSelectedSubConcept)
+            .subscribe(value => {
+            this.selectedSubconcept = value
+        });
+
     }
 
     _selectedDomain(domain: DomainModel){
@@ -88,6 +95,16 @@ export class OntologyComponent implements OnInit {
         
     }
 
+    _selectedSubconcept(subconcept: SubconceptModel){
+        console.log(this.selectedConcept)
+
+        //this.globalDomain = domain
+        
+        this.store.dispatch(new Subconceptactions.Selectedsubconcept(subconcept))
+        this.store.dispatch(new Nanoskillactions.Setnanoskillparentsuccess(this.selectedConcept.module_id))
+        
+    }
+
 
     _submitDomain(domain: DomainModel){
         console.log(domain)
@@ -99,6 +116,13 @@ export class OntologyComponent implements OnInit {
         console.log(concept)
         //this.service.addConcept(concept)
         this.store.dispatch(new OntologyActions.Addconcept(concept))
+    }
+
+    _submitNanoskill(nanoskill: NanoskillModel){
+        console.log(nanoskill)
+        //this.service.addConcept(concept)
+        this.store.dispatch(new Subconceptactions.Addsubconcept(nanoskill))
+
     }
 
     _submitSubConcept(subconcept: SubconceptModel){

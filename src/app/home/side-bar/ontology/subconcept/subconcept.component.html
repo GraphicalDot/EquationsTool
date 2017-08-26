@@ -1,7 +1,7 @@
 
 <!-- This is to add add+ button only when a parent module has already been selected -->
 <div class="row">
-    <a class="btn-floating btn-large waves-effect waves-light red"  *ngIf="selectedParentId$| async" (click)="addModuleButton()"><i class="material-icons">add</i></a>
+    <a class="btn-floating btn-large waves-effect waves-light red"  *ngIf="selectedParent" (click)="addModuleButton()"><i class="material-icons">add</i></a>
 </div>
 
 <div class="row">
@@ -108,28 +108,39 @@
 </div>
    
 
+
         <table>
         <thead>
           <tr>
               <th>Name</th>
-              <th>description</th>
+              <th>Creator</th>
+              <th>Created on</th>
+              <th>Creation approval</th>
+              <th>Children</th>
+              <th>Status</th>
               <th>Edit</th>
               <th>Delete</th>
-              <th>Add Nanoskills</th>
+              <th>Add Concepts</th>
           </tr>
         </thead>
 
-        <tbody *ngFor="let module of subconcepts$ | async">
+        <tbody *ngFor="let domain of subconcepts$ | async">
             <tr>
-                    <td>{{module.concept_name}}</td>
-                    <td>{{module.description}}</td>
-                    <td><button class="btn waves-effect waves-light" (click) = "edit(module)" >Edit</button></td>
-                    <td><button class="btn waves-effect waves-light" (click) = "delete(module)">Delete</button></td>
-                    <td><button class="btn waves-effect waves-light" (click)="select(module)">Nanoskills</button></td>
+                    <td>{{domain.module_name}}</td>
+                    <td>{{domain.username}}</td>
+                    <td>{{domain.indian_time}}</td>
+                    <td>
+                        <input disable type="radio" [checked]="domain.creation_approval"/><label class="black-text flow-text"></label>
+                    </td>
+                    <td>{{ domain.children?.length || '0' }}</td>
+                    <td>{{domain.status}}</td>
+                    
+                     <td><button class="btn waves-effect waves-light" (click) = "edit(domain)" >Edit</button></td>
+                    <td><button class="btn waves-effect waves-light" (click) = "delete(domain)">Delete</button></td>
+                    <td><button class="btn waves-effect waves-light" (click)="select(domain)">Add concepts</button></td>
             </tr>
 
         </tbody>
         </table>
-
 
 </div>

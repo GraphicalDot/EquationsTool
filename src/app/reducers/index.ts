@@ -11,6 +11,7 @@ import { createSelector } from 'reselect';
 import * as fromDomain from './domain.reducer';
 import * as fromConcept from './concept.reducer';
 import * as fromSubconcept from './subconcept.reducer';
+import* as fromNanoskill from "./nanoskill.reducer"
 
 import * as fromUser from './users.reducer';
 import * as fromAuthentication from "./authentication.reducer"
@@ -20,6 +21,7 @@ export interface AppState {
   domains: fromDomain.DomainState;
   concepts: fromConcept.ConceptState;
   subconcepts: fromSubconcept.SubconceptState;
+  nanoskills: fromNanoskill.NanoskillState,
   users: fromUser.UserState;
   router: fromRouter.RouterState,
   authentication: fromAuthentication.AuthenticateState
@@ -32,6 +34,7 @@ export const reducers  = {
   domains: fromDomain.DomainReducer,
   concepts: fromConcept.ConceptReducer,
   subconcepts: fromSubconcept.SubconceptReducer,
+  nanoskills: fromNanoskill.NanoskillReducer,
   users: fromUser.UsersReducer,
   router: fromRouter.routerReducer,
   authentication: fromAuthentication.AuthenticationReducer
@@ -56,6 +59,8 @@ export const reducer: ActionReducer<AppState> = compose(storeFreeze, combineRedu
 export const getUserAppState =   (state: AppState) => state.users;
 export const getDomainAppState =  (state: AppState) => state.domains;
 export const SubconceptAppState =  (state: AppState) => state.subconcepts;
+export const NanoskillAppState =  (state: AppState) => state.nanoskills;
+
 
 export const getConceptAppState =  (state: AppState) => state.concepts;
 export const getAuthAppState =  (state: AppState) => state.authentication;
@@ -115,6 +120,10 @@ export const getSubConcepts = createSelector(SubconceptAppState, fromSubconcept.
 export const getSubConceptIds = createSelector(SubconceptAppState, fromSubconcept.Getsubconceptids)
 export const getSelectedSubConcept = createSelector(SubconceptAppState, fromSubconcept.Getselectedsubconcept )
 
+
+export const getNanoskills = createSelector(NanoskillAppState, fromNanoskill.Getnanoskills)
+export const getNanoskillIds = createSelector(NanoskillAppState, fromNanoskill.Getnanoskillids)
+export const getSelectedNanoskill = createSelector(NanoskillAppState, fromNanoskill.Getselectednanoskill )
 
 
 
