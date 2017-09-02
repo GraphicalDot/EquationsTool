@@ -5,6 +5,7 @@ import {State, Store} from "@ngrx/store"
 import { Observable, ObservableInput } from 'rxjs/Observable';
 import * as fromRoot from '../../../../reducers';
 import * as actions from '../../../../actions/ontology.actions';
+import {NgxPaginationModule} from 'ngx-pagination';
 
 
 /*
@@ -45,6 +46,9 @@ export class DomainComponent implements OnInit, OnDestroy {
     public user: UserModel
     public moduleType: "domain"
     public data
+    public currentPage: number
+    public pages$: Observable<number>;
+    public module_count$: Observable<number>
     //public user$: Observable<UserModel>;
     @Output() selectedDomain = new EventEmitter<DomainModel>();
     @Output() submitDomain = new EventEmitter<DomainModel>();
@@ -55,6 +59,9 @@ export class DomainComponent implements OnInit, OnDestroy {
                         this.domains$ = this.store.select(fromRoot.getDomains);
                         //this.user$ = this.store.select(fromRoot.getAuthenticatedUser) 
     //                    this.user$ = this.store.select(fromRoot.getAuthenticatedUser) 
+                        this.pages$ = this.store.select(fromRoot.getDomainPages)
+                        this.module_count$ = this.store.select(fromRoot.getDomainCount)
+
 }
 
     ngOnInit(){
@@ -66,8 +73,7 @@ export class DomainComponent implements OnInit, OnDestroy {
 
 
 
-        this.store.dispatch(new actions.Loaddomain(this.user.user_id))
-
+        this.store.dispatch(new actions.Loaddomain({"user_id": this.user.user_id, "skip": 0, "limit": 15, "search_text": null}))
     };
     ngOnDestroy(){};
     selectModule(domain: DomainModel) {
@@ -91,5 +97,16 @@ export class DomainComponent implements OnInit, OnDestroy {
       this.domainCreate = false; //This will close the add new nanoskill form just to avoid confusion   
       this.domain = domain;
       this.editDomain.emit(domain);
+    }
+
+    pageChanged(input){
+        console.log(input)
+        this.currentPage = input
+        this.store.dispatch(new actions.Loaddomain({"user_id": this.user.user_id, "skip": 15*(input-1), "limit": 15, "search_text": null}))
+    
+    }
+
+    search_text_changed(search_text){
+        this.store.dispatch(new actions.Loaddomain({"user_id": this.user.user_id, "skip": 0, "limit": 15, "search_text": search_text}))
     }
 }

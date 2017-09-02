@@ -108,6 +108,8 @@ export const getSelectedUser = createSelector(getUserAppState, fromUser.getSelec
 export const getDomains = createSelector(getDomainAppState, fromDomain.Getdomains)
 export const getDomainIds = createSelector(getDomainAppState, fromDomain.Getdomainids)
 export const getSelectedDomain = createSelector(getDomainAppState, fromDomain.Getselecteddomain)
+export const getDomainPages = createSelector(getDomainAppState, fromDomain.Getdomainpages)
+export const getDomainCount = createSelector(getDomainAppState, fromDomain.Getdomaincount)
 
 
 export const getConcepts = createSelector(getConceptAppState, fromConcept.Getconcepts)

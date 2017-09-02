@@ -9,6 +9,7 @@ import { SubconceptComponent } from './subconcept/subconcept.component';
 import { ConceptComponent } from './concept/concept.component';
 import { DomainComponent } from './domain/domain.component';
 import { NanoskillComponent } from './nanoskill/nanoskill.component';
+import {NgxPaginationModule} from 'ngx-pagination';
 
 
 @NgModule({
@@ -17,7 +18,8 @@ import { NanoskillComponent } from './nanoskill/nanoskill.component';
     RouterModule, 
     MaterializeModule, 
     FormsModule, 
-    HttpModule, 
+    HttpModule,
+    NgxPaginationModule 
   ],
   declarations: [OntologyComponent, SubconceptComponent, ConceptComponent, DomainComponent, NanoskillComponent],
   exports: [OntologyComponent],

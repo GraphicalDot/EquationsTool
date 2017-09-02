@@ -16,9 +16,12 @@ export class OntologyService {
     private headerContent = {'Content-Type': 'application/json', "Authorization": localStorage.getItem('user_token')}
     constructor(private http: Http) {}
   
-    loadDomain_service(user_id: string): Observable<DomainModel[]> {
+    loadDomain_service(payload): Observable<DomainModel[]> {
         let params = new URLSearchParams();
-        params.set("user_id", user_id)
+        params.set("user_id", payload.user_id)
+        params.set("skip", payload.skip)
+        params.set("limit", payload.limit)
+        params.set("search_text", payload.search_text)
 
         let headers = new Headers(this.headerContent);
         //let options = new RequestOptions({headers});   
@@ -33,6 +36,9 @@ export class OntologyService {
         let params = new URLSearchParams();
         params.set("user_id", payload.user_id)
         params.set("parent_id", payload.parent_id)
+        params.set("skip", payload.skip)
+        params.set("limit", payload.limit)
+        params.set("search_text", payload.search_text)
         console.log("payload from loadconcepts" + payload.parent_id)
         let headers = new Headers(this.headerContent);
         //let options = new RequestOptions({headers});   

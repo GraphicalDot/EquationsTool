@@ -39,7 +39,6 @@ import {SubconceptEffects} from "./effects/subconcept.effects"
 
 import {NanoskillService} from "./services/nanoskill.service"
 import {NanoskillEffects} from "./effects/nanoskill.effects"
-import {NgxPaginationModule} from 'ngx-pagination'; // <-- import the module
 
 import {DomainReducer} from "./reducers/domain.reducer";
 import {ConceptReducer} from "./reducers/concept.reducer";
@@ -53,6 +52,7 @@ import {AuthenticatedGuard} from "./authentication.guard"
 import {UsersEffects} from "./effects/users.effects"
 import {AuthenticationEffects} from "./effects/authentication.effects"
 import {reducer} from "./reducers"
+import {NgxPaginationModule} from 'ngx-pagination';
 /**
  * storeFreeze prevents state from being mutated. When mutation occurs, an
  * exception will be thrown. This is useful during development mode to

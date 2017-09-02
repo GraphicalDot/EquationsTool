@@ -11,6 +11,8 @@ export interface DomainState {
     loaded: boolean| null,
     error?: string,
     parent_id?: null
+    pages?: number,
+    module_count?: number
 }
 
 const initialState: DomainState = {
@@ -20,7 +22,9 @@ const initialState: DomainState = {
     loading: false,
     loaded: false, 
     error: null,
-    parent_id: null
+    parent_id: null,
+    pages: null,
+    module_count: null
 }
 
 
@@ -32,8 +36,10 @@ export function DomainReducer(state = initialState, action: DomainActions.Action
                 {
                     return {
                         loading: true,
-                    error: undefined,
-                    loaded: false   
+                        error: undefined,
+                        loaded: false,   
+                        pages: undefined,
+                        module_count: undefined
                     }
                 }
 
@@ -44,9 +50,12 @@ export function DomainReducer(state = initialState, action: DomainActions.Action
                           module_ids: action.payload.module_ids,
                           modules: action.payload.modules,
                           selectedModule: null,
-                            loaded: true,
-                          loading: false
-                      }
+                          loaded: true,
+                          loading: false,
+                          pages: action.payload.pages,
+                          module_count: action.payload.module_count
+
+                        }
                 }             
 
             case DomainActions.LOAD_DOMAIN_FAILURE:
@@ -173,6 +182,8 @@ export const Getdomains = (state: DomainState) => state.modules
 
 //select selectUserId
 export const Getselecteddomain = (state: DomainState) => state.selectedModule;
+export const Getdomainpages = (state: DomainState) => state.pages;
+export const Getdomaincount = (state: DomainState) => state.module_count;
 /* 
 //Get SElected user from the selectedUserId
 export const getSelectedDomain = createSelector(getDomains, selectedDomainId, (entities, selectedId) => {
