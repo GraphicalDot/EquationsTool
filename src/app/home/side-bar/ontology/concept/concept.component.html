@@ -107,6 +107,17 @@
    
 
         <table>
+
+              <div class="row">
+    <form materialize class="col s12">
+      <div class="row">
+        <div class="input-field col s12">
+          <textarea id="textarea1" class="materialize-textarea" (ngModelChange)="search_text_changed($event)" [(ngModel)]="search_text" name="search_text" ></textarea>
+          <label for="textarea1">Search Concepts</label>
+        </div>
+      </div>
+    </form>
+  </div>
         <thead>
           <tr>
               <th>Name</th>
@@ -121,7 +132,8 @@
           </tr>
         </thead>
 
-        <tbody *ngFor="let domain of concepts$ | async">
+            <tbody *ngFor="let domain of concepts$ | async | paginate: { id: 'concept', itemsPerPage: 15, currentPage: currentPage,  totalItems: module_count$ |async}">
+
             <tr>
                     <td>{{domain.module_name}}</td>
                     <td>{{domain.username}}</td>
@@ -129,15 +141,15 @@
                     <td>
                         <input disable type="radio" [checked]="domain.creation_approval"/><label class="black-text flow-text"></label>
                     </td>
-                    <td>{{ domain.children?.length || '0' }}</td>
+                    <td>{{ domain.children}}</td>
                     <td>{{domain.status}}</td>
                     
                      <td><button class="btn waves-effect waves-light" (click) = "edit(domain)" >Edit</button></td>
                     <td><button class="btn waves-effect waves-light" (click) = "delete(domain)">Delete</button></td>
                     <td><button class="btn waves-effect waves-light" (click)="selectModule(domain)">Add concepts</button></td>
             </tr>
-
         </tbody>
+                    <pagination-controls id='concept' (pageChange)="pageConceptChanged($event)"></pagination-controls>
         </table>
 
 </div>

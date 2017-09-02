@@ -10,7 +10,9 @@ export interface SubconceptState {
     loading: boolean| null,
     loaded: boolean| null,
     error?: string,
-    parent_id?: null
+    parent_id?: null,
+    pages?: number,
+    module_count?: number
 }
 
 const initialState: SubconceptState = {
@@ -20,7 +22,9 @@ const initialState: SubconceptState = {
     loading: false,
     loaded: false, 
     error: null,
-    parent_id: null
+    parent_id: null,
+    pages: null,
+    module_count: null
 }
 
 
@@ -66,7 +70,9 @@ export function SubconceptReducer(state = initialState, action: actions.Actions)
                           modules: action.payload.modules,
                           selectedModule: null,
                             loaded: true,
-                          loading: false
+                          loading: false,
+                        pages: action.payload.pages,
+                          module_count: action.payload.module_count
                       }
                 }             
             case actions.LOAD_SUBCONCEPT_FAILURE:
@@ -94,7 +100,9 @@ export function SubconceptReducer(state = initialState, action: actions.Actions)
                             modules: Object.assign({}, state.modules, { [action.payload.module_id]: action.payload}),
                             selectedModule: state.selectedModule,
                             loaded: true,
-                            loading: false
+                            loading: false,
+                            pages: state.pages,
+                            module_count: state.module_count +1
                         };
 
             case actions.ADD_SUBCONCEPT_FAILURE:
@@ -123,7 +131,9 @@ export function SubconceptReducer(state = initialState, action: actions.Actions)
                             selectedModule: state.selectedModule,
                             loaded: true,
                             loading: false,
-                            error: action.payload._body
+                            error: action.payload._body,
+                            pages: state.pages,
+                            module_count: state.module_count -1
                         }
             case actions.DELETE_SUBCONCEPT_SUCCESS:
                     return {
@@ -146,7 +156,9 @@ export function SubconceptReducer(state = initialState, action: actions.Actions)
                         modules: state.modules,
                         selectedModule: action.payload,
                         loaded: true,
-                        loading: false
+                        loading: false,
+                        pages: state.pages,
+                        module_count: state.module_count
                           }
 
             /*state.splice(state.indexOf(action.payload), 1);
@@ -177,6 +189,8 @@ export const Getsubconcepts = (state: SubconceptState) => state.modules
 
 //select selectUserId
 export const Getselectedsubconcept = (state: SubconceptState) => state.selectedModule;
+export const Getsubconceptpages = (state: SubconceptState) => state.pages;
+export const Getsubconceptcount = (state: SubconceptState) => state.module_count;
 /* 
 //Get SElected user from the selectedUserId
 export const Getselectedsubconcept = createSelector(Getsubconcepts, Getselectedsubconceptid, (entities, selectedId) => {

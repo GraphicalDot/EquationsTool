@@ -29,9 +29,12 @@ public openAdd: boolean
     public user: UserModel
     public nanoskills$: Observable<any>;
     public subconcepts$: Observable<any>;
+    public currentPage: number;
 
     public subscriber_one 
     public subscriber_two 
+    public pages$: Observable<number>;
+    public module_count$: Observable<number>;
     
     @Output() selectedNanoskill = new EventEmitter<NanoskillModel>();
     @Output() submitNanoskill = new EventEmitter<NanoskillModel>();
@@ -44,6 +47,9 @@ public openAdd: boolean
         //this.selected_domain = this.store.select("Selecteddomain")
         this.nanoskills$ = this.store.select(fromRoot.getNanoskills);
         this.subconcepts$ = this.store.select(fromRoot.getSubConcepts);
+        this.pages$ = this.store.select(fromRoot.getNanoskillPages)
+        this.module_count$ = this.store.select(fromRoot.getNanoskillCount)
+
        // this.selectedDomain$ = this.store.select(fromRoot.getSelectdDomainId) 
 
     }
@@ -60,7 +66,7 @@ public openAdd: boolean
             .subscribe(value => {
             this.selectedParent = value;
             console.log(value)
-            this.store.dispatch(new actions.Loadnanoskill({"parent_id": value.module_id, "user_id": this.user.user_id}))
+            this.store.dispatch(new actions.Loadnanoskill({"parent_id": value.module_id, "user_id": this.user.user_id, "skip": 0, "limit": 15, "search_text": null}))
 
         });
 
@@ -68,8 +74,8 @@ public openAdd: boolean
     };
         
     ngOnDestroy(){
-        this.subscriber_one.unsubscribe()
-        this.subscriber_two.unsubscribe()
+        //this.subscriber_one.unsubscribe()
+        //this.subscriber_two.unsubscribe()
     };
     select(module) {
         this.selectedNanoskill.emit(module);
@@ -103,4 +109,16 @@ public openAdd: boolean
     change(newValue) {
       Materialize.toast('child select', 2000)
     }
+
+    pageConceptChanged(input){
+        console.log(input)
+        this.currentPage = input
+        this.store.dispatch(new actions.Loadnanoskill({"parent_id": this.selectedParent.module_id, "user_id": this.user.user_id, "skip": 15*(input-1), "limit": 15, "search_text": null}))
+    
+    }
+
+    search_text_changed(search_text){
+        this.store.dispatch(new actions.Loadnanoskill({"parent_id": this.selectedParent.module_id, "user_id": this.user.user_id, "skip": 0, "limit": 15, "search_text": search_text}))
+    }
+
 }

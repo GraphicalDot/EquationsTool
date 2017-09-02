@@ -28,10 +28,12 @@ export class SubconceptComponent implements OnInit {
     public user: UserModel
     public concepts$: Observable<any>;
     public subconcepts$: Observable<any>;
-
+    public currentPage: number;
     public subscriber_one 
     public subscriber_two 
-    
+    public pages$: Observable<number>;
+    public module_count$: Observable<number>;
+
     @Output() selectedModule = new EventEmitter<SubconceptModel>();
     @Output() submitSubconcept = new EventEmitter<SubconceptModel>();
     @Output() editSubconcept = new EventEmitter<SubconceptModel>();
@@ -43,6 +45,8 @@ export class SubconceptComponent implements OnInit {
         //this.selected_domain = this.store.select("Selecteddomain")
         this.concepts$ = this.store.select(fromRoot.getConcepts);
         this.subconcepts$ = this.store.select(fromRoot.getSubConcepts);
+        this.pages$ = this.store.select(fromRoot.getSubconceptPages)
+        this.module_count$ = this.store.select(fromRoot.getSubconceptCount)
        // this.selectedDomain$ = this.store.select(fromRoot.getSelectdDomainId) 
 
     }
@@ -67,8 +71,8 @@ export class SubconceptComponent implements OnInit {
     };
         
     ngOnDestroy(){
-        this.subscriber_one.unsubscribe()
-        this.subscriber_two.unsubscribe()
+        //this.subscriber_one.unsubscribe()
+        //this.subscriber_two.unsubscribe()
     };
     select(concept: SubconceptModel) {
         this.selectedModule.emit(concept);
@@ -102,4 +106,17 @@ export class SubconceptComponent implements OnInit {
     change(newValue) {
       Materialize.toast('child select', 2000)
     }
+    
+    pageConceptChanged(input){
+        console.log(input)
+        this.currentPage = input
+        this.store.dispatch(new actions.Loadsubconcept({"parent_id": this.selectedParent.module_id, "user_id": this.user.user_id, "skip": 15*(input-1), "limit": 15, "search_text": null}))
+    
+    }
+
+    search_text_changed(search_text){
+        this.store.dispatch(new actions.Loadsubconcept({"parent_id": this.selectedParent.module_id, "user_id": this.user.user_id, "skip": 0, "limit": 15, "search_text": search_text}))
+    }
+
+
 }

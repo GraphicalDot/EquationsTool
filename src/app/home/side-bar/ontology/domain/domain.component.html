@@ -92,7 +92,7 @@
           </tr>
         </thead>
 
-        <tbody *ngFor="let domain of domains$ | async | paginate: { itemsPerPage: 15, currentPage: currentPage,  totalItems: module_count$ |async}">
+        <tbody *ngFor="let domain of domains$ | async | paginate: {id: 'domain', itemsPerPage: 15, currentPage: currentDomainPage,  totalItems: domain_count$ |async}">
             <tr>
                     <td>{{domain.module_name}}</td>
                     <td>{{domain.username}}</td>
@@ -103,14 +103,14 @@
                     <td>{{ domain.children}}</td>
                     <td>{{domain.status}}</td>
                     
-                     <td><button class="btn waves-effect waves-light" (click) = "edit(domain)" >Edit</button></td>
+                    <td><button class="btn waves-effect waves-light" (click) = "edit(domain)" >Edit</button></td>
                     <td><button class="btn waves-effect waves-light" (click) = "delete(domain)">Delete</button></td>
                     <td><button class="btn waves-effect waves-light" (click)="selectModule(domain)">Add concepts</button></td>
             </tr>
 
 
         </tbody>
-        <pagination-controls (pageChange)="pageChanged($event)"></pagination-controls>
+        <pagination-controls id="domain" (pageChange)="pageDomainChanged($event)"></pagination-controls>
         </table>
 
 

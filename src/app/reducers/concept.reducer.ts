@@ -10,7 +10,9 @@ export interface ConceptState {
     parent_id?: string| null,
     loading: boolean| null,
     loaded: boolean| null,
-    error?: string
+    error?: string,
+    pages?: number,
+    module_count?: number
 
 }
 
@@ -22,6 +24,8 @@ const initialState: ConceptState = {
     loaded: false, 
     error: null,
     parent_id: null,
+    pages: null,
+    module_count: null
 }
 
 
@@ -57,7 +61,9 @@ export function ConceptReducer(state = initialState,  action: ConceptActions.Act
                           selectedModule: null,
                             loaded: true,
                           loading: false,
-                          parent_id: state.parent_id
+                          parent_id: state.parent_id,
+                        pages: action.payload.pages,
+                          module_count: action.payload.module_count
                       }
                 }              
 
@@ -90,7 +96,10 @@ export function ConceptReducer(state = initialState,  action: ConceptActions.Act
                             selectedModule: state.selectedModule,
                             loaded: true,
                             loading: false,
-                            parent_id: state.parent_id
+                            parent_id: state.parent_id,
+                            pages: state.pages,
+                            module_count: state.module_count
+
                         };
 
             case ConceptActions.ADD_CONCEPT_FAILURE:
@@ -101,7 +110,9 @@ export function ConceptReducer(state = initialState,  action: ConceptActions.Act
                             loaded: true,
                             loading: false,
                             error: action.payload._body,
-                            parent_id: state.parent_id
+                            parent_id: state.parent_id,
+                            pages: state.pages,
+                            module_count: state.module_count
                             
                         };
 
@@ -112,7 +123,7 @@ export function ConceptReducer(state = initialState,  action: ConceptActions.Act
                                 loading: true,
                                 error: undefined,
                                 loaded: false,   
-                            parent_id: state.parent_id
+                                parent_id: state.parent_id
 
                             }
                     }
@@ -151,7 +162,9 @@ export function ConceptReducer(state = initialState,  action: ConceptActions.Act
                         parent_id: state.parent_id,
                         loaded: true,
                         loading: false,
-                        
+                        pages: state.pages,
+                        module_count: state.module_count
+
                           }  
 
             default:
@@ -176,6 +189,8 @@ export const Getconcepts = (state: ConceptState) => state.modules
 
 //select selectUserId
 export const Getselectedconcept = (state: ConceptState) => state.selectedModule;
+export const Getconceptpages = (state: ConceptState) => state.pages;
+export const Getconceptcount = (state: ConceptState) => state.module_count;
 
 /* 
 //Get SElected user from the selectedUserId

@@ -46,9 +46,9 @@ export class DomainComponent implements OnInit, OnDestroy {
     public user: UserModel
     public moduleType: "domain"
     public data
-    public currentPage: number
+    public currentDomainPage: number
     public pages$: Observable<number>;
-    public module_count$: Observable<number>
+    public domain_count$: Observable<number>
     //public user$: Observable<UserModel>;
     @Output() selectedDomain = new EventEmitter<DomainModel>();
     @Output() submitDomain = new EventEmitter<DomainModel>();
@@ -60,7 +60,7 @@ export class DomainComponent implements OnInit, OnDestroy {
                         //this.user$ = this.store.select(fromRoot.getAuthenticatedUser) 
     //                    this.user$ = this.store.select(fromRoot.getAuthenticatedUser) 
                         this.pages$ = this.store.select(fromRoot.getDomainPages)
-                        this.module_count$ = this.store.select(fromRoot.getDomainCount)
+                        this.domain_count$ = this.store.select(fromRoot.getDomainCount)
 
 }
 
@@ -99,9 +99,9 @@ export class DomainComponent implements OnInit, OnDestroy {
       this.editDomain.emit(domain);
     }
 
-    pageChanged(input){
+    pageDomainChanged(input){
         console.log(input)
-        this.currentPage = input
+        this.currentDomainPage = input
         this.store.dispatch(new actions.Loaddomain({"user_id": this.user.user_id, "skip": 15*(input-1), "limit": 15, "search_text": null}))
     
     }
@@ -109,4 +109,5 @@ export class DomainComponent implements OnInit, OnDestroy {
     search_text_changed(search_text){
         this.store.dispatch(new actions.Loaddomain({"user_id": this.user.user_id, "skip": 0, "limit": 15, "search_text": search_text}))
     }
+
 }

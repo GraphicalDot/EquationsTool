@@ -151,7 +151,9 @@ export function DomainReducer(state = initialState, action: DomainActions.Action
                         modules: state.modules,
                         selectedModule: action.payload,
                         loaded: true,
-                        loading: false
+                        loading: false,
+                        pages: state.pages,
+                        module_count: state.module_count
                           }
 
             /*state.splice(state.indexOf(action.payload), 1);

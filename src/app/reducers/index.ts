@@ -115,17 +115,23 @@ export const getDomainCount = createSelector(getDomainAppState, fromDomain.Getdo
 export const getConcepts = createSelector(getConceptAppState, fromConcept.Getconcepts)
 export const getConceptIds = createSelector(getConceptAppState, fromConcept.Getconceptids)
 export const getSelectedConcept = createSelector(getConceptAppState, fromConcept.Getselectedconcept )
+export const getConceptPages = createSelector(getConceptAppState, fromConcept.Getconceptpages)
+export const getConceptCount = createSelector(getConceptAppState, fromConcept.Getconceptcount)
 
 
 
 export const getSubConcepts = createSelector(SubconceptAppState, fromSubconcept.Getsubconcepts)
 export const getSubConceptIds = createSelector(SubconceptAppState, fromSubconcept.Getsubconceptids)
 export const getSelectedSubConcept = createSelector(SubconceptAppState, fromSubconcept.Getselectedsubconcept )
+export const getSubconceptPages = createSelector(SubconceptAppState, fromSubconcept.Getsubconceptpages)
+export const getSubconceptCount = createSelector(SubconceptAppState, fromSubconcept.Getsubconceptcount)
 
 
 export const getNanoskills = createSelector(NanoskillAppState, fromNanoskill.Getnanoskills)
 export const getNanoskillIds = createSelector(NanoskillAppState, fromNanoskill.Getnanoskillids)
 export const getSelectedNanoskill = createSelector(NanoskillAppState, fromNanoskill.Getselectednanoskill )
+export const getNanoskillPages = createSelector(NanoskillAppState, fromNanoskill.Getnanoskillpages)
+export const getNanoskillCount = createSelector(NanoskillAppState, fromNanoskill.Getnanoskillcount)
 
 
 

@@ -1,7 +1,8 @@
+import { ConceptState } from './concept.reducer';
 import { ActionReducer, Action, State } from '@ngrx/store';
 import { NanoskillModel} from '../models/nanoskill.model';
 import {createSelector} from "reselect"
-import * as actions from "../actions/nanoskill.actions"
+import * as actions from '../actions/nanoskill.actions';
 
 export interface NanoskillState {
     module_ids?: string[],
@@ -11,6 +12,8 @@ export interface NanoskillState {
     loaded: boolean| null,
     error?: string,
     parent_id?: null
+    pages?: number,
+    module_count?: number
 }
 
 const initialState: NanoskillState = {
@@ -20,7 +23,9 @@ const initialState: NanoskillState = {
     loading: false,
     loaded: false, 
     error: null,
-    parent_id: null
+    parent_id: null,
+    pages: null,
+    module_count: null
 }
 
 
@@ -66,7 +71,9 @@ export function NanoskillReducer(state = initialState, action: actions.Actions):
                           modules: action.payload.modules,
                           selectedModule: null,
                             loaded: true,
-                          loading: false
+                          loading: false,
+                        pages: action.payload.pages,
+                          module_count: action.payload.module_count
                       }
                 }             
             case actions.LOAD_NANOSKILL_FAILURE:
@@ -94,7 +101,9 @@ export function NanoskillReducer(state = initialState, action: actions.Actions):
                             modules: Object.assign({}, state.modules, { [action.payload.module_id]: action.payload}),
                             selectedModule: state.selectedModule,
                             loaded: true,
-                            loading: false
+                            loading: false,
+                            pages: state.pages,
+                            module_count: state.module_count + 1
                         };
 
             case actions.ADD_NANOSKILL_FAILURE:
@@ -146,7 +155,9 @@ export function NanoskillReducer(state = initialState, action: actions.Actions):
                         modules: state.modules,
                         selectedModule: action.payload,
                         loaded: true,
-                        loading: false
+                        loading: false,
+                            pages: state.pages,
+                            module_count: state.module_count
                           }
 
             /*state.splice(state.indexOf(action.payload), 1);
@@ -177,6 +188,8 @@ export const Getnanoskills = (state: NanoskillState) => state.modules
 
 //select selectUserId
 export const Getselectednanoskill = (state: NanoskillState) => state.selectedModule;
+export const Getnanoskillpages = (state: NanoskillState) => state.pages;
+export const Getnanoskillcount = (state: NanoskillState) => state.module_count;
 /* 
 //Get SElected user from the selectedUserId
 export const Getselectedsubconcept = createSelector(Getsubconcepts, Getselectedsubconceptid, (entities, selectedId) => {

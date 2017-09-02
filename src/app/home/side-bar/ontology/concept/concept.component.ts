@@ -1,3 +1,4 @@
+import { toObservable } from '@angular/forms/src/validators';
 import { OntologyModule } from '../ontology.module';
 import { baseServeCommandOptions } from '@angular/cli/commands/serve';
 import { Conditional } from '@angular/compiler';
@@ -37,6 +38,10 @@ export class ConceptComponent implements OnInit {
     public domains$: Observable<any>;
     public user: UserModel
     public concepts$: Observable<any>;
+    public currentPage: number
+
+    public pages$: Observable<number>;    
+    public module_count$: Observable<number>;    
 
     public subscriber_one 
     public subscriber_two 
@@ -51,7 +56,12 @@ export class ConceptComponent implements OnInit {
         //this.selected_domain = this.store.select("Selecteddomain")
         this.domains$ = this.store.select(fromRoot.getDomains);
         this.concepts$ = this.store.select(fromRoot.getConcepts);
+        this.pages$ = this.store.select(fromRoot.getConceptPages)
+        this.module_count$ = this.store.select(fromRoot.getConceptCount)
        // this.selectedDomain$ = this.store.select(fromRoot.getSelectdDomainId) 
+
+        this.pages$.subscribe((value) => console.log(value))
+        this.module_count$.subscribe((value) => console.log(value))
 
     }
 
@@ -104,9 +114,23 @@ export class ConceptComponent implements OnInit {
       this.concept = concept;
       this.editConcept.emit(concept);
     }
+
     change(newValue) {
       Materialize.toast('child select', 2000)
       this.model = newValue;
       this.modelChange.emit(newValue);
     }
+
+
+    pageConceptChanged(input){
+        console.log(input)
+        this.currentPage = input
+        this.store.dispatch(new actions.Loadconcept({"parent_id": this.selectedDomain.module_id, "user_id": this.user.user_id, "skip": 15*(input-1), "limit": 15, "search_text": null}))
+    
+    }
+
+    search_text_changed(search_text){
+        this.store.dispatch(new actions.Loadconcept({"parent_id": this.selectedDomain.module_id, "user_id": this.user.user_id, "skip": 0, "limit": 15, "search_text": search_text}))
+    }
+
 }
