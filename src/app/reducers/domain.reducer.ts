@@ -4,7 +4,7 @@ import {createSelector} from "reselect"
 import * as DomainActions from "../actions/ontology.actions"
 
 export interface DomainState {
-    module_ids?: string[],
+    module_ids?: Array<string>,
     modules?: Array<any>
     selectedModule?: DomainModel| null;
     loading: boolean| null,
@@ -71,14 +71,26 @@ export function DomainReducer(state = initialState, action: DomainActions.Action
                     }
 
             case DomainActions.ADD_DOMAIN_SUCCESS:
+                console.log(action.payload.module_id)
                 console.log(action.payload)
-                 return {
-                            module_ids: [...state.module_ids, action.payload.module_id] ,
-                            modules: [...state.modules, action.payload],
+/* 
+                ({module} = action.payload);
+                state.devices.push(action.payload.module_id)
+                return Object.assign({}, state, { 
+                            module_ids: someids ,
+                            modules: newstate,
                             selectedModule: state.selectedModule,
                             loaded: true,
                             loading: false
-                        };
+                        });
+ */
+                return Object.assign({}, state, {"modules": [...state.modules, action.payload.modules],
+                                  "module_ids": [...state.module_ids, action.payload.module_id],
+                                                            selectedModule: state.selectedModule,
+                            loaded: true,
+                            loading: false
+                                
+                                })
 
             case DomainActions.ADD_DOMAIN_FAILURE:
                     return {

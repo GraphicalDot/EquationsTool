@@ -39,7 +39,7 @@ import {SubconceptEffects} from "./effects/subconcept.effects"
 
 import {NanoskillService} from "./services/nanoskill.service"
 import {NanoskillEffects} from "./effects/nanoskill.effects"
-
+import {NgxPaginationModule} from 'ngx-pagination'; // <-- import the module
 
 import {DomainReducer} from "./reducers/domain.reducer";
 import {ConceptReducer} from "./reducers/concept.reducer";
@@ -60,8 +60,6 @@ import {reducer} from "./reducers"
  */
 //);
 import { AppRoutingModule } from "./app-routing.module";
-
-
 const routes: Routes = 
 [
 { path: 'home', component: HomeComponent, 
@@ -74,7 +72,6 @@ children: [
 { path: 'templates', component: TemplatesComponent},
 { path: 'ontology', component: OntologyComponent},
 {path: 'userprofile', component: UserprofileComponent}
-
 ]}
 ]
 
@@ -96,7 +93,9 @@ children: [
     LoginComponent
   ],
   imports: [
+
     AppRoutingModule,
+    NgxPaginationModule, // <-- import the module
 
     BrowserModule, 
     FormsModule,

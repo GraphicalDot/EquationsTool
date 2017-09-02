@@ -77,8 +77,8 @@ export class ConceptComponent implements OnInit {
         
     ngOnDestroy(
     ){
-        this.subscriber_one.unsubscribe()
-        this.subscriber_two.unsubscribe()
+        //this.subscriber_one.unsubscribe()
+        //this.subscriber_two.unsubscribe()
     };
     selectModule(concept: ConceptModel) {
         this.selectedConceptModule.emit(concept);

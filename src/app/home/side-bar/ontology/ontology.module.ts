@@ -17,7 +17,7 @@ import { NanoskillComponent } from './nanoskill/nanoskill.component';
     RouterModule, 
     MaterializeModule, 
     FormsModule, 
-    HttpModule
+    HttpModule, 
   ],
   declarations: [OntologyComponent, SubconceptComponent, ConceptComponent, DomainComponent, NanoskillComponent],
   exports: [OntologyComponent],
