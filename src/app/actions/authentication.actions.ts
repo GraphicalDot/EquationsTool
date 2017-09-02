@@ -54,7 +54,9 @@ export class AuthenticationErrorAction implements Action {
 export const AUTHENTICATE_SUCCESS = "[Authentication] Authenticate success"
 export class AuthenticationSuccessAction implements Action {
         readonly type = AUTHENTICATE_SUCCESS;
-        constructor(public payload: { user: UserModel }) {}
+        constructor(public payload: any) {
+            
+        }
 }
 
 export const SIGN_OUT = "[Authentication] Sign out success"

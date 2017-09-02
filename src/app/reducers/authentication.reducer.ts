@@ -15,13 +15,16 @@ export interface AuthenticateState {
   loading: boolean;
   // the authenticated user
   user?: UserModel;
+  token?: string;
 }
 
 
 const initialState: AuthenticateState = {
-  authenticated: null,
+  authenticated: JSON.parse(localStorage.getItem("authenticated")),
   loaded: false,
-  loading: false
+  loading: false,
+  user:  JSON.parse(localStorage.getItem("user")),
+  token: localStorage.getItem("token")
 };
 
 export function AuthenticationReducer(state: any = initialState, action: AuthenticateActions.Actions): AuthenticateState {
@@ -43,7 +46,11 @@ export function AuthenticationReducer(state: any = initialState, action: Authent
       });
 
     case AuthenticateActions.AUTHENTICATE_SUCCESS:
-      return Object.assign({}, state, {
+        console.log(JSON.stringify(action.payload.user))     
+        localStorage.setItem('user', JSON.stringify(action.payload.user));
+        localStorage.setItem('token', action.payload.token);
+        localStorage.setItem('authenticated', "true");
+       return Object.assign({}, state, {
         authenticated: true,
         loaded: true,
         loading: false,
@@ -64,10 +71,12 @@ export function AuthenticationReducer(state: any = initialState, action: Authent
       });
 
     case AuthenticateActions.SIGN_OUT_SUCCESS:
-      return Object.assign({}, state, {
-        authenticated: false,
-        error: undefined,
-        user: undefined
+          localStorage.clear();
+          return Object.assign({}, state, {
+            authenticated: false,
+            error: undefined,
+            user: undefined,
+            token: undefined
       });
 
 
