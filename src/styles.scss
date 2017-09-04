@@ -1,11 +1,13 @@
 /* You can add global styles to this file, and also import other style files */
 $roboto-font-path: "~materialize-css/dist/fonts/roboto/";
 @import "~materialize-css/sass/materialize";
+@import '~@angular/material/theming';
+
 //@import "~font-awesome/scss/font-awesome.scss";
 
 @import '~materialize-css/sass/components/color';
-$secondary-color: color("blue", "darken-4");
-$primary-color: #373737;
+/* $primary-color: color("indigo", "base");
+$secondary-color: color("blue", "lighten-1");
 $primary-color-light: color( "teal", "darken-4");
 $primary-color-dark: false !default;
 $secondary-color: color("teal", "lighten-1") !default;
@@ -13,6 +15,18 @@ $success-color: color("green", "base") !default;
 $error-color: color("blue", "base") !default;
 
 $link-color: color("light-blue", "darken-1") !default;
+ */
+
+$primary-color: color("deep-purple", "lighten-1") !default;
+$primary-color-light: lighten($primary-color, 15%) !default;
+$primary-color-dark: darken($primary-color, 15%) !default;
+ 
+/*** $secondary-color: color("teal", "lighten-1") !default; ***/
+$secondary-color: color("pink", "accent-3") !default;
+$success-color: color("green", "base") !default;
+$error-color: color("red", "base") !default;
+$link-color: color("light-blue", "darken-1") !default;
+
 
 nav {
     color: #373737; // #ffd040
@@ -20,5 +34,5 @@ nav {
 }
 
 body {
-  background:url('bg15.jpg');
+  /* background:url('bg15.jpg'); */
 }

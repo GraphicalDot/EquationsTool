@@ -12,17 +12,19 @@ import * as fromDomain from './domain.reducer';
 import * as fromConcept from './concept.reducer';
 import * as fromSubconcept from './subconcept.reducer';
 import* as fromNanoskill from "./nanoskill.reducer"
+import* as fromQuestion from "./question.reducer"
 
 import * as fromUser from './users.reducer';
 import * as fromAuthentication from "./authentication.reducer"
 import * as fromRouter from '@ngrx/router-store';
 
 export interface AppState {
-  domains: fromDomain.DomainState;
-  concepts: fromConcept.ConceptState;
-  subconcepts: fromSubconcept.SubconceptState;
+  domains: fromDomain.DomainState,
+  concepts: fromConcept.ConceptState,
+  subconcepts: fromSubconcept.SubconceptState,
   nanoskills: fromNanoskill.NanoskillState,
-  users: fromUser.UserState;
+  questions: fromQuestion.QuestionState,
+  users: fromUser.UserState,
   router: fromRouter.RouterState,
   authentication: fromAuthentication.AuthenticateState
 }
@@ -35,6 +37,7 @@ export const reducers  = {
   concepts: fromConcept.ConceptReducer,
   subconcepts: fromSubconcept.SubconceptReducer,
   nanoskills: fromNanoskill.NanoskillReducer,
+  questions: fromQuestion.QuestionReducer,
   users: fromUser.UsersReducer,
   router: fromRouter.routerReducer,
   authentication: fromAuthentication.AuthenticationReducer
@@ -60,6 +63,7 @@ export const getUserAppState =   (state: AppState) => state.users;
 export const getDomainAppState =  (state: AppState) => state.domains;
 export const SubconceptAppState =  (state: AppState) => state.subconcepts;
 export const NanoskillAppState =  (state: AppState) => state.nanoskills;
+export const QuestionAppState =  (state: AppState) => state.questions;
 
 
 export const getConceptAppState =  (state: AppState) => state.concepts;
@@ -132,6 +136,14 @@ export const getNanoskillIds = createSelector(NanoskillAppState, fromNanoskill.G
 export const getSelectedNanoskill = createSelector(NanoskillAppState, fromNanoskill.Getselectednanoskill )
 export const getNanoskillPages = createSelector(NanoskillAppState, fromNanoskill.Getnanoskillpages)
 export const getNanoskillCount = createSelector(NanoskillAppState, fromNanoskill.Getnanoskillcount)
+
+
+
+export const getQuestions = createSelector(QuestionAppState, fromQuestion.Getquestions)
+export const getQuestionIds = createSelector(QuestionAppState, fromQuestion.Getquestionids)
+export const getSelectedQuestion = createSelector(QuestionAppState, fromQuestion.Getselectedquestion)
+export const getQuestionPages = createSelector(QuestionAppState, fromQuestion.Getquestionpages)
+export const getQuestionCount = createSelector(QuestionAppState, fromQuestion.Getquestioncount)
 
 
 

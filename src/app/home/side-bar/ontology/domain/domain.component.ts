@@ -77,7 +77,6 @@ export class DomainComponent implements OnInit, OnDestroy {
     };
     ngOnDestroy(){};
     selectModule(domain: DomainModel) {
-        console.log("This is the domain which was selecetd from domain componenet" + DomainModel)
         this.selectedDomain.emit(domain);
     }
     delete(domain) {
@@ -100,7 +99,7 @@ export class DomainComponent implements OnInit, OnDestroy {
     }
 
     pageDomainChanged(input){
-        console.log(input)
+        console.log("Domain changed clicked" + input)
         this.currentDomainPage = input
         this.store.dispatch(new actions.Loaddomain({"user_id": this.user.user_id, "skip": 15*(input-1), "limit": 15, "search_text": null}))
     

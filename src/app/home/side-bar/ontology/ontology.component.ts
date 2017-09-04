@@ -13,6 +13,7 @@ import * as OntologyActions from "../../../actions/ontology.actions"
 import * as fromRoot from "../../../reducers"
 import * as Subconceptactions from "../../../actions/subconcept.actions"
 import * as Nanoskillactions from "../../../actions/nanoskill.actions"
+import * as Questionactions from "../../../actions/question.actions"
 
 
 @Component({
@@ -30,15 +31,15 @@ export class OntologyComponent implements OnInit {
     public selectedDomain: DomainModel;
     public selectedConcept: ConceptModel;
     public selectedSubconcept: SubconceptModel;
-    public selectedNanoskill: string;
+    public selectedNanoskill: NanoskillModel;
     
     //public concepts: Observable<Array<ConceptModel>>;
     //public globalDomain: Observable<DomainModel>;
     //public globalDomain: DomainModel;
     public globalConcept: ConceptModel;
     constructor(private store: Store<fromRoot.AppState>) {
-        this.domains = this.store.select(fromRoot.getDomains);
-        this.concepts = this.store.select(fromRoot.getConcepts);
+        //this.domains = this.store.select(fromRoot.getDomains);
+        //this.concepts = this.store.select(fromRoot.getConcepts);
 
         //this.globalDomain = store.select("Selecteddomain")
         /*
@@ -53,14 +54,12 @@ export class OntologyComponent implements OnInit {
     ngOnInit() {
           this.store.select(fromRoot.getAuthenticatedUser)
             .subscribe(value => {
-            console.log("Authenticated user" + value.user_id)
             this.user = value
         });
 
 
         this.store.select(fromRoot.getSelectedDomain)
             .subscribe(value => {
-                console.log(value)
                 this.selectedDomain = value
         });
 
@@ -74,40 +73,37 @@ export class OntologyComponent implements OnInit {
             this.selectedSubconcept = value
         });
 
+        this.store.select(fromRoot.getSelectedNanoskill)
+            .subscribe(value => {
+               this.selectedNanoskill = value
+        });
+
     }
 
     _selectedDomain(domain: DomainModel){
-        console.log("This is what received in ontology compoenent" + domain.module_id)
-        //this.globalDomain = domain
-        
         this.store.dispatch(new OntologyActions.Selecteddomain(domain))
         this.store.dispatch(new OntologyActions.Setconceptparentsuccess(this.selectedDomain.module_id))
-        
     }
 
     _selectedConcept(concept: ConceptModel){
-        console.log(this.selectedConcept)
-
-        //this.globalDomain = domain
-        
         this.store.dispatch(new OntologyActions.Selectedconcept(concept))
         this.store.dispatch(new Subconceptactions.Setsubconceptparentsuccess(this.selectedConcept.module_id))
         
     }
 
     _selectedSubconcept(subconcept: SubconceptModel){
-        console.log(this.selectedConcept)
-
-        //this.globalDomain = domain
-        
+        console.log("Step2: Reeived by Ontology component")
         this.store.dispatch(new Subconceptactions.Selectedsubconcept(subconcept))
-        this.store.dispatch(new Nanoskillactions.Setnanoskillparentsuccess(this.selectedConcept.module_id))
-        
+        this.store.dispatch(new Nanoskillactions.Setnanoskillparentsuccess(this.selectedSubconcept.module_id))
+    }
+    
+    _selectedNanoskill(nanoskill: NanoskillModel){
+        this.store.dispatch(new Nanoskillactions.Selectednanoskillsuccess(nanoskill))
+        this.store.dispatch(new Questionactions.Setquestionparentsuccess(this.selectedNanoskill.module_id))
     }
 
 
     _submitDomain(domain: DomainModel){
-        console.log(domain)
         this.store.dispatch(new OntologyActions.Adddomain(domain))
 
     }
@@ -121,7 +117,7 @@ export class OntologyComponent implements OnInit {
     _submitNanoskill(nanoskill: NanoskillModel){
         console.log(nanoskill)
         //this.service.addConcept(concept)
-        this.store.dispatch(new Subconceptactions.Addsubconcept(nanoskill))
+        this.store.dispatch(new Nanoskillactions.Addnanoskill(nanoskill))
 
     }
 

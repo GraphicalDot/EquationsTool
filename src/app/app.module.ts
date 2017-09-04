@@ -40,6 +40,11 @@ import {SubconceptEffects} from "./effects/subconcept.effects"
 import {NanoskillService} from "./services/nanoskill.service"
 import {NanoskillEffects} from "./effects/nanoskill.effects"
 
+import {QuestionService} from "./services/question.service"
+import {QuestionEffects} from "./effects/question.effects"
+
+
+
 import {DomainReducer} from "./reducers/domain.reducer";
 import {ConceptReducer} from "./reducers/concept.reducer";
 import { combineReducers } from '@ngrx/store';
@@ -112,13 +117,14 @@ children: [
     EffectsModule.run(OntologyEffects),
     EffectsModule.run(SubconceptEffects),
     EffectsModule.run(NanoskillEffects),
+    EffectsModule.run(QuestionEffects),
     //EffectsModule.runAfterBootstrap(UsersEffects),
     StoreDevtoolsModule.instrumentStore(),
    // StoreLogMonitorModule
 
 
   ],
-  providers: [UsersService, OntologyService, AuthenticationService, AuthenticatedGuard, SubconceptService, NanoskillService],
+  providers: [UsersService, OntologyService, AuthenticationService, AuthenticatedGuard, SubconceptService, NanoskillService, QuestionService],
   bootstrap: [AppComponent],
 })
 export class AppModule { }

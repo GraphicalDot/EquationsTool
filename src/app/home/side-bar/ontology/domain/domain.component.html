@@ -1,5 +1,5 @@
 <div class="row">
-    <a class="btn-floating btn-large waves-effect waves-light red" (click)="addDomain()"><i class="material-icons">add</i></a>
+    <a class="btn-floating btn-large waves-effect waves-light red pulse" (click)="addDomain()"><i class="material-icons">add</i></a>
 </div>
 
 <div class="row">
@@ -104,7 +104,7 @@
                     <td>{{domain.status}}</td>
                     
                     <td><button class="btn waves-effect waves-light" (click) = "edit(domain)" >Edit</button></td>
-                    <td><button class="btn waves-effect waves-light" (click) = "delete(domain)">Delete</button></td>
+                    <td><button class="btn waves-effect waves-light red" (click) = "delete(domain)">Delete</button></td>
                     <td><button class="btn waves-effect waves-light" (click)="selectModule(domain)">Add concepts</button></td>
             </tr>
 

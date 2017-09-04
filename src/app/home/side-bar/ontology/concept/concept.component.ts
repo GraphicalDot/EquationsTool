@@ -15,10 +15,9 @@ import * as actions from '../../../../actions/ontology.actions';
 
 
 @Component({
-  selector: 'app-concept',
-  templateUrl: './concept.component.html',
-  styleUrls: ['./concept.component.scss'],
-
+    selector: 'app-concept',
+    templateUrl: './concept.component.html',
+    styleUrls: ['./concept.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush
 
 })

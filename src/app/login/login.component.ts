@@ -8,7 +8,6 @@ import * as fromRoot from '../reducers';
 import {UserModel} from "../models/user.model"
 import { go } from "@ngrx/router-store";
 import {State, Store} from "@ngrx/store"
-
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',

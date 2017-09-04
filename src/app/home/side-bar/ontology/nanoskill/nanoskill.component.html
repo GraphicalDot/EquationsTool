@@ -1,7 +1,7 @@
 
 <!-- This is to add add+ button only when a parent module has already been selected -->
 <div class="row">
-    <a class="btn-floating btn-large waves-effect waves-light red"  *ngIf="selectedParent" (click)="addModuleButton()"><i class="material-icons">add</i></a>
+    <a class="btn-floating btn-large waves-effect waves-light black pulse"  *ngIf="selectedParent" (click)="addModuleButton()"><i class="material-icons">add</i></a>
 </div>
 
 <div class="row">
@@ -134,7 +134,7 @@
           </tr>
         </thead>
                    
-        <tbody *ngFor="let domain of nanoskills$ | async | paginate: { itemsPerPage: 15, currentPage: currentPage,  totalItems: module_count$ |async}">
+        <tbody *ngFor="let domain of nanoskills$ | async | paginate: { id: 'nanoskill', itemsPerPage: 15, currentPage: currentNanoskillPage,  totalItems: nanoskill_module_count$ |async}">
             <tr>
                     <td>{{domain.module_name}}</td>
                     <td>{{domain.username}}</td>
@@ -142,16 +142,17 @@
                     <td>
                         <input disable type="radio" [checked]="domain.creation_approval"/><label class="black-text flow-text"></label>
                     </td>
-                    <td>{{ domain.children?.length || '0' }}</td>
+                    <td>{{ domain.children}}</td>
                     <td>{{domain.status}}</td>
                     
                      <td><button class="btn waves-effect waves-light" (click) = "edit(domain)" >Edit</button></td>
-                    <td><button class="btn waves-effect waves-light" (click) = "delete(domain)">Delete</button></td>
-                    <td><button class="btn waves-effect waves-light" (click)="select(domain)">Add concepts</button></td>
+                    <td><button class="btn waves-effect waves-light red" (click) = "delete(domain)">Delete</button></td>
+                    <td><button class="btn waves-effect waves-light blue" (click)="select(domain)">Add Questions</button></td>
             </tr>
 
         </tbody>
-                    <pagination-controls (pageChange)="pageChanged($event)"></pagination-controls>
+        
+                    <pagination-controls id='nanoskill' (pageChange)="pageNanoskillChanged($event)"></pagination-controls>
         </table>
 
 </div>

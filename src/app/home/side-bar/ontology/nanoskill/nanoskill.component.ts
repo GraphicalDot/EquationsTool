@@ -13,13 +13,16 @@ import {MaterializeDirective} from "angular2-materialize";
 import * as Materialize from 'angular2-materialize';
 import * as fromRoot from '../../../../reducers';
 import * as actions from '../../../../actions/nanoskill.actions';
+import {NgxPaginationModule} from 'ngx-pagination';
 
 @Component({
   selector: 'app-nanoskill',
   templateUrl: './nanoskill.component.html',
-  styleUrls: ['./nanoskill.component.scss']
+  styleUrls: ['./nanoskill.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
+
 })
-export class NanoskillComponent implements OnInit {
+export class NanoskillComponent implements OnInit, OnDestroy {
 
 public openAdd: boolean
     public openEdit: boolean
@@ -29,12 +32,12 @@ public openAdd: boolean
     public user: UserModel
     public nanoskills$: Observable<any>;
     public subconcepts$: Observable<any>;
-    public currentPage: number;
+    public currentNanoskillPage: number;
 
     public subscriber_one 
     public subscriber_two 
     public pages$: Observable<number>;
-    public module_count$: Observable<number>;
+    public nanoskill_module_count$: Observable<number>;
     
     @Output() selectedNanoskill = new EventEmitter<NanoskillModel>();
     @Output() submitNanoskill = new EventEmitter<NanoskillModel>();
@@ -48,7 +51,7 @@ public openAdd: boolean
         this.nanoskills$ = this.store.select(fromRoot.getNanoskills);
         this.subconcepts$ = this.store.select(fromRoot.getSubConcepts);
         this.pages$ = this.store.select(fromRoot.getNanoskillPages)
-        this.module_count$ = this.store.select(fromRoot.getNanoskillCount)
+        this.nanoskill_module_count$ = this.store.select(fromRoot.getNanoskillCount)
 
        // this.selectedDomain$ = this.store.select(fromRoot.getSelectdDomainId) 
 
@@ -65,12 +68,10 @@ public openAdd: boolean
             .filter(value => value != undefined)
             .subscribe(value => {
             this.selectedParent = value;
-            console.log(value)
             this.store.dispatch(new actions.Loadnanoskill({"parent_id": value.module_id, "user_id": this.user.user_id, "skip": 0, "limit": 15, "search_text": null}))
 
         });
 
-        console.log(this.selectedParent)
     };
         
     ngOnDestroy(){
@@ -110,9 +111,9 @@ public openAdd: boolean
       Materialize.toast('child select', 2000)
     }
 
-    pageConceptChanged(input){
-        console.log(input)
-        this.currentPage = input
+    pageNanoskillChanged(input){
+        console.log("changed nanoskill clicked")
+        this.currentNanoskillPage = input
         this.store.dispatch(new actions.Loadnanoskill({"parent_id": this.selectedParent.module_id, "user_id": this.user.user_id, "skip": 15*(input-1), "limit": 15, "search_text": null}))
     
     }

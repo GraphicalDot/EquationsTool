@@ -25,7 +25,12 @@ export class NanoskillEffects {
         .ofType(actions.SELECTED_NANOSKILL)
         .map((action: actions.Selectednanoskill) => action.payload)
         .map((payload: NanoskillModel) => new actions.Selectednanoskillsuccess(payload))
+
+    @Effect() Clearnanoskill$: Observable<Action> = this.actions$
+        .ofType(actions.CLEAR_NANOSKILL)
+        .map(() => new actions.Clearnanoskill())
         
+
 
     
     @Effect() Editnanoskill$: Observable<Action> = this.actions$

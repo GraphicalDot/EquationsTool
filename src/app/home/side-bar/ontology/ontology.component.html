@@ -1,4 +1,16 @@
 <div class="row">
+ <nav>
+    <div class="nav-wrapper">
+      <div class="col s12">
+        <a href="#!" class="breadcrumb" *ngIf="selectedDomain">{{selectedDomain.module_name}}</a>
+        <a href="#!" class="breadcrumb" *ngIf="selectedConcept">{{selectedConcept.module_name}}</a>
+        <a href="#!" class="breadcrumb" *ngIf="selectedSubconcept">{{selectedSubconcept.module_name}}</a>
+        <a href="#!" class="breadcrumb" *ngIf="selectedNanoskill">{{selectedNanoskill.module_name}}</a>
+      </div>
+    </div>
+  </nav>
+</div>
+<div class="row">
     <div class="card col s12">
             <div class="card-tabs">
                     <ul tabs class="tabs tabs-fixed-width" materialize="tabs">
@@ -11,7 +23,7 @@
             <div class="card-content">
                     <div id="domain"><app-childdomain (submitDomain)="_submitDomain($event)" (editDomain)="_editDomain($event)" (deleteDomain)="_deleteDomain($event)" (selectedDomain)= "_selectedDomain($event)"></app-childdomain></div>
                     <div id="concept"><app-concept (submitConcept)="_submitConcept($event)" (editConcept)="_editConcept($event)" (deleteConcept)="_deleteConcept($event)" (selectedConceptModule)= "_selectedConcept($event)"></app-concept></div>
-                    <div id="subconcept"><app-subconcept (submitSubconcept)="_submitSubconcept($event)" (editSubconcept)="_editSubconcept($event)" (deleteSubconcept)="_deleteSubconcept($event)" (selectedModule)= "_selectedSubconcept($event)"></app-subconcept></div>
+                    <div id="subconcept"><app-subconcept (submitSubconcept)="_submitSubconcept($event)" (editSubconcept)="_editSubconcept($event)" (deleteSubconcept)="_deleteSubconcept($event)" (selectedSubconcept)= "_selectedSubconcept($event)"></app-subconcept></div>
                     <div id="nanoskill"><app-nanoskill  (submitNanoskill)="_submitNanoskill($event)" (editNanoskill)="_editNanoskill($event)" (deleteNanoskill)="_deleteNanoskill($event)" (selectedNanoskill)= "_selectedNanoskill($event)"></app-nanoskill></div>
                     
             </div>

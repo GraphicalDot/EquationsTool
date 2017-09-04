@@ -4,6 +4,7 @@ import { Conditional } from '@angular/compiler';
 import { ConceptModel, DomainModel} from '../../../../models/ontology.models';
 import { UserModel} from '../../../../models/user.model';
 import {SubconceptModel} from '../../../../models/subconcept.model';
+import {NgxPaginationModule} from 'ngx-pagination';
 
 import {State, Store} from "@ngrx/store"
 import { Observable, ObservableInput } from 'rxjs/Observable';
@@ -17,24 +18,25 @@ import * as actions from '../../../../actions/subconcept.actions';
 @Component({
   selector: 'app-subconcept',
   templateUrl: './subconcept.component.html',
-  styleUrls: ['./subconcept.component.scss']
+  styleUrls: ['./subconcept.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
+
 })
-export class SubconceptComponent implements OnInit {
+export class SubconceptComponent implements OnInit, OnDestroy {
     public openAdd: boolean
     public openEdit: boolean
     public module: SubconceptModel;
     public selectedParent: ConceptModel
-    public domains$: Observable<any>;
     public user: UserModel
     public concepts$: Observable<any>;
     public subconcepts$: Observable<any>;
-    public currentPage: number;
+    public currentSubConceptPage: number;
     public subscriber_one 
     public subscriber_two 
     public pages$: Observable<number>;
-    public module_count$: Observable<number>;
-
-    @Output() selectedModule = new EventEmitter<SubconceptModel>();
+    public subconcept_module_count$: Observable<number>;
+    public subconcept: SubconceptModel
+    @Output() selectedSubconcept = new EventEmitter<SubconceptModel>();
     @Output() submitSubconcept = new EventEmitter<SubconceptModel>();
     @Output() editSubconcept = new EventEmitter<SubconceptModel>();
     @Output() deleteSubconcept = new EventEmitter<SubconceptModel>();
@@ -42,22 +44,23 @@ export class SubconceptComponent implements OnInit {
     
     //constructor(private store: Store<ApplicationStore>, private service: DomainService,) { 
     constructor(private store: Store<fromRoot.AppState>) {
-        //this.selected_domain = this.store.select("Selecteddomain")
-        this.concepts$ = this.store.select(fromRoot.getConcepts);
-        this.subconcepts$ = this.store.select(fromRoot.getSubConcepts);
-        this.pages$ = this.store.select(fromRoot.getSubconceptPages)
-        this.module_count$ = this.store.select(fromRoot.getSubconceptCount)
-       // this.selectedDomain$ = this.store.select(fromRoot.getSelectdDomainId) 
+                        this.concepts$ = this.store.select(fromRoot.getConcepts);
+                        this.subconcepts$ = this.store.select(fromRoot.getSubConcepts);
+                        //this.user$ = this.store.select(fromRoot.getAuthenticatedUser) 
+    //                    this.user$ = this.store.select(fromRoot.getAuthenticatedUser) 
+                        this.pages$ = this.store.select(fromRoot.getSubconceptPages)
+                        this.subconcept_module_count$ = this.store.select(fromRoot.getSubconceptCount)
 
-    }
+}
 
     ngOnInit(){
-        this.subscriber_two = this.store.select(fromRoot.getAuthenticatedUser)
-        this.subscriber_two.subscribe(value => {
+        this.store.select(fromRoot.getAuthenticatedUser)
+            .subscribe(value => {
+            console.log("Authenticated user" + value.user_id)
             this.user = value
         });
 
-
+        
         this.store.select(fromRoot.getSelectedConcept)
             .filter(value => value != undefined)
             .subscribe(value => {
@@ -67,56 +70,39 @@ export class SubconceptComponent implements OnInit {
 
         });
 
-        console.log(this.selectedParent)
     };
-        
-    ngOnDestroy(){
-        //this.subscriber_one.unsubscribe()
-        //this.subscriber_two.unsubscribe()
-    };
-    select(concept: SubconceptModel) {
-        this.selectedModule.emit(concept);
+    ngOnDestroy(){};
+    selectSubconcept(subconcept: SubconceptModel) {
+        this.selectedSubconcept.emit(subconcept);
     }
-    delete(module) {
-        this.deleteSubconcept.emit(module);
+    delete(subconcept: SubconceptModel) {
+        this.deleteSubconcept.emit(subconcept);
     }
-    
-    editModule(module){
-      this.editSubconcept.emit(module);
-        
+    addDomain(){
+      this.openAdd = true;    
     }
-    
-    //This is when a user clicks on the top add button in right of every module, 
-    //A form will opened
-    addModule(module){
-        this.submitSubconcept.emit(module);
-
+    submitForm(subconcept: SubconceptModel){
+        var data = Object.assign({}, subconcept, {"parent_id": this.selectedParent.module_id, "user_id": this.user.user_id, "username": this.user.username})
+        this.openAdd = false;  
+        this.submitSubconcept.emit(data);
     }
-
-    addModuleButton(module){
-        this.openAdd= true
-        this.openEdit = false
-    }
-    
-    edit(module) {
+  
+    edit(subconcept: SubconceptModel) {
       this.openEdit= true;    
       this.openAdd = false; //This will close the add new nanoskill form just to avoid confusion   
-      this.module = module;
+      this.subconcept = subconcept;
+      this.editSubconcept.emit(subconcept);
     }
-    change(newValue) {
-      Materialize.toast('child select', 2000)
-    }
-    
-    pageConceptChanged(input){
-        console.log(input)
-        this.currentPage = input
-        this.store.dispatch(new actions.Loadsubconcept({"parent_id": this.selectedParent.module_id, "user_id": this.user.user_id, "skip": 15*(input-1), "limit": 15, "search_text": null}))
+
+    pageDomainChanged(input){
+        console.log("Domain changed clicked" + input)
+        this.currentSubConceptPage = input
+        this.store.dispatch(new actions.Loadsubconcept({"parent_id": this.selectedParent.module_id,"user_id": this.user.user_id, "skip": 15*(input-1), "limit": 15, "search_text": null}))
     
     }
 
     search_text_changed(search_text){
-        this.store.dispatch(new actions.Loadsubconcept({"parent_id": this.selectedParent.module_id, "user_id": this.user.user_id, "skip": 0, "limit": 15, "search_text": search_text}))
+        this.store.dispatch(new actions.Loadsubconcept({"parent_id": this.selectedParent.module_id,"user_id": this.user.user_id, "skip": 0, "limit": 15, "search_text": search_text}))
     }
-
 
 }
