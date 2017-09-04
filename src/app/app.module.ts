@@ -16,7 +16,7 @@ import { SideBarComponent } from './home/side-bar/side-bar.component';
 import { NavBarComponent } from './home/nav-bar/nav-bar.component';
 import { EditorComponent } from './home/side-bar/editor/editor.component';
 import { UsersComponent } from './home/side-bar/users/users.component';
-import { QuestionsComponent } from './home/side-bar/questions/questions.component';
+import { QuestionsComponent } from './home/side-bar/ontology/questions/questions.component';
 import { MaterializeModule } from 'angular2-materialize';
 import { GradesComponent } from './home/side-bar/grades/grades.component';
 import { Grade } from './home/side-bar/grades/grades.model';
@@ -89,7 +89,6 @@ children: [
     NavBarComponent,
     EditorComponent,
     UsersComponent,
-    QuestionsComponent,
     GradesComponent,
     VariablesComponent,
     PermissionsComponent,

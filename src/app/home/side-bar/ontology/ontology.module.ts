@@ -1,3 +1,4 @@
+import { QuestionsComponent } from './questions/questions.component';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {OntologyComponent} from "./ontology.component";
@@ -21,7 +22,7 @@ import {NgxPaginationModule} from 'ngx-pagination';
     HttpModule,
     NgxPaginationModule 
   ],
-  declarations: [OntologyComponent, SubconceptComponent, ConceptComponent, DomainComponent, NanoskillComponent],
+  declarations: [OntologyComponent, SubconceptComponent, ConceptComponent, DomainComponent, NanoskillComponent, QuestionsComponent],
   exports: [OntologyComponent],
 })
 export class OntologyModule { }

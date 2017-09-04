@@ -1,43 +1,24 @@
-<div class="row">
- <nav>
-    <div class="nav-wrapper">
-      <div class="col s12">
-        <a href="#!" class="breadcrumb" *ngIf="selectedDomain">{{selectedDomain.module_name}}</a>
-        <a href="#!" class="breadcrumb" *ngIf="selectedConcept">{{selectedConcept.module_name}}</a>
-        <a href="#!" class="breadcrumb" *ngIf="selectedSubconcept">{{selectedSubconcept.module_name}}</a>
-        <a href="#!" class="breadcrumb" *ngIf="selectedNanoskill">{{selectedNanoskill.module_name}}</a>
-      </div>
-    </div>
-  </nav>
-</div>
-
-
-
-
-
 
 <!-- This is to add add+ button only when a parent module has already been selected -->
 <div class="row">
+        <div class="col s4">
     <a class="btn-floating btn-large waves-effect waves-light red"  *ngIf="selectedParent" (click)="addModuleButton()"><i class="material-icons">add</i></a>
-</div>
-
-<div class="row">
-        <!--
-        
-  <nav>
-    <div class="nav-wrapper">
-      <div class="col s12">
-        <a href="#!" class="breadcrumb">First</a>
-        <a href="#!" class="breadcrumb">Second</a>
-        <a href="#!" class="breadcrumb">Third</a>
-        <a href="#!" class="breadcrumb">Fourth</a>
-        <a href="#!" class="breadcrumb">Fifth</a>
-        <a href="#!" class="breadcrumb">Sixth</a>
-        <a href="#!" class="breadcrumb">Seventh</a>
-        </div>
     </div>
-  </nav>
-        -->
+
+                <div class="col s4">
+    <form materialize class="col s12">
+        <div class="input-field col s12">
+          <input id="textarea1" class="materialize-textarea" (ngModelChange)="search_text_changed($event)" [(ngModel)]="search_text" name="search_text" >
+      </div>
+    </form>
+            
+                </div>  
+
+        <div class="col s4">
+                     <button class="btn waves-effect waves-light blue" (click)="unfreezeOntology()" > Unfreeze Ontology</button>
+    </div>
+
+
 </div>
 
 <div class="row">
@@ -126,17 +107,7 @@
    
 
 
-        <table>
-              <div class="row">
-    <form materialize class="col s12">
-      <div class="row">
-        <div class="input-field col s12">
-          <textarea id="textarea1" class="materialize-textarea" (ngModelChange)="search_text_changed($event)" [(ngModel)]="search_text" name="search_text" ></textarea>
-          <label for="textarea1">Search Questions Text</label>
-        </div>
-      </div>
-    </form>
-  </div>
+        <table *ngIf="questions$.length">
         <thead>
           <tr>
               <th>Name</th>

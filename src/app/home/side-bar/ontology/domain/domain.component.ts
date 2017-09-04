@@ -71,8 +71,7 @@ export class DomainComponent implements OnInit, OnDestroy {
             this.user = value
         });
 
-
-
+            
         this.store.dispatch(new actions.Loaddomain({"user_id": this.user.user_id, "skip": 0, "limit": 15, "search_text": null}))
     };
     ngOnDestroy(){};

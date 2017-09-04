@@ -43,6 +43,7 @@ public openAdd: boolean
     @Output() submitNanoskill = new EventEmitter<NanoskillModel>();
     @Output() editNanoskill = new EventEmitter<NanoskillModel>();
     @Output() deleteNanoskill = new EventEmitter<NanoskillModel>();
+    
 
     
     //constructor(private store: Store<ApplicationStore>, private service: DomainService,) { 
@@ -87,14 +88,12 @@ public openAdd: boolean
     
     editModule(module){
       this.editNanoskill.emit(module);
-        
     }
     
     //This is when a user clicks on the top add button in right of every module, 
     //A form will opened
     addModule(module){
         this.submitNanoskill.emit(module);
-
     }
 
     addModuleButton(module){
@@ -107,6 +106,7 @@ public openAdd: boolean
       this.openAdd = false; //This will close the add new nanoskill form just to avoid confusion   
       this.module = module;
     }
+
     change(newValue) {
       Materialize.toast('child select', 2000)
     }
@@ -115,11 +115,9 @@ public openAdd: boolean
         console.log("changed nanoskill clicked")
         this.currentNanoskillPage = input
         this.store.dispatch(new actions.Loadnanoskill({"parent_id": this.selectedParent.module_id, "user_id": this.user.user_id, "skip": 15*(input-1), "limit": 15, "search_text": null}))
-    
     }
 
     search_text_changed(search_text){
         this.store.dispatch(new actions.Loadnanoskill({"parent_id": this.selectedParent.module_id, "user_id": this.user.user_id, "skip": 0, "limit": 15, "search_text": search_text}))
     }
-
 }

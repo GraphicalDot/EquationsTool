@@ -49,7 +49,7 @@ export function DomainReducer(state = initialState, action: DomainActions.Action
                       return {
                           module_ids: action.payload.module_ids,
                           modules: action.payload.modules,
-                          selectedModule: null,
+                          selectedModule: state.selectedModule,
                           loaded: true,
                           loading: false,
                           pages: action.payload.pages,

@@ -3,20 +3,20 @@ import { observeOn } from 'rxjs/operator/observeOn';
 import { baseServeCommandOptions } from '@angular/cli/commands/serve';
 import { Conditional } from '@angular/compiler';
 
-import {DomainModel, ConceptModel} from '../../../models/ontology.models' 
-import { UserModel} from '../../../models/user.model';
-import {SubconceptModel} from '../../../models/subconcept.model';
-import {NanoskillModel} from '../../../models/nanoskill.model';
-import {QuestionModel} from '../../../models/question.model';
+import {DomainModel, ConceptModel} from '../../../../models/ontology.models' 
+import { UserModel} from '../../../../models/user.model';
+import {SubconceptModel} from '../../../../models/subconcept.model';
+import {NanoskillModel} from '../../../../models/nanoskill.model';
+import {QuestionModel} from '../../../../models/question.model';
 
 import {State, Store} from "@ngrx/store"
 import { Observable, ObservableInput } from 'rxjs/Observable';
-import {ApplicationStore} from "../../../app.store"
+import {ApplicationStore} from "../../../../app.store"
 import { Component, OnInit, OnDestroy, EventEmitter, Output, Input, ChangeDetectionStrategy, AfterViewInit } from '@angular/core';
 import {MaterializeDirective} from "angular2-materialize";
 import * as Materialize from 'angular2-materialize';
-import * as fromRoot from '../../../reducers';
-import * as actions from '../../../actions/question.actions';
+import * as fromRoot from '../../../../reducers';
+import * as actions from '../../../../actions/question.actions';
 
 
 @Component({
@@ -46,6 +46,8 @@ export class QuestionsComponent implements OnInit {
     public selectedConcept: ConceptModel
     public selectedSubconcept: SubconceptModel
     public selectedNanoskill: NanoskillModel
+    @Output() unfreezeontology = new EventEmitter<boolean>();
+
     //constructor(private store: Store<ApplicationStore>, private service: DomainService,) { 
     constructor(private store: Store<fromRoot.AppState>) {
         //this.selected_domain = this.store.select("Selecteddomain")
@@ -122,6 +124,10 @@ export class QuestionsComponent implements OnInit {
     //A form will opened
     addModule(module){
 
+    }
+
+    unfreezeOntology(){
+        this.unfreezeontology.emit(false)
     }
 
     addModuleButton(module){

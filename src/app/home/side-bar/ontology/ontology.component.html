@@ -10,7 +10,7 @@
     </div>
   </nav>
 </div>
-<div class="row">
+<div class="row" *ngIf="!freezeOntology">
     <div class="card col s12">
             <div class="card-tabs">
                     <ul tabs class="tabs tabs-fixed-width" materialize="tabs">
@@ -29,6 +29,7 @@
             </div>
     </div>
 </div>
+<app-questions *ngIf="freezeOntology" (unfreezeontology)="_unfreezeOntology($event)"></app-questions>
 
 <!--
 <div class="row">

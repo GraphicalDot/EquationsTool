@@ -32,6 +32,7 @@ export class OntologyComponent implements OnInit {
     public selectedConcept: ConceptModel;
     public selectedSubconcept: SubconceptModel;
     public selectedNanoskill: NanoskillModel;
+    public freezeOntology: boolean;
     
     //public concepts: Observable<Array<ConceptModel>>;
     //public globalDomain: Observable<DomainModel>;
@@ -48,7 +49,7 @@ export class OntologyComponent implements OnInit {
         */
         //this.concepts = store.select("concepts")
         //this.store.dispatch(new OntologyActions.Loaddomain())
-        
+        this.freezeOntology = false
     }
           
     ngOnInit() {
@@ -80,6 +81,11 @@ export class OntologyComponent implements OnInit {
 
     }
 
+    _unfreezeOntology(value: boolean){
+        this.freezeOntology = value
+    }
+
+
     _selectedDomain(domain: DomainModel){
         this.store.dispatch(new OntologyActions.Selecteddomain(domain))
         this.store.dispatch(new OntologyActions.Setconceptparentsuccess(this.selectedDomain.module_id))
@@ -100,6 +106,8 @@ export class OntologyComponent implements OnInit {
     _selectedNanoskill(nanoskill: NanoskillModel){
         this.store.dispatch(new Nanoskillactions.Selectednanoskillsuccess(nanoskill))
         this.store.dispatch(new Questionactions.Setquestionparentsuccess(this.selectedNanoskill.module_id))
+        this.freezeOntology = true;
+       
     }
 
 
