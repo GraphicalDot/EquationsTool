@@ -29,6 +29,11 @@ export class QuestionEffects {
     @Effect() Clearallquestion$: Observable<Action> = this.actions$
         .ofType(actions.CLEAR_QUESTION)
         
+   @Effect() Deletequestionoption$: Observable<Action> = this.actions$
+        .ofType(actions.DELETE_QUESTION_OPTION)
+        .map((action: actions.Deletequestionoption) => action.payload)
+        .map((payload: any) => new actions.Deletequestionoptionsuccess(payload))
+        
 
 
     

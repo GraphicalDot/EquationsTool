@@ -33,10 +33,24 @@ const initialState: QuestionState = {
 export function QuestionReducer(state = initialState, action: actions.Actions): QuestionState {
 
     switch(action.type){
+                case actions.DELETE_QUESTION_OPTION_SUCCESS:
+                    {
+                    return Object.assign({}, state, 
+                    {
+
+                    selectedModule: Object.assign({}, state.selectedModule, {"options": state.selectedModule.options.filter(newsItem => newsItem !== action.payload)})
+
+
+                    })
+                    
+                    }                    
+                
+        
                 case actions.CLEAR_QUESTION:
                     {
                     return Object.assign({}, state, initialState) 
                     }
+                
                 case actions.SET_QUESTION_PARENT_FAILURE:
                     {
                         return Object.assign({}, state, {

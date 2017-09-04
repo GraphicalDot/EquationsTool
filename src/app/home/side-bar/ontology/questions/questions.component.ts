@@ -28,6 +28,7 @@ import * as actions from '../../../../actions/question.actions';
 })
 export class QuestionsComponent implements OnInit {
 
+    public module_options: Array<string>
     public openAdd: boolean
     public openEdit: boolean
     public module: QuestionModel;
@@ -104,7 +105,13 @@ export class QuestionsComponent implements OnInit {
                this.selectedNanoskill = value
         });
 
-        console.log(this.selectedParent)
+        
+        this.store.select(fromRoot.getSelectedQuestion)
+            .subscribe(value => {
+               this.module = value
+            });
+
+
     };
         
     ngOnDestroy(){
@@ -135,10 +142,15 @@ export class QuestionsComponent implements OnInit {
         this.openEdit = false
     }
     
-    edit(module) {
+    deleteOption(option){
+
+        this.store.dispatch(new actions.Deletequestionoption(option))
+}
+
+    edit(question: QuestionModel) {
       this.openEdit= true;    
       this.openAdd = false; //This will close the add new nanoskill form just to avoid confusion   
-      this.module = module;
+      this.store.dispatch(new actions.Selectedquestion(question))
     }
     change(newValue) {
       Materialize.toast('child select', 2000)

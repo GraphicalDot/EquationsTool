@@ -35,6 +35,9 @@ export type Actions =
             |Deletequestionfailure
             
             |Clearquestion
+            | Addquestionoption
+            | Deletequestionoption
+            | Deletequestionoptionsuccess
 
 //**************** LOAD SubConcept
 
@@ -43,6 +46,31 @@ export class Clearquestion implements Action{
     readonly type = CLEAR_QUESTION
     constructor(public payload: any){}
 }
+
+
+export const ADD_QUESTION_OPTION = "[Questions] Add Question option"
+export class Addquestionoption implements Action{
+    readonly type = ADD_QUESTION_OPTION
+    constructor(public payload: any){}
+}
+
+
+export const DELETE_QUESTION_OPTION = "[Questions] Delete Question option"
+export class Deletequestionoption implements Action{
+    readonly type = DELETE_QUESTION_OPTION
+    constructor(public payload: any){}
+}
+
+export const DELETE_QUESTION_OPTION_SUCCESS = "[Questions] Delete Question option success"
+export class Deletequestionoptionsuccess implements Action{
+    readonly type = DELETE_QUESTION_OPTION_SUCCESS
+    constructor(public payload: any){}
+}
+
+
+
+
+
 
 
 export const LOAD_QUESTION = "[Questions] Load Question"
