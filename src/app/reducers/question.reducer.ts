@@ -140,25 +140,27 @@ export function QuestionReducer(state = initialState, action: actions.Actions): 
 
             case actions.DELETE_QUESTION:
                     {
-                        return {
+                        return Object.assign({}, state, {
                                 loading: true,
                                 error: undefined,
                                 loaded: false   
-                            }
+                            })
                     }
             case actions.DELETE_QUESTION_FAILURE:
-                    return {
-                            module_ids: state.module_ids,
-                            modules: state.modules,
-                            selectedModule: state.selectedModule,
+                {
+                return Object.assign({}, state, {
                             loaded: true,
                             loading: false,
                             error: action.payload._body
-                        }
-            case actions.DELETE_QUESTION_SUCCESS:
-                    {return Object.assign({}, state,{ 
-                            module_ids: state.module_ids.filter((id) => id === action.payload.module_id),
-                            modules: state.modules.filter((module) => module.module_id === action.payload.module_id),
+                        })
+                }
+            case actions.DELETE_QUESTION_SUCCESS:{
+
+                        return Object.assign({}, state,{ 
+                            module_ids: state.module_ids.filter((id) => id != action.payload),
+                            modules: state.modules.filter((module) => module.module_id != action.payload),
+                            module_count: state.module_count -1, 
+                            pages: Math.ceil((state.module_count-1)/15),
                             selectedModule: undefined,
                             loaded: true,
                             loading: false,
@@ -189,7 +191,9 @@ export function QuestionReducer(state = initialState, action: actions.Actions): 
             */
 
             default:
-                return state
+                return {
+                    ...state
+                }
 
 
     }

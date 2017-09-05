@@ -137,7 +137,7 @@
           </tr>
         </thead>
                    
-        <tbody *ngFor="let domain of questions$ | async | paginate: { itemsPerPage: 15, currentPage: currentQPage,  totalItems: qmodule_count$ |async}">
+        <tbody *ngFor="let domain of questions$ | async | paginate: { itemsPerPage: 15, currentPage: currentPage$ | async,  totalItems: module_count$ |async}">
             <tr>
                     <td>{{domain.module_name}}</td>
                     <td>{{domain.username}}</td>
@@ -153,7 +153,7 @@
             </tr>
 
         </tbody>
-                    <pagination-controls (pageChange)="pageNanoskillChanged($event)"></pagination-controls>
         </table>
+        <pagination-controls boundary-links="true" (pageChange)="pageNanoskillChanged($event)"></pagination-controls>
 
 </div>

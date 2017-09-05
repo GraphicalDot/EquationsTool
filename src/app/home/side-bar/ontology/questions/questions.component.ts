@@ -56,7 +56,7 @@ export class QuestionsComponent implements OnInit {
         this.questions$ = this.store.select(fromRoot.getQuestions);
         this.pages$ = this.store.select(fromRoot.getQuestionPages)
         this.module_count$ = this.store.select(fromRoot.getQuestionCount)
-
+        
        // this.selectedDomain$ = this.store.select(fromRoot.getSelectdDomainId) 
 
     }
