@@ -119,8 +119,8 @@ export class QuestionsComponent implements OnInit {
         //this.subscriber_two.unsubscribe()
     };
 
-    delete(module) {
-        
+    delete(question: QuestionModel) {
+        this.store.dispatch(new actions.Deletequestion({"module_id": question.module_id, "user_id": this.user.user_id}))
     }
     
     editModule(module){

@@ -34,12 +34,15 @@ export function QuestionReducer(state = initialState, action: actions.Actions): 
 
     switch(action.type){
                 case actions.DELETE_QUESTION_OPTION_SUCCESS:
+
                     {
+                    var selectedModuleId = state.modules.findIndex(i => state.selectedModule.module_id === i.module_id);
+                    var selectedModuleObject = Object.assign({}, state.selectedModule, {"options": state.selectedModule.options.filter(newsItem => newsItem !== action.payload)})
                     return Object.assign({}, state, 
                     {
 
-                    selectedModule: Object.assign({}, state.selectedModule, {"options": state.selectedModule.options.filter(newsItem => newsItem !== action.payload)})
-
+                    modules: Object.assign({}, ...state.modules, {selectedModuleId: selectedModuleObject}),
+                    selectedModule: selectedModuleObject
 
                     })
                     
@@ -153,15 +156,15 @@ export function QuestionReducer(state = initialState, action: actions.Actions): 
                             error: action.payload._body
                         }
             case actions.DELETE_QUESTION_SUCCESS:
-                    return {
-                            module_ids: state.module_ids.filter((id) => id == action.payload.module_id),
-                            modules: state.modules.filter((module) => module.module_id == action.payload.module_id),
-                            selectedModule: state.selectedModule,
+                    {return Object.assign({}, state,{ 
+                            module_ids: state.module_ids.filter((id) => id === action.payload.module_id),
+                            modules: state.modules.filter((module) => module.module_id === action.payload.module_id),
+                            selectedModule: undefined,
                             loaded: true,
                             loading: false,
-                            error: action.payload._body
                         }
-
+                    )
+                    }
 
             case actions.SELECTED_QUESTION:
             case actions.SELECTED_QUESTION_FAILURE:
