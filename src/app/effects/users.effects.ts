@@ -38,24 +38,11 @@ or an action for failure) with a new payload, thus updating the data in the Stor
 @Injectable()
 export class UsersEffects {
 
-
-
-    // @Effect() logInUser$: Observable<Action> = this.actions$
-    // .ofType(ObjectActions.LOGIN_USER)
-    // .map((action: ObjectActions.Loginuser) => action.payload)
-    // .switchMap(payload => {
-    //     return this.service.loginUser(payload)
-    //     .map((user: any) =>  new ObjectActions.Loginusersuccess(user))
-    //     .catch(err => of(new ObjectActions.Loadusersfailure(err)))
-              
-
-    // });
-
     @Effect() loadUsers$: Observable<Action> = this.actions$
         .ofType(ObjectActions.LOAD_USERS)
-        .startWith(new ObjectActions.Loadusers())
-        .switchMap(() => 
-              this.service.loadUsers()
+        .map((action: ObjectActions.Loadusers) => action.payload)
+        .switchMap((payload: any) =>
+              this.service.loadUsers(payload)
               .map((users: UserModel[]) =>  new ObjectActions.Loaduserssuccess(users))
               .catch(err => of(new ObjectActions.Loadusersfailure(err)))
               .finally(() => console.log("Request is done"))
@@ -73,7 +60,7 @@ export class UsersEffects {
     @Effect() deleteUser$: Observable<Action> = this.actions$
         .ofType(ObjectActions.DELETE_USER)
         .map((action: ObjectActions.Deleteuser) => action.payload)
-        .switchMap((payload: UserModel) =>
+        .switchMap((payload: any) =>
              
               this.service.deleteUser(payload)
               .map((msg: any) => new ObjectActions.Deleteusersuccess(msg))

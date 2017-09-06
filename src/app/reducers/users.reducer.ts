@@ -7,19 +7,23 @@ import { createSelector } from 'reselect';
 export interface UserState {
     user_ids?: string[] | null
     users?: Array<UserModel>
-    selectedUserId?: string| null
+    selectedUser?: string| null
     loading: boolean |null,
     loaded: boolean| null,
-    error?: string | null
+    error?: string | null,
+        pages?: number,
+    module_count?: number
 }
 
 const initialState: UserState = {
     user_ids: [],
     users: [],
-    selectedUserId: null,
+    selectedUser: null,
     loading: false,
     loaded: false, 
-    error: null,
+    error: null,    
+    pages: null,
+    module_count: null
 }
 
 
@@ -42,7 +46,9 @@ export function UsersReducer(state = initialState, action: UserActions.Actions):
                           users: action.payload.users,
                           selectedUserId: null,
                           loaded: true,
-                          loading: false
+                          loading: false,
+                          pages: action.payload.pages,
+                          module_count: action.payload.user_count
                           })
                       }
 
@@ -81,16 +87,17 @@ export function UsersReducer(state = initialState, action: UserActions.Actions):
                 return Object.assign({}, state, {
                             user_ids: old_ids.concat(action.payload.user_id), 
                             users: old_users.concat(action.payload),
-                            selectedUserId: state.selectedUserId,
+                            selectedUserId: state.selectedUser,
                             loaded: true,
-                            loading: false
-                        })
+                            loading: false,
+                            module_count: state.module_count +1, 
+                            pages: Math.ceil((state.module_count+1)/15),                        })
             }
             case UserActions.ADD_USER_FAILURE:
                     return {
                             user_ids: state.user_ids,
                             users: state.users,
-                            selectedUserId: state.selectedUserId,
+                            selectedUser: state.selectedUser,
                             loaded: true,
                             loading: false,
                             error: action.payload._body
@@ -102,14 +109,32 @@ export function UsersReducer(state = initialState, action: UserActions.Actions):
 
             case UserActions.SELECT_USER:
 
+            case UserActions.SELECT_USER_FAILURE:
+                {
+                 return Object.assign({}, state, {
+                        selectedUser: undefined,
+                        error: "Module cannot be selected"
+                        })
+                }
+
+            case UserActions.SELECT_USER_SUCCESS:
+                {
+                 return Object.assign({}, state, {
+                        selectedUser: action.payload,
+                        loaded: true,
+                        loading: false,
+                        })
+                }
+
+
             case UserActions.DELETE_USER_SUCCESS:
                 {
 
                         return Object.assign({}, state,{ 
-                            module_ids: state.user_ids.filter((id) => id != action.payload),
-                            modules: state.users.filter((module) => module.user_id != action.payload),
-                            //module_count: state.module_count -1, 
-                            //pages: Math.ceil((state.module_count-1)/15),
+                            user_ids: state.user_ids.filter((id) => id != action.payload),
+                            users: state.users.filter((module) => module.user_id != action.payload),
+                            module_count: state.module_count -1, 
+                            pages: Math.ceil((state.module_count-1)/15),
                             selectedModule: undefined,
                             loaded: true,
                             loading: false,
@@ -132,9 +157,9 @@ export function UsersReducer(state = initialState, action: UserActions.Actions):
 
 
 //This will select the list of ids of all the users
-export const getUsersId= (state: UserState) => state.user_ids
+export const Getuserids= (state: UserState) => state.user_ids
 //This will select the dictionary of id: User
-export const getUsers = (state: UserState) => state.users
+export const Getusers = (state: UserState) => state.users
 
 //Return list of users
 /* export const getAllUsers = createSelector(getUsers, getUsersId, (entities, ids) => {
@@ -144,10 +169,9 @@ export const getUsers = (state: UserState) => state.users
 
 
 //select selectUserId
-export const selectedUserId = (state: UserState) => state.selectedUserId;
+export const Getselecteduser = (state: UserState) => state.selectedUser;
 
-//Get SElected user from the selectedUserId
-export const getSelectedUser = createSelector(getUsers, selectedUserId, (entities, selectedId) => {
-  return entities[selectedId];
-});
+
+export const Getuserpages = (state: UserState) => state.pages;
+export const Getusercount = (state: UserState) => state.module_count;
 

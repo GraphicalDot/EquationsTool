@@ -4,11 +4,11 @@
 
       <li><a [routerLink]="['userprofile']">Profile</a></li>
       <li><a [routerLink]="['editor']">Editor</a></li>
-      <li ><a [routerLink]="['users']">Users</a></li>
+      <li  *ngIf="(user$ | async)?.user_type == 'superadmin'"><a [routerLink]="['users']">Users</a></li>
       <li ><a [routerLink]="['ontology']" [routerLinkActive]="['is-active']">Ontology</a></li>
       <li ><a [routerLink]="['permissions']">Permissions</a></li>
       <li ><a [routerLink]="['variables']">Variables</a></li>
-      <li ><a [routerLink]="['templates']">Templates</a></li>
+      <li *ngIf="(user$ | async)?.user_type == 'superadmin'" ><a [routerLink]="['templates']">Templates</a></li>
       <li><a  href="javascript:void(0)" (click)="logout()">Logout</a></li>
       
   </ul>

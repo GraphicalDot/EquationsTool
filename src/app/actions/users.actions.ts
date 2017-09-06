@@ -9,6 +9,18 @@ export class Selectuser implements Action{
     constructor(public payload: any= null){}
 }
 
+export const SELECT_USER_SUCCESS = "[Users] Select User"
+export class Selectusersuccess implements Action{
+    readonly type = SELECT_USER_SUCCESS
+    constructor(public payload: any= null){}
+}
+
+export const SELECT_USER_FAILURE = "[Users] Select User"
+export class Selectuserfailure implements Action{
+    readonly type = SELECT_USER_FAILURE
+    constructor(public payload: any= null){}
+}
+
 
 
 export const LOGIN_USER = "[Users] Login User"
@@ -47,7 +59,7 @@ export class Logoutuser implements Action{
 export const LOAD_USERS = "[Users] Load User"
 export class Loadusers implements Action{
     readonly type = LOAD_USERS
-    constructor(){}
+    constructor(public payload: any){}
 }
 
 export const LOAD_USERS_SUCCESS = "[Users] Load User Success"
@@ -84,7 +96,7 @@ export class Getuserfailure implements Action{
 export const ADD_USER = "[Users] Add User"
 export class Adduser implements Action{
     readonly type = ADD_USER
-    constructor(public payload: UserModel){
+    constructor(public payload: any){
         console.log("Request received from actions for add user")
     }
 }
@@ -101,7 +113,7 @@ export class Adduserfailure implements Action{
 export const ADD_USER_SUCCESS = "[Users] Add User Success"
 export class Addusersuccess implements Action{
     readonly type = ADD_USER_SUCCESS
-    constructor(public payload: UserModel){
+    constructor(public payload: any){
         console.log("Request received from actions for add user success")
     }
 }
@@ -130,7 +142,7 @@ export class Editeusersuccess implements Action{
 export const DELETE_USER = "[Users] Delete User"
 export class Deleteuser implements Action{
     readonly type = DELETE_USER
-    constructor(public payload: UserModel){}
+    constructor(public payload: any){}
 }
 
 export const DELETE_USER_FAILURE = "[Users] Delete User Failure"
@@ -142,7 +154,7 @@ export class Deleteuserfailure implements Action{
 export const DELETE_USER_SUCCESS = "[Users] Delete User Success"
 export class Deleteusersuccess implements Action{
     readonly type = DELETE_USER_SUCCESS
-    constructor(public payload: UserModel){}
+    constructor(public payload: any){}
 }
 
 
@@ -166,6 +178,8 @@ export type Actions = Loadusers|
                         Deleteuserfailure|
                         Deleteusersuccess|
                         Selectuser|
+                        Selectusersuccess|
+                        Selectuserfailure|
                         Loginuser|
                         Loginusersuccess|
                         Loginuserfailure|

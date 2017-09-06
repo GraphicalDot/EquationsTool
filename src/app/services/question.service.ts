@@ -56,8 +56,10 @@ export class QuestionService {
         params.set("module_id", payload.module_id)
         let headers = new Headers(this.headerContent);
         let options = new RequestOptions({search: params});   
+        console.log(params)
+        console.log(options)
         return this.http.delete(this.QUESTION_API_URL, options)
-      .map(res => res.json()["data"])
+          .map(res => res.json()["data"])
       
   
   }

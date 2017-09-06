@@ -22,13 +22,25 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 })
 export class UsersComponent implements OnInit {
     userCreate: boolean;
+    userModuleCount$: Observable<number>;
+    currentUserPage$: Observable<number>;
+    currentPage: number //this is the current page number that we will get from the ngxpagination
+
     userEdit: boolean;
     user: UserModel ;
+    actionUser: UserModel;
     users$: Observable<any>;
     complexForm : FormGroup;
     user_types= ["r1", "r2", "admin", "superadmin", "general", "r3"];
     create_domains = [true, false]
     constructor(private store: Store<fromRoot.AppState>, fb: FormBuilder ) {
+       this.store.select(fromRoot.getAuthenticatedUser)
+            .subscribe(value => {
+            console.log("Authenticated user" + value.user_id)
+            this.actionUser = value
+        });
+
+
 
     this.complexForm = fb.group({
       first_name: ['', [Validators.required, Validators.minLength(4), Validators.maxLength(24)]],
@@ -54,6 +66,8 @@ export class UsersComponent implements OnInit {
   
             //this.users$.subscribe((user) => console.log(user))
             this.users$ = this.store.select(fromRoot.getUsers);
+            this.currentUserPage$ = this.store.select(fromRoot.getUserPages);
+            this.userModuleCount$ = this.store.select(fromRoot.getUserCount);
     //this.store.dispatch(new UserActions.Loadusers())
 
 }
@@ -156,7 +170,7 @@ checkIfMatchingPasswords(passwordKey: string, passwordConfirmationKey: string) {
                                                                                                            
   ngOnInit() {
     this.userCreate = false;
-    this.store.dispatch(new UserActions.Loadusers())
+    this.store.dispatch(new UserActions.Loadusers({"skip": 0, "limit": 15, "search_text": null}))
     
   }
 
@@ -181,14 +195,42 @@ checkIfMatchingPasswords(passwordKey: string, passwordConfirmationKey: string) {
   }
   
   deleteUser(user: UserModel){
-        this.store.dispatch(new UserActions.Deleteuser(user))
+        console.log(user)
+        console.log(this.actionUser)
+        this.store.dispatch(new UserActions.Deleteuser({"user_id": user.user_id, "action_user_id": this.actionUser.user_id }))
     
   }
 
   editUser(user: UserModel){
-      this.userCreate = false;
-      this.userEdit= true;    
+      this.userCreate = true;
       this.user = user
+
+      this.complexForm.setValue({
+          first_name: this.user.first_name,
+          last_name: this.user.last_name,
+          email:  this.user.email,
+          phone_number: this.user.phone_number,
+          password: this.user.password,
+          confirm_password: this.user.password,
+          user_type: this.user.user_type,
+          user_secret: null,
+          create_domain : this.user.create_domain,
+          username: this.user.username,
+      })
   }
 
+
+
+      pageNanoskillChanged(input){
+        console.log("changed nanoskill clicked")
+        this.currentPage = input
+        this.store.dispatch(new UserActions.Loadusers({"skip": 15*(input-1), "limit": 15, "search_text": null}))
+    
+    }
+    
+
+    search_text_changed(search_text){
+        this.store.dispatch(new UserActions.Loadusers({ "skip": 0, "limit": 15, "search_text": search_text}))
+        this.userCreate = false
+      }
 }

@@ -103,10 +103,11 @@ export const isAuthenticationLoading = createSelector(getAuthAppState, fromAuthe
 
 
 
-export const getUsers = createSelector(getUserAppState, fromUser.getUsers)
-export const getUserIds = createSelector(getUserAppState, fromUser.getUsersId)
-export const getSelectdUserId = createSelector(getUserAppState, fromUser.selectedUserId)
-export const getSelectedUser = createSelector(getUserAppState, fromUser.getSelectedUser)
+export const getUsers = createSelector(getUserAppState, fromUser.Getusers)
+export const getUserIds = createSelector(getUserAppState, fromUser.Getuserids)
+export const getSelectdUserId = createSelector(getUserAppState, fromUser.Getselecteduser)
+export const getUserPages = createSelector(getUserAppState, fromUser.Getuserpages)
+export const getUserCount = createSelector(getUserAppState, fromUser.Getusercount)
 
 
 export const getDomains = createSelector(getDomainAppState, fromDomain.Getdomains)

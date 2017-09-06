@@ -1,7 +1,7 @@
 import { NgAnalyzedModules } from '@angular/compiler';
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { Http, Response, Request, RequestOptions, Headers} from '@angular/http';
+import { Http, Response, Request, RequestOptions, Headers, URLSearchParams} from '@angular/http';
 import {UserModel, LoginData} from "../models/user.model"
 import {Observable} from "rxjs/Observable";
 import {ApplicationStore} from "../app.store"
@@ -21,9 +21,15 @@ export class UsersService {
     }
   
     
-    loadUsers(): Observable<Array<UserModel>> {
-        let headers = new Headers(this.headerContent);
-        let options = new RequestOptions({headers});   
+    loadUsers(payload: any): Observable<Array<UserModel>> {
+      console.log(payload)
+      let params = new URLSearchParams();
+      params.set("skip", payload.skip)
+      params.set("limit", payload.limit)
+      params.set("search_text", payload.search_text)
+      console.log(params)
+      let headers = new Headers(this.headerContent);
+      let options = new RequestOptions({search: params}); 
         return this.http.get(this.DOMAIN_API_URL, options)
             .map(res => res.json()["data"])
             
@@ -53,15 +59,18 @@ export class UsersService {
           .map(res => res.json()["data"])
   }
   
-    deleteUser(object: UserModel): Observable<UserModel> {
+    deleteUser(payload: any): Observable<UserModel>{
+      console.log(payload.user_id)
+      let params = new URLSearchParams();
+      params.set("user_id", payload.user_id)
+      params.set("action_user_id", payload.action_user_id)
+      console.log(params)
       let headers = new Headers(this.headerContent);
-      let options = new RequestOptions({headers});
-      console.log(object.user_id + "from the delete user")
-      var url = this.DOMAIN_API_URL + "/" + object.user_id
-      return this.http.delete(url, options)
-            .map(res => res.json()["data"])
-      
-    }
-  
-  }
+      let options = new RequestOptions({search: params}); 
+      console.log(options)  
+      return this.http.delete(this.DOMAIN_API_URL, options)
+                  .map(res => res.json()["data"])
 
+
+  }
+}
