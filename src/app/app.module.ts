@@ -3,7 +3,7 @@ import { ConceptComponent } from './home/side-bar/ontology/concept/concept.compo
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import {EffectsModule} from '@ngrx/effects';
-import { FormsModule } from '@angular/forms';
+import { FormsModule,  ReactiveFormsModule  } from '@angular/forms';
 import {Headers, Http, HttpModule, BaseRequestOptions, RequestOptions} from '@angular/http';
 import {HashLocationStrategy, LocationStrategy} from "@angular/common";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
@@ -102,6 +102,7 @@ children: [
 
     AppRoutingModule,
     NgxPaginationModule, // <-- import the module
+    ReactiveFormsModule,
 
     BrowserModule, 
     FormsModule,

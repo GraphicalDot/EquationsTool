@@ -63,7 +63,7 @@ export class UsersEffects {
 
     @Effect() AddUser$: Observable<Action> = this.actions$
         .ofType(ObjectActions.ADD_USER)
-        .map(toPayload)
+        .map((action: ObjectActions.Adduser) => action.payload) 
         .switchMap((payload: UserModel) => 
               this.service.addUser(payload)
               .map((user: UserModel) => new ObjectActions.Addusersuccess(user))
