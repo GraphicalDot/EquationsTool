@@ -1,4 +1,5 @@
 import { Validator } from 'codelyzer/walkerFactory/walkerFn';
+import { toast } from 'angular2-materialize';
 
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import {State, Store} from "@ngrx/store"
@@ -9,7 +10,6 @@ import { UsersEffects } from '../../../effects/users.effects';
 import * as UserActions from '../../../actions/users.actions';
 import * as fromRoot from '../../../reducers';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-
 
 
 
@@ -40,6 +40,12 @@ export class UsersComponent implements OnInit {
             this.actionUser = value
         });
 
+
+        this.store.select(fromRoot.getUserError)
+          .filter((value) => value !== undefined && value !== null ) 
+          .subscribe(value =>{
+            toast("ERROR: "+ value, 4000);
+          })
 
 
     this.complexForm = fb.group({
@@ -204,6 +210,7 @@ checkIfMatchingPasswords(passwordKey: string, passwordConfirmationKey: string) {
   editUser(user: UserModel){
       this.userCreate = true;
       this.user = user
+      this.userEdit= true;    
 
       this.complexForm.setValue({
           first_name: this.user.first_name,

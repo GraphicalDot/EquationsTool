@@ -108,7 +108,7 @@ export const getUserIds = createSelector(getUserAppState, fromUser.Getuserids)
 export const getSelectdUserId = createSelector(getUserAppState, fromUser.Getselecteduser)
 export const getUserPages = createSelector(getUserAppState, fromUser.Getuserpages)
 export const getUserCount = createSelector(getUserAppState, fromUser.Getusercount)
-
+export const getUserError = createSelector(getUserAppState, fromUser.Getusererror)
 
 export const getDomains = createSelector(getDomainAppState, fromDomain.Getdomains)
 export const getDomainIds = createSelector(getDomainAppState, fromDomain.Getdomainids)
@@ -145,6 +145,7 @@ export const getQuestionIds = createSelector(QuestionAppState, fromQuestion.Getq
 export const getSelectedQuestion = createSelector(QuestionAppState, fromQuestion.Getselectedquestion)
 export const getQuestionPages = createSelector(QuestionAppState, fromQuestion.Getquestionpages)
 export const getQuestionCount = createSelector(QuestionAppState, fromQuestion.Getquestioncount)
+export const getQuestionError = createSelector(QuestionAppState, fromQuestion.Getquestionerror)
 
 
 

@@ -127,15 +127,14 @@ export function QuestionReducer(state = initialState, action: actions.Actions): 
                             module_count: state.module_count + 1
                         };
 
-            case actions.ADD_QUESTION_FAILURE:
-                    return {
-                            module_ids: state.module_ids,
-                            modules: state.modules,
-                            selectedModule: state.selectedModule,
+            case actions.QUESTION_ERROR:
+                    {
+                    return Object.assign({}, state, {
                             loaded: true,
                             loading: false,
                             error: action.payload._body
-                        };
+                        })
+                    }
 
 
             case actions.DELETE_QUESTION:
@@ -169,6 +168,14 @@ export function QuestionReducer(state = initialState, action: actions.Actions): 
                     }
 
             case actions.SELECTED_QUESTION:
+            {
+                 return Object.assign({}, state, {
+                        selectedModule: undefined,
+                        loaded: false,
+                        loading: true,
+                        error: undefined
+                        })
+                }
             case actions.SELECTED_QUESTION_FAILURE:
                 {
                  return Object.assign({}, state, {
@@ -206,6 +213,7 @@ export const Getquestionids= (state: QuestionState) => state.module_ids
 
 //This will select the dictionary of id: User
 export const Getquestions = (state: QuestionState) => state.modules
+export const Getquestionerror = (state: QuestionState) => state.error
 
 //Return list of domains in a list format
 //export const getAllDomains = createSelector(getDomains, getDomainIds, (entities, ids) => {

@@ -38,8 +38,15 @@ export type Actions =
             | Addquestionoption
             | Deletequestionoption
             | Deletequestionoptionsuccess
-
+            | Questionerror
 //**************** LOAD SubConcept
+
+
+export const QUESTION_ERROR = "[Questions] Question Error"
+export class Questionerror implements Action{
+    readonly type = QUESTION_ERROR
+    constructor(public payload: any= null){}
+}
 
 export const CLEAR_QUESTION = "[Questions] Clear Question"
 export class Clearquestion implements Action{

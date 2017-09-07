@@ -3,6 +3,13 @@ import { UserModel } from '../models/user.model';
 
 
 
+export const USER_ERROR = "[USERS] User Error"
+export class Usererror implements Action{
+    readonly type = USER_ERROR
+    constructor(public payload: any= null){}
+}
+
+
 export const SELECT_USER = "[Users] Select User"
 export class Selectuser implements Action{
     readonly type = SELECT_USER
@@ -183,4 +190,6 @@ export type Actions = Loadusers|
                         Loginuser|
                         Loginusersuccess|
                         Loginuserfailure|
-                        Logoutuser
+                        Logoutuser|
+
+                        Usererror

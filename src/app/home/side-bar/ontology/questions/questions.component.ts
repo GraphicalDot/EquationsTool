@@ -1,4 +1,5 @@
 import { observeOn } from 'rxjs/operator/observeOn';
+import { toast } from 'angular2-materialize';
 
 import { baseServeCommandOptions } from '@angular/cli/commands/serve';
 import { Conditional } from '@angular/compiler';
@@ -17,6 +18,9 @@ import {MaterializeDirective} from "angular2-materialize";
 import * as Materialize from 'angular2-materialize';
 import * as fromRoot from '../../../../reducers';
 import * as actions from '../../../../actions/question.actions';
+import { FormBuilder, FormGroup, Validators, FormArray } from '@angular/forms';
+import { Validator } from 'codelyzer/walkerFactory/walkerFn';
+
 
 
 @Component({
@@ -38,6 +42,8 @@ export class QuestionsComponent implements OnInit {
     public nanoskills$: Observable<any>;
     public questions$: Observable<any>;
     public currentQPage: number;
+    myForm : FormGroup;
+
 
     public user$ 
     public subscriber_two 
@@ -50,7 +56,7 @@ export class QuestionsComponent implements OnInit {
     @Output() unfreezeontology = new EventEmitter<boolean>();
 
     //constructor(private store: Store<ApplicationStore>, private service: DomainService,) { 
-    constructor(private store: Store<fromRoot.AppState>) {
+    constructor(private store: Store<fromRoot.AppState>, private fb: FormBuilder ) {
         //this.selected_domain = this.store.select("Selecteddomain")
         this.nanoskills$ = this.store.select(fromRoot.getNanoskills);
         this.questions$ = this.store.select(fromRoot.getQuestions);
@@ -58,6 +64,35 @@ export class QuestionsComponent implements OnInit {
         this.module_count$ = this.store.select(fromRoot.getQuestionCount)
         
        // this.selectedDomain$ = this.store.select(fromRoot.getSelectdDomainId) 
+
+        this.myForm = this.fb.group({
+            module_name: [''],
+            description: ['',],
+            question_text: [],
+            options: this.fb.array([])
+        });
+
+
+    }
+    
+    addOption(): void {
+        const arrayControl = <FormArray>this.myForm.controls['options'];
+        let newGroup = this.fb.group({
+            option_name: [''],
+            option_order: [''],
+            option_text: [''],
+            option_image :['']
+            /* Fill this in identically to the one in ngOnInit */
+
+        });
+        arrayControl.push(newGroup);
+    }
+    delInput(index: number): void {
+        const arrayControl = <FormArray>this.myForm.controls['options'];
+        arrayControl.removeAt(index);
+    }
+
+    createOption(){
 
     }
 
@@ -111,7 +146,11 @@ export class QuestionsComponent implements OnInit {
                this.module = value
             });
 
-
+        this.store.select(fromRoot.getQuestionError)
+          .filter((value) => value !== undefined && value !== null ) 
+          .subscribe(value =>{
+            toast("ERROR: "+ value, 4000);
+          })
     };
         
     ngOnDestroy(){
@@ -129,8 +168,8 @@ export class QuestionsComponent implements OnInit {
     
     //This is when a user clicks on the top add button in right of every module, 
     //A form will opened
-    addModule(module){
-
+    addQuestion(module){
+        console.log(this.myForm.value)
     }
 
     unfreezeOntology(){

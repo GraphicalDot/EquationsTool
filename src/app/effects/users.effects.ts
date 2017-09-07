@@ -54,7 +54,7 @@ export class UsersEffects {
         .switchMap((payload: UserModel) => 
               this.service.addUser(payload)
               .map((user: UserModel) => new ObjectActions.Addusersuccess(user))
-              .catch(err => of(new ObjectActions.Adduserfailure(err)))
+              .catch(err => of(new ObjectActions.Usererror(err)))
         );
 
     @Effect() deleteUser$: Observable<Action> = this.actions$

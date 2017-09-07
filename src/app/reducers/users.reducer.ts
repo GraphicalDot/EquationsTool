@@ -41,7 +41,7 @@ export function UsersReducer(state = initialState, action: UserActions.Actions):
                    }            
             case UserActions.LOAD_USERS_SUCCESS:
                       {
-                          return Object.assign({}, state, {
+                        return Object.assign({}, state, {
                           user_ids: action.payload.user_ids,
                           users: action.payload.users,
                           selectedUserId: null,
@@ -93,15 +93,14 @@ export function UsersReducer(state = initialState, action: UserActions.Actions):
                             module_count: state.module_count +1, 
                             pages: Math.ceil((state.module_count+1)/15),                        })
             }
-            case UserActions.ADD_USER_FAILURE:
-                    return {
-                            user_ids: state.user_ids,
-                            users: state.users,
-                            selectedUser: state.selectedUser,
+            case UserActions.USER_ERROR:
+                    {   console.log(action.payload)
+                        return Object.assign({}, state, {
                             loaded: true,
                             loading: false,
                             error: action.payload._body
-                        };
+                        })
+                    }
                     
             
 
@@ -160,6 +159,7 @@ export function UsersReducer(state = initialState, action: UserActions.Actions):
 export const Getuserids= (state: UserState) => state.user_ids
 //This will select the dictionary of id: User
 export const Getusers = (state: UserState) => state.users
+export const Getusererror = (state: UserState) => state.error
 
 //Return list of users
 /* export const getAllUsers = createSelector(getUsers, getUsersId, (entities, ids) => {
