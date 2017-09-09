@@ -11,7 +11,9 @@ import { DomainComponent } from './domain/domain.component';
 import { NanoskillComponent } from './nanoskill/nanoskill.component';
 import {NgxPaginationModule} from 'ngx-pagination';
 import { FormsModule,  ReactiveFormsModule  } from '@angular/forms';
+import "froala-editor/js/froala_editor.pkgd.min.js";
 
+import { FroalaEditorModule, FroalaViewModule } from 'angular-froala-wysiwyg';
 
 @NgModule({
   imports: [
@@ -22,6 +24,8 @@ import { FormsModule,  ReactiveFormsModule  } from '@angular/forms';
     ReactiveFormsModule,
     HttpModule,
     NgxPaginationModule, 
+    FroalaEditorModule.forRoot(), 
+    FroalaViewModule.forRoot()
   ],
   declarations: [OntologyComponent, SubconceptComponent, ConceptComponent, DomainComponent, NanoskillComponent, QuestionsComponent],
   exports: [OntologyComponent],

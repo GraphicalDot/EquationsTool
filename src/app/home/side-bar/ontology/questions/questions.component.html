@@ -61,7 +61,8 @@
 
 
 <div class="container" *ngIf="openAdd">
-        
+        <div [froalaEditor] [(froalaModel)]="editorContent">Hello, Froala!</div>
+
        <form materialize class="col s12" [formGroup]="myForm" (ngSubmit)="addQuestion(myForm.value)"  class="ui form">
           <div class="row">
               <div class="input-field col s6">

@@ -45,7 +45,6 @@ import {NanoskillEffects} from "./effects/nanoskill.effects"
 import {QuestionService} from "./services/question.service"
 import {QuestionEffects} from "./effects/question.effects"
 
-
 import {DomainReducer} from "./reducers/domain.reducer";
 import {ConceptReducer} from "./reducers/concept.reducer";
 import { combineReducers } from '@ngrx/store';

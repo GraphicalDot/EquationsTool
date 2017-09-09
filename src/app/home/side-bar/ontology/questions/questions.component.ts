@@ -22,7 +22,6 @@ import { FormBuilder, FormGroup, Validators, FormArray } from '@angular/forms';
 import { Validator } from 'codelyzer/walkerFactory/walkerFn';
 
 
-
 @Component({
   selector: 'app-questions',
   templateUrl: './questions.component.html',
@@ -31,6 +30,7 @@ import { Validator } from 'codelyzer/walkerFactory/walkerFn';
 
 })
 export class QuestionsComponent implements OnInit {
+    public editorContent: any;
 
     public module_options: Array<string>
     public openAdd: boolean
@@ -92,9 +92,6 @@ export class QuestionsComponent implements OnInit {
         arrayControl.removeAt(index);
     }
 
-    createOption(){
-
-    }
 
     ngOnInit(){
         this.subscriber_two = this.store.select(fromRoot.getAuthenticatedUser)
@@ -170,6 +167,7 @@ export class QuestionsComponent implements OnInit {
     //A form will opened
     addQuestion(module){
         console.log(this.myForm.value)
+        console.log(this.editorContent)
     }
 
     unfreezeOntology(){
