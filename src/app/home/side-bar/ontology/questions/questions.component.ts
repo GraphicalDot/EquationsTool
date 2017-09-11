@@ -44,7 +44,45 @@ export class QuestionsComponent implements OnInit {
     public currentQPage: number;
     myForm : FormGroup;
 
-
+    public options: Object = {
+                                beforeUpload: function (e, editor, images) {
+                                },
+                              charCounterCount: true,
+                              // Set the image upload parameter.
+                              imageUploadParam: 'image_data',
+                      
+                              // Set the image upload URL.
+                              imageUploadURL: 'http://localhost:8000/uploadimage',
+                      
+                              // Additional upload params.
+                              imageUploadParams: {user_id: 'my_editor', "module_id": ""},
+                      
+                              // Set request type.
+                              imageUploadMethod: 'POST',
+                      
+                              // Set max image size to 5MB.
+                              imageMaxSize: 5 * 1024 * 1024,
+                      
+                              // Allow to upload PNG and JPG.
+                              imageAllowedTypes: ['jpeg', 'jpg', 'png'],
+                              events: {
+                                  'froalaEditor.initialized': function() {
+                                      console.log('initialized');
+                                    },
+                                'froalaEditor.image.beforeUpload': function (e, editor, images){
+                                        var reader = new FileReader();
+                                        reader.addEventListener("load", function () {
+                                            console.log(reader.result);
+                                        }, false);
+                                        if (images[0]) {
+                                            var data = reader.readAsDataURL(images[0]);
+                                            console.log(data[1])
+                                            return data[1]
+                                        }
+                                    }
+                                }
+                           
+                            };
     public user$ 
     public subscriber_two 
     public pages$: Observable<number>;
