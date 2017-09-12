@@ -22,12 +22,14 @@
         "styles.scss",
           "../node_modules/froala-editor/css/froala_editor.pkgd.min.css",
        "../node_modules/froala-editor/css/froala_style.min.css",
+       "../node_modules/jqueryui/jquery-ui.min.css",
   "../node_modules/font-awesome/css/font-awesome.css"
       ],
       "scripts": [
         "../node_modules/jquery/dist/jquery.js",
         "../node_modules/tether/dist/js/tether.js",
         "../node_modules/hammerjs/hammer.js",
+        "../node_modules/jqueryui/jquery-ui.js",
           "../node_modules/froala-editor/js/froala_editor.pkgd.min.js",
         "../node_modules/materialize-css/dist/js/materialize.min.js"
       ],

@@ -20,7 +20,8 @@ import * as fromRoot from '../../../../reducers';
 import * as actions from '../../../../actions/question.actions';
 import { FormBuilder, FormGroup, Validators, FormArray } from '@angular/forms';
 import { Validator } from 'codelyzer/walkerFactory/walkerFn';
-
+declare var $:any;
+import "jqueryui"
 
 @Component({
   selector: 'app-questions',
@@ -44,7 +45,7 @@ export class QuestionsComponent implements OnInit {
     public currentQPage: number;
     myForm : FormGroup;
 
-    public options: Object = {
+    public options: Object /* = {
                                 beforeUpload: function (e, editor, images) {
                                 },
                               charCounterCount: true,
@@ -55,7 +56,7 @@ export class QuestionsComponent implements OnInit {
                               imageUploadURL: 'http://localhost:8000/uploadimage',
                       
                               // Additional upload params.
-                              imageUploadParams: {user_id: 'my_editor', "module_id": ""},
+                              imageUploadParams: {"user_id": this.user.user_id, "module_id": "some_id"},
                       
                               // Set request type.
                               imageUploadMethod: 'POST',
@@ -76,13 +77,12 @@ export class QuestionsComponent implements OnInit {
                                         }, false);
                                         if (images[0]) {
                                             var data = reader.readAsDataURL(images[0]);
-                                            console.log(data[1])
-                                            return data[1]
                                         }
                                     }
                                 }
                            
                             };
+ */
     public user$ 
     public subscriber_two 
     public pages$: Observable<number>;
@@ -147,11 +147,68 @@ export class QuestionsComponent implements OnInit {
 
         });
 
-                  this.store.select(fromRoot.getAuthenticatedUser)
+        this.store.select(fromRoot.getAuthenticatedUser)
             .subscribe(value => {
             console.log("Authenticated user" + value.user_id)
             this.user = value
         });
+
+
+        this.store.select(fromRoot.getSelectedNanoskill)
+            .subscribe(value => {
+               this.selectedNanoskill = value
+        });
+
+        //Drggable option is available on froala, search for it and use it
+        this.options =  {
+                    beforeUpload: function (e, editor, images) {
+                    },
+                    
+                    placeholderText: 'Edit Your Question Here!',
+                    charCounterCount: true,
+                    // Set the image upload parameter.
+                    imageUploadParam: 'image_data',
+                    
+                    // Set the image upload URL.
+                    imageUploadURL: 'http://localhost:8000/uploadimage',
+                    draggable: true,
+                    dragInline: true,
+                    imageMove: true,
+                    videoMove: true,
+                    
+                    // Additional upload params.
+                    imageUploadParams: {"user_id": this.user.user_id, "parent_id": this.selectedNanoskill.module_id},
+                    
+                    // Set request type.
+                    imageUploadMethod: 'POST',
+                    
+                    // Set max image size to 5MB.
+                    imageMaxSize: 5 * 1024 * 1024,
+                    
+                    // Allow to upload PNG and JPG.
+                    imageAllowedTypes: ['jpeg', 'jpg', 'png'],
+                    events: {
+                        'froalaEditor.initialized': function() {
+                                console.log('initialized');
+                        },
+                    
+                        'froalaEditor.image.beforeUpload': function (e, editor, images){
+                                var reader = new FileReader();
+                                reader.addEventListener("load", function () {
+                                    console.log("No use of converting this image to base64");
+                                }, false);
+                        
+                                if (images[0]) {
+                                    var data = reader.readAsDataURL(images[0]);
+                        }
+                    },
+
+                    'froalaEditor.image.replaced': function(e, editor, $img, response){
+                            console.log("Image is deleted")
+                    },
+                    }
+                    };
+                    
 
 
         this.store.select(fromRoot.getSelectedDomain)
@@ -170,10 +227,6 @@ export class QuestionsComponent implements OnInit {
             this.selectedSubconcept = value
         });
 
-        this.store.select(fromRoot.getSelectedNanoskill)
-            .subscribe(value => {
-               this.selectedNanoskill = value
-        });
 
         
         this.store.select(fromRoot.getSelectedQuestion)
