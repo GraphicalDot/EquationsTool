@@ -10,6 +10,8 @@ import { ConceptComponent } from './concept/concept.component';
 import { DomainComponent } from './domain/domain.component';
 import { NanoskillComponent } from './nanoskill/nanoskill.component';
 import {NgxPaginationModule} from 'ngx-pagination';
+import { PermissionsComponent } from './permissions/permissions.component';
+
 import { FormsModule,  ReactiveFormsModule  } from '@angular/forms';
 import "froala-editor/js/froala_editor.pkgd.min.js";
 
@@ -27,7 +29,7 @@ import { FroalaEditorModule, FroalaViewModule } from 'angular-froala-wysiwyg';
     FroalaEditorModule.forRoot(), 
     FroalaViewModule.forRoot()
   ],
-  declarations: [OntologyComponent, SubconceptComponent, ConceptComponent, DomainComponent, NanoskillComponent, QuestionsComponent],
+  declarations: [OntologyComponent, PermissionsComponent, SubconceptComponent, ConceptComponent, DomainComponent, NanoskillComponent, QuestionsComponent],
   exports: [OntologyComponent],
 })
 export class OntologyModule { }

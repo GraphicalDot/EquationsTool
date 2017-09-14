@@ -13,7 +13,6 @@ import { MaterializeModule } from 'angular2-materialize';
 import { GradesComponent } from './home/side-bar/grades/grades.component';
 import { UserprofileComponent } from './home/side-bar/userprofile/userprofile.component';
 import { VariablesComponent } from './home/side-bar/variables/variables.component';
-import { PermissionsComponent } from './home/side-bar/permissions/permissions.component';
 import { TemplatesComponent } from './home/side-bar/templates/templates.component';
 import {OntologyComponent} from "./home/side-bar/ontology/ontology.component";
 import {LoginComponent} from "./login/login.component"
@@ -27,7 +26,6 @@ const routes: Routes =
 children: [
 { path: 'editor', component: EditorComponent},
 { path: 'users', component: UsersComponent},
-{ path: 'permissions', component: PermissionsComponent},
 { path: 'variables', component: VariablesComponent},
 { path: 'templates', component: TemplatesComponent},
 { path: 'ontology', component: OntologyComponent},

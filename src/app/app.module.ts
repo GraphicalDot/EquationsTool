@@ -27,7 +27,6 @@ import {LoginComponent} from "./login/login.component"
 import {StoreModule} from '@ngrx/store';
 import {StoreDevtoolsModule} from '@ngrx/store-devtools';
 import { VariablesComponent } from './home/side-bar/variables/variables.component';
-import { PermissionsComponent } from './home/side-bar/permissions/permissions.component';
 import { TemplatesComponent } from './home/side-bar/templates/templates.component';
 import { RouterStoreModule } from "@ngrx/router-store";
 
@@ -41,6 +40,11 @@ import {SubconceptEffects} from "./effects/subconcept.effects"
 
 import {NanoskillService} from "./services/nanoskill.service"
 import {NanoskillEffects} from "./effects/nanoskill.effects"
+
+
+import {PermissionService} from "./services/permission.service"
+import {PermissionEffects} from "./effects/permission.effects"
+
 
 import {QuestionService} from "./services/question.service"
 import {QuestionEffects} from "./effects/question.effects"
@@ -64,6 +68,8 @@ import {NgxPaginationModule} from 'ngx-pagination';
  * ensure that none of the reducers accidentally mutates the state.
  */
 //);
+
+
 import { AppRoutingModule } from "./app-routing.module";
 const routes: Routes = 
 [
@@ -72,7 +78,7 @@ children: [
 { path: 'editor', component: EditorComponent},
 { path: 'users', component: UsersComponent},
 { path: 'questions', component: QuestionsComponent},
-{ path: 'permissions', component: PermissionsComponent},
+
 { path: 'variables', component: VariablesComponent},
 { path: 'templates', component: TemplatesComponent},
 { path: 'ontology', component: OntologyComponent},
@@ -90,7 +96,6 @@ children: [
     UsersComponent,
     GradesComponent,
     VariablesComponent,
-    PermissionsComponent,
     TemplatesComponent,
     UserprofileComponent,
     LoginComponent
@@ -117,13 +122,14 @@ children: [
     EffectsModule.run(SubconceptEffects),
     EffectsModule.run(NanoskillEffects),
     EffectsModule.run(QuestionEffects),
+    EffectsModule.run(PermissionEffects),
     //EffectsModule.runAfterBootstrap(UsersEffects),
     StoreDevtoolsModule.instrumentStore(),
    // StoreLogMonitorModule
 
 
   ],
-  providers: [UsersService, OntologyService, AuthenticationService, AuthenticatedGuard, SubconceptService, NanoskillService, QuestionService],
+  providers: [UsersService, OntologyService, PermissionService, AuthenticationService, AuthenticatedGuard, SubconceptService, NanoskillService, QuestionService],
   bootstrap: [AppComponent],
 })
 export class AppModule { }

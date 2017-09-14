@@ -176,7 +176,7 @@ checkIfMatchingPasswords(passwordKey: string, passwordConfirmationKey: string) {
                                                                                                            
   ngOnInit() {
     this.userCreate = false;
-    this.store.dispatch(new UserActions.Loadusers({"skip": 0, "limit": 15, "search_text": null}))
+    this.store.dispatch(new UserActions.Loadusers({"skip": 0, "limit": 15, "search_text": null, "user_id": this.actionUser.user_id}))
     
   }
 
@@ -231,13 +231,13 @@ checkIfMatchingPasswords(passwordKey: string, passwordConfirmationKey: string) {
       pageNanoskillChanged(input){
         console.log("changed nanoskill clicked")
         this.currentPage = input
-        this.store.dispatch(new UserActions.Loadusers({"skip": 15*(input-1), "limit": 15, "search_text": null}))
+        this.store.dispatch(new UserActions.Loadusers({"skip": 15*(input-1), "limit": 15, "search_text": null, "user_id": this.actionUser.user_id }))
     
     }
     
 
     search_text_changed(search_text){
-        this.store.dispatch(new UserActions.Loadusers({ "skip": 0, "limit": 15, "search_text": search_text}))
+        this.store.dispatch(new UserActions.Loadusers({ "skip": 0, "limit": 15, "search_text": search_text, "user_id": this.actionUser.user_id }))
         this.userCreate = false
       }
 }

@@ -7,11 +7,14 @@ import {DomainModel, ConceptModel} from "../models/ontology.models"
 import {Observable} from "rxjs/Observable";
 import {ApplicationStore} from "../app.store"
 import {ONTOLOGY_ACTIONS} from "../actions/ontology.actions";
-import 'rxjs/Rx';
+import 'rxjs/Rx'
+import { ReplaySubject } from 'rxjs';
+
 
 @Injectable()
 export class OntologyService {
     private DOMAIN_API_URL = 'http://localhost:8000/domains'
+    private DOMAIN_PERMISSIONS = 'http://localhost:8000/domainpermissions'
     private CONCEPT_API_URL = 'http://localhost:8000/concepts'
     private headerContent = {'Content-Type': 'application/json', "Authorization": localStorage.getItem('user_token')}
     constructor(private http: Http) {}
@@ -31,6 +34,22 @@ export class OntologyService {
                 .map(res => res.json()["data"])
       }
   
+    DomainPermission(payload){
+        let params = new URLSearchParams();
+        params.set("user_id", payload.user_id)
+        params.set("skip", payload.skip)
+        params.set("limit", payload.limit)
+        params.set("module_id", payload.module_id)
+
+        let headers = new Headers(this.headerContent);
+        //let options = new RequestOptions({headers});   
+        let options = new RequestOptions({search: params});   
+        var url = this.DOMAIN_PERMISSIONS
+         return this.http.get(url, options)
+                .map(res => res.json()["data"])
+      }
+
+
     
     loadConcepts(payload): Observable<ConceptModel[]> {
         let params = new URLSearchParams();

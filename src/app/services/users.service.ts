@@ -27,6 +27,8 @@ export class UsersService {
       params.set("skip", payload.skip)
       params.set("limit", payload.limit)
       params.set("search_text", payload.search_text)
+      params.set("user_id", payload.user_id)
+
       console.log(params)
       let headers = new Headers(this.headerContent);
       let options = new RequestOptions({search: params}); 

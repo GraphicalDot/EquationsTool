@@ -13,6 +13,8 @@ import * as fromConcept from './concept.reducer';
 import * as fromSubconcept from './subconcept.reducer';
 import* as fromNanoskill from "./nanoskill.reducer"
 import* as fromQuestion from "./question.reducer"
+import* as fromPermission from "./permission.reducer"
+
 
 import * as fromUser from './users.reducer';
 import * as fromAuthentication from "./authentication.reducer"
@@ -24,6 +26,7 @@ export interface AppState {
   subconcepts: fromSubconcept.SubconceptState,
   nanoskills: fromNanoskill.NanoskillState,
   questions: fromQuestion.QuestionState,
+  permission: fromPermission.PermissionState,
   users: fromUser.UserState,
   router: fromRouter.RouterState,
   authentication: fromAuthentication.AuthenticateState
@@ -38,6 +41,7 @@ export const reducers  = {
   subconcepts: fromSubconcept.SubconceptReducer,
   nanoskills: fromNanoskill.NanoskillReducer,
   questions: fromQuestion.QuestionReducer,
+  permission: fromPermission.PermissionReducer, 
   users: fromUser.UsersReducer,
   router: fromRouter.routerReducer,
   authentication: fromAuthentication.AuthenticationReducer
@@ -64,6 +68,7 @@ export const getDomainAppState =  (state: AppState) => state.domains;
 export const SubconceptAppState =  (state: AppState) => state.subconcepts;
 export const NanoskillAppState =  (state: AppState) => state.nanoskills;
 export const QuestionAppState =  (state: AppState) => state.questions;
+export const PermissionAppState =  (state: AppState) => state.permission;
 
 
 export const getConceptAppState =  (state: AppState) => state.concepts;
@@ -100,6 +105,9 @@ export const getAuthenticationError = createSelector(getAuthAppState, fromAuthen
 export const isAuthenticated = createSelector(getAuthAppState, fromAuthentication.isAuthenticated);
 export const isAuthenticatedLoaded = createSelector(getAuthAppState, fromAuthentication.isAuthenticatedLoaded);
 export const isAuthenticationLoading = createSelector(getAuthAppState, fromAuthentication.isLoading);
+
+export const getDomainPermission = createSelector(PermissionAppState, fromPermission.PermissionDomain);
+
 
 
 
