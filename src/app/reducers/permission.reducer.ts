@@ -8,6 +8,7 @@ export interface PermissionState {
     concept: Object,
     nanoskill: Object,
     question: Object,
+    domainerror: string | null
 }
 
 const initialState: PermissionState = {
@@ -15,6 +16,7 @@ const initialState: PermissionState = {
     concept: null,
     nanoskill: null,
     question: null,
+    domainerror: null
 }
 
 
@@ -47,7 +49,29 @@ export function PermissionReducer(state = initialState, action: PermissionAction
                           loading: false,
                           error: action.payload._body
                      })
+                     }
 
+            case PermissionActions.EDIT_PERMISSION_DOMAIN:
+                    {
+                        return Object.assign({}, state, {
+                          loading: true,
+                          domainerror: undefined
+                     })
+                    }
+            case PermissionActions.EDIT_PERMISSION_DOMAIN_FAILURE:
+                    {
+                        return Object.assign({}, state, {
+                          domain: undefined,
+                          loading: false,
+                          domainerror: action.payload._body
+                     })
+                    }
+            case PermissionActions.EDIT_PERMISSION_DOMAIN_SUCCESS:
+                    {
+                        return Object.assign({}, state, {
+                          loading: false,
+                          domainerror: action.payload._body
+                     })
                      }
 
             default:
@@ -62,6 +86,7 @@ export function PermissionReducer(state = initialState, action: PermissionAction
 //This will select the list of ids of all the users
 //This will select the dictionary of id: Permission
 export const PermissionDomain = (state: PermissionState) => state.domain
+export const PermissionDomainError = (state: PermissionState) => state.domainerror
 
 //Return list of users
 /* export const getAllPermissions = createSelector(getPermissions, getPermissionsId, (entities, ids) => {

@@ -2,28 +2,6 @@ import {Action} from "@ngrx/store"
 import {DomainModel, ConceptModel} from "../models/ontology.models"
 
 
-export const ONTOLOGY_ACTIONS = {
-    LOAD_DOMAIN: "LOAD_DOMAIN",
-    ADD_DOMAIN: "ADD_DOMAIN",
-    DELETE_DOMAIN: "DELETE_DOMAIN",
-    EDIT_DOMAIN: "EDIT_DOMAIN",
-
-
-    LOAD_CONCEPT: "LOAD_CONCEPT",
-    ADD_CONCEPT: "ADD_CONCEPT",
-    DELETE_CONCEPT: "DELETE_CONCEPT",
-    EDIT_CONCEPT: "EDIT_CONCEPT",
-
-    LOAD_SUB_CONCEPT: "LOAD_SUB_CONCEPT",
-    ADD_SUB_CONCEPT: "ADD_SUB_CONCEPT",
-    DELETE_SUB_CONCEPT: "DELETE_SUB_CONCEPT",
-    EDIT_SUB_CONCEPT: "EDIT_SUB_CONCEPT",
-
-    LOAD_NANOSKILL: "LOAD_NANOSKILL",
-    ADD_NANOSKILL: "ADD_NANOSKILL",
-    DELETE_NANOSKILL: "DELETE_NANOSKILL",
-    EDIT_NANOSKILL: "EDIT_NANOSKILL",
-}
 export const ERROR_HANDLER = "[ERROR] Error Handler"
 
 export class Errorhandler implements Action{

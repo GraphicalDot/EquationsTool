@@ -23,7 +23,6 @@ import { GradesComponent } from './home/side-bar/grades/grades.component';
 import { Grade } from './home/side-bar/grades/grades.model';
 import {LoginComponent} from "./login/login.component"
 
-
 import {StoreModule} from '@ngrx/store';
 import {StoreDevtoolsModule} from '@ngrx/store-devtools';
 import { VariablesComponent } from './home/side-bar/variables/variables.component';

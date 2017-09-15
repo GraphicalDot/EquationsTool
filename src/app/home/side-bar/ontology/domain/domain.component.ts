@@ -9,6 +9,7 @@ import * as fromRoot from '../../../../reducers';
 import * as actions from '../../../../actions/ontology.actions';
 import * as Permissionactions from '../../../../actions/permissions.actions'
 import {NgxPaginationModule} from 'ngx-pagination';
+import { toast } from 'angular2-materialize';
 
 
 /*
@@ -57,7 +58,7 @@ export class DomainComponent implements OnInit, OnDestroy {
     public pages$: Observable<number>;
     public domain_count$: Observable<number>
     public targeted_user_id: string
-   
+    public loggedUser: UserModel;
    
    public permission$: Observable<any>
    public permission_observable$: Observable<any> 
@@ -86,12 +87,17 @@ export class DomainComponent implements OnInit, OnDestroy {
         this.store.select(fromRoot.getAuthenticatedUser)
             .subscribe(value => {
             console.log("Authenticated user" + value.user_id)
-            this.user = value
+            this.loggedUser = value
         });
 
-        
+        //This will subscribe to any error if there are any in response from the API's
+        this.store.select(fromRoot.getDomainPermissionError)
+          .filter((value) => value !== undefined && value !== null ) 
+          .subscribe(value =>{
+            toast(value, 4000);
+          })
             
-        this.store.dispatch(new actions.Loaddomain({"user_id": this.user.user_id, "skip": 0, "limit": 15, "search_text": null}))
+        this.store.dispatch(new actions.Loaddomain({"user_id": this.loggedUser.user_id, "skip": 0, "limit": 15, "search_text": null}))
 
     };
     ngOnDestroy(){};
@@ -106,7 +112,7 @@ export class DomainComponent implements OnInit, OnDestroy {
       this.domainCreate = true;    
     }
     submitForm(domain:DomainModel){
-        this.data = Object.assign({}, domain, {"user_id": this.user.user_id, "username": this.user.username})
+        this.data = Object.assign({}, domain, {"user_id": this.loggedUser.user_id, "username": this.loggedUser.username})
         this.domainCreate = false;  
         this.submitDomain.emit(this.data);
     }
@@ -120,13 +126,14 @@ export class DomainComponent implements OnInit, OnDestroy {
 
     pageDomainChanged(input){
         console.log("Domain changed clicked" + input)
+        console.log(this.loggedUser.user_id)
         this.currentDomainPage = input
-        this.store.dispatch(new actions.Loaddomain({"user_id": this.user.user_id, "skip": 15*(input-1), "limit": 15, "search_text": null}))
+        this.store.dispatch(new actions.Loaddomain({"user_id": this.loggedUser.user_id, "skip": 15*(input-1), "limit": 15, "search_text": null}))
     
     }
 
     search_text_changed(search_text){
-        this.store.dispatch(new actions.Loaddomain({"user_id": this.user.user_id, "skip": 0, "limit": 15, "search_text": search_text}))
+        this.store.dispatch(new actions.Loaddomain({"user_id": this.loggedUser.user_id, "skip": 0, "limit": 15, "search_text": search_text}))
     }
 
 
@@ -150,6 +157,10 @@ export class DomainComponent implements OnInit, OnDestroy {
 
     submitPermissions(value){
         console.log(value)
-
+        this.store.dispatch(new Permissionactions.Editpermissiondomain({"user_id": this.loggedUser.user_id, 
+                                                    "target_user_id": this.targeted_user_id, 
+                                                    "module_id": this.permission_domain.module_id,
+                                                    "parent_id": null,
+                                                    "permission": value}))
     }
 }

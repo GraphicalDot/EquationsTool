@@ -28,4 +28,17 @@ export class PermissionEffects {
               .map((value) => new PermissionActions.Loadpermissiondomainsuccess(value))
               .catch(err => of(new PermissionActions.Loadpermissiondomainfailure(err)))
         )
-}
+
+    
+    @Effect() EditPermissiondomains$: Observable<Action> = this.actions$
+        .ofType(PermissionActions.EDIT_PERMISSION_DOMAIN)
+        .map((action: PermissionActions.Editpermissiondomain) => action.payload)
+        .switchMap((payload) => 
+              this.service.EditDomainPermission(payload)
+              .map((value) => new PermissionActions.Editpermissiondomainsuccess(value))
+              .catch(err => of(new PermissionActions.Editpermissiondomainfailure(err)))
+        )
+
+
+
+    }

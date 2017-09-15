@@ -32,5 +32,21 @@ export class PermissionService {
       }
 
 
+    EditDomainPermission(payload){
+        let params = new URLSearchParams();
+        params.set("user_id", payload.user_id)
+        params.set("target_user_id", payload.target_user_id)
+        params.set("parent_id", payload.parent_id)
+        params.set("module_id", payload.module_id)
+
+        console.log(params)
+        let headers = new Headers(this.headerContent);
+        //let options = new RequestOptions({headers});   
+        let options = new RequestOptions({search: params});   
+        var url = this.DOMAIN_PERMISSIONS
+         return this.http.post(url, JSON.stringify(payload))
+                .map(res => res.json()["data"])
+      }
+
 
 }

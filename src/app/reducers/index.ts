@@ -107,6 +107,7 @@ export const isAuthenticatedLoaded = createSelector(getAuthAppState, fromAuthent
 export const isAuthenticationLoading = createSelector(getAuthAppState, fromAuthentication.isLoading);
 
 export const getDomainPermission = createSelector(PermissionAppState, fromPermission.PermissionDomain);
+export const getDomainPermissionError = createSelector(PermissionAppState, fromPermission.PermissionDomainError);
 
 
 
