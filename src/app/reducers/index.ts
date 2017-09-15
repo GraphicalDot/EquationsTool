@@ -111,6 +111,21 @@ export const getDomainPermissionError = createSelector(PermissionAppState, fromP
 
 
 
+export const getConceptPermission = createSelector(PermissionAppState, fromPermission.PermissionConcept);
+export const getConceptPermissionError = createSelector(PermissionAppState, fromPermission.PermissionConceptError);
+
+export const getSubconceptPermission = createSelector(PermissionAppState, fromPermission.PermissionSubconcept);
+export const getSubconceptPermissionError = createSelector(PermissionAppState, fromPermission.PermissionSubconceptError);
+
+export const getNanoskillPermission = createSelector(PermissionAppState, fromPermission.PermissionNanoskill);
+export const getNanoskillPermissionError = createSelector(PermissionAppState, fromPermission.PermissionNanoskillError);
+
+export const getQuestionPermission = createSelector(PermissionAppState, fromPermission.PermissionQuestion);
+export const getQuestionPermissionError = createSelector(PermissionAppState, fromPermission.PermissionQuestionError);
+
+
+
+
 
 export const getUsers = createSelector(getUserAppState, fromUser.Getusers)
 export const getUserIds = createSelector(getUserAppState, fromUser.Getuserids)

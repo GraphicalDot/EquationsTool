@@ -11,12 +11,12 @@ import { ReplaySubject } from 'rxjs';
 
 @Injectable()
 export class PermissionService {
-    private DOMAIN_PERMISSIONS = 'http://localhost:8000/domainpermissions'
+    private permissionurl = 'http://localhost:8000/'
     private headerContent = {'Content-Type': 'application/json', "Authorization": localStorage.getItem('user_token')}
     constructor(private http: Http) {}
   
 
-    DomainPermission(payload){
+    Permission(payload){
         let params = new URLSearchParams();
         params.set("user_id", payload.user_id)
         params.set("skip", payload.skip)
@@ -26,13 +26,14 @@ export class PermissionService {
         let headers = new Headers(this.headerContent);
         //let options = new RequestOptions({headers});   
         let options = new RequestOptions({search: params});   
-        var url = this.DOMAIN_PERMISSIONS
-         return this.http.get(url, options)
+        var url = this.permissionurl + payload.url 
+        console.log(url)
+        return this.http.get(url, options)
                 .map(res => res.json()["data"])
       }
 
 
-    EditDomainPermission(payload){
+    EditPermission(payload){
         let params = new URLSearchParams();
         params.set("user_id", payload.user_id)
         params.set("target_user_id", payload.target_user_id)
@@ -43,8 +44,9 @@ export class PermissionService {
         let headers = new Headers(this.headerContent);
         //let options = new RequestOptions({headers});   
         let options = new RequestOptions({search: params});   
-        var url = this.DOMAIN_PERMISSIONS
-         return this.http.post(url, JSON.stringify(payload))
+        var url = this.permissionurl + payload.url 
+        console.log(url)
+        return this.http.post(url, JSON.stringify(payload))
                 .map(res => res.json()["data"])
       }
 

@@ -45,6 +45,11 @@ domains:
 export class DomainComponent implements OnInit, OnDestroy {
     public permission_domain: DomainModel // This will be selected when a user clicks on +permissions
     public addPermissionFlag: boolean = false
+    public loggedUser: UserModel;
+    public permission$: Observable<any>
+    public targeted_user_id: string
+    
+    
     public domainCreate: boolean
     public domainEdit: boolean
     public domain: DomainModel;
@@ -57,11 +62,7 @@ export class DomainComponent implements OnInit, OnDestroy {
     public currentDomainPage: number
     public pages$: Observable<number>;
     public domain_count$: Observable<number>
-    public targeted_user_id: string
-    public loggedUser: UserModel;
    
-   public permission$: Observable<any>
-   public permission_observable$: Observable<any> 
    //public user$: Observable<UserModel>;
    
     @Output() selectedDomain = new EventEmitter<DomainModel>();
@@ -108,6 +109,8 @@ export class DomainComponent implements OnInit, OnDestroy {
     domaindelete(domain) {
         this.deleteDomain.emit(domain);
     }
+
+    //This is when a user clicks ont he red button on the top, which will open a new form to create a new module
     addDomain(){
       this.domainCreate = true;    
     }
@@ -145,20 +148,29 @@ export class DomainComponent implements OnInit, OnDestroy {
         this.domainEdit = false
         if (this.targeted_user_id){
             //var aPromise = this.service.DomainPermission({"user_id": this.targeted_user_id, "module_id": this.permission_domain.module_id, "skip": 0, "limit": 15}).toPromise()
-            this.store.dispatch(new Permissionactions.Loadpermissiondomain({"user_id": this.targeted_user_id, "module_id": this.permission_domain.module_id, "skip": 0, "limit": 15}))
+            this.store.dispatch(new Permissionactions.Loadpermissiondomain({"user_id": this.targeted_user_id, 
+                                                                                "url": "domainpermissions",
+                                                                                "module_id": this.permission_domain.module_id, 
+                                                                                "skip": 0, 
+                                                                                "limit": 15}))
         }
         }
     
     onUserChange(value){
         this.targeted_user_id = value
-        this.store.dispatch(new Permissionactions.Loadpermissiondomain({"user_id": this.targeted_user_id, "module_id": this.permission_domain.module_id, "skip": 0, "limit": 15}))
+        this.store.dispatch(new Permissionactions.Loadpermissiondomain({"user_id": this.targeted_user_id, 
+                                                                        "url": "domainpermissions",
+                                                                        "module_id": this.permission_domain.module_id, 
+                                                                        "skip": 0, 
+                                                                        "limit": 15}))
     
     }
 
     submitPermissions(value){
         console.log(value)
         this.store.dispatch(new Permissionactions.Editpermissiondomain({"user_id": this.loggedUser.user_id, 
-                                                    "target_user_id": this.targeted_user_id, 
+                                                    "target_user_id": this.targeted_user_id,
+                                                    "url": "domainpermissions",
                                                     "module_id": this.permission_domain.module_id,
                                                     "parent_id": null,
                                                     "permission": value}))
