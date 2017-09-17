@@ -1,5 +1,4 @@
 import { Loadconcept } from '../actions/ontology.actions';
-import { QuestionModel } from '../models/question.model';
 import { NgAnalyzedModules } from '@angular/compiler';
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
@@ -10,11 +9,11 @@ import 'rxjs/Rx';
 
 @Injectable()
 export class QuestionService {
-    private QUESTION_API_URL = 'http://localhost:8000/questions'
+    private QUESTION_API_URL = 'http://localhost:8000/templates'
     private headerContent = {'Content-Type': 'application/json', "Authorization": localStorage.getItem('user_token')}
     constructor(private http: Http) {}
   
-    Loadquestionservice(payload): Observable<QuestionModel[]> {
+    Loadtemplateservice(payload): Observable<object> {
         let params = new URLSearchParams();
         params.set("user_id", payload.user_id)
         params.set("parent_id", payload.parent_id)
@@ -29,7 +28,7 @@ export class QuestionService {
       }
   
     
-    Addquestionservice(payload): Observable<QuestionModel> {
+    Addtemplateservice(payload): Observable<object> {
         let params = new URLSearchParams();
         params.set("user_id", payload.user.user_id)
         let headers = new Headers(this.headerContent);
@@ -37,10 +36,27 @@ export class QuestionService {
         return this.http.post(this.QUESTION_API_URL, JSON.stringify(payload.module))
           .map(res => res.json()["data"])
     }
+
+    Gettemplateservice(payload):  Observable<object> {
+        let params = new URLSearchParams();
+        params.set("user_id", payload.template_id)
+        let headers = new Headers(this.headerContent);
+        let options = new RequestOptions({search: params});   
+        return this.http.get(this.QUESTION_API_URL)
+      .map(res => res.json()["data"])
+      
+    }
+
+    Boilerplatetemplateservice():  Observable<object> {
+        return this.http.get(this.QUESTION_API_URL)
+      .map(res => res.json()["data"])
+      
+    }
+
+
+
   
-  
-  
-    Editquestionservice(payload):  Observable<QuestionModel> {
+    Edittemplateservice(payload):  Observable<object> {
         let params = new URLSearchParams();
         params.set("user_id", payload.user.user_id)
         let headers = new Headers(this.headerContent);
@@ -50,7 +66,7 @@ export class QuestionService {
       
     }
 
-    Deletequestionservice(payload):  Observable<QuestionModel> {
+    Deletetemplateservice(payload):  Observable<object> {
         let params = new URLSearchParams();
         params.set("user_id", payload.user_id)
         params.set("module_id", payload.module_id)

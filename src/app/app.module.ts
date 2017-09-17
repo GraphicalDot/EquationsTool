@@ -40,7 +40,6 @@ import {SubconceptEffects} from "./effects/subconcept.effects"
 import {NanoskillService} from "./services/nanoskill.service"
 import {NanoskillEffects} from "./effects/nanoskill.effects"
 
-
 import {PermissionService} from "./services/permission.service"
 import {PermissionEffects} from "./effects/permission.effects"
 
@@ -61,6 +60,9 @@ import {UsersEffects} from "./effects/users.effects"
 import {AuthenticationEffects} from "./effects/authentication.effects"
 import {reducer} from "./reducers"
 import {NgxPaginationModule} from 'ngx-pagination';
+import { TreeModule } from 'angular-tree-component';
+
+
 /**
  * storeFreeze prevents state from being mutated. When mutation occurs, an
  * exception will be thrown. This is useful during development mode to
@@ -96,10 +98,10 @@ children: [
     VariablesComponent,
     TemplatesComponent,
     UserprofileComponent,
-    LoginComponent
+    LoginComponent,
   ],
-  imports: [
 
+  imports: [
     AppRoutingModule,
     NgxPaginationModule, // <-- import the module
     ReactiveFormsModule,
@@ -110,6 +112,7 @@ children: [
     MaterializeModule,
     OntologyModule,
     BrowserAnimationsModule,
+    TreeModule,
 
     StoreModule.provideStore(reducer),
     RouterStoreModule.connectRouter(),

@@ -29,6 +29,7 @@
     "@ngrx/store": "2.2.2",
     "@ngrx/store-devtools": "3.2.0",
     "angular-froala-wysiwyg": "^1.0.0",
+    "angular-tree-component": "^5.0.0",
     "angular2-materialize": "15.0.4",
     "angular2-paginator": "^0.1.6",
     "core-js": "2.4.1",

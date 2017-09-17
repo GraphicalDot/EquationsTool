@@ -14,6 +14,7 @@ import * as fromSubconcept from './subconcept.reducer';
 import* as fromNanoskill from "./nanoskill.reducer"
 import* as fromQuestion from "./question.reducer"
 import* as fromPermission from "./permission.reducer"
+import* as fromTemplate from "./template.reducer"
 
 
 import * as fromUser from './users.reducer';
@@ -27,6 +28,9 @@ export interface AppState {
   nanoskills: fromNanoskill.NanoskillState,
   questions: fromQuestion.QuestionState,
   permission: fromPermission.PermissionState,
+  template: fromTemplate.TemplateState,
+
+
   users: fromUser.UserState,
   router: fromRouter.RouterState,
   authentication: fromAuthentication.AuthenticateState
@@ -42,6 +46,8 @@ export const reducers  = {
   nanoskills: fromNanoskill.NanoskillReducer,
   questions: fromQuestion.QuestionReducer,
   permission: fromPermission.PermissionReducer, 
+  template: fromTemplate.TemplateReducer,
+
   users: fromUser.UsersReducer,
   router: fromRouter.routerReducer,
   authentication: fromAuthentication.AuthenticationReducer
@@ -69,6 +75,7 @@ export const SubconceptAppState =  (state: AppState) => state.subconcepts;
 export const NanoskillAppState =  (state: AppState) => state.nanoskills;
 export const QuestionAppState =  (state: AppState) => state.questions;
 export const PermissionAppState =  (state: AppState) => state.permission;
+export const TemplateAppState =  (state: AppState) => state.template;
 
 
 export const getConceptAppState =  (state: AppState) => state.concepts;
@@ -134,6 +141,7 @@ export const getUserPages = createSelector(getUserAppState, fromUser.Getuserpage
 export const getUserCount = createSelector(getUserAppState, fromUser.Getusercount)
 export const getUserError = createSelector(getUserAppState, fromUser.Getusererror)
 
+
 export const getDomains = createSelector(getDomainAppState, fromDomain.Getdomains)
 export const getDomainIds = createSelector(getDomainAppState, fromDomain.Getdomainids)
 export const getSelectedDomain = createSelector(getDomainAppState, fromDomain.Getselecteddomain)
@@ -171,6 +179,13 @@ export const getQuestionPages = createSelector(QuestionAppState, fromQuestion.Ge
 export const getQuestionCount = createSelector(QuestionAppState, fromQuestion.Getquestioncount)
 export const getQuestionError = createSelector(QuestionAppState, fromQuestion.Getquestionerror)
 
+
+
+export const getTemplates = createSelector(TemplateAppState, fromTemplate.Gettemplates)
+export const getTemplateIds = createSelector(TemplateAppState, fromTemplate.Gettemplateids)
+export const getTemplatePages = createSelector(TemplateAppState, fromTemplate.Gettemplatepages)
+export const getTemplateCount = createSelector(TemplateAppState, fromTemplate.Gettemplatecount)
+export const getTemplateError = createSelector(TemplateAppState, fromTemplate.Gettemplateerror)
 
 
 //export const reducer: ActionReducer<AppState> = combineReducers(reducers);
