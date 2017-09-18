@@ -21,9 +21,44 @@
 
 </div>
 
-<div class="row" style="height: 100%">
-    <tree-root #tree     (onMoveNode)="onMoveNode($event)"  [nodes]="nodes" [options]="options" ></tree-root>
-    
+<div class="row" style="height: 100%" *ngIf="addTemplateFlag">
+    <div class="row">
+    <form materialize class="col s12" #form="ngForm" (ngSubmit)="addTemplateSubmit(form.value)">
+          <div class="row">
+              <div class="input-field col s4">
+                  <input id="icon_prefix" type="text" class="validate"  [(ngModel)]="template_name" name="template_name">
+                  <label>Template name</label>
+              </div>
+              <div class="input-field col s4">
+                  <input id="icon_telephone" type="tel" class="validate"  [(ngModel)]="description" name="description">
+                  <label>Template Description</label>
+              </div>
+          </div>
+          <div class="row">
+              <div class="input-field col s4">
+                  <input id="icon_prefix" type="text" class="validate"  [(ngModel)]="board" name="board">
+                  <label>Board</label>
+              </div>
+              <div class="input-field col s4">
+                  <input id="icon_telephone" type="tel" class="validate"  [(ngModel)]="class" name="class">
+                  <label>Class</label>
+              </div>
+          </div>
+
+          <button class="btn waves-effect waves-light" type="submit" name="action">Submit
+              <i class="material-icons right">send</i>
+          </button>
+    </form>
+    </div>
+    <div class="row">
+
+    <tree-root #tree     (onMoveNode)="onMoveNode($event)" (stateChange)="setState($event)" [nodes]="nodes" [options]="options" >
+        <ng-template #treeNodeTemplate let-node let-index="index">
+            <span>{{ node.data.name }}</span>
+            <button class="btn-floating btn-nano waves-effect waves-light red" (click)="deleteNode(node)">Del</button>
+        </ng-template>
+    </tree-root>
+    </div>
 </div>
 
 

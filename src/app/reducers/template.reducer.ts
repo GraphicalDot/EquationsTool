@@ -20,7 +20,7 @@ const initialState: TemplateState = {
     templates: [],
     templateSkeleton: null,
     template: null,
-    loading: true,
+    loading: false,
     loaded: false, 
     error: null,
     pages: null,

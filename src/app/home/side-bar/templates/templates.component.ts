@@ -21,9 +21,11 @@ export class TemplatesComponent implements OnInit {
 
     public nodes;
     public loading: boolean=false;  
+    public addTemplateFlag: boolean=false;  
+    public editTemplateFlag: boolean=false;  
       public options: ITreeOptions = {
         //displayField: 'name',
-        //idField: 'id',
+        //idField: 'uuid',
          /* actionMapping: {
           mouse: {
             dblClick: (tree, node, $event) => {
@@ -37,7 +39,7 @@ export class TemplatesComponent implements OnInit {
         allowDrag: true,
         allowDrop: true,
         //useVirtualScroll: true,
-        //animateExpand: true,
+        animateExpand: true,
         //animateSpeed: 30,
         //animateAcceleration: 1.2
       }
@@ -66,12 +68,15 @@ export class TemplatesComponent implements OnInit {
             })
 
           
-             this.store.select(fromRoot.getTemplateSkton)
+          this.store.select(fromRoot.getTemplateSkton)
               .filter((value) => value !== undefined && value !== null ) 
               .subscribe(value =>{
-                    this.nodes = value
-                    this.tree.treeModel.update() 
-                    
+                    //So happy to find this bug, If you dont put JSON.parse and use just value
+                    // It will show an error if you move one node to another, as it will
+                    // Implies a state change and Store.freeze will not let you do it.
+                    //Json.parse will create a new object.
+                    this.nodes = JSON.parse(JSON.stringify(value));
+                    //this.tree.treeModel.update() 
                     console.log(this.nodes)
             }) 
  
@@ -82,21 +87,26 @@ export class TemplatesComponent implements OnInit {
 
        setState(state) {
          //(stateChange)="setState($event)"
-         localStorage.treeState = JSON.stringify(state);
+         localStorage.treeState = this.nodes;
       }
 
       addTemplate(){
           this.store.dispatch(new actions.Loadtemplateskton())
-      }
-      
-     
-onMoveNode($event) {
-  console.log(
-    "Moved",
-    $event.node.name,
-    "to",
-    $event.to.parent.name,
-    "at index",
-    $event.to.index);
+          this.addTemplateFlag = true
+        }
+
+      deleteNode(node){
+          console.log(node.index)
+          this.nodes.splice(node.index, 1)
+          this.tree.treeModel.update();
 }
+
+      onMoveNode($event) {
+          console.log("Moved", $event.node.name, "to", $event.to.parent.name, "at index", $event.to.index);
+          }
+
+      addTemplateSubmit(value){
+          console.log(value)
+
+      }
 }
