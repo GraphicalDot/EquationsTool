@@ -1,7 +1,7 @@
 import { ConceptState } from './concept.reducer';
 import { ActionReducer, Action, State } from '@ngrx/store';
 import {createSelector} from "reselect"
-import * as actions from '../actions/template.action';
+import * as actions from '../actions/template.actions';
 
 export interface TemplateState {
     template_ids: Array<string>,
@@ -174,6 +174,7 @@ export const Gettemplateerror = (state: TemplateState) => state.error
 //select selectUserId
 export const Gettemplatepages = (state: TemplateState) => state.pages;
 export const Gettemplatecount = (state: TemplateState) => state.module_count;
+export const Gettemplateloading = (state: TemplateState) => state.loading;
 /* 
 //Get SElected user from the selectedUserId
 export const Getselectedsubconcept = createSelector(Getsubconcepts, Getselectedsubconceptid, (entities, selectedId) => {

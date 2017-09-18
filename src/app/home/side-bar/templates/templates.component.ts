@@ -1,5 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { TreeModule, TREE_ACTIONS, KEYS, IActionMapping, ITreeOptions } from 'angular-tree-component';
+import * as fromRoot from '../../../reducers';
+import * as actions from '../../../actions/template.actions';
+import {NgxPaginationModule} from 'ngx-pagination';
+import { toast } from 'angular2-materialize';
+import {State, Store} from "@ngrx/store"
+
+
 
 @Component({
   selector: 'app-templates',
@@ -32,7 +39,7 @@ export class TemplatesComponent implements OnInit {
     animateAcceleration: 1.2
   }
 
-  constructor() { }
+  constructor(private store: Store<fromRoot.AppState>,) { }
 
   ngOnInit() {
      this.nodes = [

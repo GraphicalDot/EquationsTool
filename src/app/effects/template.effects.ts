@@ -1,6 +1,6 @@
 import {Injectable} from "@angular/core"
 import {TemplateService} from "../services/template.service"
-import * as actions from '../actions/template.action';
+import * as actions from '../actions/template.actions';
 import {Effect, Actions} from "@ngrx/effects"
 import {Action} from "@ngrx/store"
 import { Observable } from 'rxjs/Observable';
