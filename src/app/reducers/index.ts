@@ -187,6 +187,7 @@ export const getTemplatePages = createSelector(TemplateAppState, fromTemplate.Ge
 export const getTemplateCount = createSelector(TemplateAppState, fromTemplate.Gettemplatecount)
 export const getTemplateError = createSelector(TemplateAppState, fromTemplate.Gettemplateerror)
 export const getTemplateLoading = createSelector(TemplateAppState, fromTemplate.Gettemplateloading)
+export const getTemplateSkton = createSelector(TemplateAppState, fromTemplate.Gettemplateskton)
 
 
 //export const reducer: ActionReducer<AppState> = combineReducers(reducers);

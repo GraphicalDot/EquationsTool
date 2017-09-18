@@ -47,7 +47,7 @@ export class TemplateService {
       
     }
 
-    Boilerplatetemplateservice():  Observable<object> {
+    Loadtemplatesktonservice():  Observable<object> {
         return this.http.get(this.API_URL)
       .map(res => res.json()["data"])
       

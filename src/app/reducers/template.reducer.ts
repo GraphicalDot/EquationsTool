@@ -7,6 +7,7 @@ export interface TemplateState {
     template_ids: Array<string>,
     templates: Array<Object>,
     template: Object,
+    templateSkeleton: Object,
     loading: boolean| null,
     loaded: boolean| null,
     error?: string,
@@ -17,8 +18,9 @@ export interface TemplateState {
 const initialState: TemplateState = {
     template_ids: [],
     templates: [],
+    templateSkeleton: null,
     template: null,
-    loading: false,
+    loading: true,
     loaded: false, 
     error: null,
     pages: null,
@@ -45,7 +47,6 @@ export function TemplateReducer(state = initialState, action: actions.Actions): 
                       return Object.assign({}, state, {
                         template_ids: action.payload.template_ids,
                         templates: action.payload.template,
-                        template: undefined,
                         loaded: true,
                         loading: false,
                         pages: action.payload.pages,
@@ -57,7 +58,6 @@ export function TemplateReducer(state = initialState, action: actions.Actions): 
                 return Object.assign({}, state, {
                           template_ids: undefined,
                           templates: undefined,
-                            template: undefined,
                           loaded: true,
                           loading: false,
                           error: action.payload._body
@@ -142,6 +142,29 @@ export function TemplateReducer(state = initialState, action: actions.Actions): 
                     )
                     }
 
+            case actions.LOAD_TEMPLATE_SKTON_SUCCESS:
+                        return Object.assign({}, state, {
+                            loaded: true, 
+                            loading: false, 
+                            templateSkeleton: [...action.payload]
+                        });
+
+            case actions.LOAD_TEMPLATE_SKTON_FAILURE:
+                {
+                return Object.assign({}, state, {
+                            loaded: true,
+                            loading: false,
+                            error: action.payload._body
+                        })
+                }
+            case actions.LOAD_TEMPLATE_SKTON:{
+
+                        return Object.assign({}, state,{ 
+                            loaded: false,
+                            loading: true,
+                        }
+                    )
+                    }
 
 
 
@@ -175,6 +198,7 @@ export const Gettemplateerror = (state: TemplateState) => state.error
 export const Gettemplatepages = (state: TemplateState) => state.pages;
 export const Gettemplatecount = (state: TemplateState) => state.module_count;
 export const Gettemplateloading = (state: TemplateState) => state.loading;
+export const Gettemplateskton = (state: TemplateState) => state.templateSkeleton;
 /* 
 //Get SElected user from the selectedUserId
 export const Getselectedsubconcept = createSelector(Getsubconcepts, Getselectedsubconceptid, (entities, selectedId) => {

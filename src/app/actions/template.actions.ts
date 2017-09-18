@@ -25,7 +25,10 @@ export type Actions =
             |Deletetemplate
             |Deletetemplatesuccess
             |Deletetemplatefailure
- 
+
+            | Loadtemplateskton
+            | Loadtemplatesktonfailure
+            | Loadtemplatesktonsuccess
             | Templateerror
 //**************** LOAD SubConcept
 
@@ -37,6 +40,23 @@ export class Templateerror implements Action{
 }
 
 
+export const LOAD_TEMPLATE_SKTON = "[Templates] Load Template Skton"
+export class Loadtemplateskton implements Action{
+    readonly type = LOAD_TEMPLATE_SKTON
+    constructor(){}
+}
+
+export const LOAD_TEMPLATE_SKTON_FAILURE = "[Templates] Load Template Skton Failure"
+export class Loadtemplatesktonfailure implements Action{
+    readonly type = LOAD_TEMPLATE_SKTON_FAILURE
+    constructor(public payload: any){}
+}
+
+export const LOAD_TEMPLATE_SKTON_SUCCESS = "[Templates] Load Template Skton Success"
+export class Loadtemplatesktonsuccess implements Action{
+    readonly type = LOAD_TEMPLATE_SKTON_SUCCESS
+    constructor(public payload: any){}
+}
 
 
 

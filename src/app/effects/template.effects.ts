@@ -20,6 +20,13 @@ export class TemplateEffects {
 
     constructor(private actions$: Actions, private service: TemplateService) {}
 
+    @Effect() Loadtemplateskton$: Observable<Action> = this.actions$
+        .ofType(actions.LOAD_TEMPLATE_SKTON)
+        .switchMap(() => 
+              this.service.Loadtemplatesktonservice()
+              .map((payload: any) => new actions.Loadtemplatesktonsuccess(payload))
+              .catch(err => of(new actions.Loadtemplatesktonfailure(err)))
+        )
 
 
     
