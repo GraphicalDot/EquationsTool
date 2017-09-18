@@ -12,7 +12,7 @@ export interface TemplateState {
     loaded: boolean| null,
     error?: string,
     pages?: number,
-    module_count?: number
+    template_count?: number
 }
 
 const initialState: TemplateState = {
@@ -24,7 +24,7 @@ const initialState: TemplateState = {
     loaded: false, 
     error: null,
     pages: null,
-    module_count: null
+    template_count: null
 }
 
 
@@ -46,11 +46,11 @@ export function TemplateReducer(state = initialState, action: actions.Actions): 
                   {
                       return Object.assign({}, state, {
                         template_ids: action.payload.template_ids,
-                        templates: action.payload.template,
+                        templates: action.payload.templates,
                         loaded: true,
                         loading: false,
                         pages: action.payload.pages,
-                        module_count: action.payload.module_count
+                        template_count: action.payload.template_count
                       })
                 }             
             case actions.LOAD_TEMPLATE_FAILURE:
@@ -73,14 +73,12 @@ export function TemplateReducer(state = initialState, action: actions.Actions): 
                         })
                     }
             case actions.ADD_TEMPLATE_SUCCESS:
-                 {
-                     return Object.assign({}, state, {
-                                template_ids: Object.assign({}, state.template_ids, action.payload.template_id),
-                                templates: Object.assign({}, state.templates, action.payload.template),
+                 return Object.assign({}, state, {"templates": [...state.templates, action.payload.template],
+                                  "template_ids": [...state.template_ids, action.payload.template_id],
                             loaded: true,
-                            loading: false,
-                        })
-                 }
+                            loading: false
+                                
+                                })
             case actions.ADD_TEMPLATE_FAILURE:
                  {return Object.assign({}, state, {
                             loaded: true,
@@ -91,15 +89,16 @@ export function TemplateReducer(state = initialState, action: actions.Actions): 
 
 
             case actions.DELETE_TEMPLATE:
-                        const idToRemove = action.payload.module_id;
-                        const ids = state.template_ids.filter((id) => id == action.payload.module_id)
+                        const idToRemove = action.payload.template_id;
+                        const ids = state.template_ids.filter((id) => id == action.payload.template_id)
                         const newEntities = state.templates;
                         delete newEntities[idToRemove];
                         return Object.assign({}, state, {
                             templates: newEntities, 
                             loaded: true, 
                             loading: false, 
-                            template_ids: ids
+                            template_ids: ids,
+                            template_count: state.template_count-1
                         });
 
             case actions.DELETE_TEMPLATE_FAILURE:
@@ -196,7 +195,7 @@ export const Gettemplateerror = (state: TemplateState) => state.error
 
 //select selectUserId
 export const Gettemplatepages = (state: TemplateState) => state.pages;
-export const Gettemplatecount = (state: TemplateState) => state.module_count;
+export const Gettemplatecount = (state: TemplateState) => state.template_count;
 export const Gettemplateloading = (state: TemplateState) => state.loading;
 export const Gettemplateskton = (state: TemplateState) => state.templateSkeleton;
 /* 

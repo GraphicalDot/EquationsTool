@@ -23,7 +23,7 @@
 
 <div class="row" style="height: 100%" *ngIf="addTemplateFlag">
     <div class="row">
-    <form materialize class="col s12" #form="ngForm" (ngSubmit)="addTemplateSubmit(form.value)">
+    <form materialize class="col s12" #form="ngForm" (ngSubmit)="addTemplateSubmit(form.value, $event)">
           <div class="row">
               <div class="input-field col s4">
                   <input id="icon_prefix" type="text" class="validate"  [(ngModel)]="template_name" name="template_name">
@@ -45,7 +45,7 @@
               </div>
           </div>
 
-          <button class="btn waves-effect waves-light" type="submit" name="action">Submit
+          <button class="btn waves-effect waves-light">Submit
               <i class="material-icons right">send</i>
           </button>
     </form>
@@ -54,12 +54,42 @@
 
     <tree-root #tree     (onMoveNode)="onMoveNode($event)" (stateChange)="setState($event)" [nodes]="nodes" [options]="options" >
         <ng-template #treeNodeTemplate let-node let-index="index">
-            <span>{{ node.data.name }}</span>
-            <button class="btn-floating btn-nano waves-effect waves-light red" (click)="deleteNode(node)">Del</button>
+                <span>{{ node.data.name }}</span>
+                <p>Children: {{node.data.children.length }}<p>
+                <button class="btn-floating btn-nano waves-effect waves-light red" (click)="deleteNode(node)">Del</button>
         </ng-template>
     </tree-root>
     </div>
 </div>
 
+<div class="row">
+            <table>
+        <thead>
+          <tr>
+              <th>Name</th>
+              <th>Created on</th>
+              <th>Board</th>
+              <th>Class</th>
+              <th>Edit</th>
+              <th>Delete</th>
+          </tr>
+        </thead>
 
+        <tbody *ngFor="let template of templates$ | async | paginate: {id: 'template', itemsPerPage: 15, currentPage: currentPage,  totalItems: template_count$ |async}">
+            <tr>
+                    <td>{{template.template_name}}</td>
+                    <td>{{template.indian_time}}</td>
+                    <td>{{template.board}}</td>
+                    <td>{{template.class}}</td>
+                    
+                    <td><button class="btn waves-effect waves-light small" (click) = "edit(template)" >Edit</button></td>
+                    <td><button class="btn waves-effect waves-light red small" (click) = "delete(template)">-</button></td>
+            </tr>
+
+
+        </tbody>
+        </table>
+        <pagination-controls id="template" (pageChange)="pageNanoskillChanged($event)"></pagination-controls>
+
+</div>
 

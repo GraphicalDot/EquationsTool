@@ -10,6 +10,7 @@ import 'rxjs/Rx';
 @Injectable()
 export class TemplateService {
     private API_URL = 'http://localhost:8000/templates'
+    private API_URL_SKELETON = 'http://localhost:8000/templateskeleton'
     private headerContent = {'Content-Type': 'application/json', "Authorization": localStorage.getItem('user_token')}
     constructor(private http: Http) {}
   
@@ -30,10 +31,9 @@ export class TemplateService {
     
     Addtemplateservice(payload): Observable<object> {
         let params = new URLSearchParams();
-        params.set("user_id", payload.user.user_id)
         let headers = new Headers(this.headerContent);
         let options = new RequestOptions({search: params});   
-        return this.http.post(this.API_URL, JSON.stringify(payload.module))
+        return this.http.post(this.API_URL, JSON.stringify(payload))
           .map(res => res.json()["data"])
     }
 
@@ -48,7 +48,7 @@ export class TemplateService {
     }
 
     Loadtemplatesktonservice():  Observable<object> {
-        return this.http.get(this.API_URL)
+        return this.http.get(this.API_URL_SKELETON)
       .map(res => res.json()["data"])
       
     }
@@ -69,11 +69,9 @@ export class TemplateService {
     Deletetemplateservice(payload):  Observable<object> {
         let params = new URLSearchParams();
         params.set("user_id", payload.user_id)
-        params.set("module_id", payload.module_id)
+        params.set("template_id", payload.template_id)
         let headers = new Headers(this.headerContent);
         let options = new RequestOptions({search: params});   
-        console.log(params)
-        console.log(options)
         return this.http.delete(this.API_URL, options)
           .map(res => res.json()["data"])
       
