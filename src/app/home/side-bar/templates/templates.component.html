@@ -55,7 +55,7 @@
     <tree-root #tree     (onMoveNode)="onMoveNode($event)" (stateChange)="setState($event)" [nodes]="nodes" [options]="options" >
         <ng-template #treeNodeTemplate let-node let-index="index">
                 <span>{{ node.data.name }}</span>
-                <p>Children: {{node.data.children.length }}<p>
+                <p>Children: {{node.data?.children?.length }}</p>
                 <button class="btn-floating btn-nano waves-effect waves-light red" (click)="deleteNode(node)">Del</button>
         </ng-template>
     </tree-root>

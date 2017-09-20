@@ -133,7 +133,6 @@ children: [
     StoreDevtoolsModule.instrumentStore(),
    // StoreLogMonitorModule
 
-
   ],
   providers: [UsersService, TemplateService, OntologyService, PermissionService, AuthenticationService, AuthenticatedGuard, SubconceptService, NanoskillService, QuestionService],
   bootstrap: [AppComponent],
