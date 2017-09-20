@@ -1,3 +1,87 @@
-<p>
-  variables works!
-</p>
+
+<div class="row" >
+    <div class="col s6">
+        <a class="btn-floating btn-large waves-effect waves-light red"  (click)="addVariable()"><i class="material-icons">add</i></a>
+    </div>
+
+    <!-- 
+    <form materialize class="col s6">
+        <div class="input-field col s12">
+          <textarea id="textarea1" class="materialize-textarea" (ngModelChange)="search_text_changed($event)" [(ngModel)]="search_text" name="search_text" ></textarea>
+          <label for="textarea1">Search Subconcepts</label>
+        </div>
+    </form> -->
+</div>
+
+<div class="row" *ngIf="loading">
+  <div materialize class="progress">
+      <div class="indeterminate"></div>
+  </div>
+
+</div>
+
+<div class="row" style="height: 100%" *ngIf="addVariableFlag">
+    <div class="row">
+    <form materialize class="col s12" #form="ngForm" (ngSubmit)="addVariableSubmit(form.value, $event)">
+          <div class="row">
+              <div class="input-field col s4">
+                  <input id="icon_prefix" type="text" class="validate"  [(ngModel)]="variable_name" name="variable_name">
+                  <label>Variable name</label>
+              </div>
+              <div class="input-field col s4">
+                  <input id="icon_telephone" type="tel" class="validate"  [(ngModel)]="description" name="description">
+                  <label>Variable  Description</label>
+              </div>
+          </div>
+          <div class="row">
+              <div class="input-field col s4">
+                  <input id="icon_prefix" type="text" class="validate"  [(ngModel)]="identifier" name="identifier">
+                  <label>identifier, Must starts with #</label>
+              </div>
+              <div class="input-field col s4">
+                  <input  class="validate"  [(ngModel)]="data_type" name="data_type">
+                  <label>Class</label>
+              </div>
+          </div>
+
+          <button class="btn waves-effect waves-light">Submit
+              <i class="material-icons right">send</i>
+          </button>
+    </form>
+    </div>
+
+</div>
+
+<div class="row">
+            <table>
+        <thead>
+          <tr>
+              <th>Name</th>
+              <th>Created on</th>
+              <th>Description</th>
+              <th>Identifier</th>
+              <th>Data Type</th>
+              <th>Edit</th>
+              <th>Delete</th>
+          </tr>
+        </thead>
+
+        <tbody *ngFor="let variable of variables$ | async | paginate: {id: 'variable', itemsPerPage: 15, currentPage: currentPage,  totalItems: template_count$ |async}">
+            <tr>
+                    <td>{{variable.variable_name}}</td>
+                    <td>{{variable.indian_time}}</td>
+                    <td>{{variable.description}}</td>
+                    <td>{{variable.identifier}}</td>
+                    <td>{{variable.data_type}}</td>
+                    
+                    <td><button class="btn waves-effect waves-light small" (click) = "edit(variable)">Edit</button></td>
+                    <td><button class="btn waves-effect waves-light red small" (click) = "delete(variable)">-</button></td>
+            </tr>
+
+
+        </tbody>
+        </table>
+        <pagination-controls id="variable" (pageChange)="pageVariableChanged($event)"></pagination-controls>
+
+</div>
+

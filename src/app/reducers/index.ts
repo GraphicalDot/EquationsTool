@@ -11,10 +11,11 @@ import { createSelector } from 'reselect';
 import * as fromDomain from './domain.reducer';
 import * as fromConcept from './concept.reducer';
 import * as fromSubconcept from './subconcept.reducer';
-import* as fromNanoskill from "./nanoskill.reducer"
-import* as fromQuestion from "./question.reducer"
-import* as fromPermission from "./permission.reducer"
-import* as fromTemplate from "./template.reducer"
+import * as fromNanoskill from "./nanoskill.reducer"
+import * as fromQuestion from "./question.reducer"
+import * as fromPermission from "./permission.reducer"
+import * as fromTemplate from "./template.reducer"
+import * as fromVariable from "./variable.reducer"
 
 
 import * as fromUser from './users.reducer';
@@ -29,7 +30,7 @@ export interface AppState {
   questions: fromQuestion.QuestionState,
   permission: fromPermission.PermissionState,
   template: fromTemplate.TemplateState,
-
+  variable: fromVariable.VariableState,
 
   users: fromUser.UserState,
   router: fromRouter.RouterState,
@@ -47,6 +48,7 @@ export const reducers  = {
   questions: fromQuestion.QuestionReducer,
   permission: fromPermission.PermissionReducer, 
   template: fromTemplate.TemplateReducer,
+  variable : fromVariable.VariableReducer,
 
   users: fromUser.UsersReducer,
   router: fromRouter.routerReducer,
@@ -76,6 +78,7 @@ export const NanoskillAppState =  (state: AppState) => state.nanoskills;
 export const QuestionAppState =  (state: AppState) => state.questions;
 export const PermissionAppState =  (state: AppState) => state.permission;
 export const TemplateAppState =  (state: AppState) => state.template;
+export const VariableAppState =  (state: AppState) => state.variable;
 
 
 export const getConceptAppState =  (state: AppState) => state.concepts;
@@ -189,5 +192,14 @@ export const getTemplateError = createSelector(TemplateAppState, fromTemplate.Ge
 export const getTemplateLoading = createSelector(TemplateAppState, fromTemplate.Gettemplateloading)
 export const getTemplateSkton = createSelector(TemplateAppState, fromTemplate.Gettemplateskton)
 
+
+
+
+export const getVariables = createSelector(VariableAppState, fromVariable.Getvariables)
+export const getVariableIds = createSelector(VariableAppState, fromVariable.Getvariableids)
+export const getVariablePages = createSelector(VariableAppState, fromVariable.Getvariablepages)
+export const getVariableCount = createSelector(VariableAppState, fromVariable.Getvariablecount)
+export const getVariableError = createSelector(VariableAppState, fromVariable.Getvariableerror)
+export const getVariableLoading = createSelector(VariableAppState, fromVariable.Getvariableloading)
 
 //export const reducer: ActionReducer<AppState> = combineReducers(reducers);

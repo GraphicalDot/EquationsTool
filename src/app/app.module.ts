@@ -51,6 +51,11 @@ import {QuestionEffects} from "./effects/question.effects"
 import {TemplateService} from "./services/template.service"
 import {TemplateEffects} from "./effects/template.effects"
 
+import {VariableService} from "./services/variable.service"
+import {VariableEffects} from "./effects/variable.effects"
+
+
+
 
 import {DomainReducer} from "./reducers/domain.reducer";
 import {ConceptReducer} from "./reducers/concept.reducer";
@@ -66,7 +71,6 @@ import {AuthenticationEffects} from "./effects/authentication.effects"
 import {reducer} from "./reducers"
 import {NgxPaginationModule} from 'ngx-pagination';
 import { TreeModule } from 'angular-tree-component';
-
 
 /**
  * storeFreeze prevents state from being mutated. When mutation occurs, an
@@ -129,12 +133,14 @@ children: [
     EffectsModule.run(QuestionEffects),
     EffectsModule.run(PermissionEffects),
     EffectsModule.run(TemplateEffects),
+    EffectsModule.run(VariableEffects),
+    
     //EffectsModule.runAfterBootstrap(UsersEffects),
     StoreDevtoolsModule.instrumentStore(),
    // StoreLogMonitorModule
 
   ],
-  providers: [UsersService, TemplateService, OntologyService, PermissionService, AuthenticationService, AuthenticatedGuard, SubconceptService, NanoskillService, QuestionService],
+  providers: [UsersService, VariableService, TemplateService, OntologyService, PermissionService, AuthenticationService, AuthenticatedGuard, SubconceptService, NanoskillService, QuestionService],
   bootstrap: [AppComponent],
 })
 export class AppModule { }

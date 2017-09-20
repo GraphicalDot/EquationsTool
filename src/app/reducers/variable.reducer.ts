@@ -139,26 +139,6 @@ export function VariableReducer(state = initialState, action: VariableActions.Ac
                         }
 
 
-            case VariableActions.SELECTED_VARIABLE:
-            case VariableActions.SELECTED_VARIABLE_FAILURE:
-
-            case VariableActions.SELECTED_VARIABLE_SUCCESS:
-            
-                 return {
-                        variable_ids: state.variable_ids,
-                        variables: state.variables,
-                        selectedVariable: action.payload,
-                        loaded: true,
-                        loading: false,
-                        pages: state.pages,
-                        variable_count: state.variable_count
-                          }
-
-            /*state.splice(state.indexOf(action.payload), 1);
-                // We need to create another reference
-                return Array.prototype.concat(state);
-            */
-
             default:
                 return state
 
@@ -169,10 +149,10 @@ export function VariableReducer(state = initialState, action: VariableActions.Ac
 
 
 //This will select the list of ids of all the domains
-export const Getdomainids= (state: VariableState) => state.variable_ids
+export const Getvariableids= (state: VariableState) => state.variable_ids
 
 //This will select the dictionary of id: User
-export const Getdomains = (state: VariableState) => state.variables
+export const Getvariables = (state: VariableState) => state.variables
 
 //Return list of domains in a list format
 //export const getAllVariables = createSelector(getVariables, getVariableIds, (entities, ids) => {
@@ -181,9 +161,11 @@ export const Getdomains = (state: VariableState) => state.variables
 
 
 //select selectUserId
-export const Getselecteddomain = (state: VariableState) => state.selectedVariable;
-export const Getdomainpages = (state: VariableState) => state.pages;
-export const Getdomaincount = (state: VariableState) => state.variable_count;
+//export const Getselecteddomain = (state: VariableState) => state.selectedVariable;
+export const Getvariablepages = (state: VariableState) => state.pages;
+export const Getvariablecount = (state: VariableState) => state.variable_count;
+export const Getvariableerror = (state: VariableState) => state.error;
+export const Getvariableloading = (state: VariableState) => state.loading;
 /* 
 //Get SElected user from the selectedUserId
 export const getSelectedVariable = createSelector(getVariables, selectedVariableId, (entities, selectedId) => {
