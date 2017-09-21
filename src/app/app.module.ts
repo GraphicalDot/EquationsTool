@@ -54,6 +54,8 @@ import {TemplateEffects} from "./effects/template.effects"
 import {VariableService} from "./services/variable.service"
 import {VariableEffects} from "./effects/variable.effects"
 
+import {VariabletemplateService} from "./services/variabletemplate.service"
+import {VariabletemplateEffects} from "./effects/variabletemplate.effects"
 
 
 
@@ -71,6 +73,7 @@ import {AuthenticationEffects} from "./effects/authentication.effects"
 import {reducer} from "./reducers"
 import {NgxPaginationModule} from 'ngx-pagination';
 import { TreeModule } from 'angular-tree-component';
+import { Ng2FileInputModule } from 'ng2-file-input'; // <-- import the module
 
 /**
  * storeFreeze prevents state from being mutated. When mutation occurs, an
@@ -80,6 +83,7 @@ import { TreeModule } from 'angular-tree-component';
 //);
 
 import { AppRoutingModule } from "./app-routing.module";
+import { VariabletemplateComponent } from './home/side-bar/variabletemplate/variabletemplate.component';
 const routes: Routes = 
 [
 { path: 'home', component: HomeComponent, 
@@ -89,11 +93,15 @@ children: [
 { path: 'questions', component: QuestionsComponent},
 
 { path: 'variables', component: VariablesComponent},
+{ path: 'variabletemplate', component: VariabletemplateComponent},
 { path: 'templates', component: TemplatesComponent},
 { path: 'ontology', component: OntologyComponent},
 {path: 'userprofile', component: UserprofileComponent}
 ]}
 ]
+
+
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -107,13 +115,23 @@ children: [
     TemplatesComponent,
     UserprofileComponent,
     LoginComponent,
+    VariabletemplateComponent,
   ],
-
   imports: [
     AppRoutingModule,
     NgxPaginationModule, // <-- import the module
     ReactiveFormsModule,
-
+     Ng2FileInputModule.forRoot(      {
+         dropText:"Drop file here",
+         browseText:"Browse",
+         removeText:"Remove",
+         invalidFileText:"You have picked an invalid or disallowed file.",
+         invalidFileTimeout:8000,
+         removable:true,
+         multiple:true,
+         showPreviews: true,
+         extensions:['jpg', "png", "jpeg", "gif"]
+      }), 
     BrowserModule, 
     FormsModule,
     HttpModule,
@@ -121,9 +139,9 @@ children: [
     OntologyModule,
     BrowserAnimationsModule,
     TreeModule,
-
     StoreModule.provideStore(reducer),
     RouterStoreModule.connectRouter(),
+
 
     EffectsModule.run(AuthenticationEffects),
     EffectsModule.run(UsersEffects),
@@ -134,13 +152,14 @@ children: [
     EffectsModule.run(PermissionEffects),
     EffectsModule.run(TemplateEffects),
     EffectsModule.run(VariableEffects),
+    EffectsModule.run(VariabletemplateEffects),
     
     //EffectsModule.runAfterBootstrap(UsersEffects),
     StoreDevtoolsModule.instrumentStore(),
    // StoreLogMonitorModule
 
   ],
-  providers: [UsersService, VariableService, TemplateService, OntologyService, PermissionService, AuthenticationService, AuthenticatedGuard, SubconceptService, NanoskillService, QuestionService],
+  providers: [UsersService, VariableService, VariabletemplateService, TemplateService, OntologyService, PermissionService, AuthenticationService, AuthenticatedGuard, SubconceptService, NanoskillService, QuestionService],
   bootstrap: [AppComponent],
 })
 export class AppModule { }

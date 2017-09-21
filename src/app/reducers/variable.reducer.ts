@@ -15,7 +15,7 @@ export interface VariableState {
 }
 
 const initialState: VariableState = {
-    variable_ids: [],
+    variable_ids: [], 
     variables: [],
     selectedVariable: null,
     loading: false,
@@ -69,75 +69,77 @@ export function VariableReducer(state = initialState, action: VariableActions.Ac
                      }
             
             case VariableActions.ADD_VARIABLE:
-                    {
-                        return {
+                        return Object.assign({}, state, {
                              loading: true,
                             error: undefined,
                             loaded: false
-                        }
-                    }
+                        })
 
             case VariableActions.ADD_VARIABLE_SUCCESS:
-                console.log(action.payload.module_id)
-                console.log(action.payload)
-/* 
-                ({module} = action.payload);
-                state.devices.push(action.payload.module_id)
-                return Object.assign({}, state, { 
-                            variable_ids: someids ,
-                            variables: newstate,
-                            selectedVariable: state.selectedVariable,
+                return Object.assign({}, state, {"variables": [...state.variables, action.payload.variable],
+                                  "variable_ids": [...state.variable_ids, action.payload.variable_id],
                             loaded: true,
-                            loading: false
-                        });
- */
-                return Object.assign({}, state, {"variables": [...state.variables, action.payload.variables],
-                                  "variable_ids": [...state.variable_ids, action.payload.module_id],
-                                                            selectedVariable: state.selectedVariable,
-                            loaded: true,
-                            loading: false
-                                
+                            loading: false,
+                            variable_count: state.variable_count +1,                                
                                 })
-
             case VariableActions.ADD_VARIABLE_FAILURE:
-                    return {
-                            variable_ids: state.variable_ids,
-                            variables: state.variables,
-                            selectedVariable: state.selectedVariable,
+                    return Object.assign({}, state, {
                             loaded: true,
                             loading: false,
                             error: action.payload._body
-                        };
-
+                        
+                        });
 
             case VariableActions.DELETE_VARIABLE:
-                    {
-                        return {
+                        return Object.assign({}, state, {
                                 loading: true,
                                 error: undefined,
                                 loaded: false   
-                            }
-                    }
+                            })
 
 
             case VariableActions.DELETE_VARIABLE_SUCCESS:
-                        const idToRemove = action.payload.module_id;
-                        const ids = state.variable_ids.filter((id) => id == action.payload.module_id)
-                        const newEntities = state.variable_ids;
-                        delete newEntities[idToRemove];
+
+                        console.log(action.payload)
+                        const idToRemove = action.payload;
+                        const new_variables = state.variables.filter((variable) => variable.variable_id !== idToRemove)
+                        const new_variable_ids = state.variable_ids;
+                        delete new_variable_ids[idToRemove];
                         return Object.assign({}, state, {
-                            variables: newEntities, loaded: true, loading: false, variable_ids: ids
-                        });
+                            variables: new_variables, 
+                            loaded: true, 
+                            loading: false, 
+                            variable_ids: new_variable_ids, 
+                            variable_count: state.variable_count -1});
+
+
             case VariableActions.DELETE_VARIABLE_FAILURE:
-                    return {
-                            variable_ids: state.variable_ids,
-                            variables: state.variables,
-                            selectedVariable: state.selectedVariable,
+                    return Object.assign({}, state, {
                             loaded: true,
                             loading: false,
                             error: action.payload._body
-                        }
+                        
+                        });
 
+            case VariableActions.SELECTED_VARIABLE:
+            case VariableActions.SELECTED_VARIABLE_FAILURE:
+
+            case VariableActions.SELECTED_VARIABLE_SUCCESS:
+                {
+                 return {
+                        variable_ids: state.variable_ids,
+                        variables: state.variables,
+                        selectedVariable: action.payload,
+                        loaded: true,
+                        loading: false,
+                        pages: state.pages,
+                        variable_count: state.variable_count
+                          }
+                }
+            /*state.splice(state.indexOf(action.payload), 1);
+                // We need to create another reference
+                return Array.prototype.concat(state);
+            */
 
             default:
                 return state
@@ -161,11 +163,11 @@ export const Getvariables = (state: VariableState) => state.variables
 
 
 //select selectUserId
-//export const Getselecteddomain = (state: VariableState) => state.selectedVariable;
 export const Getvariablepages = (state: VariableState) => state.pages;
 export const Getvariablecount = (state: VariableState) => state.variable_count;
 export const Getvariableerror = (state: VariableState) => state.error;
 export const Getvariableloading = (state: VariableState) => state.loading;
+
 /* 
 //Get SElected user from the selectedUserId
 export const getSelectedVariable = createSelector(getVariables, selectedVariableId, (entities, selectedId) => {

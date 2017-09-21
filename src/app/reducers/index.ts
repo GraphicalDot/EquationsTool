@@ -16,6 +16,7 @@ import * as fromQuestion from "./question.reducer"
 import * as fromPermission from "./permission.reducer"
 import * as fromTemplate from "./template.reducer"
 import * as fromVariable from "./variable.reducer"
+import * as fromVariabletemplate from "./variabletemplate.reducer"
 
 
 import * as fromUser from './users.reducer';
@@ -31,6 +32,7 @@ export interface AppState {
   permission: fromPermission.PermissionState,
   template: fromTemplate.TemplateState,
   variable: fromVariable.VariableState,
+  variabletemplate: fromVariabletemplate.VariabletemplateState,
 
   users: fromUser.UserState,
   router: fromRouter.RouterState,
@@ -49,6 +51,7 @@ export const reducers  = {
   permission: fromPermission.PermissionReducer, 
   template: fromTemplate.TemplateReducer,
   variable : fromVariable.VariableReducer,
+  variabletemplate : fromVariabletemplate.VariabletemplateReducer,
 
   users: fromUser.UsersReducer,
   router: fromRouter.routerReducer,
@@ -79,6 +82,7 @@ export const QuestionAppState =  (state: AppState) => state.questions;
 export const PermissionAppState =  (state: AppState) => state.permission;
 export const TemplateAppState =  (state: AppState) => state.template;
 export const VariableAppState =  (state: AppState) => state.variable;
+export const VariabletemplateAppState =  (state: AppState) => state.variabletemplate;
 
 
 export const getConceptAppState =  (state: AppState) => state.concepts;
@@ -201,5 +205,21 @@ export const getVariablePages = createSelector(VariableAppState, fromVariable.Ge
 export const getVariableCount = createSelector(VariableAppState, fromVariable.Getvariablecount)
 export const getVariableError = createSelector(VariableAppState, fromVariable.Getvariableerror)
 export const getVariableLoading = createSelector(VariableAppState, fromVariable.Getvariableloading)
+
+
+
+
+export const getVariabletemplates = createSelector(VariabletemplateAppState, fromVariabletemplate.Getvariabletemplates)
+export const getVariabletemplateIds = createSelector(VariabletemplateAppState, fromVariabletemplate.Getvariabletemplateids)
+export const getVariabletemplatePages = createSelector(VariabletemplateAppState, fromVariabletemplate.Getvariabletemplatepages)
+export const getVariabletemplateCount = createSelector(VariabletemplateAppState, fromVariabletemplate.Getvariabletemplatecount)
+export const getVariabletemplateError = createSelector(VariabletemplateAppState, fromVariabletemplate.Getvariabletemplateerror)
+export const getVariabletemplateLoading = createSelector(VariabletemplateAppState, fromVariabletemplate.Getvariabletemplateloading)
+export const getSelectedVariabletemplate = createSelector(VariabletemplateAppState, fromVariabletemplate.Getselectedvariabletemplate)
+
+
+
+
+
 
 //export const reducer: ActionReducer<AppState> = combineReducers(reducers);

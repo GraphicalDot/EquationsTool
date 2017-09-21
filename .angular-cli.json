@@ -24,7 +24,8 @@
        "../node_modules/froala-editor/css/froala_style.min.css",
        "../node_modules/jqueryui/jquery-ui.min.css",
   "../node_modules/font-awesome/css/font-awesome.css", 
-  "../node_modules/angular-tree-component/dist/angular-tree-component.css"
+  "../node_modules/angular-tree-component/dist/angular-tree-component.css", 
+  "../node_modules/ng2-file-input/ng2-file-input.css"
       ],
       "scripts": [
         "../node_modules/jquery/dist/jquery.js",

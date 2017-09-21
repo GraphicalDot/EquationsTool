@@ -1,7 +1,15 @@
+import { Deleteconcept, Deleteconceptsuccess } from './ontology.actions';
+
+
 import {Action} from "@ngrx/store"
+import {VariableModel} from "../models/variable.model"
 
 
 export type Actions = 
+            Selectedvariable
+            |Selectedvariablesuccess
+            |Selectedvariablefailure
+
 
             |Loadvariable
             |Loadvariablesuccess
@@ -22,8 +30,16 @@ export type Actions =
             |Deletevariable
             |Deletevariablesuccess
             |Deletevariablefailure
-
+            
 //**************** LOAD SubConcept
+
+
+
+
+
+
+
+
 
 
 export const LOAD_VARIABLE = "[Variables] Load Variable"
@@ -131,4 +147,22 @@ export class Deletevariablesuccess implements Action{
 
 
 
+
+export const SELECTED_VARIABLE = "[Variables] Selected Variable"
+export class Selectedvariable implements Action{
+    readonly type = SELECTED_VARIABLE
+    constructor(public payload: VariableModel){}
+}
+
+export const SELECTED_VARIABLE_SUCCESS = "[Variables] Selected Variable Success"
+export class Selectedvariablesuccess implements Action{
+    readonly type = SELECTED_VARIABLE_SUCCESS
+    constructor(public payload: any){}
+}
+
+export const SELECTED_VARIABLE_FAILURE = "[Variables] Selected Variable Failure"
+export class Selectedvariablefailure implements Action{
+    readonly type = SELECTED_VARIABLE_FAILURE
+    constructor(public payload: any){}
+}
 

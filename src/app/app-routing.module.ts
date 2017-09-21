@@ -17,6 +17,7 @@ import { TemplatesComponent } from './home/side-bar/templates/templates.componen
 import {OntologyComponent} from "./home/side-bar/ontology/ontology.component";
 import {LoginComponent} from "./login/login.component"
 import { AuthenticatedGuard } from "./authentication.guard";
+import { VariabletemplateComponent } from './home/side-bar/variabletemplate/variabletemplate.component';
 
 
 const routes: Routes = 
@@ -26,6 +27,8 @@ const routes: Routes =
 children: [
 { path: 'editor', component: EditorComponent},
 { path: 'users', component: UsersComponent},
+{ path: 'variabletemplate', component: VariabletemplateComponent},
+
 { path: 'variables', component: VariablesComponent},
 { path: 'templates', component: TemplatesComponent},
 { path: 'ontology', component: OntologyComponent},

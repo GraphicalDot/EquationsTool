@@ -7,7 +7,8 @@ import * as actions from '../../../actions/variable.actions';
 import {NgxPaginationModule} from 'ngx-pagination';
 import { toast } from 'angular2-materialize';
 import {State, Store} from "@ngrx/store"
-
+import { FormBuilder, FormGroup, Validators, FormArray } from '@angular/forms';
+import { Validator } from 'codelyzer/walkerFactory/walkerFn';
 
 @Component({
   selector: 'app-variables',
@@ -26,8 +27,12 @@ export class VariablesComponent implements OnInit {
     public nodes;
     public loading: boolean=false;  
     public addVariableFlag: boolean=false;  
-    public editVariableFlag: boolean=false;   
-      constructor(private store: Store<fromRoot.AppState>,) { 
+    public editVariableFlag: boolean=false;
+    public myForm : FormGroup;
+    public editForm : FormGroup;
+    
+
+    constructor(private store: Store<fromRoot.AppState>,private fb: FormBuilder) { 
             this.variables$ = this.store.select(fromRoot.getVariables);
             this.pages$ = this.store.select(fromRoot.getVariablePages)
             this.variable_count$ = this.store.select(fromRoot.getVariableCount)
@@ -36,7 +41,65 @@ export class VariablesComponent implements OnInit {
                   this.loggedUser = value
         });
 
+        this.myForm = this.fb.group({
+            variable_name: [''],
+            description: ['',],
+            identifier: [],
+            data_type: [],
+            categories: this.fb.array([])
+        });
+
+        this.editForm = this.fb.group({
+            variable_name: [''],
+            variable_id: [''],
+            indian_time: [''],
+            username: [''],
+            creation_approval: [''],
+            description: ['',],
+            identifier: [],
+            data_type: [],
+            categories: this.fb.array([])
+        });
+
+
       }
+
+    //This method will be called when a user clicks to add new categories to a particular variable
+    addVariableCategory(event: Event): void {
+        event.preventDefault()
+        const arrayControl = <FormArray>this.myForm.controls['categories'];
+        let newGroup = this.fb.group({
+            category_name: [''],
+            category_identifier: [''],
+            category_description: ['']
+        });
+        arrayControl.push(newGroup);
+    }
+    
+    editVariableCategory(event: Event): void {
+        event.preventDefault()
+        const arrayControl = <FormArray>this.editForm.controls['categories'];
+        let newGroup = this.fb.group({
+            category_name: [''],
+            category_identifier: [''],
+            category_description: ['']
+        });
+        arrayControl.push(newGroup);
+    }
+
+
+
+
+    delCategory(index: number): void {
+        const arrayControl = <FormArray>this.myForm.controls['categories'];
+        arrayControl.removeAt(index);
+    }
+
+
+    delEditCategory(index: number): void {
+        const arrayControl = <FormArray>this.myForm.controls['categories'];
+        arrayControl.removeAt(index);
+    }
 
       ngAfterInit(){
       }
@@ -60,30 +123,37 @@ export class VariablesComponent implements OnInit {
 
       addVariable(){
           this.addVariableFlag = true
+          this.editVariableFlag = false
         }
 
 
       addVariableSubmit(value: any, event: Event){
           event.preventDefault()
           console.log(value)
-          this.store.dispatch(new actions.Addvariable({"variable_name": value.variable_name, "user": this.loggedUser.user_id,
-          "data_type": value.data_type, "description": value.description, "identifier": value.identifier}))
+          var data = Object.assign({}, value, {"user_id": this.loggedUser.user_id})
+          console.log(data)
+          this.store.dispatch(new actions.Addvariable(data))
 
           //This flag closes the add form which have ontology in it
           this.addVariableFlag = false
 
       }
 
-
-      add(template){
-        console.log(template)
-      }
-
       delete(variable){
         console.log(variable)
-        this.store.dispatch(new actions.Deletevariable({"user_id": this.loggedUser.user_id, "variable_id": variable.template_id}))
+        this.store.dispatch(new actions.Deletevariable({"user_id": this.loggedUser.user_id, "variable_id": variable.variable_id}))
 
       }
+
+      edit(variable){
+        console.log(variable)
+        this.editVariableFlag = true
+        this.addVariableFlag = false
+        this.editForm.setValue(variable)
+
+      }
+
+
 
       pageVariableChanged(input){
         this.currentPage = input

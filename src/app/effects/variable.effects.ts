@@ -27,6 +27,15 @@ export class VariableEffects {
     //           .map((payload: any) => new actions.Loadtemplatesktonsuccess(payload))
     //           .catch(err => of(new actions.Loadtemplatesktonfailure(err)))
     //     )
+   
+    @Effect() Loadvariable$: Observable<Action> = this.actions$
+        .ofType(actions.LOAD_VARIABLE)
+         .map((action: actions.Loadvariable) => action.payload)
+        .switchMap((payload) => 
+              this.service.Loadvariableservice(payload)
+              .map((payload: any) => new actions.Loadvariablesuccess(payload))
+              .catch(err => of(new actions.Loadvariablefailure(err)))
+        )
 
 
     
@@ -39,21 +48,13 @@ export class VariableEffects {
               .catch(err => of(new actions.Editvariablefailure(err)))
         )
 
-   
-    @Effect() Loadvariable$: Observable<Action> = this.actions$
-        .ofType(actions.LOAD_VARIABLE)
-         .map((action: actions.Loadvariable) => action.payload)
-        .switchMap((payload) => 
-              this.service.Loadvariableservice(payload)
-              .map((payload: any) => new actions.Loadvariablesuccess(payload))
-              .catch(err => of(new actions.Loadvariablefailure(err)))
-        )
 
 
     @Effect() Addvariable$: Observable<Action> = this.actions$
         .ofType(actions.ADD_VARIABLE)
         .map((action: actions.Addvariable) => action.payload)
         .switchMap((payload) => 
+                
               this.service.Addvariableservice(payload)
               .map((payload) => new actions.Addvariablesuccess(payload))
               .catch(err => of(new actions.Addvariablefailure(err)))

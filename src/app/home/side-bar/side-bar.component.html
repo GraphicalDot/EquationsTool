@@ -1,5 +1,5 @@
   <ul class="side-nav fixed fresh">
-      <li class=""> <img src="assets/1.png" alt="" class="circle responsive-img"></li>
+      <li class=""> <img src="assets/gify.gif" alt="" class="circle responsive-img"></li>
       <li class=""><h6 style="text-align: center">Welcome {{(user$ | async).first_name}}</h6></li>
 
       <li><a [routerLink]="['userprofile']">Profile</a></li>
@@ -7,6 +7,7 @@
       <li  *ngIf="(user$ | async)?.user_type == 'superadmin'"><a [routerLink]="['users']">Users</a></li>
       <li ><a [routerLink]="['ontology']" [routerLinkActive]="['is-active']">Ontology</a></li>
       <li ><a [routerLink]="['variables']">Variables</a></li>
+      <li  *ngIf="(user$ | async)?.user_type == 'superadmin'"><a [routerLink]="['variabletemplate']">Variable Template</a></li>
       <li *ngIf="(user$ | async)?.user_type == 'superadmin'" ><a [routerLink]="['templates']">Templates</a></li>
       <li><a  href="javascript:void(0)" (click)="logout()">Logout</a></li>
       

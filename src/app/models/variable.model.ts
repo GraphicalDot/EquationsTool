@@ -8,4 +8,5 @@ export interface VariableModel{
     user_id: string,
     description: string,
     identifier: string,
+    categories: object[],
 }
