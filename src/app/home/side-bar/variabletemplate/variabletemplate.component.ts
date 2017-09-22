@@ -90,6 +90,24 @@ export class VariabletemplateComponent implements OnInit {
           this.editVariabletemplateFlag = true
         }
 
+    onAction(value, variable, category){
+        console.log(value)
+        console.log(variable)
+        console.log(category)
+        /*     export enum Ng2FileInputAction{
+        Removed=0,
+        Added= 1,
+        InvalidDenied = 2,
+        CouldNotRemove = 3,
+        CouldNotAdd = 4,
+                }
+         id: //the file input's id that emits the action (useful if you use the service and handle multiple file inputs, see below)
+        currentFiles: //list of the current files
+        action: //see Enum below
+        file: //the file that caused the action */
+        
+
+    }
 
     categorySubmit(value: any, event: Event, variable_id: string, category_name: string){
           event.preventDefault()

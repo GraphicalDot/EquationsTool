@@ -22,7 +22,16 @@
 
 <div class="row" style="height: 100%" *ngIf="addVariabletemplateFlag">
         <form materialize class="col s12" #form="ngForm">
-                  <select [(ngModel)]="variable_value"   (ngModelChange)="onChange($event)" name="variable_value" [materializeSelectOptions]="selectOptions" materialize="material_select">
+            <div class="input-field col s4" *ngIf="variable_value.data_type=='Text'">
+                    <input id="icon_prefix" type="text" class="validate"  [(ngModel)]="category_name" name="module_name" required ng-pristine>
+                  <label></label>
+              </div>
+               <div class="input-field col s4" *ngIf="variable_value.data_type=='Text'">
+                    <input id="icon_prefix" type="text" class="validate"  [(ngModel)]="category_name" name="module_name" required ng-pristine>
+                  <label></label>
+              </div>  
+              
+              <select [(ngModel)]="variable_value"   (ngModelChange)="onChange($event)" name="variable_value" [materializeSelectOptions]="selectOptions" materialize="material_select">
                         <option value="" disabled selected>Variable Name</option>
                       <option *ngFor="let variable of variables$| async" [ngValue]="variable">{{variable.variable_name}}</option>
                 </select>
@@ -31,8 +40,17 @@
         <form  class="col s12" #categoryform="ngForm" (ngSubmit)="categorySubmit(categoryform.value, $event, variable.variable_id, category.category_name)">
             <div class="row" *ngFor="let category of variablecategories">
                 <span>{{category.category_name}}: identifier: {{category.category_identifier}}</span>
-                <ng2-file-input></ng2-file-input>
-            <div class="input-field col s4" *ngIf="variable_value.data_type=='Text'">
+                <div class="input-field col s4" *ngIf="variable_value.data_type=='Image'">
+                    <input id="icon_prefix" type="file" (change)="onFileChange($event)" class="validate"  [(ngModel)]="category_name" name="module_name" required ng-pristine>
+                  <label></label>
+              </div>
+
+            
+            
+            <!--     <ng2-file-input (onAction)="onAction($event, variable_value, category)"></ng2-file-input>
+             -->
+            
+                <div class="input-field col s4" *ngIf="variable_value.data_type=='Text'">
                     <input id="icon_prefix" type="text" class="validate"  [(ngModel)]="category_name" name="module_name" required ng-pristine>
                   <label></label>
               </div>
