@@ -74,6 +74,7 @@ import {reducer} from "./reducers"
 import {NgxPaginationModule} from 'ngx-pagination';
 import { TreeModule } from 'angular-tree-component';
 import { Ng2FileInputModule } from 'ng2-file-input'; // <-- import the module
+import { SharedModule } from './shared/shared.module';
 
 /**
  * storeFreeze prevents state from being mutated. When mutation occurs, an
@@ -101,7 +102,6 @@ children: [
 ]
 
 
-
 @NgModule({
   declarations: [
     AppComponent,
@@ -117,10 +117,13 @@ children: [
     LoginComponent,
     VariabletemplateComponent,
   ],
+
+
   imports: [
     AppRoutingModule,
     NgxPaginationModule, // <-- import the module
     ReactiveFormsModule,
+    SharedModule,
      Ng2FileInputModule.forRoot(      {
          dropText:"Drop file here",
          browseText:"Browse",

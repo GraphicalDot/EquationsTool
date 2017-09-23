@@ -39,8 +39,11 @@
               </div>
 
               <div class="input-field col s5">
-                  <input id="" type="text" class="validate"  formControlName="data_type" required>
-                  <label>Data Type, either image or text</label>
+                <select formControlName="data_type"  name="data_type" [materializeSelectOptions]="selectOptions" materialize="material_select">
+                        <option value="" disabled selected>Data Type</option>
+                      <option value="Image">Image</option>
+                      <option value="Text">Text</option>
+                </select>
               </div>
               <div class="input-field col s2">
                 <button class="btn waves-effect waves-light" (click)="addVariableCategory($event)" >Add Category</button>
@@ -55,18 +58,16 @@
 
             <div [formGroupName]="i">
                 <div class="row">
-                    <div class="col s4">
+                    <div class="col s3">
                         <input formControlName="category_name" placeholder="Category Name">
                     </div>
-                    <div class="col s4">
+                    <div class="col s3">
                         <input formControlName="category_identifier" placeholder="Category identifier, must starts with ##">
                     </div>
-                </div>
-                <div class="row">
-                    <div class="col s4">
+                    <div class="col s3">
                           <input formControlName="category_description" placeholder="category_description">
                     </div>
-                    <div class="col s4">
+                    <div class="col s3">
                         <button type="button" (click)="delCategory(i)">Delete</button>
                     </div>
                 </div>

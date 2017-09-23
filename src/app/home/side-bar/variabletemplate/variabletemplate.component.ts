@@ -10,6 +10,7 @@ import {State, Store} from "@ngrx/store"
 import {VariabletemplateModel} from '../../../models/variabletemplate.model'
 import {VariableModel} from '../../../models/variable.model'
 
+import { Ng2FileInputService, Ng2FileInputAction } from 'ng2-file-input';
 
 @Component({
   selector: 'app-variabletemplate',
@@ -30,7 +31,7 @@ export class VariabletemplateComponent implements OnInit {
     public pages$: Observable<number>;
     public variabletemplate_count$: Observable<number>;
     public loggedUser: UserModel;
-    public nodes;
+    public images;
     public loading: boolean=false;  
     public addVariabletemplateFlag: boolean=false;  
     public editVariabletemplateFlag: boolean=false;  
@@ -38,6 +39,13 @@ export class VariabletemplateComponent implements OnInit {
     public variable_value: VariableModel
 
     constructor(private store: Store<fromRoot.AppState>) { 
+        //On nitialization, The Selectedvariabletemplate action is achieved, 
+        // Which changes the variabletemplate state and enters variables under selectedvariabletemplate
+        // This happens because whenever we try to uload imgaes under a specific category, a new action Addvariablecategoryimage
+        //is sent, which adds the image url of s3 sent by the server to the catgeory images variable, 
+        // As the variables variable in template is subscribed to the selectedvariabletemplate, this url will be shown into this.
+        //When a user is done editing the template, He enters the submit, The whole template is taken out of selectedtemplatevariable
+        //sent to the server and a new action of type Selectedvariabletemplate with empty variables is pushed again.
         this.variables$ = this.store.select(fromRoot.getVariables);
 
          this.variabletemplates$ = this.store.select(fromRoot.getVariabletemplates);
@@ -48,7 +56,14 @@ export class VariabletemplateComponent implements OnInit {
                 .subscribe(value => {
                   this.loggedUser = value
             });
-          this.store.dispatch(new actions.Loadvariabletemplate({"user_id": this.loggedUser.user_id, "skip": 0, "limit": 15, "search_text": null}))
+        
+          this.store.select(fromRoot.getVariables)
+              .filter((value) => value !== undefined && value !== null ) 
+              .subscribe(value =>{
+            this.store.dispatch(new actions.Selectedvariabletemplate({"variables": value}))
+            })
+
+        this.store.dispatch(new actions.Loadvariabletemplate({"user_id": this.loggedUser.user_id, "skip": 0, "limit": 15, "search_text": null}))
           }
 
 
@@ -105,8 +120,10 @@ export class VariabletemplateComponent implements OnInit {
         currentFiles: //list of the current files
         action: //see Enum below
         file: //the file that caused the action */
+        console.log(value.file)
+        this.store.dispatch(new actions.Addvariablecategoryimages({"variable_id": variable.variable_id, "category_id": category.category_id, 
+                                                    "image": value.file, "user_id": this.loggedUser.user_id}))
         
-
     }
 
     categorySubmit(value: any, event: Event, variable_id: string, category_name: string){

@@ -28,8 +28,38 @@ export class VariabletemplateEffects {
     //           .catch(err => of(new actions.Loadtemplatesktonfailure(err)))
     //     )
 
+    @Effect() Addvariablecategoryimages$: Observable<Action> = this.actions$
+        .ofType(actions.ADD_VARIABLE_CATEGORY_IMAGES)
+        .map((action: actions.Addvariablecategoryimages) => action.payload)
+        .switchMap((payload) => 
+              this.service.Addvariablecategoryimages(payload)
+              .map((payload: any) => new actions.Addvariablecategoryimagessuccess(payload))
+              .catch(err => of(new actions.Addvariablecategoryimagesfailure(err)))
+        )
 
-    
+
+    @Effect() Deletevariablecategoryimages$: Observable<Action> = this.actions$
+        .ofType(actions.DELETE_VARIABLE_CATEGORY_IMAGES)
+        .map((action: actions.Deletevariablecategoryimages) => action.payload)
+        .switchMap((payload) => 
+              this.service.Deletevariablecategoryimages(payload)
+              .map((payload: any) => new actions.Deletevariablecategoryimagessuccess(payload))
+              .catch(err => of(new actions.Deletevariablecategoryimagesfailure(err)))
+        )
+
+
+    @Effect() Selectedvariabletemplate$: Observable<Action> = this.actions$
+        .ofType(actions.SELECTED_VARIABLE_TEMPLATE)
+        .map((action: actions.Selectedvariabletemplate) => action.payload)
+        .map((payload: any) => new actions.Selectedvariabletemplatesuccess(payload))
+              .catch(err => of(new actions.Selectedvariabletemplatefailure(err))
+        )
+
+
+
+
+
+
     @Effect() Editvariabletemplate$: Observable<Action> = this.actions$
         .ofType(actions.EDIT_VARIABLE_TEMPLATE)
         .map((action: actions.Editvariabletemplate) => action.payload)

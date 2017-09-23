@@ -1,3 +1,4 @@
+import { Addvariablesuccess } from './variable.actions';
 import {Action} from "@ngrx/store"
 import {VariabletemplateModel} from "../models/variabletemplate.model"
 
@@ -28,7 +29,60 @@ export type Actions =
             |Deletevariabletemplatesuccess
             |Deletevariabletemplatefailure
             
-//**************** LOAD SubConcept
+            | Addvariablecategoryimages
+            | Addvariablecategoryimagesfailure
+            | Addvariablecategoryimagessuccess
+            |Deletevariablecategoryimages
+            |Deletevariablecategoryimagesfailure
+            |Deletevariablecategoryimagessuccess
+
+
+
+
+export const ADD_VARIABLE_CATEGORY_IMAGES = "[Variabletemplates] Add Variable Category Image"
+export class Addvariablecategoryimages implements Action{
+    readonly type = ADD_VARIABLE_CATEGORY_IMAGES
+    constructor(public payload: any){}
+}
+
+export const ADD_VARIABLE_CATEGORY_IMAGES_FAILURE = "[Variabletemplates] Add Variable Category Image Success"
+export class Addvariablecategoryimagesfailure implements Action{
+    readonly type = ADD_VARIABLE_CATEGORY_IMAGES_FAILURE
+    constructor(public payload: any){}
+}
+
+export const ADD_VARIABLE_CATEGORY_IMAGES_SUCCESS = "[Variabletemplates] Add Variable Category Image Failure"
+export class Addvariablecategoryimagessuccess implements Action{
+    readonly type = ADD_VARIABLE_CATEGORY_IMAGES_SUCCESS
+    constructor(public payload: any){}
+}
+
+
+export const DELETE_VARIABLE_CATEGORY_IMAGES = "[Variabletemplates] Delete Variable Category Image"
+export class Deletevariablecategoryimages implements Action{
+    readonly type = DELETE_VARIABLE_CATEGORY_IMAGES
+    constructor(public payload: any){}
+}
+
+export const DELETE_VARIABLE_CATEGORY_IMAGES_FAILURE = "[Variabletemplates] Delete Variable Category Image Success"
+export class Deletevariablecategoryimagesfailure implements Action{
+    readonly type = DELETE_VARIABLE_CATEGORY_IMAGES_FAILURE
+    constructor(public payload: any){}
+}
+
+export const DELETE_VARIABLE_CATEGORY_IMAGES_SUCCESS = "[Variabletemplates] Delete Variable Category Image Failure"
+export class Deletevariablecategoryimagessuccess implements Action{
+    readonly type = DELETE_VARIABLE_CATEGORY_IMAGES_SUCCESS
+    constructor(public payload: any){}
+}
+
+
+
+
+
+
+
+            //**************** LOAD SubConcept
 
 
 
