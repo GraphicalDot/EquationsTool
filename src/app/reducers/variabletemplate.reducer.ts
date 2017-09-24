@@ -60,11 +60,7 @@ export function VariabletemplateReducer(state = initialState, action: actions.Ac
                 {
                     
                     return Object.assign({}, state,{
-                    selected_variabletemplate: {"variabletemplate_name": action.payload.variabletemplate_name, 
-                                             "variabletemplate_id": action.payload.variabletemplate_id, 
-                                             "variabletemplate_description": action.payload.description,
-                                             "variables": action.payload.variables 
-                                            }, 
+                    selected_variabletemplate: action.payload,
                     loading: false,
                     error: undefined,
                     loaded: true 
@@ -148,7 +144,6 @@ export function VariabletemplateReducer(state = initialState, action: actions.Ac
 
 
             case actions.ADD_VARIABLE_CATEGORY_IMAGES_SUCCESS:
-                    console.log("image reducer activated")
                     const variableId = action.payload.variable_id;
                     const categoryId = action.payload.category_id
                     let stateclone = _.cloneDeep(state);
@@ -166,7 +161,6 @@ export function VariabletemplateReducer(state = initialState, action: actions.Ac
                     categoryImages.push({"url": action.payload.url, "image_name": action.payload.image_name, "key": action.payload.key})
 
                     
-                    console.log("UpdatedImages" +  categoryImages)
                     const updatedCategory = Object.assign({}, category, {
                                             images: categoryImages
 
@@ -174,11 +168,9 @@ export function VariabletemplateReducer(state = initialState, action: actions.Ac
 
                     variable.categories[categoryIndex] = updatedCategory
                     
-                    console.log(variable)
                     const variables = stateclone.selected_variabletemplate.variables
                     variables[variableIndex] = variable
                     
-                    console.log(variables)
                     return Object.assign({}, state, {
                             selected_variabletemplate: Object.assign({}, state.selected_variabletemplate, 
                             {"variables": variables 
@@ -279,10 +271,13 @@ export function VariabletemplateReducer(state = initialState, action: actions.Ac
                         })
                     }
             case actions.ADD_VARIABLE_TEMPLATE_SUCCESS:
-                 return Object.assign({}, state, {"variabletemplates": [...state.variabletemplates, action.payload.template],
-                                  "variabletemplate_ids": [...state.variabletemplate_ids, action.payload.template_id],
+                 return Object.assign({}, state, {"variabletemplates": [...state.variabletemplates, action.payload.variabletemplate],
+                                  "variabletemplate_ids": [...state.variabletemplate_ids, action.payload.variabletemplate_id],
                             loaded: true,
-                            loading: false
+                            loading: false, 
+                            error: undefined,
+                            variabletemplate_count : state.variabletemplate_count +1
+
                                 
                                 })
             case actions.ADD_VARIABLE_TEMPLATE_FAILURE:
@@ -294,18 +289,18 @@ export function VariabletemplateReducer(state = initialState, action: actions.Ac
 
 
 
-            case actions.DELETE_VARIABLE_TEMPLATE:
+            case actions.DELETE_VARIABLE_TEMPLATE_SUCCESS:
                         console.log(action.payload)
                         const idToRemove = action.payload;
                         const new_variables = state.variabletemplates.filter((variable) => variable.variabletemplate_id !== idToRemove)
                         const new_variable_ids = state.variabletemplate_ids;
                         delete new_variable_ids[idToRemove];
                         return Object.assign({}, state, {
-                            variables: new_variables, 
+                            variabletemplates: new_variables, 
                             loaded: true, 
                             loading: false, 
-                            variable_ids: new_variable_ids, 
-                            variable_count: state.variabletemplate_count -1});
+                            variabletemplate_ids: new_variable_ids, 
+                            variabletemplate_count: state.variabletemplate_count -1});
 
             case actions.DELETE_VARIABLE_TEMPLATE_FAILURE:
                 {

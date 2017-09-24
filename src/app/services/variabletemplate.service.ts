@@ -45,13 +45,15 @@ export class VariabletemplateService {
         let params = new URLSearchParams();
         let headers = new Headers(this.headerContent);
         let options = new RequestOptions({search: params});   
-        return this.http.post(this.API_URL, JSON.stringify(payload))
+        return this.http.put(this.API_URL, JSON.stringify(payload))
       .map(res => res.json()["data"])
       
     }
 
     Deletevariabletemplateservice(payload):  Observable<VariableModel> {
         let params = new URLSearchParams();
+        params.set("user_id", payload.user_id)
+        params.set("variabletemplate_id", payload.variabletemplate_id)
         let headers = new Headers(this.headerContent);
         let options = new RequestOptions({search: params});   
         return this.http.delete(this.API_URL, options)

@@ -20,7 +20,7 @@
 
 </div>
 
-<div class="row" style="height: 100%" *ngIf="addVariabletemplateFlag">
+<div class="row" style="height: 100%" *ngIf="openForm">
         <form materialize class="col s12" #form="ngForm">
               
               <select [(ngModel)]="variable_value"   (ngModelChange)="onChange($event)" name="variable_value" [materializeSelectOptions]="selectOptions" materialize="material_select">
@@ -29,16 +29,16 @@
                 </select>
         </form>
 
-        <form class="col s12" #variabletemplateform="ngForm" (ngSubmit)="variabletemplateSubmit(variabletemplateform.value)">
+        <form class="col s12" #variabletemplateform="ngForm" materialize (ngSubmit)="variabletemplateSubmit(variabletemplateform.value)">
             <div class="row">
             <div class="input-field col s6">
-                  <input id="icon_prefix" type="text" class="validate"  [(ngModel)]="variabletemplate_name" name="variabletemplate_name" required ng-pristine>
-                  <label>Variable Template Name</label>
+                  <input id="icon_prefix" type="text" class="validate"  [(ngModel)]="selectedvariabletemplate.variabletemplate_name" name="variabletemplate_name" required ng-pristine>
+                  <label *ngIf="!editVariabletemplateFlag">Variable Template Name</label>
               </div>
 
             <div class="input-field col s6">
-                  <input id="icon_prefix" type="text" class="validate"  [(ngModel)]="description" name="description" required ng-pristine>
-                  <label>Variable Template Description</label>
+                  <input id="icon_prefix" type="text" class="validate"  [(ngModel)]="selectedvariabletemplate.description" name="description" required ng-pristine>
+                  <label >Variable Template Description</label>
               </div>
             </div>
 
@@ -67,14 +67,14 @@
           </tr>
         </thead>
 
-        <tbody *ngFor="let template of variabletemplates$ | async | paginate: {id: 'Variabletemplate', itemsPerPage: 15, currentPage: currentPage,  totalItems: variabletemplate_count$ |async}">
+        <tbody *ngFor="let variabletemplate of variabletemplates$ | async | paginate: {id: 'Variabletemplate', itemsPerPage: 15, currentPage: currentPage,  totalItems: variabletemplate_count$ |async}">
             <tr>
-                    <td>{{template.template_name}}</td>
-                    <td>{{template.indian_time}}</td>
-                    <td>{{template.description}}</td>
+                    <td>{{variabletemplate.variabletemplate_name}}</td>
+                    <td>{{variabletemplate.indian_time}}</td>
+                    <td>{{variabletemplate.description}}</td>
                     
-                    <td><button class="btn waves-effect waves-light small" (click) = "edit(template)" >Edit</button></td>
-                    <td><button class="btn waves-effect waves-light red small" (click) = "delete(template)">-</button></td>
+                    <td><button class="btn waves-effect waves-light small" (click) = "edit(variabletemplate)" >Edit</button></td>
+                    <td><button class="btn waves-effect waves-light red small" (click) = "delete(variabletemplate)">-</button></td>
             </tr>
 
 

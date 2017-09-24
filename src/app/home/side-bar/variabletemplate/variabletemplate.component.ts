@@ -33,6 +33,7 @@ export class VariabletemplateComponent implements OnInit {
     public loggedUser: UserModel;
     public images;
     public loading: boolean=false;  
+    public openForm: boolean=false;  
     public addVariabletemplateFlag: boolean=false;  
     public editVariabletemplateFlag: boolean=false;  
     public variablecategories = null
@@ -96,8 +97,7 @@ export class VariabletemplateComponent implements OnInit {
     }
 
     addVariabletemplate(){
-          this.addVariabletemplateFlag = true
-          this.editVariabletemplateFlag = true
+          this.openForm = true
         }
 
 
@@ -107,22 +107,35 @@ export class VariabletemplateComponent implements OnInit {
             // Upload all the images to backend and then updates the selectevariabletemplate in the state with the s3 url of images that were being uploaded.
             // So when a user clicks on submit button of variabletemplate, 
 
-         console.log(value)   
-          /*  this.store.dispatch(new actions.Addvariabletemplate({"template_name": value.template_name, 
-          "board": value.board, "class": value.class, "description": value.description, "template": this.nodes}))
+         var data = Object.assign({}, this.selectedvariabletemplate, {"variabletemplate_name": value.variabletemplate_name, "description": value.description, 
+                                                            "user_id": this.loggedUser.user_id})
+
+        console.log(this.addVariabletemplateFlag)
+        console.log(this.editVariabletemplateFlag)
+        if (this.editVariabletemplateFlag){
+                console.log("Doing the edit")
+                this.store.dispatch(new actions.Editvariabletemplate(data)) 
+                this.editVariabletemplateFlag = false;  
+        }else{
+                console.log("Doing the Add")
+                this.store.dispatch(new actions.Addvariabletemplate(data)) 
+        }
 
           //This flag closes the add form which have ontology in it
-          this.addVariabletemplateFlag = false
- */
       }
 
 
-    add(template){
-        console.log(template)
-      }
 
-    delete(template){
-        this.store.dispatch(new actions.Deletevariabletemplate({"user_id": this.loggedUser.user_id, "template_id": template.template_id}))
+
+    edit(variabletemplate){
+        console.log(variabletemplate)
+        this.store.dispatch(new actions.Selectedvariabletemplate(variabletemplate))
+        this.editVariabletemplateFlag = true;  
+            
+    }
+
+    delete(variabletemplate){
+        this.store.dispatch(new actions.Deletevariabletemplate({"user_id": this.loggedUser.user_id, "variabletemplate_id": variabletemplate.variabletemplate_id}))
 
       }
 

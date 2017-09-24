@@ -38,12 +38,9 @@ export class WrapperuploadfileComponent implements OnInit {
                 .subscribe((value: VariabletemplateModel) => {
                     if (this.variable != undefined){
                       let selectedvariable: VariableModel = value.variables.find((variable) => variable.variable_id == this.variable.variable_id)
-                    console.log(selectedvariable)
                     let selectedcategory: CategoryModel = selectedvariable.categories.find((category) => category.category_id == this.category.category_id)
-                    console.log(selectedcategory)
                     this.images = selectedcategory.images
                     this.textvalues = selectedcategory.text
-                   console.log(selectedcategory.text)
                   }
 
 
@@ -61,7 +58,6 @@ export class WrapperuploadfileComponent implements OnInit {
 
   textValuesChanged(value){
         event.preventDefault()
-        console.log(value)
             this.store.dispatch(new actions.Addvariablecategorytext({"variable_id": this.variable.variable_id, "category_id": this.category.category_id, "text": value}))
     }
 
@@ -70,7 +66,6 @@ export class WrapperuploadfileComponent implements OnInit {
 
   onAction(value){
         event.preventDefault()
-        console.log("Add images sent to the server")
         this.store.dispatch(new actions.Addvariablecategoryimages({"variable_id": this.variable.variable_id, "category_id": this.category.category_id, 
                                                     "image": value.file, "user_id": this.loggedUser.user_id}))
         this.ng2FileInputService.reset(this.myFileInputIdentifier);
@@ -78,7 +73,6 @@ export class WrapperuploadfileComponent implements OnInit {
 
     imageClick(image){
       event.preventDefault()
-      console.log("This is the image" + Image)
       this.store.dispatch(new actions.Deletevariablecategoryimages({"variable_id": this.variable.variable_id, "category_id": this.category.category_id,
         "key": image.key, "image_name": image.image_name } ))
 
