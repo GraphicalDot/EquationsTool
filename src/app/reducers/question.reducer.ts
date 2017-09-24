@@ -214,6 +214,8 @@ export const Getquestionids= (state: QuestionState) => state.module_ids
 //This will select the dictionary of id: User
 export const Getquestions = (state: QuestionState) => state.modules
 export const Getquestionerror = (state: QuestionState) => state.error
+export const Getquestionloading = (state: QuestionState) => state.loading
+
 
 //Return list of domains in a list format
 //export const getAllDomains = createSelector(getDomains, getDomainIds, (entities, ids) => {

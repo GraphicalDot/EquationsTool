@@ -197,6 +197,9 @@ export const Getsubconcepts = (state: SubconceptState) => state.modules
 export const Getselectedsubconcept = (state: SubconceptState) => state.selectedModule;
 export const Getsubconceptpages = (state: SubconceptState) => state.pages;
 export const Getsubconceptcount = (state: SubconceptState) => state.module_count;
+export const Getsubconcepterror = (state: SubconceptState) => state.error;
+export const Getsubconceptloading = (state: SubconceptState) => state.loading;
+
 /* 
 //Get SElected user from the selectedUserId
 export const Getselectedsubconcept = createSelector(Getsubconcepts, Getselectedsubconceptid, (entities, selectedId) => {

@@ -128,7 +128,9 @@ export function DomainReducer(state = initialState, action: DomainActions.Action
                         const newEntities = state.module_ids;
                         delete newEntities[idToRemove];
                         return Object.assign({}, state, {
-                            modules: newEntities, loaded: true, loading: false, module_ids: ids
+                            modules: newEntities, loaded: true, loading: false, module_ids: ids,
+                            module_count: state.module_count -1,
+                            pages: Math.ceil((state.module_count+1)/15), 
                         });
             case DomainActions.DELETE_DOMAIN_FAILURE:
                     return {
@@ -186,6 +188,10 @@ export const Getdomains = (state: DomainState) => state.modules
 export const Getselecteddomain = (state: DomainState) => state.selectedModule;
 export const Getdomainpages = (state: DomainState) => state.pages;
 export const Getdomaincount = (state: DomainState) => state.module_count;
+export const Getdomainerror = (state: DomainState) => state.error;
+
+export const Getdomainloading = (state: DomainState) => state.loading;
+
 /* 
 //Get SElected user from the selectedUserId
 export const getSelectedDomain = createSelector(getDomains, selectedDomainId, (entities, selectedId) => {

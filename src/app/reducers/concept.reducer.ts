@@ -191,6 +191,9 @@ export const Getconcepts = (state: ConceptState) => state.modules
 export const Getselectedconcept = (state: ConceptState) => state.selectedModule;
 export const Getconceptpages = (state: ConceptState) => state.pages;
 export const Getconceptcount = (state: ConceptState) => state.module_count;
+export const Getconcepterror = (state: ConceptState) => state.error;
+export const Getconceptloading = (state: ConceptState) => state.loading;
+
 
 /* 
 //Get SElected user from the selectedUserId

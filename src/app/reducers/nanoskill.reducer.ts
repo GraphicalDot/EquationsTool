@@ -199,6 +199,10 @@ export const Getnanoskills = (state: NanoskillState) => state.modules
 export const Getselectednanoskill = (state: NanoskillState) => state.selectedModule;
 export const Getnanoskillpages = (state: NanoskillState) => state.pages;
 export const Getnanoskillcount = (state: NanoskillState) => state.module_count;
+
+export const Getnanoskillerror = (state: NanoskillState) => state.error;
+export const Getnanoskillloading = (state: NanoskillState) => state.loading;
+
 /* 
 //Get SElected user from the selectedUserId
 export const Getselectedsubconcept = createSelector(Getsubconcepts, Getselectedsubconceptid, (entities, selectedId) => {
