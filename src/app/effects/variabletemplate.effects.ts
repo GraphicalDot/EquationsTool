@@ -28,6 +28,19 @@ export class VariabletemplateEffects {
     //           .catch(err => of(new actions.Loadtemplatesktonfailure(err)))
     //     )
 
+    
+    @Effect() Addvariablecategorytext$: Observable<Action> = this.actions$
+        .ofType(actions.ADD_VARIABLE_CATEGORY_TEXT)
+        .map((action: actions.Addvariablecategorytext) => action.payload)
+        .map((payload: any) => new actions.Addvariablecategorytextsuccess(payload))
+              .catch(err => of(new actions.Addvariablecategorytextfailure(err))
+            )
+        
+
+
+
+
+
     @Effect() Addvariablecategoryimages$: Observable<Action> = this.actions$
         .ofType(actions.ADD_VARIABLE_CATEGORY_IMAGES)
         .map((action: actions.Addvariablecategoryimages) => action.payload)

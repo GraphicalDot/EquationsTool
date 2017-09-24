@@ -100,43 +100,15 @@ export class VariabletemplateComponent implements OnInit {
           this.editVariabletemplateFlag = true
         }
 
-    onAction(value, variable, category){
-        event.preventDefault()
-        console.log(event)
-        console.log(variable)
-        console.log(category)
-        /*     export enum Ng2FileInputAction{
-        Removed=0,
-        Added= 1,
-        InvalidDenied = 2,
-        CouldNotRemove = 3,
-        CouldNotAdd = 4,
-                }
-         id: //the file input's id that emits the action (useful if you use the service and handle multiple file inputs, see below)
-        currentFiles: //list of the current files
-        action: //see Enum below
-        file: //the file that caused the action */
-        if(value.action===Ng2FileInputAction.Removed){
-            console.log("This has been removed")
-            this.store.dispatch(new actions.Deletevariablecategoryimages({"variable_id": variable.variable_id, "category_id": category.category_id, 
-                                                    "image": value.file, "user_id": this.loggedUser.user_id}))
-            }
-    
-        else{
-            this.store.dispatch(new actions.Addvariablecategoryimages({"variable_id": variable.variable_id, "category_id": category.category_id, 
-                                                    "image": value.file, "user_id": this.loggedUser.user_id}))
-                                                }
-            this.ng2FileInputService.remove(variable.variable_id+category.category_id, value.file);
 
-            
-            }
-
-    categorySubmit(value: any, event: Event, variable_id: string, category_name: string){
+    variabletemplateSubmit(value: any){
           event.preventDefault()
-          console.log(value)
-          console.log(variable_id)
-          console.log(category_name)
-         /*  this.store.dispatch(new actions.Addvariabletemplate({"template_name": value.template_name, 
+            //All this while when a user click on add button of images or remove, The wrapperuploadfile componenet handles those events
+            // Upload all the images to backend and then updates the selectevariabletemplate in the state with the s3 url of images that were being uploaded.
+            // So when a user clicks on submit button of variabletemplate, 
+
+         console.log(value)   
+          /*  this.store.dispatch(new actions.Addvariabletemplate({"template_name": value.template_name, 
           "board": value.board, "class": value.class, "description": value.description, "template": this.nodes}))
 
           //This flag closes the add form which have ontology in it

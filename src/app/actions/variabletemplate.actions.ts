@@ -30,12 +30,38 @@ export type Actions =
             |Deletevariabletemplatefailure
             
             | Addvariablecategoryimages
-            | Addvariablecategoryimagesfailure
             | Addvariablecategoryimagessuccess
-            |Deletevariablecategoryimages
-            |Deletevariablecategoryimagesfailure
-            |Deletevariablecategoryimagessuccess
+            | Addvariablecategoryimagesfailure
 
+            | Addvariablecategorytext
+            | Addvariablecategorytextsuccess
+            | Addvariablecategorytextfailure
+
+
+            |Deletevariablecategoryimages
+            |Deletevariablecategoryimagessuccess
+            |Deletevariablecategoryimagesfailure
+
+
+
+
+export const ADD_VARIABLE_CATEGORY_TEXT = "[Variabletemplates] Add Variable Category Text"
+export class Addvariablecategorytext implements Action{
+    readonly type = ADD_VARIABLE_CATEGORY_TEXT
+    constructor(public payload: any){}
+}
+
+export const ADD_VARIABLE_CATEGORY_TEXT_FAILURE = "[Variabletemplates] Add Variable Category Text Failure"
+export class Addvariablecategorytextfailure implements Action{
+    readonly type = ADD_VARIABLE_CATEGORY_TEXT_FAILURE
+    constructor(public payload: any){}
+}
+
+export const ADD_VARIABLE_CATEGORY_TEXT_SUCCESS = "[Variabletemplates] Add Variable Category Text Success"
+export class Addvariablecategorytextsuccess implements Action{
+    readonly type = ADD_VARIABLE_CATEGORY_TEXT_SUCCESS
+    constructor(public payload: any){}
+}
 
 
 
@@ -45,13 +71,13 @@ export class Addvariablecategoryimages implements Action{
     constructor(public payload: any){}
 }
 
-export const ADD_VARIABLE_CATEGORY_IMAGES_FAILURE = "[Variabletemplates] Add Variable Category Image Success"
+export const ADD_VARIABLE_CATEGORY_IMAGES_FAILURE = "[Variabletemplates] Add Variable Category Image Failure"
 export class Addvariablecategoryimagesfailure implements Action{
     readonly type = ADD_VARIABLE_CATEGORY_IMAGES_FAILURE
     constructor(public payload: any){}
 }
 
-export const ADD_VARIABLE_CATEGORY_IMAGES_SUCCESS = "[Variabletemplates] Add Variable Category Image Failure"
+export const ADD_VARIABLE_CATEGORY_IMAGES_SUCCESS = "[Variabletemplates] Add Variable Category Image Success"
 export class Addvariablecategoryimagessuccess implements Action{
     readonly type = ADD_VARIABLE_CATEGORY_IMAGES_SUCCESS
     constructor(public payload: any){}
@@ -64,13 +90,13 @@ export class Deletevariablecategoryimages implements Action{
     constructor(public payload: any){}
 }
 
-export const DELETE_VARIABLE_CATEGORY_IMAGES_FAILURE = "[Variabletemplates] Delete Variable Category Image Success"
+export const DELETE_VARIABLE_CATEGORY_IMAGES_FAILURE = "[Variabletemplates] Delete Variable Category Image Failure"
 export class Deletevariablecategoryimagesfailure implements Action{
     readonly type = DELETE_VARIABLE_CATEGORY_IMAGES_FAILURE
     constructor(public payload: any){}
 }
 
-export const DELETE_VARIABLE_CATEGORY_IMAGES_SUCCESS = "[Variabletemplates] Delete Variable Category Image Failure"
+export const DELETE_VARIABLE_CATEGORY_IMAGES_SUCCESS = "[Variabletemplates] Delete Variable Category Image Success"
 export class Deletevariablecategoryimagessuccess implements Action{
     readonly type = DELETE_VARIABLE_CATEGORY_IMAGES_SUCCESS
     constructor(public payload: any){}

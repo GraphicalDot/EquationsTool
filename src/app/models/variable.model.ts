@@ -18,12 +18,13 @@ export interface CategoryModel{
     category_description: string,
     category_name: string,
     category_identifier: string,
-    images: Images[],
-
+    images?: ImageModel[],
+    text?: string,
 } 
 
-export interface Images{
+export interface ImageModel{
     url: string, 
     image_name: string
+    key: string,
 
 }

@@ -85,6 +85,7 @@ import { SharedModule } from './shared/shared.module';
 
 import { AppRoutingModule } from "./app-routing.module";
 import { VariabletemplateComponent } from './home/side-bar/variabletemplate/variabletemplate.component';
+import { WrapperuploadfileComponent } from './home/side-bar/variabletemplate/wrapperuploadfile/wrapperuploadfile.component';
 const routes: Routes = 
 [
 { path: 'home', component: HomeComponent, 
@@ -101,7 +102,6 @@ children: [
 ]}
 ]
 
-
 @NgModule({
   declarations: [
     AppComponent,
@@ -116,6 +116,7 @@ children: [
     UserprofileComponent,
     LoginComponent,
     VariabletemplateComponent,
+    WrapperuploadfileComponent,
   ],
 
 

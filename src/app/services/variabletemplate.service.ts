@@ -62,11 +62,12 @@ export class VariabletemplateService {
         let params = new URLSearchParams();
         params.set("variable_id", payload.variable_id)
         params.set("category_id", payload.category_id)
-        params.set("image_id", payload.image_id)
+        params.set("user_id", payload.user_id)
+        params.set("key", payload.key)
         
         let headers = new Headers(this.headerContent);
         let options = new RequestOptions({search: params});   
-        return this.http.delete(this.API_URL, options)
+        return this.http.delete(this.IMAGE_URL, options)
           .map(res => res.json()["data"])
   }
 
@@ -112,7 +113,7 @@ export class VariabletemplateService {
             }
         }
         
-        var url = this.IMAGE_URL +"?categroy_id=" + encodeURIComponent(payload.category_id) + "&user_id=" + encodeURIComponent(payload.user_id) + "&variable_id=" + encodeURIComponent(payload.variable_id)
+        var url = this.IMAGE_URL +"?category_id=" + encodeURIComponent(payload.category_id) + "&user_id=" + encodeURIComponent(payload.user_id) + "&variable_id=" + encodeURIComponent(payload.variable_id)
         xhr.open("POST", url, true)
         
         xhr.send(formData)
