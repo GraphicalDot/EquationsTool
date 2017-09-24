@@ -1,0 +1,16 @@
+
+
+   <span>{{category.category_name}}: identifier: {{category.category_identifier}}</span>
+    <ng2-file-input [id]="myFileInputIdentifier" (onRemoved)="onRemoved($event)" [multiple]="true"   *ngIf="variable.data_type=='Image'" (onAction)="onAction($event)"></ng2-file-input>
+    <div class="flex-container" *ngFor="let image of images">
+        <div class="flex-item">
+            <img (onclick)="ImageClick($event)" class="materialboxed" [ngStyle]="{'border': '1px solid #ddd', 'border-radius': '4px', 'padding': '5px', 'width': '150px'}" [src]="image.url">
+            <button (click)="imageClick(image)">Delete</button>
+        </div>
+    
+
+    </div>
+    <div class="input-field col s4"  *ngIf="variable.data_type=='Text'">
+          <input id="icon_prefix" type="text" class="validate"  [(ngModel)]="category_name" name="module_name" required ng-pristine>
+          <label></label>
+    </div>

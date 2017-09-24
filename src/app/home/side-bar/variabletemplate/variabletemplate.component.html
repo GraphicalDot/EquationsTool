@@ -31,19 +31,10 @@
 
         <form class="col s12" #categoryform="ngForm" (ngSubmit)="categorySubmit(categoryform.value, $event, variable.variable_id, category.category_name)">
             <div class="row" *ngFor="let category of variablecategories">
-                <span>{{category.category_name}}: identifier: {{category.category_identifier}}</span>
-            
-            
-            
-                <ng2-file-input *ngIf="variable_value.data_type=='Image'" (onAction)="onAction($event, variable_value, category)"></ng2-file-input>
-            
-            
-                <div class="input-field col s4" *ngIf="variable_value.data_type=='Text'">
-                    <input id="icon_prefix" type="text" class="validate"  [(ngModel)]="category_name" name="module_name" required ng-pristine>
-                  <label></label>
-              </div>
 
-              
+
+                    <app-wrapperuploadfile [variable]='variable_value' [category]='category' [images]="category.images"></app-wrapperuploadfile>
+            
           </div>
           <button class="btn waves-effect waves-light small" type="submit" name="action">Submit
               <i class="material-icons right">send</i>

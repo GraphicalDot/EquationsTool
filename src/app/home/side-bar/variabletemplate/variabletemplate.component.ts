@@ -38,7 +38,7 @@ export class VariabletemplateComponent implements OnInit {
     public variablecategories = null
     public variable_value: VariableModel
 
-    constructor(private store: Store<fromRoot.AppState>) { 
+    constructor(private store: Store<fromRoot.AppState>, private ng2FileInputService: Ng2FileInputService) { 
         //On nitialization, The Selectedvariabletemplate action is achieved, 
         // Which changes the variabletemplate state and enters variables under selectedvariabletemplate
         // This happens because whenever we try to uload imgaes under a specific category, a new action Addvariablecategoryimage
@@ -64,12 +64,6 @@ export class VariabletemplateComponent implements OnInit {
             })
 
         this.store.dispatch(new actions.Loadvariabletemplate({"user_id": this.loggedUser.user_id, "skip": 0, "limit": 15, "search_text": null}))
-          }
-
-
-    ngOnInit() {
-
-        
           this.store.select(fromRoot.getVariabletemplateError)
               .filter((value) => value !== undefined && value !== null ) 
               .subscribe(value =>{
@@ -89,9 +83,10 @@ export class VariabletemplateComponent implements OnInit {
               .subscribe(value =>{
                     this.selectedvariabletemplate = value
             })
+         }
 
 
-
+    ngOnInit() {
         }
 
     onChange(value){
@@ -106,7 +101,8 @@ export class VariabletemplateComponent implements OnInit {
         }
 
     onAction(value, variable, category){
-        console.log(value)
+        event.preventDefault()
+        console.log(event)
         console.log(variable)
         console.log(category)
         /*     export enum Ng2FileInputAction{
@@ -120,11 +116,20 @@ export class VariabletemplateComponent implements OnInit {
         currentFiles: //list of the current files
         action: //see Enum below
         file: //the file that caused the action */
-        console.log(value.file)
-        this.store.dispatch(new actions.Addvariablecategoryimages({"variable_id": variable.variable_id, "category_id": category.category_id, 
+        if(value.action===Ng2FileInputAction.Removed){
+            console.log("This has been removed")
+            this.store.dispatch(new actions.Deletevariablecategoryimages({"variable_id": variable.variable_id, "category_id": category.category_id, 
                                                     "image": value.file, "user_id": this.loggedUser.user_id}))
-        
-    }
+            }
+    
+        else{
+            this.store.dispatch(new actions.Addvariablecategoryimages({"variable_id": variable.variable_id, "category_id": category.category_id, 
+                                                    "image": value.file, "user_id": this.loggedUser.user_id}))
+                                                }
+            this.ng2FileInputService.remove(variable.variable_id+category.category_id, value.file);
+
+            
+            }
 
     categorySubmit(value: any, event: Event, variable_id: string, category_name: string){
           event.preventDefault()

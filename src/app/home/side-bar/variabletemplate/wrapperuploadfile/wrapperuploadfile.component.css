@@ -1,0 +1,14 @@
+.flex-container {
+    height: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: row; 
+    align-content: center;      /* for multi-line flex container */
+}
+
+.flex-item {
+    width: 120px;
+    margin: 10px;
+    text-align: center;
+}
