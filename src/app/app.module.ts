@@ -119,7 +119,6 @@ children: [
     WrapperuploadfileComponent,
   ],
 
-
   imports: [
     AppRoutingModule,
     NgxPaginationModule, // <-- import the module

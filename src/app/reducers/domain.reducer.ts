@@ -1,7 +1,9 @@
 import { ActionReducer, Action, State } from '@ngrx/store';
 import { DomainModel} from '../models/ontology.models';
 import {createSelector} from "reselect"
-import * as DomainActions from "../actions/ontology.actions"
+import * as DomainActions from '../actions/ontology.actions';
+import * as _ from 'lodash';
+
 
 export interface DomainState {
     module_ids?: Array<string>,
@@ -12,7 +14,8 @@ export interface DomainState {
     error?: string,
     parent_id?: null
     pages?: number,
-    module_count?: number
+    module_count?: number,
+    message?: string
 }
 
 const initialState: DomainState = {
@@ -24,7 +27,8 @@ const initialState: DomainState = {
     error: null,
     parent_id: null,
     pages: null,
-    module_count: null
+    module_count: null,
+    message: null
 }
 
 
@@ -113,36 +117,45 @@ export function DomainReducer(state = initialState, action: DomainActions.Action
 
 
             case DomainActions.DELETE_DOMAIN:
-                    {
-                        return {
-                                loading: true,
-                                error: undefined,
-                                loaded: false   
-                            }
-                    }
-
+                {
+                    
+                    return Object.assign({}, state,{ 
+                    loading: true,
+                    error: undefined,
+                    loaded: false,   
+                    })
+                }
 
             case DomainActions.DELETE_DOMAIN_SUCCESS:
+                        console.log(action.payload)
+                        console.log(action.payload.module_id)
+                        let stateclone = _.cloneDeep(state);
+                        
                         const idToRemove = action.payload.module_id;
-                        const ids = state.module_ids.filter((id) => id == action.payload.module_id)
-                        const newEntities = state.module_ids;
-                        delete newEntities[idToRemove];
+                        
+                        const ids = stateclone.module_ids.filter((id) => id != action.payload.module_id)
+                        
+                        const newEntities = stateclone.modules.filter((id) => id.module_id != action.payload.module_id)
+
                         return Object.assign({}, state, {
-                            modules: newEntities, loaded: true, loading: false, module_ids: ids,
+                            modules: newEntities, loaded: true, loading: false, 
+                            module_ids: ids,
                             module_count: state.module_count -1,
-                            pages: Math.ceil((state.module_count+1)/15), 
+                            pages: Math.ceil((state.module_count-1)/15), 
+                            message: action.payload.message
                         });
+
             case DomainActions.DELETE_DOMAIN_FAILURE:
-                    return {
-                            module_ids: state.module_ids,
-                            modules: state.modules,
-                            selectedModule: state.selectedModule,
-                            loaded: true,
-                            loading: false,
-                            error: action.payload._body
-                        }
+                    {
+                    
+                    return Object.assign({}, state,{ 
+                    loading: true,
+                    error: action.payload._body,
+                    loaded: false,   
+                    })
+                }
 
-
+            
             case DomainActions.SELECTED_DOMAIN:
             case DomainActions.SELECTED_DOMAIN_FAILURE:
 
@@ -188,8 +201,9 @@ export const Getdomains = (state: DomainState) => state.modules
 export const Getselecteddomain = (state: DomainState) => state.selectedModule;
 export const Getdomainpages = (state: DomainState) => state.pages;
 export const Getdomaincount = (state: DomainState) => state.module_count;
-export const Getdomainerror = (state: DomainState) => state.error;
 
+export const Getdomainmessage = (state: DomainState) => state.message;
+export const Getdomainerror = (state: DomainState) => state.error;
 export const Getdomainloading = (state: DomainState) => state.loading;
 
 /* 

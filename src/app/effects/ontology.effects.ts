@@ -63,7 +63,7 @@ export class OntologyEffects {
         .switchMap((domain) =>
              
               this.service.deleteDomain(domain)
-              .map((msg) => new OntologyActions.Deletedomainsuccess(msg))
+              .map((domain_id) => new OntologyActions.Deletedomainsuccess(domain_id))
               .catch(err => of(new OntologyActions.Deletedomainfailure(err)))
         );
 

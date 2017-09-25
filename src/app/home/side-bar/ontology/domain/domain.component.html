@@ -10,6 +10,13 @@
         </div>
     </form>
 </div>
+<div class="row" *ngIf="loading">
+  <div materialize class="progress">
+      <div class="indeterminate"></div>
+  </div>
+
+</div>
+
 
 <!--When clicking on the +permission button the permission_module changes which then provides us the module_id on module.module_id
     When changing the  users, a new api call is being made, which fetched the user and then changes the permission object which then redered into this 

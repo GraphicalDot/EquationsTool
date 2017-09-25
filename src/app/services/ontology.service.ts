@@ -83,10 +83,9 @@ export class OntologyService {
       let headers = new Headers(this.headerContent);
         //let options = new RequestOptions({headers});   
         let options = new RequestOptions({search: params});  
-      console.log(payload.domain.module_id + "from the delet domain")
       var url = this.DOMAIN_API_URL
       return this.http.delete(url, options)
-      .map(res => {res.json()["data"]})
+      .map(res => res.json()["data"])
       
     }
   

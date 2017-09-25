@@ -62,7 +62,7 @@ export class DomainComponent implements OnInit, OnDestroy {
     public currentDomainPage: number
     public pages$: Observable<number>;
     public domain_count$: Observable<number>
-   
+    public loading: boolean = false
    //public user$: Observable<UserModel>;
    
     @Output() selectedDomain = new EventEmitter<DomainModel>();
@@ -97,7 +97,26 @@ export class DomainComponent implements OnInit, OnDestroy {
           .subscribe(value =>{
             toast(value, 4000);
           })
-            
+          
+        this.store.select(fromRoot.getDomainError)
+              .filter((value) => value !== undefined && value !== null ) 
+              .subscribe(value =>{
+              toast(value, 4000);
+            })
+
+        this.store.select(fromRoot.getDomainMessage)
+              .filter((value) => value !== undefined && value !== null ) 
+              .subscribe(value =>{
+              toast(value, 4000);
+            })
+        
+        this.store.select(fromRoot.getDomainLoading)
+              .filter((value) => value !== undefined && value !== null ) 
+              .subscribe(value =>{
+                    this.loading = value
+            })
+
+
         this.store.dispatch(new actions.Loaddomain({"user_id": this.loggedUser.user_id, "skip": 0, "limit": 15, "search_text": null}))
 
     };

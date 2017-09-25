@@ -154,6 +154,9 @@ export const getDomainIds = createSelector(getDomainAppState, fromDomain.Getdoma
 export const getSelectedDomain = createSelector(getDomainAppState, fromDomain.Getselecteddomain)
 export const getDomainPages = createSelector(getDomainAppState, fromDomain.Getdomainpages)
 export const getDomainCount = createSelector(getDomainAppState, fromDomain.Getdomaincount)
+export const getDomainError = createSelector(getDomainAppState, fromDomain.Getdomainerror)
+export const getDomainMessage = createSelector(getDomainAppState, fromDomain.Getdomainmessage)
+export const getDomainLoading = createSelector(getDomainAppState, fromDomain.Getdomainloading)
 
 
 export const getConcepts = createSelector(getConceptAppState, fromConcept.Getconcepts)
@@ -161,6 +164,7 @@ export const getConceptIds = createSelector(getConceptAppState, fromConcept.Getc
 export const getSelectedConcept = createSelector(getConceptAppState, fromConcept.Getselectedconcept )
 export const getConceptPages = createSelector(getConceptAppState, fromConcept.Getconceptpages)
 export const getConceptCount = createSelector(getConceptAppState, fromConcept.Getconceptcount)
+export const getConceptError = createSelector(getConceptAppState, fromConcept.Getconcepterror)
 
 
 
@@ -169,6 +173,7 @@ export const getSubConceptIds = createSelector(SubconceptAppState, fromSubconcep
 export const getSelectedSubConcept = createSelector(SubconceptAppState, fromSubconcept.Getselectedsubconcept )
 export const getSubconceptPages = createSelector(SubconceptAppState, fromSubconcept.Getsubconceptpages)
 export const getSubconceptCount = createSelector(SubconceptAppState, fromSubconcept.Getsubconceptcount)
+export const getSubconceptError = createSelector(SubconceptAppState,  fromSubconcept.Getsubconcepterror)
 
 
 export const getNanoskills = createSelector(NanoskillAppState, fromNanoskill.Getnanoskills)
@@ -176,6 +181,7 @@ export const getNanoskillIds = createSelector(NanoskillAppState, fromNanoskill.G
 export const getSelectedNanoskill = createSelector(NanoskillAppState, fromNanoskill.Getselectednanoskill )
 export const getNanoskillPages = createSelector(NanoskillAppState, fromNanoskill.Getnanoskillpages)
 export const getNanoskillCount = createSelector(NanoskillAppState, fromNanoskill.Getnanoskillcount)
+export const getNanoskillError = createSelector(NanoskillAppState, fromNanoskill.Getnanoskillerror)
 
 
 
