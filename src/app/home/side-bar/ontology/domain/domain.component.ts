@@ -132,6 +132,8 @@ export class DomainComponent implements OnInit, OnDestroy {
     //This is when a user clicks ont he red button on the top, which will open a new form to create a new module
     addDomain(){
       this.domainCreate = true;    
+        this.addPermissionFlag = false        
+      
     }
     submitForm(domain:DomainModel){
         this.data = Object.assign({}, domain, {"user_id": this.loggedUser.user_id, "username": this.loggedUser.username})
@@ -145,13 +147,20 @@ export class DomainComponent implements OnInit, OnDestroy {
       this.domain = domain;
       this.editDomain.emit(domain);
     }
+    
+    _editDomain(domain){
+        event.preventDefault()
+        this.editDomain.emit(domain)
+        
+    }
 
     pageDomainChanged(input){
         console.log("Domain changed clicked" + input)
         console.log(this.loggedUser.user_id)
+        this.addPermissionFlag = false        
         this.currentDomainPage = input
+        console.log(this.currentDomainPage)
         this.store.dispatch(new actions.Loaddomain({"user_id": this.loggedUser.user_id, "skip": 15*(input-1), "limit": 15, "search_text": null}))
-    
     }
 
     search_text_changed(search_text){
@@ -166,6 +175,7 @@ export class DomainComponent implements OnInit, OnDestroy {
         this.domainCreate = false
         this.domainEdit = false
         if (this.targeted_user_id){
+
             //var aPromise = this.service.DomainPermission({"user_id": this.targeted_user_id, "module_id": this.permission_domain.module_id, "skip": 0, "limit": 15}).toPromise()
             this.store.dispatch(new Permissionactions.Loadpermissiondomain({"user_id": this.targeted_user_id, 
                                                                                 "url": "domainpermissions",

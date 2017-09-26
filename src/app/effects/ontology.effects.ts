@@ -79,6 +79,14 @@ export class OntologyEffects {
               .catch(err => of(new OntologyActions.Loadconceptfailure(err)))
         )
 
+    @Effect() Allconcepts$: Observable<Action> = this.actions$
+        .ofType(OntologyActions.ALL_CONCEPT)
+        .switchMap(() => 
+              this.service.allConcept()
+              .map((data) => new OntologyActions.Allconceptsuccess(data))
+              .catch(err => of(new OntologyActions.Allconceptfailure(err)))
+        )
+
     @Effect() createConcept$: Observable<Action> = this.actions$
         .ofType(OntologyActions.ADD_CONCEPT)
         .map((action: OntologyActions.Addconcept) => action.payload)

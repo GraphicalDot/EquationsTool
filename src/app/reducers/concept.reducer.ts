@@ -2,160 +2,180 @@ import { ActionReducer, Action, State } from '@ngrx/store';
 import { ConceptModel} from '../models/ontology.models';
 import * as ConceptActions from "../actions/ontology.actions"
 import {createSelector} from "reselect"
+import * as _ from 'lodash';
 
 export interface ConceptState {
     module_ids?: string[],
     modules?: Array<ConceptModel>
+    allmodules?: Array<ConceptModel>
     selectedModule?: ConceptModel| null,
     parent_id?: string| null,
     loading: boolean| null,
     loaded: boolean| null,
     error?: string,
     pages?: number,
-    module_count?: number
-
+    module_count?: number,
+    message?: string
 }
 
 const initialState: ConceptState = {
     module_ids: [],
     modules: [],
+    allmodules: [],
     selectedModule: null,
     loading: false,
     loaded: false, 
     error: null,
     parent_id: null,
     pages: null,
-    module_count: null
+    module_count: null,
+    message: null
 }
 
 
 export function ConceptReducer(state = initialState,  action: ConceptActions.Actions): ConceptState {
 
     switch(action.type){
-        case ConceptActions.SET_CONCEPT_PARENT_SUCCESS:
+            case ConceptActions.ALL_CONCEPT:
+                        return Object.assign({}, state, {
+                        loading: true,
+                        error: undefined,
+                        loaded: false,
+                    })
 
-              {
-                    return {
+            case ConceptActions.ALL_CONCEPT_FAILURE:
+                    return Object.assign({}, state, {
+                        loading: false,
+                          error: action.payload._body,
+                        loaded: true,
+                    })
+            
+
+
+            case ConceptActions.ALL_CONCEPT_SUCCESS:
+                    return Object.assign({}, state, {
+                        loading: false,
+                        allmodules: action.payload,
+                        loaded: true,
+                    })
+            
+
+            case ConceptActions.SET_CONCEPT_PARENT_SUCCESS:
+
+                    return Object.assign({}, state, {
                         loading: true,
                         error: undefined,
                         loaded: false,
                         parent_id: action.payload   
-                    }
-                }
+                    })
 
             case ConceptActions.LOAD_CONCEPT:
 
-              {
-                    return {
+                    return Object.assign({}, state, {
                         loading: true,
                         error: undefined,
                         loaded: false,
-                    }
-                }
+                    })
 
             case ConceptActions.LOAD_CONCEPT_SUCCESS:
-                     {
-                      return {
+                      return Object.assign({}, state, {
                           module_ids: action.payload.module_ids,
                           modules: action.payload.modules,
                           selectedModule: null,
                             loaded: true,
                           loading: false,
                           parent_id: state.parent_id,
-                        pages: action.payload.pages,
+                            pages: action.payload.pages,
                           module_count: action.payload.module_count
-                      }
-                }              
+                      })
 
             case ConceptActions.LOAD_CONCEPT_FAILURE:
-                    return {
-                          module_ids: undefined,
-                          modules: undefined,
-                          selectedModule: null,
-                          loaded: true,
-                          loading: false,
+                    return Object.assign({}, state, {
+                        loading: false,
                           error: action.payload._body,
-                          parent_id: state.parent_id
-
-
-                     }
-                        
+                        loaded: true,
+                    })
 
             case ConceptActions.ADD_CONCEPT:
-                    {
-                        return {
-                             loading: true,
-                            error: undefined,
-                            loaded: false
-                        }
-                    }
+                    return Object.assign({}, state, {
+                        loading: true,
+                        error: undefined,
+                        loaded: false,
+                    })
+
             case ConceptActions.ADD_CONCEPT_SUCCESS:
-                 return {
-                            module_ids: [ ...state.module_ids, action.payload.module_id],
-                            modules: Object.assign({}, state.modules, { [action.payload.module_id]: action.payload}),
-                            selectedModule: state.selectedModule,
+
+                    return Object.assign({}, state, {"modules": [...state.modules, action.payload.module],
+                                  "module_ids": [...state.module_ids, action.payload.module_id],
                             loaded: true,
                             loading: false,
-                            parent_id: state.parent_id,
-                            pages: state.pages,
-                            module_count: state.module_count
-
-                        };
+                            message: action.payload.message, 
+                                                        module_count: state.module_count +1,
+                            pages: Math.ceil((state.module_count+1)/15), 
+                                
+                                })
 
             case ConceptActions.ADD_CONCEPT_FAILURE:
-                    return {
-                            module_ids: state.module_ids,
-                            modules: state.modules,
-                            selectedModule: state.selectedModule,
-                            loaded: true,
-                            loading: false,
-                            error: action.payload._body,
-                            parent_id: state.parent_id,
-                            pages: state.pages,
-                            module_count: state.module_count
-                            
-                        };
+                    return Object.assign({}, state, {
+                        loading: false,
+                          error: action.payload._body,
+                        loaded: true,
+                    })
 
 
-            case ConceptActions.DELETE_DOMAIN:
-                    {
-                        return {
-                                loading: true,
-                                error: undefined,
-                                loaded: false,   
-                                parent_id: state.parent_id
-
-                            }
-                    }
+            case ConceptActions.DELETE_CONCEPT:
+                    return Object.assign({}, state, {
+                        loading: true,
+                        error: undefined,
+                        loaded: false,
+                    })
 
 
             case ConceptActions.DELETE_CONCEPT_SUCCESS:
-                    return {
-                            module_ids: state.module_ids,
-                            modules: state.modules,
-                            selectedModule: state.selectedModule,
-                            loaded: true,
-                            loading: false,
-                            error: action.payload._body,
-                            parent_id: state.parent_id
-                            
-                        }
+                        console.log(action.payload)
+                        console.log(action.payload.module_id)
+                        let stateclone = _.cloneDeep(state);
+                        
+                        const idToRemove = action.payload.module_id;
+                        
+                        const ids = stateclone.module_ids.filter((id) => id != action.payload.module_id)
+                        
+                        const newEntities = stateclone.modules.filter((id) => id.module_id != action.payload.module_id)
+
+                        return Object.assign({}, state, {
+                            modules: newEntities, loaded: true, loading: false, 
+                            module_ids: ids,
+                            module_count: state.module_count -1,
+                            pages: Math.ceil((state.module_count-1)/15), 
+                            message: action.payload.message
+                        });
             case ConceptActions.DELETE_CONCEPT_FAILURE:
-                    return {
-                            module_ids: state.module_ids,
-                            modules: state.modules,
-                            selectedModule: state.selectedModule,
-                            loaded: true,
-                            loading: false,
-                            error: action.payload._body,
-                            parent_id: state.parent_id
-                            
-                        }
+                    return Object.assign({}, state, {
+                        loading: false,
+                          error: action.payload._body,
+                        loaded: true,
+                    })
             case ConceptActions.SELECTED_CONCEPT:
+                    return Object.assign({}, state, {
+                        loading: true,
+                        error: undefined,
+                        loaded: false,
+                    })
+
             case ConceptActions.SELECTED_CONCEPT_FAILURE:
-             case ConceptActions.SELECTED_CONCEPT_SUCCESS:
+                    return Object.assign({}, state, {
+                        loading: false,
+                          error: action.payload._body,
+                        loaded: true,
+                    })
+            case ConceptActions.SELECTED_CONCEPT_SUCCESS:
+                    return Object.assign({}, state, {
+                        loading: false,
+                        selectedModule: action.payload,
+                        loaded: true,
+                    })
             
-                 return {
+/*                  return {
                         module_ids: state.module_ids,
                         modules: state.modules,
                         selectedModule: action.payload,
@@ -166,7 +186,7 @@ export function ConceptReducer(state = initialState,  action: ConceptActions.Act
                         module_count: state.module_count
 
                           }  
-
+ */
             default:
                 return state
 
@@ -193,6 +213,8 @@ export const Getconceptpages = (state: ConceptState) => state.pages;
 export const Getconceptcount = (state: ConceptState) => state.module_count;
 export const Getconcepterror = (state: ConceptState) => state.error;
 export const Getconceptloading = (state: ConceptState) => state.loading;
+export const Getallconcepts = (state: ConceptState) => state.allmodules;
+export const Getconceptmessage = (state: ConceptState) => state.message;
 
 
 /* 

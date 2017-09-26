@@ -165,6 +165,9 @@ export const getSelectedConcept = createSelector(getConceptAppState, fromConcept
 export const getConceptPages = createSelector(getConceptAppState, fromConcept.Getconceptpages)
 export const getConceptCount = createSelector(getConceptAppState, fromConcept.Getconceptcount)
 export const getConceptError = createSelector(getConceptAppState, fromConcept.Getconcepterror)
+export const getConceptLoading = createSelector(getConceptAppState, fromConcept.Getconceptloading)
+export const getConceptMessage = createSelector(getConceptAppState, fromConcept.Getconceptmessage)
+export const getAllConcepts = createSelector(getConceptAppState, fromConcept.Getallconcepts)
 
 
 

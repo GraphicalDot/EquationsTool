@@ -42,11 +42,13 @@ export class ConceptComponent implements OnInit {
     //@Input() domains: Array<DomainModel>;
     public domains$: Observable<any>;
     public user: UserModel
-    public concepts$: Observable<any>;
+    private concepts$: Observable<any>;
+    private allconcepts$: Observable<any>;
     public currentPage: number
-
-    public pages$: Observable<number>;    
-    public module_count$: Observable<number>;    
+    private myOptions
+    private pages$: Observable<number>;    
+    private module_count$: Observable<number>;    
+    private loading: boolean;
 
     @Output() selectedConceptModule = new EventEmitter<ConceptModel>();
     @Output() submitConcept = new EventEmitter<ConceptModel>();
@@ -59,6 +61,8 @@ export class ConceptComponent implements OnInit {
         //this.selected_domain = this.store.select("Selecteddomain")
         this.domains$ = this.store.select(fromRoot.getDomains);
         this.concepts$ = this.store.select(fromRoot.getConcepts);
+        this.allconcepts$ = this.store.select(fromRoot.getAllConcepts);
+        
         this.pages$ = this.store.select(fromRoot.getConceptPages)
         this.module_count$ = this.store.select(fromRoot.getConceptCount)
        // this.selectedDomain$ = this.store.select(fromRoot.getSelectdDomainId) 
@@ -79,12 +83,20 @@ export class ConceptComponent implements OnInit {
         });
 
 
+        this.store.select(fromRoot.getConcepts)
+        .subscribe(value => {
+            this.myOptions = value.map((object)=> object.module_name)
+            console.log(this.myOptions)
+        });
+
+
         this.store.select(fromRoot.getSelectedDomain)
             .filter(value => value != undefined)
             .subscribe(value => {
             this.selectedParentModule = value;
             console.log(value)
-            this.store.dispatch(new actions.Loadconcept({"parent_id": value.module_id, "user_id": this.loggedUser.user_id}))
+            this.store.dispatch(new actions.Loadconcept({"parent_id": value.module_id, "user_id": this.loggedUser.user_id, "skip": 0, "limit": 1000}))
+            this.store.dispatch(new actions.Allconcept())
 
         });
 
@@ -94,6 +106,27 @@ export class ConceptComponent implements OnInit {
             toast(value, 4000);
           })
             
+        
+          
+        this.store.select(fromRoot.getConceptError)
+              .filter((value) => value !== undefined && value !== null ) 
+              .subscribe(value =>{
+              toast(value, 4000);
+            })
+
+        this.store.select(fromRoot.getConceptMessage)
+              .filter((value) => value !== undefined && value !== null ) 
+              .subscribe(value =>{
+              toast(value, 4000);
+            })
+        
+        this.store.select(fromRoot.getConceptLoading)
+              .filter((value) => value !== undefined && value !== null ) 
+              .subscribe(value =>{
+                    this.loading = value
+            })
+
+
 
     };
         

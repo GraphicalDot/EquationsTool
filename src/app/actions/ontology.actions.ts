@@ -73,10 +73,35 @@ export const EDIT_CONCEPT_FAILURE = "[Concepts] Edit Concept Failure"
 
 
 
+export const ALL_CONCEPT = "[Concepts] All Concept"
+export class Allconcept implements Action{
+    readonly type = ALL_CONCEPT
+    constructor(){}
+}
+
+export const ALL_CONCEPT_SUCCESS = "[Concepts] All Concept Success"
+export class Allconceptsuccess implements Action{
+    readonly type = ALL_CONCEPT_SUCCESS
+    constructor(public payload: any){}
+}
+
+export const ALL_CONCEPT_FAILURE = "[Concepts] All Concept Failure"
+export class Allconceptfailure implements Action{
+    readonly type = ALL_CONCEPT_FAILURE
+    constructor(public payload: any){}
+}
+
+
+
+
+
+
 export class Loadconcept implements Action{
     readonly type = LOAD_CONCEPT
     constructor(public payload: any){}
 }
+
+
 
 
 
@@ -272,4 +297,10 @@ export type Actions = Loaddomain|
                         Selectedconceptsuccess|
                         Selectedconceptfailure|
                         
-                        Setconceptparentsuccess
+                        Setconceptparentsuccess|
+
+                        Allconcept|
+                        Allconceptsuccess|
+                        Allconceptfailure
+
+                        

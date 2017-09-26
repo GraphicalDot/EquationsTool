@@ -1,3 +1,4 @@
+import { SubconceptState } from '../../../reducers/subconcept.reducer';
 import { Observable } from 'rxjs/Rx';
 import { JQueryStyleEventEmitter } from 'rxjs/observable/FromEventObservable';
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
@@ -9,11 +10,11 @@ import {NanoskillModel} from  "../../../models/nanoskill.model";
 
 import { Store } from '@ngrx/store';
 import {ApplicationStore} from "../../../app.store"
-import * as OntologyActions from "../../../actions/ontology.actions"
-import * as fromRoot from "../../../reducers"
-import * as Subconceptactions from "../../../actions/subconcept.actions"
-import * as Nanoskillactions from "../../../actions/nanoskill.actions"
-import * as Questionactions from "../../../actions/question.actions"
+import * as OntologyActions from '../../../actions/ontology.actions';
+import * as fromRoot from '../../../reducers';
+import * as Subconceptactions from '../../../actions/subconcept.actions';
+import * as Nanoskillactions from '../../../actions/nanoskill.actions';
+import * as Questionactions from '../../../actions/question.actions';
 
 
 @Component({
@@ -119,19 +120,22 @@ export class OntologyComponent implements OnInit {
     _submitConcept(concept: ConceptModel){
         console.log(concept)
         //this.service.addConcept(concept)
-        this.store.dispatch(new OntologyActions.Addconcept(concept))
+        var data = Object.assign({}, concept, {"parent_id": this.selectedDomain.module_id, "user_id": this.user.user_id})
+        this.store.dispatch(new OntologyActions.Addconcept(data))
     }
 
     _submitNanoskill(nanoskill: NanoskillModel){
         console.log(nanoskill)
         //this.service.addConcept(concept)
-        this.store.dispatch(new Nanoskillactions.Addnanoskill(nanoskill))
+        var data = Object.assign({}, nanoskill, {"parent_id": this.selectedSubconcept.module_id, "user_id": this.user.user_id})
+        this.store.dispatch(new Nanoskillactions.Addnanoskill(data))
 
     }
 
     _submitSubConcept(subconcept: SubconceptModel){
         console.log(subconcept)
         //this.service.addConcept(concept)
+        var data = Object.assign({}, subconcept, {"parent_id": this.selectedConcept.module_id, "user_id": this.user.user_id})
         this.store.dispatch(new Subconceptactions.Addsubconcept(subconcept))
 
     }
@@ -150,6 +154,18 @@ export class OntologyComponent implements OnInit {
         
     }
 
+   _deleteConcept(concept: ConceptModel){
+        //this.store.dispatch(new OntologyActions.Deleteconcept({"module": concept, "user": this.user}))
+        
+    }
+   _deleteSubconcept(subconcept: SubconceptModel){
+        this.store.dispatch(new Subconceptactions.Deletesubconcept({"module": subconcept, "user": this.user}))
+        
+    }
+   _deleteNanoskill(nanoskill: NanoskillModel){
+        this.store.dispatch(new Nanoskillactions.Deletenanoskill({"module": nanoskill, "user": this.user}))
+        
+    }
 
   
 

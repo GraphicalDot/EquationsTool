@@ -1,3 +1,4 @@
+import { Message } from '@angular/compiler/src/i18n/i18n_ast';
 import { ActionReducer, Action, State } from '@ngrx/store';
 import { DomainModel} from '../models/ontology.models';
 import {createSelector} from "reselect"
@@ -37,20 +38,17 @@ export function DomainReducer(state = initialState, action: DomainActions.Action
 
     switch(action.type){
             case DomainActions.LOAD_DOMAIN:
-                {
-                    return {
+                    return Object.assign({}, state, {
                         loading: true,
                         error: undefined,
                         loaded: false,   
                         pages: undefined,
                         module_count: undefined
-                    }
-                }
+                    })
 
 
             case DomainActions.LOAD_DOMAIN_SUCCESS:
-                  {
-                      return {
+                      return Object.assign({}, state, {
                           module_ids: action.payload.module_ids,
                           modules: action.payload.modules,
                           selectedModule: state.selectedModule,
@@ -59,11 +57,10 @@ export function DomainReducer(state = initialState, action: DomainActions.Action
                           pages: action.payload.pages,
                           module_count: action.payload.module_count
 
-                        }
-                }             
+                        })
 
             case DomainActions.LOAD_DOMAIN_FAILURE:
-                    return {
+                    return Object.assign({}, state, {
                           module_ids: undefined,
                           modules: undefined,
                           selectedModule: null,
@@ -72,16 +69,15 @@ export function DomainReducer(state = initialState, action: DomainActions.Action
                           error: action.payload._body
 
 
-                     }
+                     })
             
             case DomainActions.ADD_DOMAIN:
-                    {
-                        return {
+                        return Object.assign({}, state, {
                              loading: true,
                             error: undefined,
                             loaded: false
-                        }
-                    }
+                        
+                    })
 
             case DomainActions.ADD_DOMAIN_SUCCESS:
                 console.log(action.payload.module_id)
@@ -97,23 +93,22 @@ export function DomainReducer(state = initialState, action: DomainActions.Action
                             loading: false
                         });
  */
-                return Object.assign({}, state, {"modules": [...state.modules, action.payload.modules],
+                return Object.assign({}, state, {"modules": [...state.modules, action.payload.module],
                                   "module_ids": [...state.module_ids, action.payload.module_id],
-                                                            selectedModule: state.selectedModule,
                             loaded: true,
-                            loading: false
+                            loading: false,
+                            message: action.payload.message, 
+                            module_count: state.module_count +1,
+                            pages: Math.ceil((state.module_count+1)/15), 
                                 
                                 })
 
             case DomainActions.ADD_DOMAIN_FAILURE:
-                    return {
-                            module_ids: state.module_ids,
-                            modules: state.modules,
-                            selectedModule: state.selectedModule,
+                    return Object.assign({}, state, {
                             loaded: true,
                             loading: false,
                             error: action.payload._body
-                        };
+                        })
 
 
             case DomainActions.DELETE_DOMAIN:

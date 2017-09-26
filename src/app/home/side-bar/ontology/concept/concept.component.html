@@ -11,6 +11,13 @@
     </form>
 </div>
 
+<div class="row" *ngIf="loading">
+  <div materialize class="progress">
+      <div class="indeterminate"></div>
+  </div>
+
+</div>
+
 <!--When clicking on the +permission button the permission_module changes which then provides us the module_id on module.module_id
     When changing the  users, a new api call is being made, which fetched the user and then changes the permission object which then redered into this 
     permission form, On changing the permission for a particular user, subit button has to be clicked thich then makes an api call to the backend 
@@ -106,16 +113,63 @@
     <div class="col s12">
        <form materialize class="col s12" #form="ngForm" (ngSubmit)="submitForm(form.value)">
           <div class="row">
-              <div class="input-field col s4">
+              <div class="input-field col s6">
                   <input id="icon_prefix" type="text" class="validate"  [(ngModel)]="module_name" name="module_name" required ng-pristine>
                   <label>Name</label>
               </div>
-              <div class="input-field col s4">
-                  <input id="icon_telephone" type="tel" class="validate"  [(ngModel)]="description" name="description" required>
+              <div class="input-field col s6">
+                  <input id="icon_telephone" type="text" class="validate"  [(ngModel)]="description" name="description" required>
                   <label>Description</label>
               </div>
               
           </div>
+
+        <div class="row">
+              <div class="input-field col s6">
+
+                <select [(ngModel)]="prereq_modules"   name="prereq_modules" [materializeSelectOptions]="selectOptions" multiple materialize="material_select">
+                        <option value="" disabled selected>Prerequisite Concepts</option>
+                      <option *ngFor="let module of myOptions" value="module.module_id">{{module.module_name}}</option>
+                </select>
+              </div>
+              <div class="input-field col s6">
+                  <input id="icon_telephone" type="text" class="validate"  [(ngModel)]="difficulty_level" name="difficulty_level" required>
+                  <label>Difficulty_level</label>
+              </div>
+              
+            
+        </div>
+
+                <div class="row">
+              <div class="input-field col s6">
+
+                <select [(ngModel)]="prereq_concepts_other_domains"   name="prereq_concepts_other_domains" multiple [materializeSelectOptions]="selectOptions" materialize="material_select">
+                        <option value="" disabled selected>Prerequisite Concepts Other Domains</option>
+                      <option *ngFor="let module of allconcepts$| async" [ngValue]="module.module_id">{{module.module_name}}</option>
+                </select>
+              </div>
+              
+            
+        </div>
+
+<!-- 
+        <div class="row">
+              <div class="input-field col s6">
+
+                <select [(ngModel)]="prereq_concepts"   name="prereq_concepts" [materializeSelectOptions]="selectOptions" materialize="material_select">
+                        <option value="" disabled selected>Prerequisite Concepts</option>
+                      <option *ngFor="let module of concepts" [ngValue]="variable.module_id">{{variable.module_name}}</option>
+                </select>
+              </div>
+              <div class="input-field col s6">
+                  <input id="icon_telephone" class="validate"  [(ngModel)]="difficulty_level" name="difficulty_level" required>
+                  <label>Difficulty_level</label>
+              </div>
+              
+        </div> -->
+
+
+
           <button class="btn waves-effect waves-light" type="submit" name="action">Submit
               <i class="material-icons right">send</i>
           </button>
