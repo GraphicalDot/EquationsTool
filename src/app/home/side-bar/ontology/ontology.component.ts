@@ -93,6 +93,7 @@ export class OntologyComponent implements OnInit {
     }
 
     _selectedConcept(concept: ConceptModel){
+        console.log(concept)
         this.store.dispatch(new OntologyActions.Selectedconcept(concept))
         this.store.dispatch(new Subconceptactions.Setsubconceptparentsuccess(this.selectedConcept.module_id))
         

@@ -222,6 +222,7 @@ export class ConceptComponent implements OnInit {
 
     //This will be called when a user clicks on the add children: Add subconcpts button
     selectModule(module) {
+        console.log(module)
         this.selectedConceptModule.emit(module);
     }
 

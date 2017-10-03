@@ -37,6 +37,12 @@ export class OntologyEffects {
         
 
 
+    @Effect() SelectedConcept$: Observable<Action> = this.actions$
+        .ofType(OntologyActions.SELECTED_CONCEPT)
+        .map((action: OntologyActions.Selectedconcept) => action.payload)
+        .map((payload) => new OntologyActions.Selectedconceptsuccess(payload))
+        
+
 
 
     @Effect() loadDomains$: Observable<Action> = this.actions$
