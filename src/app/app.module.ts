@@ -75,6 +75,7 @@ import {NgxPaginationModule} from 'ngx-pagination';
 import { TreeModule } from 'angular-tree-component';
 import { Ng2FileInputModule } from 'ng2-file-input'; // <-- import the module
 import { SharedModule } from './shared/shared.module';
+import { AngularMultiSelectModule } from 'angular2-multiselect-dropdown/angular2-multiselect-dropdown';
 
 /**
  * storeFreeze prevents state from being mutated. When mutation occurs, an
@@ -124,6 +125,7 @@ children: [
     NgxPaginationModule, // <-- import the module
     ReactiveFormsModule,
     SharedModule,
+    AngularMultiSelectModule,
      Ng2FileInputModule.forRoot(      {
          dropText:"Drop file here",
          browseText:"Browse",

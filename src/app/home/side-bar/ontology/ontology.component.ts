@@ -122,6 +122,7 @@ export class OntologyComponent implements OnInit {
         //this.service.addConcept(concept)
         var data = Object.assign({}, concept, {"parent_id": this.selectedDomain.module_id, "user_id": this.user.user_id})
         this.store.dispatch(new OntologyActions.Addconcept(data))
+        
     }
 
     _submitNanoskill(nanoskill: NanoskillModel){
@@ -147,6 +148,14 @@ export class OntologyComponent implements OnInit {
         this.store.dispatch(new OntologyActions.Editdomain({"domain": domain, "user": this.user}))
     }
 
+    _editConcept(concept: ConceptModel){
+        console.log(concept)
+        //this.service.editDomain(domain)
+        this.store.dispatch(new OntologyActions.Editconcept({"module": concept, "user": this.user}))
+    }
+
+
+
 
    _deleteDomain(domain: DomainModel){
         console.log("Domain That needs to be deleted" + domain)
@@ -155,8 +164,9 @@ export class OntologyComponent implements OnInit {
     }
 
    _deleteConcept(concept: ConceptModel){
-        //this.store.dispatch(new OntologyActions.Deleteconcept({"module": concept, "user": this.user}))
-        
+       console.log(concept)
+        this.store.dispatch(new OntologyActions.Deleteconcept({"module": concept, "user": this.user}))
+   
     }
    _deleteSubconcept(subconcept: SubconceptModel){
         this.store.dispatch(new Subconceptactions.Deletesubconcept({"module": subconcept, "user": this.user}))

@@ -79,6 +79,15 @@ export class OntologyService {
       //.subscribe(action => this.store.dispatch({ type: ONTOLOGY_ACTIONS.EDIT_DOMAIN, payload: domain }));
   }
   
+    Editconcept(payload) {
+        let headers = new Headers(this.headerContent);
+        let options = new RequestOptions({headers});
+        return this.http.put(this.CONCEPT_API_URL, JSON.stringify(payload))
+        .map(res => res.json()["data"])
+      //.subscribe(action => this.store.dispatch({ type: ONTOLOGY_ACTIONS.EDIT_DOMAIN, payload: domain }));
+  }
+
+
     deleteDomain(payload) {
 
       let params = new URLSearchParams();
@@ -89,6 +98,21 @@ export class OntologyService {
         //let options = new RequestOptions({headers});   
         let options = new RequestOptions({search: params});  
       var url = this.DOMAIN_API_URL
+      return this.http.delete(url, options)
+      .map(res => res.json()["data"])
+      
+    }
+
+    deleteConcept(payload) {
+
+      let params = new URLSearchParams();
+      params.set("user_id", payload.user.user_id)
+      params.set("module_id", payload.module.module_id)
+
+      let headers = new Headers(this.headerContent);
+        //let options = new RequestOptions({headers});   
+        let options = new RequestOptions({search: params});  
+      var url = this.CONCEPT_API_URL
       return this.http.delete(url, options)
       .map(res => res.json()["data"])
       

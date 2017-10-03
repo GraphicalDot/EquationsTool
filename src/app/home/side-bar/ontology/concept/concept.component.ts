@@ -15,6 +15,8 @@ import * as actions from '../../../../actions/ontology.actions';
 import * as Permissionactions from '../../../../actions/permissions.actions'
 import {NgxPaginationModule} from 'ngx-pagination';
 import { toast } from 'angular2-materialize';
+import * as _ from 'lodash';
+
 
 @Component({
     selector: 'app-concept',
@@ -35,7 +37,7 @@ export class ConceptComponent implements OnInit {
 
     public moduleCreate: boolean
     public moduleEdit: boolean
-    public module: ConceptModel;
+    public module
     //selected_domain: DomainModel;
     blooms= ["remembering", "understanding", "applyinging", "analyzing","synthesizing","evaluating"]
     //@Input() domain: Observable<DomainModel>;
@@ -43,12 +45,27 @@ export class ConceptComponent implements OnInit {
     public domains$: Observable<any>;
     public user: UserModel
     private concepts$: Observable<any>;
-    private allconcepts$: Observable<any>;
     public currentPage: number
-    private myOptions
+    private myConcepts
     private pages$: Observable<number>;    
     private module_count$: Observable<number>;    
     private loading: boolean;
+    private preReqModulesOtherDomainsSettings = {};
+    private preReqModulesSettings= {}
+    private bloomTaxonomySettings = {}
+    private difficultySettings = {}
+                            
+    private dropdownList =  [];
+    private bloomTaxonomyData = [];
+    private difficultyData = [];
+
+    private allconcepts = []
+    private prereq_modules_all_parents = []
+    private prereq_modules = []
+    private difficulty
+    private bloom_taxonomy = []
+    private module_name: string 
+    private module_id: string
 
     @Output() selectedConceptModule = new EventEmitter<ConceptModel>();
     @Output() submitConcept = new EventEmitter<ConceptModel>();
@@ -61,7 +78,6 @@ export class ConceptComponent implements OnInit {
         //this.selected_domain = this.store.select("Selecteddomain")
         this.domains$ = this.store.select(fromRoot.getDomains);
         this.concepts$ = this.store.select(fromRoot.getConcepts);
-        this.allconcepts$ = this.store.select(fromRoot.getAllConcepts);
         
         this.pages$ = this.store.select(fromRoot.getConceptPages)
         this.module_count$ = this.store.select(fromRoot.getConceptCount)
@@ -75,19 +91,70 @@ export class ConceptComponent implements OnInit {
 
     }
 
-    ngOnInit(
-    ){
+    ngOnInit(){
+            this.bloomTaxonomyData = [{"id": 1, "itemName": "Applying"}, {"id": 2, "itemName": "Analyzing"}, 
+                                {"id": 3, "itemName": "Evaluating"}, {"id": 4, "itemName": "Synthesizing"}, 
+                                {"id": 5, "itemName": "Comprehending"}, {"id": 6, "itemName": "Remembering"} ]
+
+            this.difficultyData = [{"id": 1, "itemName": "First"}, {"id": 2, "itemName": "Second"}, 
+                                {"id": 3, "itemName": "Third"}, 
+                                {"id": 4, "itemName": "Fourth"}, {"id": 6, "itemName": "Fifth"} ]
+ 
+                this.preReqModulesOtherDomainsSettings = { 
+                                  singleSelection: false, 
+                                  text:"Prequisite Concepts  Other Domains",
+                                  selectAllText:'Select All',
+                                  //unSelectAllText:'UnSelect All',
+                                  //enableSearchFilter: true,
+                                 // classes:"myclass custom-class"
+                                };            
+                this.preReqModulesSettings = { 
+                                  singleSelection: false, 
+                                  text:"Prerequisite Concepts",
+                                  //selectAllText:'Select All',
+                                  //unSelectAllText:'UnSelect All',
+                                  //classes:"myclass custom-class"
+                                };         
+
+                this.bloomTaxonomySettings = { 
+                                  singleSelection: false, 
+                                  text:"Blooms Taxonomy",
+                                  //selectAllText:'Select All',
+                                  //unSelectAllText:'UnSelect All',
+                                  //classes:"myclass custom-class"
+                                };         
+                
+                this.difficultySettings = { 
+                                  singleSelection: true, 
+                                  text:"Difficulty Level",
+                                  //selectAllText:'Select All',
+                                  //unSelectAllText:'UnSelect All',
+                                  //classes:"myclass custom-class"
+                                };         
+
+
+
         this.store.select(fromRoot.getAuthenticatedUser)
         .subscribe(value => {
             this.loggedUser = value
         });
 
+        this.store.select(fromRoot.getAllConcepts)
+        .subscribe(value => {
+            this.allconcepts = value.map((object)=> {
+                return {"id": object.module_id, "itemName": object.module_name }
+            })
+        });
+
 
         this.store.select(fromRoot.getConcepts)
         .subscribe(value => {
-            this.myOptions = value.map((object)=> object.module_name)
-            console.log(this.myOptions)
-        });
+
+            this.myConcepts = value.map((object)=> {
+                return {"id": object.module_id, "itemName": object.module_name }
+            })
+        }
+    );
 
 
         this.store.select(fromRoot.getSelectedDomain)
@@ -96,8 +163,9 @@ export class ConceptComponent implements OnInit {
             this.selectedParentModule = value;
             console.log(value)
             this.store.dispatch(new actions.Loadconcept({"parent_id": value.module_id, "user_id": this.loggedUser.user_id, "skip": 0, "limit": 1000}))
+            //This will fetch all the modules irrespective of the parent_id, in this case irrespective of the parent domain id
             this.store.dispatch(new actions.Allconcept())
-
+            this.prereq_modules = []
         });
 
         this.store.select(fromRoot.getConceptPermissionError)
@@ -139,24 +207,63 @@ export class ConceptComponent implements OnInit {
 
 
     deleteModule(module) {
+
         this.deleteConcept.emit(module);
+        this.prereq_modules = []
+        this.prereq_modules_all_parents = []
     }
 
     //This is when a user clicks ont he red button on the top, which will open a new form to create a new module
     addModule(){
-      this.moduleCreate = true;    
+      this.moduleCreate = true;   
+      this.moduleEdit = false
     }
     
 
     //This will be called when a user clicks on the add children: Add subconcpts button
     selectModule(module) {
-        console.log("This is the module which got selected")
         this.selectedConceptModule.emit(module);
     }
 
+    modify_data(data){
+        return data.map((object)=> {
+            return {"module_id": object.id, "module_name": object.itemName}
+        })
+    }
+
+    convert_data(data){
+        return data.map((object)=> {
+            return {"id": object.module_id, "itemName": object.module_name}
+        })
+    }
+
+
     submitForm(module: ConceptModel){
         this.moduleCreate = false;  
-        this.submitConcept.emit(module);
+        
+        var data = Object.assign({}, module, {"prereq_modules_all_parents": this.modify_data(this.prereq_modules_all_parents), 
+                                        "prereq_modules": this.modify_data(this.prereq_modules), 
+                                        "difficulty": this.modify_data(this.difficulty), 
+                                        "bloom_taxonomy": this.modify_data(this.bloom_taxonomy)                                      
+                })
+
+        this.submitConcept.emit(data);
+        this.prereq_modules = []
+        this.prereq_modules_all_parents = []
+    }
+
+    submitEditForm(module: ConceptModel){
+        event.preventDefault()
+        var data = Object.assign({}, this.module, {"prereq_modules_all_parents": this.modify_data(this.module.prereq_modules_all_parents), 
+                                        "prereq_modules": this.modify_data(this.module.prereq_modules), 
+                                        "difficulty": this.modify_data(this.module.difficulty), 
+                                        "bloom_taxonomy": this.modify_data(this.module.bloom_taxonomy)                                      
+                })
+
+        console.log(data)
+        this.editConcept.emit(data);
+
+
     }
 
     
@@ -164,12 +271,21 @@ export class ConceptComponent implements OnInit {
       this.moduleEdit= true;    
       this.moduleCreate = false; //This will close the add new nanoskill form just to avoid confusion   
       this.module = module;
+      console.log("Edit clicked")
+      console.log(module)
+      this.module =  _.cloneDeep(module);
+      var taxonomy = this.module.bloom_taxonomy
+      var difficulty = this.module.difficulty
+      var prereq_modules_all_parents = this.module.prereq_modules_all_parents
+      var prereq_modules = this.module.prereq_modules
+      this.module.bloom_taxonomy = this.convert_data(taxonomy)
+      this.module.difficulty = this.convert_data(difficulty)
+      this.module.prereq_modules_all_parents = this.convert_data(prereq_modules_all_parents)
+      this.module.prereq_modules = this.convert_data(prereq_modules)
+
     }
 
     //When user clicks on submit after editing the module
-    editModuleSubmit(module){
-      this.editConcept.emit(module);
-    }
 
 
     pageConceptChanged(input){
@@ -219,7 +335,5 @@ export class ConceptComponent implements OnInit {
                                                     "module_id": this.permission_module.module_id,
                                                     "permission": value}))
     }
-
-
 
 }

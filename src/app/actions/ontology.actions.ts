@@ -76,7 +76,7 @@ export const EDIT_CONCEPT_FAILURE = "[Concepts] Edit Concept Failure"
 export const ALL_CONCEPT = "[Concepts] All Concept"
 export class Allconcept implements Action{
     readonly type = ALL_CONCEPT
-    constructor(){}
+    constructor(){ console.log("All concepts called")}
 }
 
 export const ALL_CONCEPT_SUCCESS = "[Concepts] All Concept Success"
@@ -173,7 +173,7 @@ export class Addconceptfailure implements Action{
 }
 export class Deleteconcept implements Action{
     readonly type = DELETE_CONCEPT
-    constructor(public payload: ConceptModel){}
+    constructor(public payload: any){}
 }
 export class Deleteconceptsuccess implements Action{
     readonly type = DELETE_CONCEPT_SUCCESS
@@ -185,15 +185,15 @@ export class Deleteconceptfailure implements Action{
 }
 export class Editconcept implements Action{
     readonly type = EDIT_CONCEPT
-    constructor(public payload: ConceptModel){}
+    constructor(public payload: any){}
 }
 export class Editconceptsuccess implements Action{
     readonly type = EDIT_CONCEPT_SUCCESS
-    constructor(public payload: ConceptModel){}
+    constructor(public payload: any){}
 }
 export class Editconceptfailure implements Action{
     readonly type = EDIT_CONCEPT_FAILURE
-    constructor(public payload: ConceptModel){}
+    constructor(public payload: any){}
 }
 
 
@@ -286,9 +286,10 @@ export type Actions = Loaddomain|
                         Editdomainsuccess|
                         Editconceptsuccess|
 
-                        Editdomainsuccess|
-                        Editconceptsuccess|
+                        Editdomainfailure|
+                        Editconceptfailure|
 
+                        
 
                         Selecteddomain|
                         Selecteddomainsuccess|

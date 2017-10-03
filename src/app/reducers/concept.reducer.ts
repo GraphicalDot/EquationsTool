@@ -63,9 +63,9 @@ export function ConceptReducer(state = initialState,  action: ConceptActions.Act
             case ConceptActions.SET_CONCEPT_PARENT_SUCCESS:
 
                     return Object.assign({}, state, {
-                        loading: true,
+                        loading: false,
                         error: undefined,
-                        loaded: false,
+                        loaded: true,
                         parent_id: action.payload   
                     })
 
@@ -107,12 +107,14 @@ export function ConceptReducer(state = initialState,  action: ConceptActions.Act
 
                     return Object.assign({}, state, {"modules": [...state.modules, action.payload.module],
                                   "module_ids": [...state.module_ids, action.payload.module_id],
+                                    "allmodules": [...state.allmodules, {"module_id": action.payload.module_id, "module_name": action.payload.module.module_name }],
+                                  
                             loaded: true,
                             loading: false,
                             message: action.payload.message, 
                                                         module_count: state.module_count +1,
                             pages: Math.ceil((state.module_count+1)/15), 
-                                
+                            
                                 })
 
             case ConceptActions.ADD_CONCEPT_FAILURE:
@@ -142,9 +144,12 @@ export function ConceptReducer(state = initialState,  action: ConceptActions.Act
                         
                         const newEntities = stateclone.modules.filter((id) => id.module_id != action.payload.module_id)
 
+                        const newallmodules = stateclone.allmodules.filter((module) => module.module_id != action.payload.module_id)
+
                         return Object.assign({}, state, {
                             modules: newEntities, loaded: true, loading: false, 
                             module_ids: ids,
+                            allmodules: newallmodules,
                             module_count: state.module_count -1,
                             pages: Math.ceil((state.module_count-1)/15), 
                             message: action.payload.message
@@ -172,6 +177,35 @@ export function ConceptReducer(state = initialState,  action: ConceptActions.Act
                     return Object.assign({}, state, {
                         loading: false,
                         selectedModule: action.payload,
+                        loaded: true,
+                    })
+
+
+            case ConceptActions.EDIT_CONCEPT:
+                    return Object.assign({}, state, {
+                        loading: true,
+                        error: undefined,
+                        loaded: false,
+                    })
+
+
+            case ConceptActions.EDIT_CONCEPT_SUCCESS:
+                        console.log(action.payload)
+                        let estateclone = _.cloneDeep(state);
+                        
+                        var newModules = estateclone.modules
+                        var indexOfObject = newModules.findIndex(id => id.module_id === action.payload.module_id);
+
+                        newModules[indexOfObject] = action.payload
+
+                        return Object.assign({}, state, {
+                            modules: newModules, loaded: true, loading: false, 
+                        });
+
+            case ConceptActions.EDIT_CONCEPT_FAILURE:
+                    return Object.assign({}, state, {
+                        loading: false,
+                          error: action.payload._body,
                         loaded: true,
                     })
             

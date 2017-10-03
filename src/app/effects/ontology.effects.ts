@@ -67,6 +67,15 @@ export class OntologyEffects {
               .catch(err => of(new OntologyActions.Deletedomainfailure(err)))
         );
 
+    @Effect() deleteConcept$: Observable<Action> = this.actions$
+        .ofType(OntologyActions.DELETE_CONCEPT)
+        .map((action: OntologyActions.Deleteconcept) => action.payload)
+        .switchMap((domain) =>
+             
+              this.service.deleteConcept(domain)
+              .map((domain_id) => new OntologyActions.Deleteconceptsuccess(domain_id))
+              .catch(err => of(new OntologyActions.Deleteconceptfailure(err)))
+        );
 
 
     
@@ -95,6 +104,16 @@ export class OntologyEffects {
               .map((concept: ConceptModel) => new OntologyActions.Addconceptsuccess(concept))
               .catch(err => of(new OntologyActions.Addconceptfailure(err)))
         );
+
+    @Effect() editConcept$: Observable<Action> = this.actions$
+        .ofType(OntologyActions.EDIT_CONCEPT)
+        .map((action: OntologyActions.Editconcept) => action.payload)
+        .switchMap((payload) => 
+              this.service.Editconcept(payload)
+              .map((concept: ConceptModel) => new OntologyActions.Editconceptsuccess(concept))
+              .catch(err => of(new OntologyActions.Editconceptfailure(err)))
+        );
+
 
 
 }
