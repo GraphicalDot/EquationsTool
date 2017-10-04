@@ -68,8 +68,9 @@ export class SubconceptEffects {
 
     @Effect() Allsubconcepts$: Observable<Action> = this.actions$
         .ofType(actions.ALL_SUBCONCEPT)
-        .switchMap(() => 
-              this.service.Allsubconcept()
+         .map((action: actions.Allsubconcept) => action.payload)
+        .switchMap((payload) => 
+              this.service.Allsubconcept(payload)
               .map((data) => new actions.Allsubconceptsuccess(data))
               .catch(err => of(new actions.Allsubconceptfailure(err)))
         )

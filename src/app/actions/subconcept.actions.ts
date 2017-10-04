@@ -41,7 +41,7 @@ export type Actions =
 export const ALL_SUBCONCEPT = "[Subconcepts] All Subconcept"
 export class Allsubconcept implements Action{
     readonly type = ALL_SUBCONCEPT
-    constructor(){ console.log("All subconcepts called")}
+    constructor(public payload: any){ console.log("All subconcepts called")}
 }
 
 export const ALL_SUBCONCEPT_SUCCESS = "[Subconcepts] All Subconcept Success"

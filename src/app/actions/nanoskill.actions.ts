@@ -43,7 +43,7 @@ export type Actions =
 export const ALL_NANOSKILL = "[Nanoskills] All Nanoskill"
 export class Allnanoskill implements Action{
     readonly type = ALL_NANOSKILL
-    constructor(){ }
+    constructor(public payload: any){ }
 }
 
 export const ALL_NANOSKILL_SUCCESS = "[Nanoskills] All Nanoskill Success"

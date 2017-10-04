@@ -134,11 +134,12 @@ export class OntologyComponent implements OnInit {
 
     }
 
-    _submitSubConcept(subconcept: SubconceptModel){
+    _submitSubconcept(subconcept: SubconceptModel){
         console.log(subconcept)
+        console.log(this.selectedConcept)
         //this.service.addConcept(concept)
         var data = Object.assign({}, subconcept, {"parent_id": this.selectedConcept.module_id, "user_id": this.user.user_id})
-        this.store.dispatch(new Subconceptactions.Addsubconcept(subconcept))
+        this.store.dispatch(new Subconceptactions.Addsubconcept(data))
 
     }
 
@@ -155,6 +156,17 @@ export class OntologyComponent implements OnInit {
         this.store.dispatch(new OntologyActions.Editconcept({"module": concept, "user": this.user}))
     }
 
+    _editSubconcept(subconcept: SubconceptModel){
+        console.log(subconcept)
+        //this.service.editDomain(domain)
+        this.store.dispatch(new Subconceptactions.Editsubconcept({"module": subconcept, "user": this.user}))
+    }
+
+    _editNanoskill(nanoskill: NanoskillModel){
+        console.log(nanoskill)
+        //this.service.editDomain(domain)
+        this.store.dispatch(new Nanoskillactions.Editnanoskill({"module": nanoskill, "user": this.user}))
+    }
 
 
 

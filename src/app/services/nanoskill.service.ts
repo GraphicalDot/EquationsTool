@@ -31,41 +31,39 @@ export class NanoskillService {
   
     
     Addnanoskillservice(payload): Observable<NanoskillModel> {
-        let params = new URLSearchParams();
-        params.set("user_id", payload.user.user_id)
-        let headers = new Headers(this.headerContent);
-        let options = new RequestOptions({search: params});   
-        return this.http.post(this.NANOSKILL_API_URL, JSON.stringify(payload.module))
+       return this.http.post(this.NANOSKILL_API_URL, JSON.stringify(payload))
           .map(res => res.json()["data"])
     }
   
   
   
     Editnanoskillservice(payload):  Observable<NanoskillModel> {
-        let params = new URLSearchParams();
-        params.set("user_id", payload.user.user_id)
         let headers = new Headers(this.headerContent);
-        let options = new RequestOptions({search: params});   
-        return this.http.post(this.NANOSKILL_API_URL, JSON.stringify(payload.module))
-      .map(res => res.json()["data"])
+        let options = new RequestOptions({headers});
+        return this.http.put(this.NANOSKILL_API_URL, JSON.stringify(payload))
+        .map(res => res.json()["data"])
       
     }
 
     Deletenanoskillservice(payload):  Observable<NanoskillModel> {
-        let params = new URLSearchParams();
-        params.set("user_id", payload.user.user_id)
-        let headers = new Headers(this.headerContent);
-        let options = new RequestOptions({search: params});   
-        return this.http.delete(this.NANOSKILL_API_URL, JSON.stringify(payload.module))
+      let params = new URLSearchParams();
+      params.set("user_id", payload.user.user_id)
+      params.set("module_id", payload.module.module_id)
+
+      let headers = new Headers(this.headerContent);
+        //let options = new RequestOptions({headers});   
+        let options = new RequestOptions({search: params});  
+      var url = this.NANOSKILL_API_URL
+      return this.http.delete(url, options)
       .map(res => res.json()["data"])
-      
-  
   }
 
-    Allnanoskill(): Observable<NanoskillModel> {
-        return this.http.get(this.ALLNANOSKILL)
+    Allnanoskill(payload): Observable<NanoskillModel> {
+        let params = new URLSearchParams();
+      params.set("parent_id", payload.parent_id)
+      let options = new RequestOptions({search: params}); 
+        return this.http.get(this.ALLNANOSKILL, options)
           .map(res => res.json()["data"])
     }
-
 
 }

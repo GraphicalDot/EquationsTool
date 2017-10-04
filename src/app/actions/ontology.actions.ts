@@ -76,7 +76,7 @@ export const EDIT_CONCEPT_FAILURE = "[Concepts] Edit Concept Failure"
 export const ALL_CONCEPT = "[Concepts] All Concept"
 export class Allconcept implements Action{
     readonly type = ALL_CONCEPT
-    constructor(){ console.log("All concepts called")}
+    constructor(public payload: any){ console.log("All concepts called")}
 }
 
 export const ALL_CONCEPT_SUCCESS = "[Concepts] All Concept Success"

@@ -164,7 +164,7 @@ export class ConceptComponent implements OnInit {
             console.log(value)
             this.store.dispatch(new actions.Loadconcept({"parent_id": value.module_id, "user_id": this.loggedUser.user_id, "skip": 0, "limit": 1000}))
             //This will fetch all the modules irrespective of the parent_id, in this case irrespective of the parent domain id
-            this.store.dispatch(new actions.Allconcept())
+            this.store.dispatch(new actions.Allconcept({"parent_id": this.selectedParentModule.module_id}))
             this.prereq_modules = []
         });
 

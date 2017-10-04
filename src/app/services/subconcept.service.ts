@@ -31,38 +31,40 @@ export class SubconceptService {
   
     
     Addsubconceptservice(payload): Observable<SubconceptModel> {
-        let params = new URLSearchParams();
-        params.set("user_id", payload.user.user_id)
-        let headers = new Headers(this.headerContent);
-        let options = new RequestOptions({search: params});   
-        return this.http.post(this.SUBCONCEPT_API_URL, JSON.stringify(payload.module))
+       return this.http.post(this.SUBCONCEPT_API_URL, JSON.stringify(payload))
           .map(res => res.json()["data"])
     }
   
   
   
     Editsubconceptservice(payload):  Observable<SubconceptModel> {
-        let params = new URLSearchParams();
-        params.set("user_id", payload.user.user_id)
         let headers = new Headers(this.headerContent);
-        let options = new RequestOptions({search: params});   
-        return this.http.post(this.SUBCONCEPT_API_URL, JSON.stringify(payload.module))
-      .map(res => res.json()["data"])
+        let options = new RequestOptions({headers});
+        return this.http.put(this.SUBCONCEPT_API_URL, JSON.stringify(payload))
+        .map(res => res.json()["data"])
       
     }
 
+
     Deletesubconceptservice(payload):  Observable<SubconceptModel> {
-        let params = new URLSearchParams();
-        params.set("user_id", payload.user.user_id)
-        let headers = new Headers(this.headerContent);
-        let options = new RequestOptions({search: params});   
-        return this.http.delete(this.SUBCONCEPT_API_URL, JSON.stringify(payload.module))
+      let params = new URLSearchParams();
+      params.set("user_id", payload.user.user_id)
+      params.set("module_id", payload.module.module_id)
+
+      let headers = new Headers(this.headerContent);
+        //let options = new RequestOptions({headers});   
+        let options = new RequestOptions({search: params});  
+      var url = this.SUBCONCEPT_API_URL
+      return this.http.delete(url, options)
       .map(res => res.json()["data"])
       
   
   }
-    Allsubconcept(): Observable<SubconceptModel> {
-        return this.http.get(this.AllSUBCONCEPT)
+    Allsubconcept(payload): Observable<SubconceptModel> {
+             let params = new URLSearchParams();
+      params.set("parent_id", payload.parent_id)
+      let options = new RequestOptions({search: params});  
+        return this.http.get(this.AllSUBCONCEPT, options)
           .map(res => res.json()["data"])
     }
 

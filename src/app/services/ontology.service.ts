@@ -58,8 +58,12 @@ export class OntologyService {
           .map(res => res.json()["data"])
     }
   
-    allConcept(): Observable<ConceptModel> {
-        return this.http.get(this.ALL_CONCEPT)
+    allConcept(payload): Observable<ConceptModel> {
+
+      let params = new URLSearchParams();
+      params.set("parent_id", payload.parent_id)
+      let options = new RequestOptions({search: params});  
+      return this.http.get(this.ALL_CONCEPT, options)
           .map(res => res.json()["data"])
     }
   

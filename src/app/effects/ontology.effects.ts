@@ -96,8 +96,9 @@ export class OntologyEffects {
 
     @Effect() Allconcepts$: Observable<Action> = this.actions$
         .ofType(OntologyActions.ALL_CONCEPT)
-        .switchMap(() => 
-              this.service.allConcept()
+        .map((action: OntologyActions.Allconcept) => action.payload)
+        .switchMap((payload) => 
+              this.service.allConcept(payload)
               .map((data) => new OntologyActions.Allconceptsuccess(data))
               .catch(err => of(new OntologyActions.Allconceptfailure(err)))
         )

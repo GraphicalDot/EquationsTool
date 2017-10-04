@@ -16,6 +16,7 @@ import * as actions from '../../../../actions/nanoskill.actions';
 import * as Permissionactions from '../../../../actions/permissions.actions'
 import {NgxPaginationModule} from 'ngx-pagination';
 import { toast } from 'angular2-materialize';
+import * as _ from 'lodash';
 
 
 @Component({
@@ -47,13 +48,14 @@ export class NanoskillComponent implements OnInit, OnDestroy {
     public pages$: Observable<number>;
     public module_count$: Observable<number>;
 
-    private myNanoskills
+    private nanoskills
     private loading: boolean;
     private preReqModulesOtherDomainsSettings = {};
     private preReqModulesSettings= {}
     private bloomTaxonomySettings = {}
     private difficultySettings = {}
-                            
+    private skipnanoskillsSettings = {}
+    
     private dropdownList =  [];
     private bloomTaxonomyData = [];
     private difficultyData = [];
@@ -61,9 +63,9 @@ export class NanoskillComponent implements OnInit, OnDestroy {
     private allnanoskills = []
     private prereq_modules_all_parents = []
     private prereq_modules = []
-    private difficulty
+    private difficulty = []
     private bloom_taxonomy = []
-
+    private skip_nanoskills = []
     
     @Output() selectedNanoskill = new EventEmitter<NanoskillModel>();
     @Output() submitNanoskill = new EventEmitter<NanoskillModel>();
@@ -127,6 +129,12 @@ export class NanoskillComponent implements OnInit, OnDestroy {
                         };         
 
 
+        this.skipnanoskillsSettings = { 
+                            singleSelection: true, 
+                            text:"Nanoskills that can be skipped",
+                        };        
+
+
         this.store.select(fromRoot.getAuthenticatedUser)
         .subscribe(value => {
             this.loggedUser = value
@@ -143,9 +151,11 @@ export class NanoskillComponent implements OnInit, OnDestroy {
         this.store.select(fromRoot.getNanoskills)
         .subscribe(value => {
 
-            this.myNanoskills = value.map((object)=> {
+            this.nanoskills = value.map((object)=> {
                 return {"id": object.module_id, "itemName": object.module_name }
             })
+
+
         }
     );
 
@@ -155,7 +165,8 @@ export class NanoskillComponent implements OnInit, OnDestroy {
             .subscribe(value => {
             this.selectedParentModule = value;
             this.store.dispatch(new actions.Loadnanoskill({"parent_id": value.module_id, "user_id": this.loggedUser.user_id, "skip": 0, "limit": 15, "search_text": null}))
-
+            this.store.dispatch(new actions.Allnanoskill({"parent_id": this.selectedParentModule.module_id}))
+            this.prereq_modules = []
         });
 
         this.store.select(fromRoot.getNanoskillPermissionError)
@@ -210,7 +221,7 @@ export class NanoskillComponent implements OnInit, OnDestroy {
                 })
 
         console.log(data)
-        this.editNanoskill.emit(module);
+        this.editNanoskill.emit(data);
     }
 
     modify_data(data){
@@ -228,15 +239,17 @@ export class NanoskillComponent implements OnInit, OnDestroy {
     //A form will opened
 
     submitForm(module){
-        this.moduleCreate = false;  
+        this.moduleCreate = false;
         
         var data = Object.assign({}, module, {"prereq_modules_all_parents": this.modify_data(this.prereq_modules_all_parents), 
                                         "prereq_modules": this.modify_data(this.prereq_modules), 
                                         "difficulty": this.modify_data(this.difficulty), 
-                                        "bloom_taxonomy": this.modify_data(this.bloom_taxonomy)                                      
+                                        "bloom_taxonomy": this.modify_data(this.bloom_taxonomy), 
+                                        "skip_nanoskills": this.modify_data(this.skip_nanoskills),
+                                                                             
                 })
 
-        this.submitNanoskill.emit(module);
+        this.submitNanoskill.emit(data);
         this.prereq_modules = []
         this.prereq_modules_all_parents = []
     }
@@ -250,17 +263,18 @@ export class NanoskillComponent implements OnInit, OnDestroy {
       this.moduleEdit= true;    
       this.moduleCreate = false; //This will close the add new nanoskill form just to avoid confusion   
       this.module = module;
-      console.log("Edit clicked")
-      console.log(module)
       this.module =  _.cloneDeep(module);
       var taxonomy = this.module.bloom_taxonomy
       var difficulty = this.module.difficulty
       var prereq_modules_all_parents = this.module.prereq_modules_all_parents
       var prereq_modules = this.module.prereq_modules
+      var skip_nanoskills = this.module.skip_nanoskills
+
       this.module.bloom_taxonomy = this.convert_data(taxonomy)
       this.module.difficulty = this.convert_data(difficulty)
       this.module.prereq_modules_all_parents = this.convert_data(prereq_modules_all_parents)
       this.module.prereq_modules = this.convert_data(prereq_modules)
+      this.module.skip_nanoskills = this.convert_data(skip_nanoskills)
 
     }
 

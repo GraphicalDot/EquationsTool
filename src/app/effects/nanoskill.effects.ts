@@ -73,8 +73,9 @@ export class NanoskillEffects {
 
     @Effect() Allnanoskills$: Observable<Action> = this.actions$
         .ofType(actions.ALL_NANOSKILL)
-        .switchMap(() => 
-              this.service.Allnanoskill()
+        .map((action: actions.Allnanoskill) => action.payload)
+        .switchMap((payload) => 
+              this.service.Allnanoskill(payload)
               .map((data) => new actions.Allnanoskillsuccess(data))
               .catch(err => of(new actions.Allnanoskillfailure(err)))
         )

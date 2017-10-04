@@ -93,12 +93,12 @@
     </div>
     <div class="row">
               <div class="col s6">
-                    <angular2-multiselect [data]="allconcepts" [(ngModel)]="module.prereq_modules_all_parents" 
+                    <angular2-multiselect [data]="allsubconcepts" [(ngModel)]="module.prereq_modules_all_parents" 
                         [settings]="preReqModulesOtherDomainsSettings" 
                         ></angular2-multiselect>
               </div>
               <div class="col s6">
-                      <angular2-multiselect [data]="myConcepts" [(ngModel)]="module.prereq_modules" 
+                      <angular2-multiselect [data]="subconcepts" [(ngModel)]="module.prereq_modules" 
                             [settings]="preReqModulesSettings"></angular2-multiselect>
 
               </div>
@@ -164,12 +164,12 @@
     </div>
     <div class="row">
               <div class="col s6">
-                    <angular2-multiselect [data]="allconcepts" [(ngModel)]="prereq_modules_all_parents" 
+                    <angular2-multiselect [data]="allsubconcepts" [(ngModel)]="prereq_modules_all_parents" 
                         [settings]="preReqModulesOtherDomainsSettings" 
                         ></angular2-multiselect>
               </div>
               <div class="col s6">
-                      <angular2-multiselect [data]="myConcepts" [(ngModel)]="prereq_modules" 
+                      <angular2-multiselect [data]="subconcepts" [(ngModel)]="prereq_modules" 
                             [settings]="preReqModulesSettings"></angular2-multiselect>
 
               </div>

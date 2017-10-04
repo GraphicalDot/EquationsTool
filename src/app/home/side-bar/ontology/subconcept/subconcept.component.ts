@@ -16,6 +16,7 @@ import * as fromRoot from '../../../../reducers';
 import * as actions from '../../../../actions/subconcept.actions';
 import * as Permissionactions from '../../../../actions/permissions.actions'
 import { toast } from 'angular2-materialize';
+import * as _ from 'lodash';
 
 
 @Component({
@@ -47,7 +48,7 @@ export class SubconceptComponent implements OnInit, OnDestroy {
     public module_count$: Observable<number>;
     public subconcept: SubconceptModel
 
-    private Mysubconcepts
+    private subconcepts
     private loading: boolean;
     private preReqModulesOtherDomainsSettings = {};
     private preReqModulesSettings= {}
@@ -134,7 +135,7 @@ export class SubconceptComponent implements OnInit, OnDestroy {
             this.loggedUser = value
         });
 
-        this.store.select(fromRoot.getAllConcepts)
+        this.store.select(fromRoot.getAllSubconcepts)
         .subscribe(value => {
             this.allsubconcepts = value.map((object)=> {
                 return {"id": object.module_id, "itemName": object.module_name }
@@ -142,10 +143,10 @@ export class SubconceptComponent implements OnInit, OnDestroy {
         });
 
 
-        this.store.select(fromRoot.getConcepts)
+        this.store.select(fromRoot.getSubConcepts)
         .subscribe(value => {
 
-            this.Mysubconcepts = value.map((object)=> {
+            this.subconcepts = value.map((object)=> {
                 return {"id": object.module_id, "itemName": object.module_name }
             })
         }
@@ -157,7 +158,8 @@ export class SubconceptComponent implements OnInit, OnDestroy {
             this.selectedParentModule = value;
             console.log(value)
             this.store.dispatch(new actions.Loadsubconcept({"parent_id": value.module_id, "user_id": this.loggedUser.user_id}))
-
+            this.store.dispatch(new actions.Allsubconcept({"parent_id": this.selectedParentModule.module_id}))
+            this.prereq_modules = []
         });
 
         this.store.select(fromRoot.getSubconceptPermissionError)
@@ -216,6 +218,7 @@ export class SubconceptComponent implements OnInit, OnDestroy {
     }
 
     submitForm(module: SubconceptModel){
+        event.preventDefault()
         this.moduleCreate = false;  
         
         var data = Object.assign({}, module, {"prereq_modules_all_parents": this.modify_data(this.prereq_modules_all_parents), 
@@ -238,7 +241,7 @@ export class SubconceptComponent implements OnInit, OnDestroy {
                 })
 
         console.log(data)
-      this.editSubconcept.emit(module);
+      this.editSubconcept.emit(data);
     }
   
    editModule(module) {
