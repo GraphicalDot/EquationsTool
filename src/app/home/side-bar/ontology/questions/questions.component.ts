@@ -91,6 +91,10 @@ export class QuestionsComponent implements OnInit {
     public selectedConcept: ConceptModel
     public selectedSubconcept: SubconceptModel
     public selectedNanoskill: NanoskillModel
+    private QuestionTypeData = []
+    private QuestionTypeSettings = {}
+    private question_type: string
+    
     @Output() unfreezeontology = new EventEmitter<boolean>();
 
     //constructor(private store: Store<ApplicationStore>, private service: DomainService,) { 
@@ -132,6 +136,24 @@ export class QuestionsComponent implements OnInit {
 
 
     ngOnInit(){
+        this.QuestionTypeData = [{"id": 1, "itemName": "True/False"}, {"id": 2, "itemName": "Multiple Choice"}, 
+                                {"id": 3, "itemName": "Fill In Blanks"}, 
+                                {"id": 4, "itemName": "Drag N Drop"}, {"id": 5, "itemName": "Only Images"}, 
+                                {"id": 6, "itemName": "Images N Text"}, {"id": 7, "itemName": "Only Text"}, 
+                                {"id": 8, "itemName": "Tables"}, {"id": 9, "itemName": "Horizontal"}, 
+                            
+                            ]
+ 
+        this.QuestionTypeSettings = { 
+                                  singleSelection: true, 
+                                  text:"Question Type",
+                                  selectAllText:'Select All',
+                                  //unSelectAllText:'UnSelect All',
+                                  //enableSearchFilter: true,
+                                 // classes:"myclass custom-class"
+                                };            
+
+
         this.subscriber_two = this.store.select(fromRoot.getAuthenticatedUser)
         this.subscriber_two.subscribe(value => {
             this.user = value
@@ -254,11 +276,20 @@ export class QuestionsComponent implements OnInit {
       
     }
     
+    modify_data(data){
+        return data.map((object)=> {
+            return {"module_id": object.id, "module_name": object.itemName}
+        })
+    }
     //This is when a user clicks on the top add button in right of every module, 
     //A form will opened
     addQuestion(module){
+        event.preventDefault()
         console.log(this.myForm.value)
         console.log(this.editorContent)
+        //this.service.addConcept(concept)
+        var data = Object.assign({}, module, {"parent_id": this.selectedNanoskill.module_id, "user_id": this.user.user_id, "question_type": this.modify_data(this.question_type)})
+        this.store.dispatch(new actions.Addquestion(data))
     }
 
     unfreezeOntology(){
@@ -280,9 +311,7 @@ export class QuestionsComponent implements OnInit {
       this.openAdd = false; //This will close the add new nanoskill form just to avoid confusion   
       this.store.dispatch(new actions.Selectedquestion(question))
     }
-    change(newValue) {
-      Materialize.toast('child select', 2000)
-    }
+
 
     pageNanoskillChanged(input){
         console.log("changed nanoskill clicked")

@@ -3,6 +3,7 @@ import { ActionReducer, Action, State } from '@ngrx/store';
 import { QuestionModel} from '../models/question.model';
 import {createSelector} from "reselect"
 import * as actions from '../actions/question.actions';
+import * as _ from 'lodash';
 
 export interface QuestionState {
     module_ids?: string[],
@@ -117,17 +118,17 @@ export function QuestionReducer(state = initialState, action: actions.Actions): 
                         })
                     }
             case actions.ADD_QUESTION_SUCCESS:
-                 return {
-                            module_ids: [ ...state.module_ids, action.payload.module_id],
-                            modules: Object.assign({}, state.modules, { [action.payload.module_id]: action.payload}),
-                            selectedModule: state.selectedModule,
+                return Object.assign({}, state, {"modules": [...state.modules, action.payload.module],
+                                  "module_ids": [...state.module_ids, action.payload.module_id],
                             loaded: true,
                             loading: false,
-                            pages: state.pages,
-                            module_count: state.module_count + 1
-                        };
+                            message: action.payload.message, 
+                            module_count: state.module_count +1,
+                            pages: Math.ceil((state.module_count+1)/15), 
+                                
+                                })
 
-            case actions.QUESTION_ERROR:
+            case actions.ADD_QUESTION_FAILURE:
                     {
                     return Object.assign({}, state, {
                             loaded: true,
@@ -153,19 +154,26 @@ export function QuestionReducer(state = initialState, action: actions.Actions): 
                             error: action.payload._body
                         })
                 }
-            case actions.DELETE_QUESTION_SUCCESS:{
+            case actions.DELETE_QUESTION_SUCCESS:
 
-                        return Object.assign({}, state,{ 
-                            module_ids: state.module_ids.filter((id) => id != action.payload),
-                            modules: state.modules.filter((module) => module.module_id != action.payload),
-                            module_count: state.module_count -1, 
-                            pages: Math.ceil((state.module_count-1)/15),
-                            selectedModule: undefined,
-                            loaded: true,
-                            loading: false,
-                        }
-                    )
-                    }
+                                    console.log(action.payload)
+                        console.log(action.payload.module_id)
+                        let stateclone = _.cloneDeep(state);
+                        
+                        const idToRemove = action.payload.module_id;
+                        
+                        const ids = stateclone.module_ids.filter((id) => id != action.payload.module_id)
+                        
+                        const newEntities = stateclone.modules.filter((id) => id.module_id != action.payload.module_id)
+
+
+                        return Object.assign({}, state, {
+                            modules: newEntities, loaded: true, loading: false, 
+                            module_ids: ids,
+                            module_count: state.module_count -1,
+                            pages: Math.ceil((state.module_count-1)/15), 
+                            message: action.payload.message
+                        });
 
             case actions.SELECTED_QUESTION:
             {
