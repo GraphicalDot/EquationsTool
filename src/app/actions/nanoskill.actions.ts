@@ -36,6 +36,30 @@ export type Actions =
 
             |Clearnanoskill
 
+            | Allnanoskill
+            | Allnanoskillsuccess
+            | Allnanoskillfailure
+
+export const ALL_NANOSKILL = "[Nanoskills] All Nanoskill"
+export class Allnanoskill implements Action{
+    readonly type = ALL_NANOSKILL
+    constructor(){ }
+}
+
+export const ALL_NANOSKILL_SUCCESS = "[Nanoskills] All Nanoskill Success"
+export class Allnanoskillsuccess implements Action{
+    readonly type = ALL_NANOSKILL_SUCCESS
+    constructor(public payload: any){}
+}
+
+export const ALL_NANOSKILL_FAILURE = "[Nanoskills] All Nanoskill Failure"
+export class Allnanoskillfailure implements Action{
+    readonly type = ALL_NANOSKILL_FAILURE
+    constructor(public payload: any){}
+}
+
+
+
 //**************** LOAD SubConcept
 export const CLEAR_NANOSKILL = "[Nanoskills] Clear Nanoskill"
 export class Clearnanoskill implements Action{

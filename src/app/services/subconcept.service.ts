@@ -11,6 +11,7 @@ import 'rxjs/Rx';
 @Injectable()
 export class SubconceptService {
     private SUBCONCEPT_API_URL = 'http://localhost:8000/subconcepts'
+    private AllSUBCONCEPT = 'http://localhost:8000/allsubconcepts'
     private headerContent = {'Content-Type': 'application/json', "Authorization": localStorage.getItem('user_token')}
     constructor(private http: Http) {}
   
@@ -60,4 +61,10 @@ export class SubconceptService {
       
   
   }
+    Allsubconcept(): Observable<SubconceptModel> {
+        return this.http.get(this.AllSUBCONCEPT)
+          .map(res => res.json()["data"])
+    }
+
+
 }

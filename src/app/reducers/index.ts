@@ -177,6 +177,11 @@ export const getSelectedSubConcept = createSelector(SubconceptAppState, fromSubc
 export const getSubconceptPages = createSelector(SubconceptAppState, fromSubconcept.Getsubconceptpages)
 export const getSubconceptCount = createSelector(SubconceptAppState, fromSubconcept.Getsubconceptcount)
 export const getSubconceptError = createSelector(SubconceptAppState,  fromSubconcept.Getsubconcepterror)
+export const getSubconceptLoading = createSelector(SubconceptAppState, fromSubconcept.Getsubconceptloading)
+export const getSubconceptMessage = createSelector(SubconceptAppState, fromSubconcept.Getsubconceptmessage)
+export const getAllSubconcepts = createSelector(SubconceptAppState, fromSubconcept.Getallsubconcepts)
+
+
 
 
 export const getNanoskills = createSelector(NanoskillAppState, fromNanoskill.Getnanoskills)
@@ -185,6 +190,9 @@ export const getSelectedNanoskill = createSelector(NanoskillAppState, fromNanosk
 export const getNanoskillPages = createSelector(NanoskillAppState, fromNanoskill.Getnanoskillpages)
 export const getNanoskillCount = createSelector(NanoskillAppState, fromNanoskill.Getnanoskillcount)
 export const getNanoskillError = createSelector(NanoskillAppState, fromNanoskill.Getnanoskillerror)
+export const getNanoskillLoading = createSelector(NanoskillAppState, fromNanoskill.Getnanoskillloading)
+export const getNanoskillMessage = createSelector(NanoskillAppState, fromNanoskill.Getnanoskillmessage)
+export const getAllNanoskills = createSelector(NanoskillAppState, fromNanoskill.Getallnanoskills)
 
 
 

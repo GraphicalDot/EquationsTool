@@ -71,5 +71,12 @@ export class NanoskillEffects {
               .catch(err => of(new actions.Deletenanoskillfailure(err)))
         );
 
+    @Effect() Allnanoskills$: Observable<Action> = this.actions$
+        .ofType(actions.ALL_NANOSKILL)
+        .switchMap(() => 
+              this.service.Allnanoskill()
+              .map((data) => new actions.Allnanoskillsuccess(data))
+              .catch(err => of(new actions.Allnanoskillfailure(err)))
+        )
 
 }

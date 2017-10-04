@@ -34,6 +34,30 @@ export type Actions =
             |Deletesubconceptsuccess
             |Deletesubconceptfailure
 
+            | Allsubconcept
+            | Allsubconceptsuccess
+            |Allsubconceptfailure
+
+export const ALL_SUBCONCEPT = "[Subconcepts] All Subconcept"
+export class Allsubconcept implements Action{
+    readonly type = ALL_SUBCONCEPT
+    constructor(){ console.log("All subconcepts called")}
+}
+
+export const ALL_SUBCONCEPT_SUCCESS = "[Subconcepts] All Subconcept Success"
+export class Allsubconceptsuccess implements Action{
+    readonly type = ALL_SUBCONCEPT_SUCCESS
+    constructor(public payload: any){}
+}
+
+export const ALL_SUBCONCEPT_FAILURE = "[Subconcepts] All Subconcept Failure"
+export class Allsubconceptfailure implements Action{
+    readonly type = ALL_SUBCONCEPT_FAILURE
+    constructor(public payload: any){}
+}
+
+
+
 
 //**************** LOAD SubConcept
 export const LOAD_SUBCONCEPT = "[Subconcepts] Load Subconcept"

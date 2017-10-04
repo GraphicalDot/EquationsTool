@@ -66,5 +66,12 @@ export class SubconceptEffects {
               .catch(err => of(new actions.Deletesubconceptfailure(err)))
         );
 
+    @Effect() Allsubconcepts$: Observable<Action> = this.actions$
+        .ofType(actions.ALL_SUBCONCEPT)
+        .switchMap(() => 
+              this.service.Allsubconcept()
+              .map((data) => new actions.Allsubconceptsuccess(data))
+              .catch(err => of(new actions.Allsubconceptfailure(err)))
+        )
 
 }

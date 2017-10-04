@@ -209,18 +209,7 @@ export function ConceptReducer(state = initialState,  action: ConceptActions.Act
                         loaded: true,
                     })
             
-/*                  return {
-                        module_ids: state.module_ids,
-                        modules: state.modules,
-                        selectedModule: action.payload,
-                        parent_id: state.parent_id,
-                        loaded: true,
-                        loading: false,
-                        pages: state.pages,
-                        module_count: state.module_count
 
-                          }  
- */
             default:
                 return state
 

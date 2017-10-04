@@ -57,8 +57,6 @@ import {VariableEffects} from "./effects/variable.effects"
 import {VariabletemplateService} from "./services/variabletemplate.service"
 import {VariabletemplateEffects} from "./effects/variabletemplate.effects"
 
-
-
 import {DomainReducer} from "./reducers/domain.reducer";
 import {ConceptReducer} from "./reducers/concept.reducer";
 import { combineReducers } from '@ngrx/store';

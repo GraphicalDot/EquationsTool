@@ -11,6 +11,7 @@ import 'rxjs/Rx';
 @Injectable()
 export class NanoskillService {
     private NANOSKILL_API_URL = 'http://localhost:8000/nanoskills'
+    private ALLNANOSKILL = 'http://localhost:8000/allnanoskills'
     private headerContent = {'Content-Type': 'application/json', "Authorization": localStorage.getItem('user_token')}
     constructor(private http: Http) {}
   
@@ -60,4 +61,11 @@ export class NanoskillService {
       
   
   }
+
+    Allnanoskill(): Observable<NanoskillModel> {
+        return this.http.get(this.ALLNANOSKILL)
+          .map(res => res.json()["data"])
+    }
+
+
 }
