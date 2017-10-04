@@ -37,7 +37,7 @@ export class SubconceptComponent implements OnInit, OnDestroy {
 
     public moduleCreate: boolean
     public moduleEdit: boolean
-    public module: SubconceptModel;
+    public module;
     public concepts$: Observable<any>;
     public subconcepts$: Observable<any>;
     public currentPage: number;
@@ -46,6 +46,26 @@ export class SubconceptComponent implements OnInit, OnDestroy {
     public pages$: Observable<number>;
     public module_count$: Observable<number>;
     public subconcept: SubconceptModel
+
+    private Mysubconcepts
+    private loading: boolean;
+    private preReqModulesOtherDomainsSettings = {};
+    private preReqModulesSettings= {}
+    private bloomTaxonomySettings = {}
+    private difficultySettings = {}
+                            
+    private dropdownList =  [];
+    private bloomTaxonomyData = [];
+    private difficultyData = [];
+
+    private allsubconcepts = []
+    private prereq_modules_all_parents = []
+    private prereq_modules = []
+    private difficulty
+    private bloom_taxonomy = []
+    private module_name: string 
+    private module_id: string
+
     @Output() selectedSubconcept = new EventEmitter<SubconceptModel>();
     @Output() submitSubconcept = new EventEmitter<SubconceptModel>();
     @Output() editSubconcept = new EventEmitter<SubconceptModel>();
@@ -66,12 +86,70 @@ export class SubconceptComponent implements OnInit, OnDestroy {
 }
 
     ngOnInit(){
+
+        this.bloomTaxonomyData = [{"id": 1, "itemName": "Applying"}, {"id": 2, "itemName": "Analyzing"}, 
+                        {"id": 3, "itemName": "Evaluating"}, {"id": 4, "itemName": "Synthesizing"}, 
+                        {"id": 5, "itemName": "Comprehending"}, {"id": 6, "itemName": "Remembering"} ]
+
+    
+        this.difficultyData = [{"id": 1, "itemName": "First"}, {"id": 2, "itemName": "Second"}, 
+                        {"id": 3, "itemName": "Third"}, 
+                        {"id": 4, "itemName": "Fourth"}, {"id": 6, "itemName": "Fifth"} ]
+
+        this.preReqModulesOtherDomainsSettings = { 
+                            singleSelection: false, 
+                            text:"Prequisite Subconcepts  Other Concepts",
+                            selectAllText:'Select All',
+                            //unSelectAllText:'UnSelect All',
+                            //enableSearchFilter: true,
+                            // classes:"myclass custom-class"
+                        };            
+        this.preReqModulesSettings = { 
+                            singleSelection: false, 
+                            text:"Prerequisite Subconcepts",
+                            //selectAllText:'Select All',
+                            //unSelectAllText:'UnSelect All',
+                            //classes:"myclass custom-class"
+                        };         
+
+        this.bloomTaxonomySettings = { 
+                            singleSelection: false, 
+                            text:"Blooms Taxonomy",
+                            //selectAllText:'Select All',
+                            //unSelectAllText:'UnSelect All',
+                            //classes:"myclass custom-class"
+                        };         
+        
+        this.difficultySettings = { 
+                            singleSelection: true, 
+                            text:"Difficulty Level",
+                            //selectAllText:'Select All',
+                            //unSelectAllText:'UnSelect All',
+                            //classes:"myclass custom-class"
+                        }; 
+
         this.store.select(fromRoot.getAuthenticatedUser)
             .subscribe(value => {
             console.log("Authenticated user" + value.user_id)
             this.loggedUser = value
         });
 
+        this.store.select(fromRoot.getAllConcepts)
+        .subscribe(value => {
+            this.allsubconcepts = value.map((object)=> {
+                return {"id": object.module_id, "itemName": object.module_name }
+            })
+        });
+
+
+        this.store.select(fromRoot.getConcepts)
+        .subscribe(value => {
+
+            this.Mysubconcepts = value.map((object)=> {
+                return {"id": object.module_id, "itemName": object.module_name }
+            })
+        }
+    );
         
         this.store.select(fromRoot.getSelectedConcept)
             .filter(value => value != undefined)
@@ -88,6 +166,25 @@ export class SubconceptComponent implements OnInit, OnDestroy {
             toast(value, 4000);
           })
 
+        this.store.select(fromRoot.getSubconceptError)
+              .filter((value) => value !== undefined && value !== null ) 
+              .subscribe(value =>{
+              toast(value, 4000);
+            })
+
+        this.store.select(fromRoot.getSubconceptMessage)
+              .filter((value) => value !== undefined && value !== null ) 
+              .subscribe(value =>{
+              toast(value, 4000);
+            })
+        
+        this.store.select(fromRoot.getSubconceptLoading)
+              .filter((value) => value !== undefined && value !== null ) 
+              .subscribe(value =>{
+                    this.loading = value
+            })
+
+
     };
     ngOnDestroy(){};
     selectModule(subconcept: SubconceptModel) {
@@ -96,26 +193,73 @@ export class SubconceptComponent implements OnInit, OnDestroy {
 
     deleteModule(module) {
         this.deleteSubconcept.emit(module);
+        this.prereq_modules = []
+        this.prereq_modules_all_parents = []
     }
 
     addModule(){
-      this.moduleCreate = true;    
-    }
-    submitForm(module: SubconceptModel){
-        var data = Object.assign({}, module, {"parent_id": this.selectedParentModule.module_id, "user_id": this.loggedUser.user_id, "username": this.loggedUser.username})
-        this.moduleCreate= false;  
-        this.submitSubconcept.emit(data);
-    }
-  
-    editModule(module: SubconceptModel) {
-      this.moduleEdit= true;    
-      this.moduleCreate = false; //This will close the add new nanoskill form just to avoid confusion   
-      this.subconcept = module;
+        this.moduleCreate = true;   
+        this.moduleEdit = false
+ 
     }
 
-    editModuleSubmit(module){
+    modify_data(data){
+        return data.map((object)=> {
+            return {"module_id": object.id, "module_name": object.itemName}
+        })
+    }
+
+    convert_data(data){
+        return data.map((object)=> {
+            return {"id": object.module_id, "itemName": object.module_name}
+        })
+    }
+
+    submitForm(module: SubconceptModel){
+        this.moduleCreate = false;  
+        
+        var data = Object.assign({}, module, {"prereq_modules_all_parents": this.modify_data(this.prereq_modules_all_parents), 
+                                        "prereq_modules": this.modify_data(this.prereq_modules), 
+                                        "difficulty": this.modify_data(this.difficulty), 
+                                        "bloom_taxonomy": this.modify_data(this.bloom_taxonomy)                                      
+                })
+
+        this.prereq_modules = []
+        this.prereq_modules_all_parents = [] 
+        this.submitSubconcept.emit(data);
+    }
+
+    submitEditForm(module: SubconceptModel){
+        event.preventDefault()
+        var data = Object.assign({}, this.module, {"prereq_modules_all_parents": this.modify_data(this.module.prereq_modules_all_parents), 
+                                        "prereq_modules": this.modify_data(this.module.prereq_modules), 
+                                        "difficulty": this.modify_data(this.module.difficulty), 
+                                        "bloom_taxonomy": this.modify_data(this.module.bloom_taxonomy)                                      
+                })
+
+        console.log(data)
       this.editSubconcept.emit(module);
     }
+  
+   editModule(module) {
+      this.moduleEdit= true;    
+      this.moduleCreate = false; //This will close the add new nanoskill form just to avoid confusion   
+      this.module = module;
+      console.log("Edit clicked")
+      console.log(module)
+      this.module =  _.cloneDeep(module);
+      var taxonomy = this.module.bloom_taxonomy
+      var difficulty = this.module.difficulty
+      var prereq_modules_all_parents = this.module.prereq_modules_all_parents
+      var prereq_modules = this.module.prereq_modules
+      this.module.bloom_taxonomy = this.convert_data(taxonomy)
+      this.module.difficulty = this.convert_data(difficulty)
+      this.module.prereq_modules_all_parents = this.convert_data(prereq_modules_all_parents)
+      this.module.prereq_modules = this.convert_data(prereq_modules)
+
+    }
+
+
 
     pageSubconceptChanged(input){
         this.currentPage = input

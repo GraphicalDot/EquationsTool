@@ -46,9 +46,9 @@ export class ConceptComponent implements OnInit {
     public user: UserModel
     private concepts$: Observable<any>;
     public currentPage: number
-    private myConcepts
     private pages$: Observable<number>;    
     private module_count$: Observable<number>;    
+    private myConcepts
     private loading: boolean;
     private preReqModulesOtherDomainsSettings = {};
     private preReqModulesSettings= {}
@@ -222,7 +222,6 @@ export class ConceptComponent implements OnInit {
 
     //This will be called when a user clicks on the add children: Add subconcpts button
     selectModule(module) {
-        console.log(module)
         this.selectedConceptModule.emit(module);
     }
 
@@ -263,8 +262,6 @@ export class ConceptComponent implements OnInit {
 
         console.log(data)
         this.editConcept.emit(data);
-
-
     }
 
     

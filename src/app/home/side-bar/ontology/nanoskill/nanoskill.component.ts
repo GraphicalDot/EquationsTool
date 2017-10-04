@@ -37,15 +37,33 @@ export class NanoskillComponent implements OnInit, OnDestroy {
 
     public moduleCreate: boolean
     public moduleEdit: boolean
-    public module: NanoskillModel;
     public domains$: Observable<any>;
     public user: UserModel
     public nanoskills$: Observable<any>;
     public subconcepts$: Observable<any>;
     public currentPage: number;
 
+    public module;
     public pages$: Observable<number>;
     public module_count$: Observable<number>;
+
+    private myNanoskills
+    private loading: boolean;
+    private preReqModulesOtherDomainsSettings = {};
+    private preReqModulesSettings= {}
+    private bloomTaxonomySettings = {}
+    private difficultySettings = {}
+                            
+    private dropdownList =  [];
+    private bloomTaxonomyData = [];
+    private difficultyData = [];
+
+    private allnanoskills = []
+    private prereq_modules_all_parents = []
+    private prereq_modules = []
+    private difficulty
+    private bloom_taxonomy = []
+
     
     @Output() selectedNanoskill = new EventEmitter<NanoskillModel>();
     @Output() submitNanoskill = new EventEmitter<NanoskillModel>();
@@ -68,10 +86,68 @@ export class NanoskillComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit(){
+        this.bloomTaxonomyData = [{"id": 1, "itemName": "Applying"}, {"id": 2, "itemName": "Analyzing"}, 
+                                {"id": 3, "itemName": "Evaluating"}, {"id": 4, "itemName": "Synthesizing"}, 
+                                {"id": 5, "itemName": "Comprehending"}, {"id": 6, "itemName": "Remembering"} ]
+
+        this.difficultyData = [{"id": 1, "itemName": "First"}, {"id": 2, "itemName": "Second"}, 
+                        {"id": 3, "itemName": "Third"}, 
+                        {"id": 4, "itemName": "Fourth"}, {"id": 6, "itemName": "Fifth"} ]
+
+        this.preReqModulesOtherDomainsSettings = { 
+                            singleSelection: false, 
+                            text:"Prequisite Nanoskills  Other Subconcepts",
+                            selectAllText:'Select All',
+                            //unSelectAllText:'UnSelect All',
+                            //enableSearchFilter: true,
+                            // classes:"myclass custom-class"
+                        };            
+        this.preReqModulesSettings = { 
+                            singleSelection: false, 
+                            text:"Prerequisite Nanoskills",
+                            //selectAllText:'Select All',
+                            //unSelectAllText:'UnSelect All',
+                            //classes:"myclass custom-class"
+                        };         
+
+        this.bloomTaxonomySettings = { 
+                            singleSelection: false, 
+                            text:"Blooms Taxonomy",
+                            //selectAllText:'Select All',
+                            //unSelectAllText:'UnSelect All',
+                            //classes:"myclass custom-class"
+                        };         
+        
+        this.difficultySettings = { 
+                            singleSelection: true, 
+                            text:"Difficulty Level",
+                            //selectAllText:'Select All',
+                            //unSelectAllText:'UnSelect All',
+                            //classes:"myclass custom-class"
+                        };         
+
+
         this.store.select(fromRoot.getAuthenticatedUser)
         .subscribe(value => {
             this.loggedUser = value
         });
+
+        this.store.select(fromRoot.getAllNanoskills)
+        .subscribe(value => {
+            this.allnanoskills = value.map((object)=> {
+                return {"id": object.module_id, "itemName": object.module_name }
+            })
+        });
+
+
+        this.store.select(fromRoot.getNanoskills)
+        .subscribe(value => {
+
+            this.myNanoskills = value.map((object)=> {
+                return {"id": object.module_id, "itemName": object.module_name }
+            })
+        }
+    );
 
 
         this.store.select(fromRoot.getSelectedSubConcept)
@@ -88,6 +164,24 @@ export class NanoskillComponent implements OnInit, OnDestroy {
             toast(value, 4000);
           })
 
+        this.store.select(fromRoot.getNanoskillError)
+              .filter((value) => value !== undefined && value !== null ) 
+              .subscribe(value =>{
+              toast(value, 4000);
+            })
+
+        this.store.select(fromRoot.getNanoskillMessage)
+              .filter((value) => value !== undefined && value !== null ) 
+              .subscribe(value =>{
+              toast(value, 4000);
+            })
+        
+        this.store.select(fromRoot.getNanoskillLoading)
+              .filter((value) => value !== undefined && value !== null ) 
+              .subscribe(value =>{
+                    this.loading = value
+            })
+
 
     };
         
@@ -100,16 +194,51 @@ export class NanoskillComponent implements OnInit, OnDestroy {
     }
     delete(module) {
         this.deleteNanoskill.emit(module);
+        this.prereq_modules = []
+        this.prereq_modules_all_parents = []
     }
     
     editModuleSubmit(module){
-      this.editNanoskill.emit(module);
     }
     
+    submitEditForm(module){
+        event.preventDefault()
+        var data = Object.assign({}, this.module, {"prereq_modules_all_parents": this.modify_data(this.module.prereq_modules_all_parents), 
+                                        "prereq_modules": this.modify_data(this.module.prereq_modules), 
+                                        "difficulty": this.modify_data(this.module.difficulty), 
+                                        "bloom_taxonomy": this.modify_data(this.module.bloom_taxonomy)                                      
+                })
+
+        console.log(data)
+        this.editNanoskill.emit(module);
+    }
+
+    modify_data(data){
+        return data.map((object)=> {
+            return {"module_id": object.id, "module_name": object.itemName}
+        })
+    }
+
+    convert_data(data){
+        return data.map((object)=> {
+            return {"id": object.module_id, "itemName": object.module_name}
+        })
+    }
     //This is when a user clicks on the top add button in right of every module, 
     //A form will opened
+
     submitForm(module){
+        this.moduleCreate = false;  
+        
+        var data = Object.assign({}, module, {"prereq_modules_all_parents": this.modify_data(this.prereq_modules_all_parents), 
+                                        "prereq_modules": this.modify_data(this.prereq_modules), 
+                                        "difficulty": this.modify_data(this.difficulty), 
+                                        "bloom_taxonomy": this.modify_data(this.bloom_taxonomy)                                      
+                })
+
         this.submitNanoskill.emit(module);
+        this.prereq_modules = []
+        this.prereq_modules_all_parents = []
     }
 
     addModule(module){
@@ -117,11 +246,24 @@ export class NanoskillComponent implements OnInit, OnDestroy {
         this.moduleEdit = false
     }
     
-    editModule(module) {
+   editModule(module) {
       this.moduleEdit= true;    
       this.moduleCreate = false; //This will close the add new nanoskill form just to avoid confusion   
       this.module = module;
+      console.log("Edit clicked")
+      console.log(module)
+      this.module =  _.cloneDeep(module);
+      var taxonomy = this.module.bloom_taxonomy
+      var difficulty = this.module.difficulty
+      var prereq_modules_all_parents = this.module.prereq_modules_all_parents
+      var prereq_modules = this.module.prereq_modules
+      this.module.bloom_taxonomy = this.convert_data(taxonomy)
+      this.module.difficulty = this.convert_data(difficulty)
+      this.module.prereq_modules_all_parents = this.convert_data(prereq_modules_all_parents)
+      this.module.prereq_modules = this.convert_data(prereq_modules)
+
     }
+
 
     pageNanoskillChanged(input){
         console.log("changed nanoskill clicked")

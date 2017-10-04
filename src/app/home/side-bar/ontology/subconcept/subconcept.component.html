@@ -61,23 +61,62 @@
 <div class="row">
 
 <div *ngIf="moduleEdit">
-    <div class="col s12">
-       <form materialize class="col s12" #form="ngForm" (ngSubmit)="editModuleSubmit(module)">
-          <div class="row">
-              <div class="input-field col s4">
-                  <input id="icon_prefix" type="text" class="validate"  [(ngModel)]="module.module_name" name="domain_name">
-              </div>
-              <div class="input-field col s4">
-                  <input id="icon_telephone" type="tel" class="validate"  [(ngModel)]="module.description" name="description">
-              </div>
-          </div>
+    <div class="row">
+       <form materialize class="col s12" #editform="ngForm" (ngSubmit)="submitEditForm(editform.value)">
+
           <button class="btn waves-effect waves-light" type="submit" name="action">Submit
               <i class="material-icons right">send</i>
-          </button>
+          </button>  
+            
+             <div class="row">
+                    <div class="input-field col s6">
+                          <input id="icon_prefix" type="text" class="validate" disabled [(ngModel)]="module.module_name" name="module.module_name" required ng-pristine>
+                     </div>
+                <div class="input-field col s6">
+                      <input id="icon_telephone" type="text" class="validate"  [(ngModel)]="module.description" name="module.description" required>
+                        <label>Description</label>
+                </div>
+            </div>
+
+            
+             <div class="row">
+                    <div class="input-field col s6">
+                          <input id="icon_prefix" type="text" class="validate" disabled [(ngModel)]="module.username" name="module.username" required ng-pristine>
+                     </div>
+                <div class="input-field col s6">
+                      <input id="icon_prefix" type="text" class="validate" disabled [(ngModel)]="module.module_id" name="module.module_id" required>
+                </div>
+              
+            </div>
+
         </form>
     </div>
-</div>
+    <div class="row">
+              <div class="col s6">
+                    <angular2-multiselect [data]="allconcepts" [(ngModel)]="module.prereq_modules_all_parents" 
+                        [settings]="preReqModulesOtherDomainsSettings" 
+                        ></angular2-multiselect>
+              </div>
+              <div class="col s6">
+                      <angular2-multiselect [data]="myConcepts" [(ngModel)]="module.prereq_modules" 
+                            [settings]="preReqModulesSettings"></angular2-multiselect>
 
+              </div>
+    </div>
+    <div class="row">
+              <div class="col s6">
+                    <angular2-multiselect [data]="difficultyData" [(ngModel)]="module.difficulty" 
+                        [settings]="difficultySettings" 
+                        ></angular2-multiselect>
+              </div>
+              <div class="col s6">
+                      <angular2-multiselect [data]="bloomTaxonomyData" [(ngModel)]="module.bloom_taxonomy" 
+                            [settings]="bloomTaxonomySettings"></angular2-multiselect>
+
+              </div>
+    </div>
+
+</div>
 
 <div class="row">
 
@@ -103,24 +142,51 @@
 
 
 <div *ngIf="moduleCreate">
-    <div class="col s12">
+    <div class="row">
        <form materialize class="col s12" #form="ngForm" (ngSubmit)="submitForm(form.value)">
-          <div class="row">
-              <div class="input-field col s4">
-                  <input id="icon_prefix" type="text" class="validate"  [(ngModel)]="module_name" name="module_name" required ng-pristine>
-                  <label>Name</label>
-              </div>
-              <div class="input-field col s4">
-                  <input id="icon_telephone" type="tel" class="validate"  [(ngModel)]="description" name="description" required>
-                  <label>Description</label>
-              </div>
-              
-          </div>
+
           <button class="btn waves-effect waves-light" type="submit" name="action">Submit
               <i class="material-icons right">send</i>
-          </button>
+          </button>  
+            
+             <div class="row">
+                    <div class="input-field col s6">
+                          <input id="icon_prefix" type="text" class="validate"  [(ngModel)]="module_name" name="module_name" required ng-pristine>
+                        <label>Name</label>
+                     </div>
+                <div class="input-field col s6">
+                      <input id="icon_telephone" type="text" class="validate"  [(ngModel)]="description" name="description" required>
+                        <label>Description</label>
+                </div>
+              
+                </div>
         </form>
     </div>
+    <div class="row">
+              <div class="col s6">
+                    <angular2-multiselect [data]="allconcepts" [(ngModel)]="prereq_modules_all_parents" 
+                        [settings]="preReqModulesOtherDomainsSettings" 
+                        ></angular2-multiselect>
+              </div>
+              <div class="col s6">
+                      <angular2-multiselect [data]="myConcepts" [(ngModel)]="prereq_modules" 
+                            [settings]="preReqModulesSettings"></angular2-multiselect>
+
+              </div>
+    </div>
+    <div class="row">
+              <div class="col s6">
+                    <angular2-multiselect [data]="difficultyData" [(ngModel)]="difficulty" 
+                        [settings]="difficultySettings" 
+                        ></angular2-multiselect>
+              </div>
+              <div class="col s6">
+                      <angular2-multiselect [data]="bloomTaxonomyData" [(ngModel)]="bloom_taxonomy" 
+                            [settings]="bloomTaxonomySettings"></angular2-multiselect>
+
+              </div>
+    </div>
+
 </div>
 
         <table>

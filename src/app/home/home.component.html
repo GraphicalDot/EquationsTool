@@ -1,12 +1,11 @@
-<div class="container-fluid" style="min-height: 100vh; background: white">
-      <div class="row" style="margin-top: 2%; margin-right: 1%">
+<div class="row" style="min-height: 100vh; background: white">
             <!-- Grey navigation panel -->
-        <app-side-bar class="col s2" ></app-side-bar>
-     
-        <div class="col s10" >
-                <router-outlet class="row"></router-outlet>
+       <div class="col s12 m3 l3">
+            <app-side-bar  ></app-side-bar>
+        </div>
+        <div class="col s12 m9 l9" >
+                <router-outlet></router-outlet>
         </div>
 
-    </div>
-          
+        
 </div>
