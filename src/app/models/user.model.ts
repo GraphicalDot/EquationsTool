@@ -16,5 +16,8 @@ export interface UserModel{
     user_type: string,
     token?: string
     password: string,
-    create_domain: boolean
+    create_domain?: boolean,
+    create_variable?: boolean,
+    create_template?: boolean,
+   create_variabletemplate?: boolean
 }

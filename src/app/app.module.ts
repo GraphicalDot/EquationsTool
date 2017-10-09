@@ -101,6 +101,7 @@ children: [
 {path: 'userprofile', component: UserprofileComponent}
 ]}
 ]
+
 @NgModule({
   declarations: [
     AppComponent,

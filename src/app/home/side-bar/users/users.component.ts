@@ -138,7 +138,7 @@ checkIfMatchingPasswords(passwordKey: string, passwordConfirmationKey: string) {
     
     'last_name': {
       'required':      'Last Name is required.',
-      'minlength':     'Last Name must be at least 4 characters long.',
+      'minlength':     'Last Name mthis.user.create_variableust be at least 4 characters long.',
       'maxlength':     'Last cannot be more than 24 characters long.',
     },
 
@@ -190,7 +190,6 @@ checkIfMatchingPasswords(passwordKey: string, passwordConfirmationKey: string) {
     
   }
 
-
   addUser(){
     console.log("Add user form has been created");
     this.userCreate = true;
@@ -206,7 +205,6 @@ checkIfMatchingPasswords(passwordKey: string, passwordConfirmationKey: string) {
         this.store.dispatch(new UserActions.Adduser(user))
   	    console.log("request Completed for adding user");
       }
-
   editUserSubmit(user: UserModel){
         this.store.dispatch(new UserActions.Edituser(user))
         this.edit= false;    
@@ -222,7 +220,6 @@ checkIfMatchingPasswords(passwordKey: string, passwordConfirmationKey: string) {
 
   changePasswordEvent(){
       event.preventDefault()
-      console.log("button clicked")
       this.edit = false
 
       this.complexForm.patchValue({
@@ -248,6 +245,9 @@ checkIfMatchingPasswords(passwordKey: string, passwordConfirmationKey: string) {
           user_secret: null,
           create_domain : this.user.create_domain,
           username: this.user.username,
+          create_variable: this.user.create_variable,
+          create_template : this.user.create_template,
+          create_variabletemplate: this.user.create_variabletemplate
       })
   }
 
