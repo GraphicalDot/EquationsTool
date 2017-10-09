@@ -58,7 +58,7 @@
                 </div>
             </div>
 
-            <div class="row">
+            <div class="row"  *ngIf="!edit">
                 <div class="input-field col s6">
                     <label>Password</label>
                     <input type="text" class="validate" formControlName="password">
@@ -67,7 +67,7 @@
 
                 <div class="input-field col s6">
                     <label>Confirm Password</label>
-                    <input type="text" class="validate" formControlName="confirm_password">
+                    <input type="text"  class="validate" formControlName="confirm_password">
                     <div *ngIf="formErrors.confirm_password" class="alert alert-danger red">{{formErrors.confirm_password}}</div>
                 </div>
 
@@ -81,10 +81,38 @@
                   </select>
 
               </div>
-
+            </div>
+           <div class="row">
             <div class="input-field col s6">
                   <select [(ngModel)]="create_domain"  formControlName="create_domain" [materializeSelectOptions]="selectOptions" materialize="material_select">
                         <option value="" disabled selected>Create Domain Permissions</option>
+                      <option *ngFor="let value of create_domains" [value]="value">{{value}}</option>
+                  </select>
+
+              </div>
+              <div class="input-field col s6">
+                  <select [(ngModel)]="create_template"  formControlName="create_template" [materializeSelectOptions]="selectOptions" materialize="material_select">
+                        <option value="" disabled selected>Create Template Permissions</option>
+                      <option *ngFor="let value of create_domains" [value]="value">{{value}}</option>
+                  </select>
+
+              </div>
+
+
+            </div>
+
+           <div class="row">
+              <div class="input-field col s6">
+                  <select [(ngModel)]="create_variable"  formControlName="create_variable" [materializeSelectOptions]="selectOptions" materialize="material_select">
+                        <option value="" disabled selected>Create Variable Permissions</option>
+                      <option *ngFor="let value of create_domains" [value]="value">{{value}}</option>
+                  </select>
+
+              </div>
+
+            <div class="input-field col s6">
+                  <select [(ngModel)]="create_variabletemplate"  formControlName="create_variabletemplate" [materializeSelectOptions]="selectOptions" materialize="material_select">
+                        <option value="" disabled selected>Create Variable Template Permissions</option>
                       <option *ngFor="let value of create_domains" [value]="value">{{value}}</option>
                   </select>
 
@@ -93,8 +121,8 @@
 
 
                   <button class="btn btn-small cyan" type="submit" [disabled]="!complexForm.valid">Submit</button>
-                  <button class="btn btn-small cyan" type="cancel" >Cancel</button>
-                
+                  <button class="btn btn-small cyan" *ngIf="edit" (click)="changePasswordEvent()">Change Password</button>
+
 
         </form>
 </div>

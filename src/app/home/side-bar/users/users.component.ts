@@ -26,7 +26,9 @@ export class UsersComponent implements OnInit {
     currentUserPage$: Observable<number>;
     currentPage: number //this is the current page number that we will get from the ngxpagination
 
-    userEdit: boolean;
+    changePassword: boolean = false //Flag to control change password functionality, Its value 
+                              // Will be true only when a user clicks on change password button
+    edit: boolean;
     user: UserModel ;
     actionUser: UserModel;
     users$: Observable<any>;
@@ -59,7 +61,9 @@ export class UsersComponent implements OnInit {
      create_domain : [''],
       username: [''],
       user_secret: [''],
-      
+      create_variable: [''],
+      create_variabletemplate: [''],
+      create_template: ['']
       
 
     }, {validator: this.checkIfMatchingPasswords('password', 'confirm_password')});
@@ -184,19 +188,22 @@ checkIfMatchingPasswords(passwordKey: string, passwordConfirmationKey: string) {
   addUser(){
     console.log("Add user form has been created");
     this.userCreate = true;
-    this.userEdit= false;    
+    this.edit= false;    
 
   }
   
   addUserSubmit(user: UserModel){
         console.log(user)
+
+        console.log(this.userCreate)
+        console.log(this.edit)
         this.store.dispatch(new UserActions.Adduser(user))
   	    console.log("request Completed for adding user");
       }
 
   editUserSubmit(user: UserModel){
         this.store.dispatch(new UserActions.Edituser(user))
-        this.userEdit= false;    
+        this.edit= false;    
         
   }
   
@@ -207,10 +214,22 @@ checkIfMatchingPasswords(passwordKey: string, passwordConfirmationKey: string) {
     
   }
 
+  changePasswordEvent(){
+      event.preventDefault()
+      console.log("button clicked")
+      this.edit = false
+
+      this.complexForm.patchValue({
+        password: "",
+        confirm_password: "",
+});
+
+  }
+
   editUser(user: UserModel){
       this.userCreate = true;
       this.user = user
-      this.userEdit= true;    
+      this.edit= true;    
 
       this.complexForm.setValue({
           first_name: this.user.first_name,
