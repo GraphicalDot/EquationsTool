@@ -59,11 +59,11 @@ export class UsersComponent implements OnInit {
       confirm_password: ['', [Validators.required]],
       user_type: ['', [Validators.required]],
      create_domain : [''],
-      username: [''],
-      user_secret: [''],
-      create_variable: [''],
-      create_variabletemplate: [''],
-      create_template: ['']
+      username: ['', [Validators.required]],
+      user_secret: ['', [Validators.required]],
+      create_variable: ['', [Validators.required]],
+      create_variabletemplate: ['', [Validators.required]],
+      create_template: ['', [Validators.required]]
       
 
     }, {validator: this.checkIfMatchingPasswords('password', 'confirm_password')});
@@ -88,11 +88,10 @@ checkIfMatchingPasswords(passwordKey: string, passwordConfirmationKey: string) {
             let passwordInput = group.controls[passwordKey],
                 passwordConfirmationInput = group.controls[passwordConfirmationKey];
             if (passwordInput.value !== passwordConfirmationInput.value) {
-              console.log("password doeasnt match")
-              return passwordConfirmationInput.setErrors(this.formErrors["confirm_password"]["MatchPassword"])
+              //return passwordConfirmationInput.setErrors(this.formErrors["confirm_password"]["MatchPassword"])
+              return passwordConfirmationInput.setErrors({notEquivalent: true})
             }
             else {
-              console.log("password matched")
                 return passwordConfirmationInput.setErrors(null);
             }
           }
@@ -121,9 +120,12 @@ checkIfMatchingPasswords(passwordKey: string, passwordConfirmationKey: string) {
     'phone_number': '',
     'password': '',
     'confirm_password': '',
+   'user_secret': '', 
    'user_type': '',
    'create_domain': '',
-   'user_secret': ''
+   'create_variable': '',
+   'create_template': '',
+   'create_variabletemplate': ''
   
   };
 
@@ -161,7 +163,7 @@ checkIfMatchingPasswords(passwordKey: string, passwordConfirmationKey: string) {
 
     'confirm_password': {
       'required': 'Confirm is required.',
-      "MatchPassword": "Password Do not match"
+      "notEquivalent": "Password Do not match"
     },
 
      'superadmin': {
@@ -174,6 +176,10 @@ checkIfMatchingPasswords(passwordKey: string, passwordConfirmationKey: string) {
       'required': 'user_secret is required.'
        
      },
+   'create_domain': {'required': 'Create Domain permissions are required'},
+   'create_variable': {'required': 'Create Variable permissions are required'},
+   'create_template': {'required': 'Create Template permissions are required'},
+   'create_variabletemplate': {'required': 'Create Variable Template permissions are required'}
   }
 
 

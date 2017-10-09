@@ -17,23 +17,23 @@
 </div>
 
 <div *ngIf="userCreate">
-        <form materialize class="col s12" [formGroup]="complexForm" (ngSubmit)="addUserSubmit(complexForm.value)">
+        <form materialize class="col s12" [formGroup]="complexForm" (ngSubmit)="addUserSubmit(complexForm.value)" novalidate>
             <div class="row">
                 <div class="input-field col s4">
                     <label>First Name</label>
-                    <input type="text" class="validate" formControlName="first_name">
+                    <input class="form-control" type="text" class="validate" formControlName="first_name">
                     <div *ngIf="formErrors.first_name" class="alert alert-danger red">{{formErrors.first_name }}</div>
                 </div>
 
                 <div class="input-field col s4">
                     <label >Last Name: </label>
-                    <input type="text" class="validate" formControlName="last_name">
+                    <input class="form-control" type="text" class="validate" formControlName="last_name">
                     <div *ngIf="formErrors.last_name" class="alert alert-danger red">{{formErrors.last_name}}</div>
                 </div>
 
                   <div class="input-field col s4" >
                     <label >User Name: </label>
-                    <input type="text" class="validate" formControlName="username">
+                    <input class="form-control" type="text" class="validate" formControlName="username">
                     <div *ngIf="formErrors.username"  disabled class="alert alert-danger red">{{formErrors.username}}</div>
                 </div>
             </div>
@@ -41,19 +41,19 @@
             <div class="row">
                 <div class="input-field col s4">
                     <label>Phone Number</label>
-                    <input type="text" class="validate" formControlName="phone_number">
+                    <input class="form-control" type="text" class="validate" formControlName="phone_number">
                     <div *ngIf="formErrors.phone_number" class="alert alert-danger red">{{formErrors.phone_number}}</div>
                 </div>
 
                 <div class="input-field col s4">
                     <label >Email</label>
-                    <input type="text" class="validate" formControlName="email">
+                    <input class="form-control" type="text" class="validate" formControlName="email">
                     <div *ngIf="formErrors.email" class="alert alert-danger red">{{formErrors.email}}</div>
                 </div>
 
                  <div class="input-field col s4">
                     <label >User Secret</label>
-                    <input type="text" class="validate" formControlName="user_secret">
+                    <input class="form-control" type="text" class="validate" formControlName="user_secret">
                     <div *ngIf="formErrors.user_secret" class="alert alert-danger red">{{formErrors.user_secret}}</div>
                 </div>
             </div>
@@ -61,37 +61,38 @@
             <div class="row"  *ngIf="!edit">
                 <div class="input-field col s6">
                     <label>Password</label>
-                    <input type="text" class="validate" formControlName="password">
+                    <input class="form-control" type="text" class="validate" formControlName="password">
                     <div *ngIf="formErrors.password" class="alert alert-danger red">{{formErrors.password}}</div>
                 </div>
 
                 <div class="input-field col s6">
                     <label>Confirm Password</label>
-                    <input type="text"  class="validate" formControlName="confirm_password">
-                    <div *ngIf="formErrors.confirm_password" class="alert alert-danger red">{{formErrors.confirm_password}}</div>
+                    <input class="form-control" type="text"  class="validate" formControlName="confirm_password">
+                    <div *ngIf="formErrors.confirm_password?.notEquivalent" class="alert alert-danger red">{{formErrors.confirm_password?.notEquivalent}}</div>
                 </div>
 
             </div>
 
            <div class="row">
-              <div class="input-field col s6">
-                  <select [(ngModel)]="required_concepts"  formControlName="user_type" [materializeSelectOptions]="selectOptions" materialize="material_select">
+               <div class="input-field col s6">
+                  <select class="form-control"  formControlName="user_type" [materializeSelectOptions]="selectOptions" materialize="material_select">
                         <option value="" disabled selected>Type of User</option>
                       <option *ngFor="let user_type of user_types" [value]="user_type">{{user_type}}</option>
                   </select>
+                <div *ngIf="formErrors.user_type" class="alert alert-danger red">{{formErrors.user_type}}</div>
 
               </div>
             </div>
            <div class="row">
             <div class="input-field col s6">
-                  <select [(ngModel)]="create_domain"  formControlName="create_domain" [materializeSelectOptions]="selectOptions" materialize="material_select">
+                  <select class="form-control" [(ngModel)]="create_domain"  formControlName="create_domain" [materializeSelectOptions]="selectOptions" materialize="material_select">
                         <option value="" disabled selected>Create Domain Permissions</option>
                       <option *ngFor="let value of create_domains" [value]="value">{{value}}</option>
                   </select>
 
               </div>
               <div class="input-field col s6">
-                  <select [(ngModel)]="create_template"  formControlName="create_template" [materializeSelectOptions]="selectOptions" materialize="material_select">
+                  <select class="form-control" [(ngModel)]="create_template"  formControlName="create_template" [materializeSelectOptions]="selectOptions" materialize="material_select">
                         <option value="" disabled selected>Create Template Permissions</option>
                       <option *ngFor="let value of create_domains" [value]="value">{{value}}</option>
                   </select>
@@ -103,7 +104,7 @@
 
            <div class="row">
               <div class="input-field col s6">
-                  <select [(ngModel)]="create_variable"  formControlName="create_variable" [materializeSelectOptions]="selectOptions" materialize="material_select">
+                  <select class="form-control" [(ngModel)]="create_variable"  formControlName="create_variable" [materializeSelectOptions]="selectOptions" materialize="material_select">
                         <option value="" disabled selected>Create Variable Permissions</option>
                       <option *ngFor="let value of create_domains" [value]="value">{{value}}</option>
                   </select>
@@ -111,7 +112,7 @@
               </div>
 
             <div class="input-field col s6">
-                  <select [(ngModel)]="create_variabletemplate"  formControlName="create_variabletemplate" [materializeSelectOptions]="selectOptions" materialize="material_select">
+                  <select class="form-control" [(ngModel)]="create_variabletemplate"  formControlName="create_variabletemplate" [materializeSelectOptions]="selectOptions" materialize="material_select">
                         <option value="" disabled selected>Create Variable Template Permissions</option>
                       <option *ngFor="let value of create_domains" [value]="value">{{value}}</option>
                   </select>
