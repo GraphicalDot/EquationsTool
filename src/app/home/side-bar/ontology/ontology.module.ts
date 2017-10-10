@@ -17,6 +17,7 @@ import { FormsModule,  ReactiveFormsModule  } from '@angular/forms';
 import "froala-editor/js/froala_editor.pkgd.min.js";
 
 import { FroalaEditorModule, FroalaViewModule } from 'angular-froala-wysiwyg';
+import { QuestioneditorComponent } from './questions/questioneditor/questioneditor.component';
 
 @NgModule({
   imports: [
@@ -31,7 +32,7 @@ import { FroalaEditorModule, FroalaViewModule } from 'angular-froala-wysiwyg';
     FroalaEditorModule.forRoot(), 
     FroalaViewModule.forRoot()
   ],
-  declarations: [OntologyComponent, PermissionsComponent, SubconceptComponent, ConceptComponent, DomainComponent, NanoskillComponent, QuestionsComponent],
+  declarations: [OntologyComponent, PermissionsComponent, SubconceptComponent, ConceptComponent, DomainComponent, NanoskillComponent, QuestionsComponent, QuestioneditorComponent],
   exports: [OntologyComponent],
 })
 export class OntologyModule { }

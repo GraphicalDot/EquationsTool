@@ -181,58 +181,10 @@ export class QuestionsComponent implements OnInit {
                this.selectedNanoskill = value
         });
 
-        //Drggable option is available on froala, search for it and use it
-        this.options =  {
-                    beforeUpload: function (e, editor, images) {
-                    },
-                    
-                    placeholderText: 'Edit Your Question Here!',
-                    charCounterCount: true,
-                    // Set the image upload parameter.
-                    imageUploadParam: 'image_data',
-                    
-                    // Set the image upload URL.
-                    imageUploadURL: 'http://localhost:8000/uploadimage',
-                    draggable: true,
-                    dragInline: true,
-                    imageMove: true,
-                    videoMove: true,
-                    
-                    // Additional upload params.
-                    imageUploadParams: {"user_id": this.user.user_id, "parent_id": this.selectedNanoskill.module_id},
-                    
-                    // Set request type.
-                    imageUploadMethod: 'POST',
-                    
-                    // Set max image size to 5MB.
-                    imageMaxSize: 5 * 1024 * 1024,
-                    
-                    // Allow to upload PNG and JPG.
-                    imageAllowedTypes: ['jpeg', 'jpg', 'png'],
-                    events: {
-                        'froalaEditor.initialized': function() {
-                                console.log('initialized');
-                        },
-                    
-                        'froalaEditor.image.beforeUpload': function (e, editor, images){
-                                var reader = new FileReader();
-                                reader.addEventListener("load", function () {
-                                    console.log("No use of converting this image to base64");
-                                }, false);
-                        
-                                if (images[0]) {
-                                    var data = reader.readAsDataURL(images[0]);
-                        }
-                    },
-
-                    'froalaEditor.image.replaced': function(e, editor, $img, response){
-                            console.log("Image is deleted")
-                    },
-                    }
-                    };
+       
                     
 
-
+/* 
         this.store.select(fromRoot.getSelectedDomain)
             .subscribe(value => {
                 console.log(value)
@@ -248,9 +200,10 @@ export class QuestionsComponent implements OnInit {
             .subscribe(value => {
             this.selectedSubconcept = value
         });
+ */
 
-
-        
+        //Everytime a user clicks on Edit question, A event is sent to the store which updates 
+        //selectedQuestion to the selecctedquestion for edit.        
         this.store.select(fromRoot.getSelectedQuestion)
             .subscribe(value => {
                this.module = value
@@ -285,8 +238,6 @@ export class QuestionsComponent implements OnInit {
     //A form will opened
     addQuestion(module){
         event.preventDefault()
-        console.log(this.myForm.value)
-        console.log(this.editorContent)
         //this.service.addConcept(concept)
         var data = Object.assign({}, module, {"parent_id": this.selectedNanoskill.module_id, "user_id": this.user.user_id, "question_type": this.modify_data(this.question_type)})
         this.store.dispatch(new actions.Addquestion(data))

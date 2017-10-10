@@ -24,8 +24,11 @@
 <div class="row">
 
 <div *ngIf="openEdit">
+   
     <div class="col s12">
-       <form materialize class="col s12" #form="ngForm" (ngSubmit)="editModule(module.value)">
+        <!--  <div [froalaEditor]="options"  [(froalaModel)]="editorContent">Add question Here</div>
+         -->    <app-questioneditor></app-questioneditor>
+        <form materialize class="col s12" #form="ngForm" (ngSubmit)="editModule(module.value)">
           <div class="row">
               <div class="input-field col s4">
                   <input id="icon_prefix" type="text" class="validate"  [(ngModel)]="module.module_name" name="module_name">

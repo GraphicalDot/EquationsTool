@@ -12,7 +12,6 @@ import * as fromRoot from '../../../reducers';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 
-
 @Component({
   selector: 'app-users',
   templateUrl: './users.component.html',
@@ -32,6 +31,7 @@ export class UsersComponent implements OnInit {
     user: UserModel ;
     actionUser: UserModel;
     users$: Observable<any>;
+    user_type: string = ""
     complexForm : FormGroup;
     user_types= ["r1", "r2", "admin", "superadmin", "general", "r3"];
     create_domains = [true, false]
@@ -61,9 +61,9 @@ export class UsersComponent implements OnInit {
      create_domain : [''],
       username: ['', [Validators.required]],
       user_secret: ['', [Validators.required]],
-      create_variable: ['', [Validators.required]],
-      create_variabletemplate: ['', [Validators.required]],
-      create_template: ['', [Validators.required]]
+      create_variable: [''],
+      create_variabletemplate: ['',],
+      create_template: ['', ]
       
 
     }, {validator: this.checkIfMatchingPasswords('password', 'confirm_password')});
@@ -234,6 +234,7 @@ checkIfMatchingPasswords(passwordKey: string, passwordConfirmationKey: string) {
       this.user = user
       this.edit= true;    
 
+      console.log(this.user)
       this.complexForm.setValue({
           first_name: this.user.first_name,
           last_name: this.user.last_name,
