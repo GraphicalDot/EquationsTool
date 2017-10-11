@@ -122,8 +122,6 @@ export class QuestionsComponent implements OnInit {
         let newGroup = this.fb.group({
             option_name: [''],
             option_order: [''],
-            option_text: [''],
-            option_image :['']
             /* Fill this in identically to the one in ngOnInit */
 
         });
