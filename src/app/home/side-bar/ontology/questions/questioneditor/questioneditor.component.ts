@@ -18,10 +18,14 @@ declare var $:any;
 @Component({
   selector: 'app-questioneditor',
   templateUrl: './questioneditor.component.html',
-  styleUrls: ['./questioneditor.component.css']
+  styleUrls: ['./questioneditor.component.css'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+
 })
 export class QuestioneditorComponent implements OnInit {
-    @Input()
+    @Input() option
+    @Input() editorcontent
+
     //@Output() selectedSubconcept = new EventEmitter<SubconceptModel>();
 
 
@@ -57,6 +61,7 @@ export class QuestioneditorComponent implements OnInit {
 
   ngOnInit() {
          //Drggable option is available on froala, search for it and use it
+        console.log(this.option)
         this.options =  {
                     beforeUpload: function (e, editor, images) {
                     },
