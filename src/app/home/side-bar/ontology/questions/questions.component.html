@@ -24,10 +24,9 @@
 <div class="row">
 
 <div *ngIf="openEdit">
-   
     <div class="col s12">
         <!--  <div [froalaEditor]="options"  [(froalaModel)]="editorContent">Add question Here</div>
-         -->    <app-questioneditor></app-questioneditor>
+         -->    <app-questioneditor [option]=false></app-questioneditor>
         <form materialize class="col s12" [formGroup]="myForm" (ngSubmit)="editModule(module.value)">
           <div class="row">
               <div class="input-field col s4">
@@ -47,15 +46,12 @@
                   <div class="input-field col s2">
                         <input formControlName="option_name" disabled value='Option Number {{i +1 }}'>
                   </div>
+
                   <div class="input-field col s2">
-                        <input formControlName="option_order" placeholder="Description">
-                  </div>
-                  <div class="input-field col s2">
-                       <button class="btn waves-effect waves-light" type="button" (click)="delInput(i)">Delete</button>
+                       <button class="btn waves-effect waves-light nano red" type="button" (click)="delInput(i)">-</button>
                   </div>
                   <div class="input-field col s6">
-                       <app-questioneditor [option]="i" [(editorcontent)]="editorcontent"></app-questioneditor>
-                       <div>Parent SelectedId: {{editorcontent}}</div>
+                       <app-questioneditor [option]="i+1" ></app-questioneditor>
                   </div>
                 </div>
 

@@ -30,7 +30,20 @@ import "jqueryui"
   changeDetection: ChangeDetectionStrategy.OnPush
 
 })
-export class QuestionsComponent implements OnInit {
+
+/* 
+So this is how it s works, Whenever a user clicks on the Edit question, A action is intiated with selected module option
+Now when a user clicks on Add_option button a new acion is activated, adding an option with option number and
+froala content. This action will be sent from the question editor component.
+
+This component will then subscribe to this option and renders 
+
+
+*/
+
+
+
+ export class QuestionsComponent implements OnInit {
     public editorContent: any;
 
     public module_options: Array<string>
@@ -121,7 +134,6 @@ export class QuestionsComponent implements OnInit {
         const arrayControl = <FormArray>this.myForm.controls['options'];
         let newGroup = this.fb.group({
             option_name: [''],
-            option_order: [''],
             /* Fill this in identically to the one in ngOnInit */
 
         });
@@ -130,6 +142,8 @@ export class QuestionsComponent implements OnInit {
     delInput(index: number): void {
         const arrayControl = <FormArray>this.myForm.controls['options'];
         arrayControl.removeAt(index);
+        this.store.dispatch(new actions.Deletequestionoption({"index": index+1}))
+        
     }
 
 
@@ -252,7 +266,6 @@ export class QuestionsComponent implements OnInit {
     
     deleteOption(option){
 
-        this.store.dispatch(new actions.Deletequestionoption(option))
 }
 
     edit(question: QuestionModel) {

@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, EventEmitter, Output, Input, ChangeDetectionStrategy, AfterViewInit } from '@angular/core';
+import { Component, OnChanges, OnInit, SimpleChanges, OnDestroy, EventEmitter, Output, Input, ChangeDetectionStrategy, AfterViewInit } from '@angular/core';
 
 import {State, Store} from "@ngrx/store"
 import { Observable, ObservableInput } from 'rxjs/Observable';
@@ -22,9 +22,8 @@ declare var $:any;
     changeDetection: ChangeDetectionStrategy.OnPush,
 
 })
-export class QuestioneditorComponent implements OnInit {
+export class QuestioneditorComponent implements OnInit{
     @Input() option
-    @Input() editorcontent
 
     //@Output() selectedSubconcept = new EventEmitter<SubconceptModel>();
 
@@ -33,7 +32,7 @@ export class QuestioneditorComponent implements OnInit {
     private selectedNanoskill: NanoskillModel
     private user: UserModel
     private options: Object
-    private editorContent
+    private editorContent: string 
     private imageUrl: string = "http://localhost:8000/uploadimage"
 
     constructor(private store: Store<fromRoot.AppState>) {
@@ -59,6 +58,24 @@ export class QuestioneditorComponent implements OnInit {
    }
       
 
+
+  contentChange(content){
+      console.log(content)
+      this.editorContent = content
+      if (this.option == false){
+              this.store.dispatch(new actions.Addquestiontext({"option": this.option, "content": content}))
+              console.log("Adding Question text")
+            }else{
+              console.log(this.option)
+
+                this.store.dispatch(new actions.Addquestionoption({"option": this.option, "content": content}))
+              console.log("Adding Question option")
+
+
+      }
+
+    }
+  
   ngOnInit() {
          //Drggable option is available on froala, search for it and use it
         console.log(this.option)
@@ -152,5 +169,6 @@ export class QuestioneditorComponent implements OnInit {
 
 
   }
+
 
 }

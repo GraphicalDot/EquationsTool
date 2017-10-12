@@ -28,12 +28,27 @@ export class QuestionEffects {
 
     @Effect() Clearallquestion$: Observable<Action> = this.actions$
         .ofType(actions.CLEAR_QUESTION)
-        
+
+
    @Effect() Deletequestionoption$: Observable<Action> = this.actions$
         .ofType(actions.DELETE_QUESTION_OPTION)
         .map((action: actions.Deletequestionoption) => action.payload)
         .map((payload: any) => new actions.Deletequestionoptionsuccess(payload))
-        
+
+
+   @Effect() Addquestionoption$: Observable<Action> = this.actions$
+        .ofType(actions.ADD_QUESTION_OPTION)
+        .map((action: actions.Addquestionoption) => action.payload)
+        .map((payload: any) => new actions.Addquestionoptionsuccess(payload))
+        .catch(err => of(new actions.Addquestionoptionfailure(err)))
+
+
+
+   @Effect() Addquestiontext$: Observable<Action> = this.actions$
+        .ofType(actions.ADD_QUESTION_TEXT)
+        .map((action: actions.Addquestiontext) => action.payload)
+        .map((payload: any) => new actions.Addquestiontextsuccess(payload))
+        .catch(err => of(new actions.Addquestiontextfailure(err)))
 
 
     

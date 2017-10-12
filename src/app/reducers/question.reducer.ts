@@ -5,6 +5,12 @@ import {createSelector} from "reselect"
 import * as actions from '../actions/question.actions';
 import * as _ from 'lodash';
 
+/*  
+
+
+*/
+
+
 export interface QuestionState {
     module_ids?: string[],
     modules?: Array<QuestionModel>,
@@ -35,21 +41,72 @@ export function QuestionReducer(state = initialState, action: actions.Actions): 
 
     switch(action.type){
                 case actions.DELETE_QUESTION_OPTION_SUCCESS:
-
                     {
-                    var selectedModuleId = state.modules.findIndex(i => state.selectedModule.module_id === i.module_id);
-                    var selectedModuleObject = Object.assign({}, state.selectedModule, {"options": state.selectedModule.options.filter(newsItem => newsItem !== action.payload)})
+                        let stateclone = _.cloneDeep(state);
+                        const idToRemove = action.payload.index;
+                        
+                        const options = stateclone.selectedModule.options.filter((_object) => _object.option != action.payload.index)
+                        
+                        var selectedModuleObject = Object.assign({}, state.selectedModule, {"options": options})
                     return Object.assign({}, state, 
                     {
-
-                    modules: Object.assign({}, ...state.modules, {selectedModuleId: selectedModuleObject}),
-                    selectedModule: selectedModuleObject
+                        selectedModule: selectedModuleObject,
+                        loaded: true,
+                        loading: false,
 
                     })
                     
                     }                    
-                
-        
+            case actions.DELETE_QUESTION_OPTION:
+            {
+                 return Object.assign({}, state, {
+                        loaded: false,
+                        loading: true,
+                        error: undefined
+                        })
+                }
+            case actions.DELETE_QUESTION_OPTION_FAILURE:
+            {
+                 return Object.assign({}, state, {
+                        loaded: true,
+                        loading: false,
+                        error: "Question option couldnt be deleted, Please try again later or contact administrator"
+                        })
+                }                
+            case actions.ADD_QUESTION_OPTION_SUCCESS:
+            {
+                        var optionindex = action.payload.option -1
+                        let estateclone = _.cloneDeep(state);
+                        
+                        var options = estateclone.selectedModule.options
+
+                        options[optionindex] = action.payload
+                 
+                return Object.assign({}, state, {
+                         selectedModule: Object.assign({}, state.selectedModule, {"options": options}),
+                        loaded: true,
+                        loading: false,
+                        error: undefined
+                        })
+                }
+
+            case actions.ADD_QUESTION_OPTION:
+            {
+                 return Object.assign({}, state, {
+                        loaded: false,
+                        loading: true,
+                        error: undefined
+                        })
+                }
+            case actions.ADD_QUESTION_OPTION_FAILURE:
+            {
+                 return Object.assign({}, state, {
+                        loaded: true,
+                        loading: false,
+                        error: "Question option couldnt be added, Please try again later or contact administrator"
+                        })
+                }
+                    
                 case actions.CLEAR_QUESTION:
                     {
                     return Object.assign({}, state, initialState) 
@@ -178,7 +235,6 @@ export function QuestionReducer(state = initialState, action: actions.Actions): 
             case actions.SELECTED_QUESTION:
             {
                  return Object.assign({}, state, {
-                        selectedModule: undefined,
                         loaded: false,
                         loading: true,
                         error: undefined
@@ -200,6 +256,34 @@ export function QuestionReducer(state = initialState, action: actions.Actions): 
                         loading: false,
                         })
                 }
+
+            case actions.ADD_QUESTION_TEXT:
+            {
+                 return Object.assign({}, state, {
+                         selectedModule: Object.assign({}, state.selectedModule, {"question_text": action.payload.content}),
+                        loaded: false,
+                        loading: true,
+                        error: undefined
+                        })
+                }
+
+            case actions.ADD_QUESTION_TEXT_SUCCESS:
+            {
+                 return Object.assign({}, state, {
+                        loaded: true,
+                        loading: false,
+                        error: undefined
+                        })
+                }
+            case actions.ADD_QUESTION_TEXT_FAILURE:
+            {
+                 return Object.assign({}, state, {
+                        loaded: true,
+                        loading: false,
+                        error: "Question text couldnt be added, Please try again later or contact administrator"
+                        })
+                }
+
             /*state.splice(state.indexOf(action.payload), 1);
                 // We need to create another reference
                 return Array.prototype.concat(state);

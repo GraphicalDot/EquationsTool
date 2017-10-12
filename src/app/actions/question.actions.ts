@@ -36,9 +36,17 @@ export type Actions =
             
             |Clearquestion
             | Addquestionoption
+            | Addquestionoptionsuccess
+            | Addquestionoptionfailure
+
             | Deletequestionoption
             | Deletequestionoptionsuccess
+            |Deletequestionoptionfailure
             | Questionerror
+
+            | Addquestiontext
+            | Addquestiontextsuccess
+            | Addquestiontextfailure
 //**************** LOAD SubConcept
 
 
@@ -62,6 +70,22 @@ export class Addquestionoption implements Action{
 }
 
 
+export const ADD_QUESTION_OPTION_SUCCESS = "[Questions] Add Question option success"
+export class Addquestionoptionsuccess implements Action{
+    readonly type = ADD_QUESTION_OPTION_SUCCESS
+    constructor(public payload: any){}
+}
+
+
+export const ADD_QUESTION_OPTION_FAILURE = "[Questions] Add Question option failure"
+export class Addquestionoptionfailure implements Action{
+    readonly type = ADD_QUESTION_OPTION_FAILURE
+    constructor(public payload: any){}
+}
+
+
+
+
 export const DELETE_QUESTION_OPTION = "[Questions] Delete Question option"
 export class Deletequestionoption implements Action{
     readonly type = DELETE_QUESTION_OPTION
@@ -75,6 +99,31 @@ export class Deletequestionoptionsuccess implements Action{
 }
 
 
+export const DELETE_QUESTION_OPTION_FAILURE = "[Questions] Delete Question option failure"
+export class Deletequestionoptionfailure implements Action{
+    readonly type = DELETE_QUESTION_OPTION_FAILURE
+    constructor(public payload: any){}
+}
+
+
+export const ADD_QUESTION_TEXT = "[Questions] Add Question text"
+export class Addquestiontext implements Action{
+    readonly type = ADD_QUESTION_TEXT
+    constructor(public payload: any){}
+}
+
+
+export const ADD_QUESTION_TEXT_SUCCESS = "[Questions] Add Question text success"
+export class Addquestiontextsuccess implements Action{
+    readonly type = ADD_QUESTION_TEXT_SUCCESS
+    constructor(public payload: any){}
+}
+
+export const ADD_QUESTION_TEXT_FAILURE = "[Questions] Add Question text failure"
+export class Addquestiontextfailure implements Action{
+    readonly type = ADD_QUESTION_TEXT_FAILURE
+    constructor(public payload: any){}
+}
 
 
 
