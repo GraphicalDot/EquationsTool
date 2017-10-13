@@ -46,7 +46,7 @@ export class ConceptComponent implements OnInit {
     public user: UserModel
     private concepts$: Observable<any>;
     public currentPage: number
-    private pages$: Observable<number>;    
+    private pages: number[];    
     private module_count$: Observable<number>;    
     private myConcepts
     private loading: boolean;
@@ -79,13 +79,11 @@ export class ConceptComponent implements OnInit {
         this.domains$ = this.store.select(fromRoot.getDomains);
         this.concepts$ = this.store.select(fromRoot.getConcepts);
         
-        this.pages$ = this.store.select(fromRoot.getConceptPages)
         this.module_count$ = this.store.select(fromRoot.getConceptCount)
        // this.selectedDomain$ = this.store.select(fromRoot.getSelectdDomainId) 
         this.users$ = this.store.select(fromRoot.getUsers);
         this.permission$ = this.store.select(fromRoot.getDomainPermission)
 
-        this.pages$.subscribe((value) => console.log(value))
         this.module_count$.subscribe((value) => console.log(value))
         this.permission$ = this.store.select(fromRoot.getConceptPermission)
 
@@ -130,13 +128,20 @@ export class ConceptComponent implements OnInit {
                                   //selectAllText:'Select All',
                                   //unSelectAllText:'UnSelect All',
                                   //classes:"myclass custom-class"
-                                };         
-
+                                };                
 
 
         this.store.select(fromRoot.getAuthenticatedUser)
         .subscribe(value => {
             this.loggedUser = value
+        });
+
+        this.store.select(fromRoot.getConceptPages)
+        .subscribe(value => {
+            console.log(value)
+            //this.pages = new Array(value);//create an empty array with length 45
+            this.pages = Array(value).fill(0).map((e,i)=>i+1)
+
         });
 
         this.store.select(fromRoot.getAllConcepts)
@@ -162,7 +167,7 @@ export class ConceptComponent implements OnInit {
             .subscribe(value => {
             this.selectedParentModule = value;
             console.log(value)
-            this.store.dispatch(new actions.Loadconcept({"parent_id": value.module_id, "user_id": this.loggedUser.user_id, "skip": 0, "limit": 1000}))
+            this.store.dispatch(new actions.Loadconcept({"parent_id": value.module_id, "user_id": this.loggedUser.user_id, "skip": 0, "limit": 15}))
             //This will fetch all the modules irrespective of the parent_id, in this case irrespective of the parent domain id
             this.store.dispatch(new actions.Allconcept({"parent_id": this.selectedParentModule.module_id}))
             this.prereq_modules = []

@@ -109,7 +109,7 @@ export function SubconceptReducer(state = initialState,  action: actions.Actions
 
                     return Object.assign({}, state, {"modules": [...state.modules, action.payload.module],
                                   "module_ids": [...state.module_ids, action.payload.module_id],
-                                    "allmodules": [...state.allmodules, {"module_id": action.payload.module_id, "module_name": action.payload.module.module_name }],
+                                   // "allmodules": [...state.allmodules, {"module_id": action.payload.module_id, "module_name": action.payload.module.module_name }],
                                   
                             loaded: true,
                             loading: false,

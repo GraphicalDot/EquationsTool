@@ -182,8 +182,7 @@ checkIfMatchingPasswords(passwordKey: string, passwordConfirmationKey: string) {
    'create_variabletemplate': {'required': 'Create Variable Template permissions are required'}
   }
 
-
-                                                                                                           
+                                                                                                 
   ngOnInit() {
     this.userCreate = false;
     this.store.dispatch(new UserActions.Loadusers({"skip": 0, "limit": 15, "search_text": null, "user_id": this.actionUser.user_id}))

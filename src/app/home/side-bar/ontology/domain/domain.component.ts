@@ -60,7 +60,9 @@ export class DomainComponent implements OnInit, OnDestroy {
 
     public data
     public currentDomainPage: number
+    private currentPage: number
     public pages$: Observable<number>;
+    public pages: number[];
     public domain_count$: Observable<number>
     public loading: boolean = false
    //public user$: Observable<UserModel>;
@@ -85,6 +87,15 @@ export class DomainComponent implements OnInit, OnDestroy {
                     }
 
     ngOnInit(){
+
+        this.store.select(fromRoot.getDomainPages)
+        .subscribe(value => {
+            //this.pages = new Array(value);//create an empty array with length 45
+            this.pages = Array(value).fill(0).map((e,i)=>i+1)
+
+        });
+
+
         this.store.select(fromRoot.getAuthenticatedUser)
             .subscribe(value => {
             console.log("Authenticated user" + value.user_id)
@@ -115,7 +126,6 @@ export class DomainComponent implements OnInit, OnDestroy {
               .subscribe(value =>{
                     this.loading = value
             })
-
 
         this.store.dispatch(new actions.Loaddomain({"user_id": this.loggedUser.user_id, "skip": 0, "limit": 15, "search_text": null}))
 
@@ -158,10 +168,11 @@ export class DomainComponent implements OnInit, OnDestroy {
         console.log("Domain changed clicked" + input)
         console.log(this.loggedUser.user_id)
         this.addPermissionFlag = false        
-        this.currentDomainPage = input
+        this.currentPage = input
         console.log(this.currentDomainPage)
         this.store.dispatch(new actions.Loaddomain({"user_id": this.loggedUser.user_id, "skip": 15*(input-1), "limit": 15, "search_text": null}))
     }
+
 
     search_text_changed(search_text){
         this.store.dispatch(new actions.Loaddomain({"user_id": this.loggedUser.user_id, "skip": 0, "limit": 15, "search_text": search_text}))

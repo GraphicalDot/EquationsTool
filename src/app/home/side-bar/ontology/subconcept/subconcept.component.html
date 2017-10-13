@@ -207,7 +207,7 @@
           </tr>
         </thead>
 
-        <tbody *ngFor="let domain of subconcepts$ | async | paginate: {id: 'subconcept', itemsPerPage: 15, currentPage: currentPage,  totalItems: module_count$ |async}">
+        <tbody *ngFor="let domain of subconcepts$ | async">
             <tr>
                     <td>{{domain.module_name}}</td>
                     <td>{{domain.username}}</td>
@@ -227,7 +227,10 @@
 
         </tbody>
         </table>
-        <pagination-controls id="subconcept" (pageChange)="pageSubconceptChanged($event)"></pagination-controls>
-
+         <ul materialize class="pagination">
+             <li *ngFor="let page of pages" [class.active]="page == currentPage">
+                 <a href="javascript:void(0)" (click)="pageSubconceptChanged(page, $event)">{{page}}</a>
+            </li>
+        </ul>
 
 </div>

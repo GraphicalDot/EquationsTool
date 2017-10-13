@@ -44,7 +44,7 @@ export class SubconceptComponent implements OnInit, OnDestroy {
     public currentPage: number;
     public subscriber_one 
     public subscriber_two 
-    public pages$: Observable<number>;
+    public pages: number[];
     public module_count$: Observable<number>;
     public subconcept: SubconceptModel
 
@@ -79,7 +79,6 @@ export class SubconceptComponent implements OnInit, OnDestroy {
                         this.subconcepts$ = this.store.select(fromRoot.getSubConcepts);
                         //this.user$ = this.store.select(fromRoot.getAuthenticatedUser) 
     //                    this.user$ = this.store.select(fromRoot.getAuthenticatedUser) 
-                        this.pages$ = this.store.select(fromRoot.getSubconceptPages)
                         this.module_count$ = this.store.select(fromRoot.getSubconceptCount)
                         this.permission$ = this.store.select(fromRoot.getSubconceptPermission)
                         this.users$ = this.store.select(fromRoot.getUsers);
@@ -128,6 +127,15 @@ export class SubconceptComponent implements OnInit, OnDestroy {
                             //unSelectAllText:'UnSelect All',
                             //classes:"myclass custom-class"
                         }; 
+        
+        
+        this.store.select(fromRoot.getSubconceptPages)
+        .subscribe(value => {
+            console.log(value)
+            //this.pages = new Array(value);//create an empty array with length 45
+            this.pages = Array(value).fill(0).map((e,i)=>i+1)
+
+        });
 
         this.store.select(fromRoot.getAuthenticatedUser)
             .subscribe(value => {

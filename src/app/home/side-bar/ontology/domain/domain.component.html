@@ -129,7 +129,7 @@
           </tr>
         </thead>
 
-        <tbody *ngFor="let domain of domains$ | async | paginate: {id: 'domain', itemsPerPage: 15, currentPage: currentDomainPage,  totalItems: domain_count$ |async}">
+        <tbody *ngFor="let domain of domains$ | async">
             <tr>
                     <td>{{domain.module_name}}</td>
                     <td>{{domain.username}}</td>
@@ -149,7 +149,18 @@
 
         </tbody>
         </table>
-        <pagination-controls id="domain" (pageChange)="pageDomainChanged($event)"></pagination-controls>
+       <!-- <pagination-controls id="domain" (pageChange)="pageDomainChanged($event)"></pagination-controls> -->
 
+       <!--         
+        https://g00glen00b.be/pagination-component-angular-2/  
+         -->
+
+         <ul class="pagination">
+             <li *ngFor="let page of pages" [class.active]="page == currentPage">
+                 <a href="javascript:void(0)" (click)="pageDomainChanged(page, $event)">{{page}}</a>
+            </li>
+        </ul>
+
+         
 
 </div>

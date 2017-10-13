@@ -133,7 +133,8 @@ export function DomainReducer(state = initialState, action: DomainActions.Action
                         const newEntities = stateclone.modules.filter((id) => id.module_id != action.payload.module_id)
 
                         return Object.assign({}, state, {
-                            modules: newEntities, loaded: true, loading: false, 
+                            modules: newEntities, 
+                            loaded: true, loading: false, 
                             module_ids: ids,
                             module_count: state.module_count -1,
                             pages: Math.ceil((state.module_count-1)/15), 
