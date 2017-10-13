@@ -1,2 +1,2 @@
-   <div [froalaEditor]="options"  [ngModel]="editorContent" (ngModelChange)="contentChange($event)">Add question Here</div>
+   <div [froalaEditor]="options"  [(ngModel)]="editorContent" (ngModelChange)="contentChange($event)">Add question Here</div>
    <div [froalaView]="editorContent"></div>

@@ -202,6 +202,7 @@ export const getSelectedQuestion = createSelector(QuestionAppState, fromQuestion
 export const getQuestionPages = createSelector(QuestionAppState, fromQuestion.Getquestionpages)
 export const getQuestionCount = createSelector(QuestionAppState, fromQuestion.Getquestioncount)
 export const getQuestionError = createSelector(QuestionAppState, fromQuestion.Getquestionerror)
+export const getQuestionMessage = createSelector(QuestionAppState, fromQuestion.Getquestionmessage)
 
 
 

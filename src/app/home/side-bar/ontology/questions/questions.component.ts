@@ -93,6 +93,7 @@ This component will then subscribe to this option and renders
     }
     
     addOption(): void {
+        event.preventDefault()
         const arrayControl = <FormArray>this.myForm.controls['options'];
         let newGroup = this.fb.group({
             option_name: [''],
@@ -195,6 +196,13 @@ This component will then subscribe to this option and renders
           .subscribe(value =>{
             toast("ERROR: "+ value, 4000);
           })
+
+        
+        this.store.select(fromRoot.getQuestionMessage)
+          .filter((value) => value !== undefined && value !== null ) 
+          .subscribe(value =>{
+            toast(value, 4000);
+          })
     };
         
     ngOnDestroy(){
@@ -207,6 +215,14 @@ This component will then subscribe to this option and renders
     }
     
     editModule(module){
+        //Now getting this.module which is actually selectedModule which is selected Question.
+        // Everything that is updated during edit is in Question selected module state.
+        event.preventDefault()
+        console.log(module)
+        console.log(this.module)
+        var data = Object.assign({}, this.module, {"description": module.description})
+
+        this.store.dispatch(new actions.Editquestion({"module": data, "user": this.user}))
       
     }
     
@@ -241,6 +257,9 @@ This component will then subscribe to this option and renders
       this.openEdit= true;    
       this.openAdd = false; //This will close the add new nanoskill form just to avoid confusion   
       this.store.dispatch(new actions.Selectedquestion(question))
+      console.log(question)
+      this.editorContent = question.question_text
+      console.log(this.editorContent)
     }
 
 

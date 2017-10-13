@@ -21,6 +21,7 @@ export interface QuestionState {
     parent_id?: null
     pages?: number,
     module_count?: number
+    message?: string
 }
 
 const initialState: QuestionState = {
@@ -32,7 +33,8 @@ const initialState: QuestionState = {
     error: null,
     parent_id: null,
     pages: null,
-    module_count: null
+    module_count: null,
+    message: null
 }
 
 
@@ -284,6 +286,44 @@ export function QuestionReducer(state = initialState, action: actions.Actions): 
                         })
                 }
 
+
+            case actions.EDIT_QUESTION_SUCCESS:
+                {
+                        console.log(action.payload)
+                        let estateclone = _.cloneDeep(state);
+                        
+                        var newModules = estateclone.modules
+                        var indexOfObject = newModules.findIndex(id => id.module_id === action.payload.module.module_id);
+
+                        newModules[indexOfObject] = action.payload.module
+
+                        return Object.assign({}, state, {
+                            modules: newModules, 
+                            loaded: true, 
+                            loading: false,
+                            message: action.payload.message
+                        });
+            
+                }
+
+            case actions.EDIT_QUESTION:
+            {
+                 return Object.assign({}, state, {
+                        loaded: true,
+                        loading: false,
+                        error: undefined
+                        })
+                }
+            case actions.EDIT_QUESTION_FAILURE:
+            {
+                 return Object.assign({}, state, {
+                        loaded: true,
+                        loading: false,
+                        error: action.payload._body
+                        })
+                }
+
+
             /*state.splice(state.indexOf(action.payload), 1);
                 // We need to create another reference
                 return Array.prototype.concat(state);
@@ -319,6 +359,7 @@ export const Getquestionloading = (state: QuestionState) => state.loading
 export const Getselectedquestion = (state: QuestionState) => state.selectedModule;
 export const Getquestionpages = (state: QuestionState) => state.pages;
 export const Getquestioncount = (state: QuestionState) => state.module_count;
+export const Getquestionmessage = (state: QuestionState) => state.message;
 /* 
 //Get SElected user from the selectedUserId
 export const Getselectedsubconcept = createSelector(Getsubconcepts, Getselectedsubconceptid, (entities, selectedId) => {

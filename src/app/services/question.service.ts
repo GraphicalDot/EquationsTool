@@ -37,11 +37,7 @@ export class QuestionService {
   
   
     Editquestionservice(payload):  Observable<QuestionModel> {
-        let params = new URLSearchParams();
-        params.set("user_id", payload.user.user_id)
-        let headers = new Headers(this.headerContent);
-        let options = new RequestOptions({search: params});   
-        return this.http.post(this.QUESTION_API_URL, JSON.stringify(payload.module))
+        return this.http.put(this.QUESTION_API_URL, JSON.stringify(payload))
       .map(res => res.json()["data"])
       
     }

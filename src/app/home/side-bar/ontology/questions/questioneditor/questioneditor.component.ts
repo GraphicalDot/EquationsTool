@@ -1,4 +1,4 @@
-import { Component, OnChanges, OnInit, SimpleChanges, OnDestroy, EventEmitter, Output, Input, ChangeDetectionStrategy, AfterViewInit } from '@angular/core';
+import { Component, OnChanges, OnInit, SimpleChanges, SimpleChange, OnDestroy, EventEmitter, Output, Input, ChangeDetectionStrategy, AfterViewInit } from '@angular/core';
 
 import {State, Store} from "@ngrx/store"
 import { Observable, ObservableInput } from 'rxjs/Observable';
@@ -22,9 +22,9 @@ declare var $:any;
     changeDetection: ChangeDetectionStrategy.OnPush,
 
 })
-export class QuestioneditorComponent implements OnInit{
+export class QuestioneditorComponent implements OnInit,  OnChanges{
     @Input() option
-
+    @Input() content
     //@Output() selectedSubconcept = new EventEmitter<SubconceptModel>();
 
 
@@ -32,9 +32,8 @@ export class QuestioneditorComponent implements OnInit{
     private selectedNanoskill: NanoskillModel
     private user: UserModel
     private options: Object
-    private editorContent: string 
     private imageUrl: string = "http://localhost:8000/uploadimage"
-
+    private editorContent: string
     constructor(private store: Store<fromRoot.AppState>) {
         this.store.select(fromRoot.getSelectedQuestion)
             .subscribe(value => {
@@ -54,10 +53,19 @@ export class QuestioneditorComponent implements OnInit{
         });
 
 
-
    }
       
+  ngOnChanges(changes: SimpleChanges) {
+      console.log("somethingchanges")
+      const some: SimpleChange = changes.content;
+          console.log('prev value: ', some.previousValue);
+    console.log('got name: ', some.currentValue);
 
+      console.log(some.currentValue)
+      this.editorContent = some.currentValue;
+
+  }
+  
 
   contentChange(content){
       console.log(content)
@@ -79,6 +87,8 @@ export class QuestioneditorComponent implements OnInit{
   ngOnInit() {
          //Drggable option is available on froala, search for it and use it
         console.log(this.option)
+        console.log(this.content)
+        this.editorContent = this.content
         this.options =  {
                     beforeUpload: function (e, editor, images) {
                     },
