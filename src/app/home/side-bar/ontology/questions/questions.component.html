@@ -39,7 +39,6 @@
         <button class="btn waves-effect waves-light" (click)="addOption()" >Add Option</button>
         <button class="btn waves-effect waves-light" type="submit" name="action">Submit<i class="material-icons right">send</i></button>
          
-         
           <div class="row" formArrayName="options" *ngFor="let item of myForm.get('options').controls; let i = index;">
 
             <div [formGroupName]="i">
@@ -134,7 +133,7 @@
           </tr>
         </thead>
                    
-        <tbody *ngFor="let domain of questions$ | async | paginate: { itemsPerPage: 15, currentPage: currentPage$ | async,  totalItems: module_count$ |async}">
+        <tbody *ngFor="let domain of questions$ | async">
             <tr>
                     <td>{{domain.module_name}}</td>
                     <td>{{domain.username}}</td>
@@ -151,6 +150,9 @@
 
         </tbody>
         </table>
-        <pagination-controls boundary-links="true" (pageChange)="pageNanoskillChanged($event)"></pagination-controls>
-
+         <ul materialize class="pagination">
+             <li *ngFor="let page of pages" [class.active]="page == currentPage">
+                 <a href="javascript:void(0)" (click)="pageChanged(page, $event)">{{page}}</a>
+            </li>
+        </ul>
 </div>

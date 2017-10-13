@@ -41,7 +41,7 @@ export class SubconceptComponent implements OnInit, OnDestroy {
     public module;
     public concepts$: Observable<any>;
     public subconcepts$: Observable<any>;
-    public currentPage: number;
+    public currentPage: number = 1 ;
     public subscriber_one 
     public subscriber_two 
     public pages: number[];

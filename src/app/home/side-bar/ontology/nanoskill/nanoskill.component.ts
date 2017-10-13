@@ -42,10 +42,10 @@ export class NanoskillComponent implements OnInit, OnDestroy {
     public user: UserModel
     public nanoskills$: Observable<any>;
     public subconcepts$: Observable<any>;
-    public currentPage: number;
+    public currentPage: number =1 
 
     public module;
-    public pages$: Observable<number>;
+    public pages: number[];
     public module_count$: Observable<number>;
 
     private nanoskills
@@ -79,7 +79,6 @@ export class NanoskillComponent implements OnInit, OnDestroy {
         //this.selected_domain = this.store.select("Selecteddomain")
         this.nanoskills$ = this.store.select(fromRoot.getNanoskills);
         this.subconcepts$ = this.store.select(fromRoot.getSubConcepts);
-        this.pages$ = this.store.select(fromRoot.getNanoskillPages)
         this.module_count$ = this.store.select(fromRoot.getNanoskillCount)
         this.permission$ = this.store.select(fromRoot.getNanoskillPermission)
         this.users$ = this.store.select(fromRoot.getUsers);
@@ -147,6 +146,13 @@ export class NanoskillComponent implements OnInit, OnDestroy {
             })
         });
 
+        this.store.select(fromRoot.getNanoskillPages)
+        .subscribe(value => {
+            console.log(value)
+            //this.pages = new Array(value);//create an empty array with length 45
+            this.pages = Array(value).fill(0).map((e,i)=>i+1)
+
+        });
 
         this.store.select(fromRoot.getNanoskills)
         .subscribe(value => {

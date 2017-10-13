@@ -233,7 +233,7 @@
           </tr>
         </thead>
 
-        <tbody *ngFor="let domain of nanoskills$ | async | paginate: {id: 'nanoskill', itemsPerPage: 15, currentPage: currentPage,  totalItems: module_count$ |async}">
+        <tbody *ngFor="let domain of nanoskills$ | async">
             <tr>
                     <td>{{domain.module_name}}</td>
                     <td>{{domain.username}}</td>
@@ -253,7 +253,10 @@
 
         </tbody>
         </table>
-        <pagination-controls id="nanoskill" (pageChange)="pageNanoskillChanged($event)"></pagination-controls>
-
+        <ul materialize class="pagination">
+             <li *ngFor="let page of pages" [class.active]="page == currentPage">
+                 <a href="javascript:void(0)" (click)="pageNanoskillChanged(page, $event)">{{page}}</a>
+            </li>
+        </ul>
 
 </div>

@@ -45,7 +45,7 @@ export class ConceptComponent implements OnInit {
     public domains$: Observable<any>;
     public user: UserModel
     private concepts$: Observable<any>;
-    public currentPage: number
+    public currentPage: number = 1;
     private pages: number[];    
     private module_count$: Observable<number>;    
     private myConcepts

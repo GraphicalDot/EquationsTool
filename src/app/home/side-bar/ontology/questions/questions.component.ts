@@ -55,50 +55,13 @@ This component will then subscribe to this option and renders
     public user: UserModel
     public nanoskills$: Observable<any>;
     public questions$: Observable<any>;
-    public currentQPage: number;
+    public currentPage: number = 1;
     myForm : FormGroup;
 
-    public options: Object /* = {
-                                beforeUpload: function (e, editor, images) {
-                                },
-                              charCounterCount: true,
-                              // Set the image upload parameter.
-                              imageUploadParam: 'image_data',
-                      
-                              // Set the image upload URL.
-                              imageUploadURL: 'http://localhost:8000/uploadimage',
-                      
-                              // Additional upload params.
-                              imageUploadParams: {"user_id": this.user.user_id, "module_id": "some_id"},
-                      
-                              // Set request type.
-                              imageUploadMethod: 'POST',
-                      
-                              // Set max image size to 5MB.
-                              imageMaxSize: 5 * 1024 * 1024,
-                      
-                              // Allow to upload PNG and JPG.
-                              imageAllowedTypes: ['jpeg', 'jpg', 'png'],
-                              events: {
-                                  'froalaEditor.initialized': function() {
-                                      console.log('initialized');
-                                    },
-                                'froalaEditor.image.beforeUpload': function (e, editor, images){
-                                        var reader = new FileReader();
-                                        reader.addEventListener("load", function () {
-                                            console.log(reader.result);
-                                        }, false);
-                                        if (images[0]) {
-                                            var data = reader.readAsDataURL(images[0]);
-                                        }
-                                    }
-                                }
-                           
-                            };
- */
+    public options: Object
     public user$ 
     public subscriber_two 
-    public pages$: Observable<number>;
+    public pages: number[];
     public module_count$: Observable<number>;
     public selectedDomain: DomainModel
     public selectedConcept: ConceptModel
@@ -115,7 +78,6 @@ This component will then subscribe to this option and renders
         //this.selected_domain = this.store.select("Selecteddomain")
         this.nanoskills$ = this.store.select(fromRoot.getNanoskills);
         this.questions$ = this.store.select(fromRoot.getQuestions);
-        this.pages$ = this.store.select(fromRoot.getQuestionPages)
         this.module_count$ = this.store.select(fromRoot.getQuestionCount)
         
        // this.selectedDomain$ = this.store.select(fromRoot.getSelectdDomainId) 
@@ -171,6 +133,13 @@ This component will then subscribe to this option and renders
             this.user = value
         });
 
+        this.store.select(fromRoot.getQuestionPages)
+        .subscribe(value => {
+            console.log(value)
+            //this.pages = new Array(value);//create an empty array with length 45
+            this.pages = Array(value).fill(0).map((e,i)=>i+1)
+
+        });
 
         this.store.select(fromRoot.getSelectedNanoskill)
             .filter(value => value != undefined)
@@ -275,9 +244,9 @@ This component will then subscribe to this option and renders
     }
 
 
-    pageNanoskillChanged(input){
+    pageChanged(input){
         console.log("changed nanoskill clicked")
-        this.currentQPage = input
+        this.currentPage = input
         this.store.dispatch(new actions.Loadquestion({"parent_id": this.selectedParent.module_id, "user_id": this.user.user_id, "skip": 15*(input-1), "limit": 15, "search_text": null}))
     
     }

@@ -60,7 +60,7 @@ export class DomainComponent implements OnInit, OnDestroy {
 
     public data
     public currentDomainPage: number
-    private currentPage: number
+    private currentPage: number = 1
     public pages$: Observable<number>;
     public pages: number[];
     public domain_count$: Observable<number>
