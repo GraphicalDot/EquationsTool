@@ -1,3 +1,4 @@
+import { QuestioneditorComponent } from './questioneditor/questioneditor.component';
 import { observeOn } from 'rxjs/operator/observeOn';
 import { toast } from 'angular2-materialize';
 
@@ -13,7 +14,7 @@ import {QuestionModel} from '../../../../models/question.model';
 import {State, Store} from "@ngrx/store"
 import { Observable, ObservableInput } from 'rxjs/Observable';
 import {ApplicationStore} from "../../../../app.store"
-import { Component, OnInit, OnDestroy, EventEmitter, Output, Input, ChangeDetectionStrategy, AfterViewInit } from '@angular/core';
+import { Component, OnInit, OnDestroy, EventEmitter, Output, Input,  ViewChild, ChangeDetectionStrategy,ComponentFactoryResolver, ComponentFactory, ViewContainerRef,  AfterViewInit } from '@angular/core';
 import {MaterializeDirective} from "angular2-materialize";
 import * as Materialize from 'angular2-materialize';
 import * as fromRoot from '../../../../reducers';
@@ -21,12 +22,14 @@ import * as actions from '../../../../actions/question.actions';
 import { FormBuilder, FormGroup, Validators, FormArray, FormControl } from '@angular/forms';
 import { Validator } from 'codelyzer/walkerFactory/walkerFn';
 declare var $:any;
-import "jqueryui"
+import 'jqueryui';
 
 @Component({
   selector: 'app-questions',
   templateUrl: './questions.component.html',
   styleUrls: ['./questions.component.css'],
+  entryComponents: [QuestioneditorComponent],
+
   changeDetection: ChangeDetectionStrategy.OnPush
 
 })
@@ -70,11 +73,24 @@ This component will then subscribe to this option and renders
     private QuestionTypeData = []
     private QuestionTypeSettings = {}
     private question_type: string
+    private componentFactory: ComponentFactory<any>;
+    private _ref:any;   
+
+    private option_count: number = 0
     
     @Output() unfreezeontology = new EventEmitter<boolean>();
+    @ViewChild('dynamicComponentContainer', { read: ViewContainerRef }) ViewContainerRef;
+    //https://stackoverflow.com/questions/42620592/angular-2-dynamically-create-components-in-ngfor
+    //https://medium.com/@DenysVuika/dynamic-content-in-angular-2-3c85023d9c36
+    //https://stackoverflow.com/questions/40931698/removing-child-components-programmatically-through-the-parent-component
+    //https://stackoverflow.com/questions/37487977/passing-input-while-creating-angular-2-component-dynamically-using-componentreso
 
     //constructor(private store: Store<ApplicationStore>, private service: DomainService,) { 
-    constructor(private store: Store<fromRoot.AppState>, private fb: FormBuilder ) {
+    constructor(private store: Store<fromRoot.AppState>, private fb: FormBuilder, private componentFactoryResolver: ComponentFactoryResolver,
+                private viewContainerRef: ViewContainerRef ) {
+
+    this.componentFactory = componentFactoryResolver.resolveComponentFactory(QuestioneditorComponent);
+
         //this.selected_domain = this.store.select("Selecteddomain")
         this.nanoskills$ = this.store.select(fromRoot.getNanoskills);
         this.questions$ = this.store.select(fromRoot.getQuestions);
@@ -86,23 +102,46 @@ This component will then subscribe to this option and renders
             module_name: [''],
             description: ['',],
             question_text: [],
-            options: this.fb.array([])
         });
 
 
     }
     
+    addOption() {
+        
+        event.preventDefault()
+        this.option_count += 1;
+        console.log(this.option_count)
+        //const factory = this.componentFactoryResolver.resolveComponentFactory(QuestioneditorComponent);
+        const ref = this.viewContainerRef.createComponent(this.componentFactory, 0)
+        ref.instance._ref = QuestioneditorComponent;
+        let instance: any = ref.instance;
+       /*  if (!!instance.close) {
+      // close is eventemitter decorated with @output 
+          console.log("close clicked")
+      instance.close.subscribe(this.removeObject);
+    }
+        //ref.changeDetectorRef.detectChanges(); */
+        ref.instance.option = this.option_count;
+
+
+    }
+  
+    removeObject(){
+    this._ref.destroy();
+  } 
+/* 
     addOption(): void {
         event.preventDefault()
         const arrayControl = <FormArray>this.myForm.controls['options'];
         let newGroup = this.fb.group({
             option_name: [''],
             content: ['']
-            /* Fill this in identically to the one in ngOnInit */
 
         });
         arrayControl.push(newGroup);
-    }
+    } */
+
     delInput(index: number): void {
         const arrayControl = <FormArray>this.myForm.controls['options'];
         arrayControl.removeAt(index);

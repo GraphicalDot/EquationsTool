@@ -1,11 +1,23 @@
-<!--    <div [froalaEditor]="options"  [(ngModel)]="editorContent" (ngModelChange)="contentChange($event)">Add question Here</div>
-   <div [froalaView]="editorContent"></div> -->
+   
+<div class="row">
+    <div class="col s4">
+        <div class="row">
+            <div class="col s8">
+                <p *ngIf="question_text_flag == false">Option {{option}} </p>
+                <p *ngIf="question_text_flag"> Question Text </p>
+            </div>
+            <div class="col s4">
+                <button class="btn waves-effect waves-light red" (click)="onClose($event)">(-)</button>
+            </div>
 
-<div [formGroup]="form">
-  <div [formArrayName]="arrayName">
+        </div>
+        <div class="row">
+            <div [froalaView]="editorContent"></div>
+        </div>
+    </div>
+    <div class="col s8">
+        <div [froalaEditor]="options"  [(ngModel)]="editorContent" (ngModelChange)="contentChange($event)">Add question Here</div>
+    </div>
 
-     <textarea [froalaEditor] [formControlName]="controlName" [(froalaModel)]="form.formModel"></textarea>
-  <div [froalaView]="form.formModel"></div>
 
-  </div>
 </div>

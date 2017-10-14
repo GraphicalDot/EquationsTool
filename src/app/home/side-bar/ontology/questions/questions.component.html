@@ -21,12 +21,46 @@
 
 </div>
 
-<div class="row">
+        <table materialize *ngIf="(questions$ | async)?.length>0">
+        <thead>
+          <tr>
+              <th>Name</th>
+              <th>Creator</th>
+              <th>Created on</th>
+              <th>Creation approval</th>
+              <th>Question Text</th>
+              <th>Question Type</th>
+              <th>Edit</th>
+              <th>Delete</th>
+          </tr>
+        </thead>
+                   
+        <tbody *ngFor="let domain of questions$ | async">
+            <tr>
+                    <td>{{domain.module_name}}</td>
+                    <td>{{domain.username}}</td>
+                    <td>{{domain.indian_time}}</td>
+                    <td>
+                        <input disable type="radio" [checked]="domain.creation_approval"/><label class="black-text flow-text"></label>
+                    </td>
+                    <td>{{ domain.question_text}}</td>
+                    <td>{{ domain.question_type[0].module_name}}</td>
+                    
+                     <td><button class="btn waves-effect waves-light" (click) = "edit(domain)" >Edit</button></td>
+                    <td><button class="btn waves-effect waves-light" (click) = "delete(domain)">Delete</button></td>
+            </tr>
+
+        </tbody>
+        </table>
+         <ul materialize class="pagination">
+             <li *ngFor="let page of pages" [class.active]="page == currentPage">
+                 <a href="javascript:void(0)" (click)="pageChanged(page, $event)">{{page}}</a>
+            </li>
+        </ul>
+
 
 <div *ngIf="openEdit">
     <div class="col s12">
-        <!--  <div [froalaEditor]="options"  [(froalaModel)]="editorContent">Add question Here</div>
-         -->    <app-questioneditor [option]=false [(content)]="editorContent"></app-questioneditor>
         <form materialize class="col s12" [formGroup]="myForm" (ngSubmit)="editModule(myForm.value); false">
           <div class="row">
               <div class="input-field col s4">
@@ -35,10 +69,23 @@
               <div class="input-field col s4">
                   <input id="icon_telephone" type="tel" class="validate"  formControlName="description" [(ngModel)]="module.description" name="description">
               </div>
+              <div class="input-field col s4">
+                <button class="btn waves-effect waves-light" type="submit" name="action">Submit<i class="material-icons right">send</i></button>
+              </div>
           </div>
-        <button class="btn waves-effect waves-light" (click)="addOption()" >Add Option</button>
-        <button class="btn waves-effect waves-light" type="submit" name="action">Submit<i class="material-icons right">send</i></button>
-         
+        </form>
+<!--  <div [froalaEditor]="options"  [(froalaModel)]="editorContent">Add question Here</div>
+         -->    
+
+         <app-questioneditor [option]=false [(content)]="editorContent"></app-questioneditor>
+        
+        <div class="row">
+            <button class="btn waves-effect waves-light" (click)="addOption()" >Add Option</button>
+        </div>
+        <div #dynamicComponentContainer></div>
+
+
+        <!--          
           <div class="row" formArrayName="options" *ngFor="let item of myForm.get('options').controls; let i = index;">
 
             <div [formGroupName]="i">
@@ -50,15 +97,14 @@
                        <button class="btn waves-effect waves-light nano red" type="button" (click)="delInput(i)">-</button>
                   </div>
                   <div class="input-field col s6">
-                       <app-questioneditor [form]="myForm" [arrayName]="options" [controlName]="content"  [option]="i+1" ></app-questioneditor>
+                       <app-questioneditor   [option]="i+1" ></app-questioneditor>
                   </div>
                 </div>
 
         </div>
-
+ -->
          
          
-        </form>
     </div>
 </div>
 
@@ -99,60 +145,7 @@
 
 
         </div>
-
-<!--           <div class="row" formArrayName="options" *ngFor="let item of myForm.get('options').controls; let i = index;">
-
-            <div [formGroupName]="i">
-                  <input formControlName="option_name" placeholder="Option Name">
-                  <input formControlName="option_order" placeholder="Description">
-                  <input formControlName="option_text" placeholder="Text">
-                  
-                   <input type="file" formControlName="option_image"><label>Image</label>
-                   <button type="button" (click)="delInput(i)">Delete</button>
-            </div>
-
-        </div>
- -->
-
-
 </div>
    
 
 
-        <table materialize *ngIf="(questions$ | async)?.length>0">
-        <thead>
-          <tr>
-              <th>Name</th>
-              <th>Creator</th>
-              <th>Created on</th>
-              <th>Creation approval</th>
-              <th>Question Text</th>
-              <th>Question Type</th>
-              <th>Edit</th>
-              <th>Delete</th>
-          </tr>
-        </thead>
-                   
-        <tbody *ngFor="let domain of questions$ | async">
-            <tr>
-                    <td>{{domain.module_name}}</td>
-                    <td>{{domain.username}}</td>
-                    <td>{{domain.indian_time}}</td>
-                    <td>
-                        <input disable type="radio" [checked]="domain.creation_approval"/><label class="black-text flow-text"></label>
-                    </td>
-                    <td>{{ domain.question_text}}</td>
-                    <td>{{ domain.question_type[0].module_name}}</td>
-                    
-                     <td><button class="btn waves-effect waves-light" (click) = "edit(domain)" >Edit</button></td>
-                    <td><button class="btn waves-effect waves-light" (click) = "delete(domain)">Delete</button></td>
-            </tr>
-
-        </tbody>
-        </table>
-         <ul materialize class="pagination">
-             <li *ngFor="let page of pages" [class.active]="page == currentPage">
-                 <a href="javascript:void(0)" (click)="pageChanged(page, $event)">{{page}}</a>
-            </li>
-        </ul>
-</div>

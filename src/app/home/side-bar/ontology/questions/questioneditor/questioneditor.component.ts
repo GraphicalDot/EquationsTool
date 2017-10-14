@@ -19,7 +19,6 @@ declare var $:any;
   selector: 'app-questioneditor',
   templateUrl: './questioneditor.component.html',
   styleUrls: ['./questioneditor.component.css'],
-    changeDetection: ChangeDetectionStrategy.OnPush,
 
 })
 export class QuestioneditorComponent implements OnInit,  OnChanges{
@@ -28,10 +27,13 @@ export class QuestioneditorComponent implements OnInit,  OnChanges{
     @Input() form
     @Input() arrayName
     @Input() controlName
+
+    @Output() close = new EventEmitter();
+
     
     //@Output() selectedSubconcept = new EventEmitter<SubconceptModel>();
 
-
+    private question_text_flag = false;
     private module: QuestionModel;
     private selectedNanoskill: NanoskillModel
     private user: UserModel
@@ -58,6 +60,11 @@ export class QuestioneditorComponent implements OnInit,  OnChanges{
 
 
    }
+
+   onClose() {
+        console.log("on close clicked")
+        this.close.emit(null);
+  }
       
   ngOnChanges(changes: SimpleChanges) {
       console.log("somethingchanges")
@@ -75,6 +82,7 @@ export class QuestioneditorComponent implements OnInit,  OnChanges{
       console.log(content)
       this.editorContent = content
       if (this.option == false){
+              this.question_text_flag = true
               this.store.dispatch(new actions.Addquestiontext({"option": this.option, "content": content}))
               console.log("Adding Question text")
             }else{
