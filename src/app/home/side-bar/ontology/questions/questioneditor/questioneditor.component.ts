@@ -25,6 +25,10 @@ declare var $:any;
 export class QuestioneditorComponent implements OnInit,  OnChanges{
     @Input() option
     @Input() content
+    @Input() form
+    @Input() arrayName
+    @Input() controlName
+    
     //@Output() selectedSubconcept = new EventEmitter<SubconceptModel>();
 
 

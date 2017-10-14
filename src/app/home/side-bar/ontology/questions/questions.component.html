@@ -50,7 +50,7 @@
                        <button class="btn waves-effect waves-light nano red" type="button" (click)="delInput(i)">-</button>
                   </div>
                   <div class="input-field col s6">
-                       <app-questioneditor [option]="i+1" ></app-questioneditor>
+                       <app-questioneditor [form]="myForm" [arrayName]="options" [controlName]="content"  [option]="i+1" ></app-questioneditor>
                   </div>
                 </div>
 

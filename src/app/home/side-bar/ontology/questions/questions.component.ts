@@ -18,7 +18,7 @@ import {MaterializeDirective} from "angular2-materialize";
 import * as Materialize from 'angular2-materialize';
 import * as fromRoot from '../../../../reducers';
 import * as actions from '../../../../actions/question.actions';
-import { FormBuilder, FormGroup, Validators, FormArray } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, FormArray, FormControl } from '@angular/forms';
 import { Validator } from 'codelyzer/walkerFactory/walkerFn';
 declare var $:any;
 import "jqueryui"
@@ -97,6 +97,7 @@ This component will then subscribe to this option and renders
         const arrayControl = <FormArray>this.myForm.controls['options'];
         let newGroup = this.fb.group({
             option_name: [''],
+            content: ['']
             /* Fill this in identically to the one in ngOnInit */
 
         });
@@ -108,6 +109,34 @@ This component will then subscribe to this option and renders
         this.store.dispatch(new actions.Deletequestionoption({"index": index+1}))
         
     }
+
+
+    edit(question: QuestionModel) {
+      this.openEdit= true;    
+      this.openAdd = false; //This will close the add new nanoskill form just to avoid confusion   
+      this.store.dispatch(new actions.Selectedquestion(question))
+      console.log(question)
+      this.editorContent = question.question_text
+      console.log(this.editorContent)
+      const customersControls = <FormArray>this.myForm.controls['options'];
+      
+      question.options.forEach( (option) => {
+              customersControls.push(this.hola(option));
+       console.log(customersControls);
+    });
+  }
+
+
+
+    hola(cust) {
+
+        return this.fb.group({
+            option_name:  new FormControl(cust.option),
+            content:  new FormControl(cust.content),
+        });
+    }
+
+
 
 
     ngOnInit(){
@@ -163,26 +192,7 @@ This component will then subscribe to this option and renders
                this.selectedNanoskill = value
         });
 
-       
-                    
-
-/* 
-        this.store.select(fromRoot.getSelectedDomain)
-            .subscribe(value => {
-                console.log(value)
-                this.selectedDomain = value
-        });
-
-        this.store.select(fromRoot.getSelectedConcept)
-            .subscribe(value => {
-            this.selectedConcept = value
-        });
-
-        this.store.select(fromRoot.getSelectedSubConcept)
-            .subscribe(value => {
-            this.selectedSubconcept = value
-        });
- */
+    
 
         //Everytime a user clicks on Edit question, A event is sent to the store which updates 
         //selectedQuestion to the selecctedquestion for edit.        
@@ -252,15 +262,6 @@ This component will then subscribe to this option and renders
     deleteOption(option){
 
 }
-
-    edit(question: QuestionModel) {
-      this.openEdit= true;    
-      this.openAdd = false; //This will close the add new nanoskill form just to avoid confusion   
-      this.store.dispatch(new actions.Selectedquestion(question))
-      console.log(question)
-      this.editorContent = question.question_text
-      console.log(this.editorContent)
-    }
 
 
     pageChanged(input){
