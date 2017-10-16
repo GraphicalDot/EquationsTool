@@ -107,13 +107,12 @@ This component will then subscribe to this option and renders
 
     }
     
-    addOption() {
+    addOption(content?, optionindex?) {
         
         event.preventDefault()
         this.option_count += 1;
-        console.log(this.option_count)
         //const factory = this.componentFactoryResolver.resolveComponentFactory(QuestioneditorComponent);
-        const ref = this.viewContainerRef.createComponent(this.componentFactory, 0)
+        const ref = this.viewContainerRef.createComponent(this.componentFactory, this.module.options.length)
         ref.instance._ref = QuestioneditorComponent;
         let instance: any = ref.instance;
        /*  if (!!instance.close) {
@@ -122,59 +121,31 @@ This component will then subscribe to this option and renders
       instance.close.subscribe(this.removeObject);
     }
         //ref.changeDetectorRef.detectChanges(); */
-        ref.instance.option = this.option_count;
+        ref.instance.option = this.module.options.length
+        ref.instance.content = content;
+        this.store.dispatch(new actions.Addquestionoption({"option": this.option_count, "content": content}))
+
+
+        ref.instance.close.subscribe((index) => {
+            this.store.dispatch(new actions.Deletequestionoption({"index": index}))
+            ref.destroy();
+            
+        });
 
 
     }
   
-    removeObject(){
-    this._ref.destroy();
-  } 
-/* 
-    addOption(): void {
-        event.preventDefault()
-        const arrayControl = <FormArray>this.myForm.controls['options'];
-        let newGroup = this.fb.group({
-            option_name: [''],
-            content: ['']
-
-        });
-        arrayControl.push(newGroup);
-    } */
-
-    delInput(index: number): void {
-        const arrayControl = <FormArray>this.myForm.controls['options'];
-        arrayControl.removeAt(index);
-        this.store.dispatch(new actions.Deletequestionoption({"index": index+1}))
-        
-    }
-
-
     edit(question: QuestionModel) {
+        this.viewContainerRef.clear()
       this.openEdit= true;    
       this.openAdd = false; //This will close the add new nanoskill form just to avoid confusion   
       this.store.dispatch(new actions.Selectedquestion(question))
-      console.log(question)
-      this.editorContent = question.question_text
-      console.log(this.editorContent)
-      const customersControls = <FormArray>this.myForm.controls['options'];
-      
-      question.options.forEach( (option) => {
-              customersControls.push(this.hola(option));
-       console.log(customersControls);
-    });
+      this.option_count = 0
+      this.editorContent = this.module.question_text
+      this.module.options.forEach((option, index)=>{
+            this.addOption(option.content, this.module.options.length)
+      })
   }
-
-
-
-    hola(cust) {
-
-        return this.fb.group({
-            option_name:  new FormControl(cust.option),
-            content:  new FormControl(cust.content),
-        });
-    }
-
 
 
 
@@ -260,6 +231,7 @@ This component will then subscribe to this option and renders
     };
 
     delete(question: QuestionModel) {
+        this.viewContainerRef.clear()
         this.store.dispatch(new actions.Deletequestion({"module_id": question.module_id, "user_id": this.user.user_id}))
     }
     

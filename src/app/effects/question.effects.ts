@@ -34,6 +34,15 @@ export class QuestionEffects {
         .ofType(actions.DELETE_QUESTION_OPTION)
         .map((action: actions.Deletequestionoption) => action.payload)
         .map((payload: any) => new actions.Deletequestionoptionsuccess(payload))
+        .catch(err => of(new actions.Deletequestionoptionfailure(err)))
+
+
+   @Effect() Editquestionoption$: Observable<Action> = this.actions$
+        .ofType(actions.EDIT_QUESTION_OPTION)
+        .map((action: actions.Editquestionoption) => action.payload)
+        .map((payload: any) => new actions.Editquestionoptionsuccess(payload))
+        .catch(err => of(new actions.Editquestionoptionfailure(err)))
+
 
 
    @Effect() Addquestionoption$: Observable<Action> = this.actions$

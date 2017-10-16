@@ -3,11 +3,11 @@
     <div class="col s4">
         <div class="row">
             <div class="col s8">
-                <p *ngIf="question_text_flag == false">Option {{option}} </p>
-                <p *ngIf="question_text_flag"> Question Text </p>
+                <p *ngIf="question_text_flag == false"><b>Option</b></p>
+                <p *ngIf="question_text_flag"><b>Question Text </b></p>
             </div>
             <div class="col s4">
-                <button class="btn waves-effect waves-light red" (click)="onClose($event)">(-)</button>
+                <button class="btn waves-effect waves-light red" *ngIf="!question_text_flag" (click)="onClose($event)">(-)</button>
             </div>
 
         </div>

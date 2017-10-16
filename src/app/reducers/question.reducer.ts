@@ -46,10 +46,18 @@ export function QuestionReducer(state = initialState, action: actions.Actions): 
                     {
                         let stateclone = _.cloneDeep(state);
                         const idToRemove = action.payload.index;
-                        
+                        console.log("From reducer" + action.payload.index)
+                        console.log("Before options")
+                        console.log(stateclone.selectedModule.options)
                         const options = stateclone.selectedModule.options.filter((_object) => _object.option != action.payload.index)
-                        
-                        var selectedModuleObject = Object.assign({}, state.selectedModule, {"options": options})
+                        console.log("After options")
+                        console.log(options)
+
+                        let newoptions = []
+                        options.forEach((entry, index)=> {
+                            newoptions.push({"option": index, "content": entry.content })})
+                        console.log(newoptions)
+                        var selectedModuleObject = Object.assign({}, state.selectedModule, {"options": newoptions})
                     return Object.assign({}, state, 
                     {
                         selectedModule: selectedModuleObject,
@@ -74,18 +82,22 @@ export function QuestionReducer(state = initialState, action: actions.Actions): 
                         loading: false,
                         error: "Question option couldnt be deleted, Please try again later or contact administrator"
                         })
-                }                
+                }
+
             case actions.ADD_QUESTION_OPTION_SUCCESS:
             {
-                        var optionindex = action.payload.option -1
+                       /*  var optionindex = action.payload.option
+                        
                         let estateclone = _.cloneDeep(state);
                         
                         var options = estateclone.selectedModule.options
-
-                        options[optionindex] = action.payload
-                 
+                        console.log(options)
+                        console.log("This is option index" + optionindex)
+                         console.log(options)
+                        let newoptions = Object.assign({}, options, action.payload)
+                        console.log(newoptions) */
                 return Object.assign({}, state, {
-                         selectedModule: Object.assign({}, state.selectedModule, {"options": options}),
+                         selectedModule: Object.assign({}, state.selectedModule, {"options": [...state.selectedModule.options, action.payload]}),
                         loaded: true,
                         loading: false,
                         error: undefined
@@ -108,7 +120,47 @@ export function QuestionReducer(state = initialState, action: actions.Actions): 
                         error: "Question option couldnt be added, Please try again later or contact administrator"
                         })
                 }
-                    
+                 
+                
+            case actions.EDIT_QUESTION_OPTION_SUCCESS:
+            {
+                        let estateclone = _.cloneDeep(state);
+                        
+                        var options = estateclone.selectedModule.options
+                        console.log(action.payload)
+                        console.log(options)
+                        var indexOfObject = options.findIndex((id) => id.option === action.payload.option);
+                        console.log("Index of newly added object" + indexOfObject)
+                        options[indexOfObject] = action.payload
+                        console.log(options)
+
+                return Object.assign({}, state, {
+                         selectedModule: Object.assign({}, state.selectedModule, {"options": options}),
+                        loaded: true,
+                        loading: false,
+                        error: undefined
+                        })
+                }
+
+            case actions.EDIT_QUESTION_OPTION:
+            {
+                 return Object.assign({}, state, {
+                        loaded: false,
+                        loading: true,
+                        error: undefined
+                        })
+                }
+            case actions.EDIT_QUESTION_OPTION_FAILURE:
+            {
+                 return Object.assign({}, state, {
+                        loaded: true,
+                        loading: false,
+                        error: "Question option couldnt be edited, Please try again later or contact administrator"
+                        })
+                }
+
+
+
                 case actions.CLEAR_QUESTION:
                     {
                     return Object.assign({}, state, initialState) 

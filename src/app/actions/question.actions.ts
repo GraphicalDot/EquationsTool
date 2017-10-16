@@ -1,3 +1,4 @@
+import { Editpermissionquestionfailure } from './permissions.actions';
 import { Deleteconcept, Deleteconceptsuccess } from './ontology.actions';
 
 
@@ -39,9 +40,15 @@ export type Actions =
             | Addquestionoptionsuccess
             | Addquestionoptionfailure
 
+            | Editquestionoption
+            | Editquestionoptionsuccess
+            | Editquestionoptionfailure
+
             | Deletequestionoption
             | Deletequestionoptionsuccess
             |Deletequestionoptionfailure
+
+
             | Questionerror
 
             | Addquestiontext
@@ -82,6 +89,31 @@ export class Addquestionoptionfailure implements Action{
     readonly type = ADD_QUESTION_OPTION_FAILURE
     constructor(public payload: any){}
 }
+
+
+export const EDIT_QUESTION_OPTION = "[Questions] Edit Question option"
+export class Editquestionoption implements Action{
+    readonly type = EDIT_QUESTION_OPTION
+    constructor(public payload: any){}
+}
+
+
+export const EDIT_QUESTION_OPTION_SUCCESS = "[Questions] Edit Question option success"
+export class Editquestionoptionsuccess implements Action{
+    readonly type = EDIT_QUESTION_OPTION_SUCCESS
+    constructor(public payload: any){}
+}
+
+
+export const EDIT_QUESTION_OPTION_FAILURE = "[Questions] Edit Question option failure"
+export class Editquestionoptionfailure implements Action{
+    readonly type = EDIT_QUESTION_OPTION_FAILURE
+    constructor(public payload: any){}
+}
+
+
+
+
 
 
 

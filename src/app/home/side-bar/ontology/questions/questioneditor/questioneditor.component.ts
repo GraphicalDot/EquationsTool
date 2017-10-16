@@ -62,44 +62,34 @@ export class QuestioneditorComponent implements OnInit,  OnChanges{
    }
 
    onClose() {
-        console.log("on close clicked")
-        this.close.emit(null);
+        this.close.emit(this.option);
   }
       
   ngOnChanges(changes: SimpleChanges) {
-      console.log("somethingchanges")
       const some: SimpleChange = changes.content;
-          console.log('prev value: ', some.previousValue);
-    console.log('got name: ', some.currentValue);
-
-      console.log(some.currentValue)
       this.editorContent = some.currentValue;
 
   }
   
 
   contentChange(content){
-      console.log(content)
       this.editorContent = content
-      if (this.option == false){
+      console.log(content)
+      console.log(this.option)
+      if (this.option == 'question_text'){
+              console.log("Adding question text")
               this.question_text_flag = true
               this.store.dispatch(new actions.Addquestiontext({"option": this.option, "content": content}))
-              console.log("Adding Question text")
-            }else{
-              console.log(this.option)
-
-                this.store.dispatch(new actions.Addquestionoption({"option": this.option, "content": content}))
-              console.log("Adding Question option")
-
-
+            }
+    else{
+                console.log("Adding question option")
+                this.store.dispatch(new actions.Editquestionoption({"option": this.option, "content": content}))
       }
 
     }
   
   ngOnInit() {
          //Drggable option is available on froala, search for it and use it
-        console.log(this.option)
-        console.log(this.content)
         this.editorContent = this.content
         this.options =  {
                     beforeUpload: function (e, editor, images) {
