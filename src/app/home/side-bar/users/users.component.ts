@@ -17,13 +17,12 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
   templateUrl: './users.component.html',
   styleUrls: ['./users.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush
-
 })
 export class UsersComponent implements OnInit {
     userCreate: boolean;
     userModuleCount$: Observable<number>;
     currentUserPage$: Observable<number>;
-    currentPage: number //this is the current page number that we will get from the ngxpagination
+    public currentPage: number =1  //this is the current page number that we will get from the ngxpagination
 
     changePassword: boolean = false //Flag to control change password functionality, Its value 
                               // Will be true only when a user clicks on change password button
@@ -35,6 +34,8 @@ export class UsersComponent implements OnInit {
     complexForm : FormGroup;
     user_types= ["r1", "r2", "admin", "superadmin", "general", "r3"];
     create_domains = [true, false]
+    public pages: number[];
+
     constructor(private store: Store<fromRoot.AppState>, fb: FormBuilder ) {
        this.store.select(fromRoot.getAuthenticatedUser)
             .subscribe(value => {
@@ -48,6 +49,14 @@ export class UsersComponent implements OnInit {
           .subscribe(value =>{
             toast("ERROR: "+ value, 4000);
           })
+
+        this.store.select(fromRoot.getUserPages)
+          .subscribe(value => {
+            console.log(value)
+            //this.pages = new Array(value);//create an empty array with length 45
+            this.pages = Array(value).fill(0).map((e,i)=>i+1)
+
+        });
 
 
     this.complexForm = fb.group({
@@ -253,8 +262,8 @@ checkIfMatchingPasswords(passwordKey: string, passwordConfirmationKey: string) {
 
 
 
-      pageNanoskillChanged(input){
-        console.log("changed nanoskill clicked")
+      pageChanged(input){
+        console.log("Page Chnged clicked")
         this.currentPage = input
         this.store.dispatch(new UserActions.Loadusers({"skip": 15*(input-1), "limit": 15, "search_text": null, "user_id": this.actionUser.user_id }))
     

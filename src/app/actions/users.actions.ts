@@ -126,22 +126,22 @@ export class Addusersuccess implements Action{
 }
 
 
-export const EDIT_USER = "[Users] Create User"
+export const EDIT_USER = "[Users] Edit User"
 export class Edituser implements Action{
     readonly type = EDIT_USER
-    constructor(public payload: UserModel){}
+    constructor(public payload: any){}
 }
 
-export const EDIT_USER_FAILURE = "[Users] Create User Failure"
+export const EDIT_USER_FAILURE = "[Users] Edit User Failure"
 export class Edituserfailure implements Action{
     readonly type = EDIT_USER_FAILURE
-    constructor(public payload: string){}
+    constructor(public payload: any){}
 }
 
-export const EDIT_USER_SUCCESS = "[Users] Create User Success"
+export const EDIT_USER_SUCCESS = "[Users] Edit User Success"
 export class Editeusersuccess implements Action{
     readonly type = EDIT_USER_SUCCESS
-    constructor(public payload: string){}
+    constructor(public payload: any){}
 }
 
 

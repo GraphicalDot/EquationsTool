@@ -3,6 +3,7 @@ import { UserModel} from '../models/user.model';
 //import {ONTOLOGY_ACTIONS} from "./ontology.actions";
 import * as UserActions from '../actions/users.actions';
 import { createSelector } from 'reselect';
+import * as _ from 'lodash';
 
 export interface UserState {
     user_ids?: string[] | null
@@ -145,6 +146,34 @@ export function UsersReducer(state = initialState, action: UserActions.Actions):
                 // We need to create another reference
                 return Array.prototype.concat(state);
                 */
+            
+            case UserActions.EDIT_USER:
+                    return Object.assign({}, state, {
+                        loading: true,
+                        error: undefined,
+                        loaded: false,
+                    })
+
+
+            case UserActions.EDIT_USER_SUCCESS:
+                        console.log(action.payload)
+                        let estateclone = _.cloneDeep(state);
+                        
+                        var newModules = estateclone.users
+                        var indexOfObject = newModules.findIndex(id => id.user_id === action.payload.user_id);
+
+                        newModules[indexOfObject] = action.payload
+
+                        return Object.assign({}, state, {
+                            modules: newModules, loaded: true, loading: false, 
+                        });
+
+            case UserActions.EDIT_USER_FAILURE:
+                    return Object.assign({}, state, {
+                        loading: false,
+                          error: action.payload._body,
+                        loaded: true,
+                    })
 
             default:
                 return state

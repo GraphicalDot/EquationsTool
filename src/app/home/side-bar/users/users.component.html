@@ -75,7 +75,7 @@
 
            <div class="row">
                <div class="input-field col s6">
-                  <select class="form-control"  formControlName="user_type" [materializeSelectOptions]="selectOptions" materialize="material_select">
+                  <select class="form-control"  formControlName="user_type" [(ngModel)]="user_type" [materializeSelectOptions]="selectOptions" materialize="material_select">
                         <option value="" disabled selected>Type of User</option>
                       <option *ngFor="let user_type of user_types" [value]="user_type">{{user_type}}</option>
                   </select>
@@ -83,7 +83,7 @@
 
               </div>
             </div>
-           <div class="row" *ngIf="user_type != 'superadmin'">
+           <div class="row" *ngIf="user_type == 'admin' ||user_type == 'general' ">
             <div class="input-field col s6">
                   <select class="form-control"  formControlName="create_domain" [materializeSelectOptions]="selectOptions" materialize="material_select">
                         <option value="" disabled selected>Create Domain Permissions</option>
@@ -102,7 +102,7 @@
 
             </div>
 
-           <div class="row" *ngIf="user_type != 'superadmin'">
+           <div class="row" *ngIf="user_type == 'admin' ||user_type == 'general' ">
               <div class="input-field col s6">
                   <select class="form-control"   formControlName="create_variable" [materializeSelectOptions]="selectOptions" materialize="material_select">
                         <option value="" disabled selected>Create Variable Permissions</option>
@@ -135,7 +135,7 @@
 
           <tr>
               <th>First Name</th>
-              <th>Last Name</th>
+              <th>Username</th>
               <th>Email</th>
               <th>Create Domain</th>
               <th>Admin</th>
@@ -146,10 +146,10 @@
           </tr>
         </thead>
 
-        <tbody  *ngFor="let user of users$ | async | paginate: { id: 'user', itemsPerPage: 15, currentPage: currentPage,  totalItems: userModuleCount$ |async}">
+        <tbody  *ngFor="let user of users$ | async">
             <tr>
                     <td>{{user.first_name}}</td>
-                    <td>{{user.last_name}}</td>
+                    <td>{{user.username}}</td>
                     <td>{{user.email}}</td>
                     <td>
                         <input disable type="radio" [checked]="user.create_domain"/><label class="black-text flow-text"></label>
@@ -163,7 +163,10 @@
             </tr>
 
         </tbody>
-                    <pagination-controls id='user' (pageChange)="pageUserChanged($event)"></pagination-controls>
-
+            <ul materialize class="pagination">
+                <li *ngFor="let page of pages" [class.active]="page == currentPage">
+                    <a href="javascript:void(0)" (click)="pageChanged(page, $event)">{{page}}</a>
+            </li>
+        </ul>
         </table>
 </div>
