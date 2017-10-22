@@ -191,7 +191,8 @@
               <th>Status</th>
               <th>Edit</th>
               <th>Delete</th>
-              <th>Add Concepts</th>
+              <th>Add SubConcepts</th>
+              <th>Add Permissions</th>
           </tr>
         </thead>
 
@@ -206,10 +207,10 @@
                     <td>{{ domain.children}}</td>
                     <td>{{domain.status}}</td>
                     
-                    <td><button class="btn waves-effect waves-light small" (click) = "editModule(domain)" >Edit</button></td>
-                    <td><button class="btn waves-effect waves-light red small" (click) = "deleteModule(domain)">-</button></td>
-                    <td><button class="btn waves-effect waves-light small" (click)="selectModule(domain)">+subconcepts</button></td>
-                    <td><button class="btn waves-effect waves-light small" (click)="addPermissions(domain)">+Permissions</button></td>
+                    <td><button class="btn waves-effect waves-light small" (click) = "editModule(domain)" ><i class="material-icons">edit</i></button></td>
+                    <td><button class="btn waves-effect waves-light red small" (click) = "deleteModule(domain)"><i class="material-icons">delete</i></button></td>
+                    <td><button class="btn waves-effect waves-light small" (click)="selectModule(domain)"><i class="material-icons">add_box</i></button></td>
+                    <td><button class="btn waves-effect waves-light small" (click)="addPermissions(domain)"><i class="material-icons">add_box</i></button></td>
             </tr>
 
 

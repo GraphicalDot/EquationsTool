@@ -82,7 +82,7 @@ export class QuestioneditorComponent implements OnInit,  OnChanges{
               this.store.dispatch(new actions.Addquestiontext({"option": this.option, "content": content}))
             }
     else{
-                console.log("Adding question option")
+                console.log(this.option + content)
                 this.store.dispatch(new actions.Editquestionoption({"option": this.option, "content": content}))
       }
 

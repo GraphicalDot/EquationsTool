@@ -46,17 +46,11 @@ export function QuestionReducer(state = initialState, action: actions.Actions): 
                     {
                         let stateclone = _.cloneDeep(state);
                         const idToRemove = action.payload.index;
-                        console.log("From reducer" + action.payload.index)
-                        console.log("Before options")
-                        console.log(stateclone.selectedModule.options)
                         const options = stateclone.selectedModule.options.filter((_object) => _object.option != action.payload.index)
-                        console.log("After options")
-                        console.log(options)
 
                         let newoptions = []
                         options.forEach((entry, index)=> {
                             newoptions.push({"option": index, "content": entry.content })})
-                        console.log(newoptions)
                         var selectedModuleObject = Object.assign({}, state.selectedModule, {"options": newoptions})
                     return Object.assign({}, state, 
                     {
@@ -96,6 +90,7 @@ export function QuestionReducer(state = initialState, action: actions.Actions): 
                          console.log(options)
                         let newoptions = Object.assign({}, options, action.payload)
                         console.log(newoptions) */
+                console.log(state.selectedModule.options)
                 return Object.assign({}, state, {
                          selectedModule: Object.assign({}, state.selectedModule, {"options": [...state.selectedModule.options, action.payload]}),
                         loaded: true,

@@ -118,7 +118,6 @@ children: [
     VariabletemplateComponent,
     WrapperuploadfileComponent,
   ],
-
   imports: [
     AppRoutingModule,
     NgxPaginationModule, // <-- import the module

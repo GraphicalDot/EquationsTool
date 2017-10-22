@@ -121,13 +121,15 @@ This component will then subscribe to this option and renders
       instance.close.subscribe(this.removeObject);
     }
         //ref.changeDetectorRef.detectChanges(); */
-        ref.instance.option = this.module.options.length
+        ref.instance.option = this.option_count
         ref.instance.content = content;
         this.store.dispatch(new actions.Addquestionoption({"option": this.option_count, "content": content}))
 
 
         ref.instance.close.subscribe((index) => {
             this.store.dispatch(new actions.Deletequestionoption({"index": index}))
+            this.option_count -= 1
+            
             ref.destroy();
             
         });
