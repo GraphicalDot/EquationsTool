@@ -242,11 +242,11 @@ export class Editdomain implements Action{
 }
 export class Editdomainsuccess implements Action{
     readonly type = EDIT_DOMAIN_SUCCESS
-    constructor(public payload: DomainModel){}
+    constructor(public payload: any){}
 }
 export class Editdomainfailure implements Action{
     readonly type = EDIT_DOMAIN_FAILURE
-    constructor(public payload: DomainModel){}
+    constructor(public payload: any){}
 }
 
 

@@ -165,7 +165,10 @@ export function UsersReducer(state = initialState, action: UserActions.Actions):
                         newModules[indexOfObject] = action.payload
 
                         return Object.assign({}, state, {
-                            modules: newModules, loaded: true, loading: false, 
+                            modules: newModules, 
+                            loaded: true, 
+                            loading: false,
+                             
                         });
 
             case UserActions.EDIT_USER_FAILURE:

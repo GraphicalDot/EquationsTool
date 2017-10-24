@@ -75,18 +75,20 @@ export class OntologyService {
     }
   
     //This is not working, Please change the backend for it to function
-    editDomain(domain: DomainModel, ) {
-        let headers = new Headers(this.headerContent);
-        let options = new RequestOptions({headers});
-        var url = this.DOMAIN_API_URL + "/" + domain.module_id
-        this.http.put(url, JSON.stringify(domain), options)
-      //.subscribe(action => this.store.dispatch({ type: ONTOLOGY_ACTIONS.EDIT_DOMAIN, payload: domain }));
-  }
   
     Editconcept(payload) {
         let headers = new Headers(this.headerContent);
         let options = new RequestOptions({headers});
         return this.http.put(this.CONCEPT_API_URL, JSON.stringify(payload))
+        .map(res => res.json()["data"])
+      //.subscribe(action => this.store.dispatch({ type: ONTOLOGY_ACTIONS.EDIT_DOMAIN, payload: domain }));
+  }
+
+
+    Editdomain(payload) {
+        let headers = new Headers(this.headerContent);
+        let options = new RequestOptions({headers});
+        return this.http.put(this.DOMAIN_API_URL, JSON.stringify(payload))
         .map(res => res.json()["data"])
       //.subscribe(action => this.store.dispatch({ type: ONTOLOGY_ACTIONS.EDIT_DOMAIN, payload: domain }));
   }

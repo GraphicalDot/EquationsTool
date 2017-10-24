@@ -147,7 +147,7 @@ export class OntologyComponent implements OnInit {
     _editDomain(domain: DomainModel){
         console.log(domain)
         //this.service.editDomain(domain)
-        this.store.dispatch(new OntologyActions.Editdomain({"domain": domain, "user": this.user}))
+        this.store.dispatch(new OntologyActions.Editdomain({"module": domain, "user": this.user}))
     }
 
     _editConcept(concept: ConceptModel){

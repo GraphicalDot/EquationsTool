@@ -172,6 +172,37 @@ export function DomainReducer(state = initialState, action: DomainActions.Action
                 return Array.prototype.concat(state);
             */
 
+            
+            case DomainActions.EDIT_DOMAIN:
+                    return Object.assign({}, state, {
+                        loading: true,
+                        error: undefined,
+                        loaded: false,
+                    })
+
+
+            case DomainActions.EDIT_DOMAIN_SUCCESS:
+                        console.log(action.payload)
+                        let estateclone = _.cloneDeep(state);
+                        
+                        var newModules = estateclone.modules
+                        var indexOfObject = newModules.findIndex(id => id.module_id === action.payload.module.module_id);
+
+                        newModules[indexOfObject] = action.payload.module
+
+                        return Object.assign({}, state, {
+                            modules: newModules, loaded: true, loading: false, 
+                        });
+
+            case DomainActions.EDIT_DOMAIN_FAILURE:
+                    return Object.assign({}, state, {
+                        loading: false,
+                        error: action.payload._body,
+                        loaded: true,
+                    })
+            
+
+
             default:
                 return state
 

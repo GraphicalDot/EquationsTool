@@ -83,8 +83,8 @@ export class UsersEffects {
         .map((action: ObjectActions.Edituser) => action.payload)
         .switchMap((payload) =>
              
-              this.service.deleteUser(payload)
-              .map((msg: any) => new ObjectActions.Deleteusersuccess(msg))
+              this.service.editUser(payload)
+              .map((msg: any) => new ObjectActions.Editusersuccess(msg))
               .catch(err => of(new ObjectActions.Deleteuserfailure(err)))
         );
 

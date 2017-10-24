@@ -16,8 +16,8 @@
 
 </div>
 
-<div *ngIf="userCreate">
-        <form materialize class="col s12" [formGroup]="complexForm" (ngSubmit)="addUserSubmit(complexForm.value)" novalidate>
+<div *ngIf="openform">
+        <form materialize class="col s12" [formGroup]="complexForm" (ngSubmit)="formsubmit(complexForm.value)" novalidate>
             <div class="row">
                 <div class="input-field col s4">
                     <label>First Name</label>
@@ -77,7 +77,7 @@
                <div class="input-field col s6">
                   <select class="form-control"  formControlName="user_type" [(ngModel)]="user_type" [materializeSelectOptions]="selectOptions" materialize="material_select">
                         <option value="" disabled selected>Type of User</option>
-                      <option *ngFor="let user_type of user_types" [value]="user_type">{{user_type}}</option>
+                      <option *ngFor="let user_type of user_types" [ngValue]="user_type">{{user_type}}</option>
                   </select>
                 <div *ngIf="formErrors.user_type" class="alert alert-danger red">{{formErrors.user_type}}</div>
 
@@ -87,14 +87,14 @@
             <div class="input-field col s6">
                   <select class="form-control"  formControlName="create_domain" [materializeSelectOptions]="selectOptions" materialize="material_select">
                         <option value="" disabled selected>Create Domain Permissions</option>
-                      <option *ngFor="let value of create_domains" [value]="value">{{value}}</option>
+                      <option *ngFor="let value of create_domains" [ngValue]="value">{{value}}</option>
                   </select>
 
               </div>
               <div class="input-field col s6">
                   <select class="form-control"  formControlName="create_template" [materializeSelectOptions]="selectOptions" materialize="material_select">
                         <option value="" disabled selected>Create Template Permissions</option>
-                      <option *ngFor="let value of create_domains" [value]="value">{{value}}</option>
+                      <option *ngFor="let value of create_domains" [ngValue]="value">{{value}}</option>
                   </select>
 
               </div>
@@ -106,7 +106,7 @@
               <div class="input-field col s6">
                   <select class="form-control"   formControlName="create_variable" [materializeSelectOptions]="selectOptions" materialize="material_select">
                         <option value="" disabled selected>Create Variable Permissions</option>
-                      <option *ngFor="let value of create_domains" [value]="value">{{value}}</option>
+                      <option *ngFor="let value of create_domains" [ngValue]="value">{{value}}</option>
                   </select>
 
               </div>
@@ -114,7 +114,7 @@
             <div class="input-field col s6">
                   <select class="form-control"  formControlName="create_variabletemplate" [materializeSelectOptions]="selectOptions" materialize="material_select">
                         <option value="" disabled selected>Create Variable Template Permissions</option>
-                      <option *ngFor="let value of create_domains" [value]="value">{{value}}</option>
+                      <option *ngFor="let value of create_domains" [ngValue]="value">{{value}}</option>
                   </select>
 
               </div>

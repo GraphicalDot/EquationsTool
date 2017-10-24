@@ -155,12 +155,16 @@ export class DomainComponent implements OnInit, OnDestroy {
       this.domainEdit= true;    
       this.domainCreate = false; //This will close the add new nanoskill form just to avoid confusion   
       this.domain = domain;
-      this.editDomain.emit(domain);
+      //this.editDomain.emit(domain);
     }
     
     _editDomain(domain){
         event.preventDefault()
-        this.editDomain.emit(domain)
+        console.log(domain)
+        console.log(this.domain.description)
+
+        var data = Object.assign({}, this.domain, domain)
+        this.editDomain.emit(data)
         
     }
 
@@ -214,5 +218,9 @@ export class DomainComponent implements OnInit, OnDestroy {
                                                     "module_id": this.permission_domain.module_id,
                                                     "parent_id": null,
                                                     "permission": value}))
+    }
+
+    onCheckboxChange(domain){
+        console.log(domain)
     }
 }

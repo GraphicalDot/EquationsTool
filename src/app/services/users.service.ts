@@ -39,6 +39,9 @@ export class UsersService {
   
     
     addUser(user: UserModel): Observable<UserModel> {
+        console.log(user)
+        console.log(JSON.stringify(user))
+
         return this.http.post(this.DOMAIN_API_URL, JSON.stringify(user))
           .map(res => res.json()["data"])
     }
@@ -56,7 +59,7 @@ export class UsersService {
     editUser(object: UserModel): Observable<UserModel> {
         let headers = new Headers(this.headerContent);
         let options = new RequestOptions({headers});
-        var url = this.DOMAIN_API_URL + "/" + object.user_id
+        var url = this.DOMAIN_API_URL 
         return this.http.put(url, JSON.stringify(object), options)
           .map(res => res.json()["data"])
   }

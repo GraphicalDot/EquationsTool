@@ -19,7 +19,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class UsersComponent implements OnInit {
-    userCreate: boolean;
+    openform: boolean;
     userModuleCount$: Observable<number>;
     currentUserPage$: Observable<number>;
     public currentPage: number =1  //this is the current page number that we will get from the ngxpagination
@@ -27,6 +27,7 @@ export class UsersComponent implements OnInit {
     changePassword: boolean = false //Flag to control change password functionality, Its value 
                               // Will be true only when a user clicks on change password button
     edit: boolean;
+    add: boolean;
     user: UserModel ;
     actionUser: UserModel;
     users$: Observable<any>;
@@ -67,12 +68,12 @@ export class UsersComponent implements OnInit {
       password: ['', [Validators.required]],
       confirm_password: ['', [Validators.required]],
       user_type: ['', [Validators.required]],
-     create_domain : [''],
+     create_domain : [false],
       username: ['', [Validators.required]],
       user_secret: ['', [Validators.required]],
-      create_variable: [''],
-      create_variabletemplate: ['',],
-      create_template: ['', ]
+      create_variable: [false],
+      create_variabletemplate: [false,],
+      create_template: [false, ]
       
 
     }, {validator: this.checkIfMatchingPasswords('password', 'confirm_password')});
@@ -193,31 +194,32 @@ checkIfMatchingPasswords(passwordKey: string, passwordConfirmationKey: string) {
 
                                                                                                  
   ngOnInit() {
-    this.userCreate = false;
+    this.openform = false;
     this.store.dispatch(new UserActions.Loadusers({"skip": 0, "limit": 15, "search_text": null, "user_id": this.actionUser.user_id}))
     
   }
 
   addUser(){
     console.log("Add user form has been created");
-    this.userCreate = true;
+    this.openform = true;
     this.edit= false;    
-
+    this.add= true
   }
   
-  addUserSubmit(user: UserModel){
-        console.log(user)
-
-        console.log(this.userCreate)
-        console.log(this.edit)
+  formsubmit(user: UserModel){
+    console.log(user)  
+    if(this.add){ 
+        console.log("add user submit")
         this.store.dispatch(new UserActions.Adduser(user))
-  	    console.log("request Completed for adding user");
       }
-  editUserSubmit(user: UserModel){
-        this.store.dispatch(new UserActions.Edituser(user))
-        this.edit= false;    
-        
-  }
+    else{
+        console.log("Edit user submit")
+        var data = Object.assign({}, user, {"user_id": this.user.user_id})
+        console.log(data)
+        this.store.dispatch(new UserActions.Edituser(data))
+    }
+      
+    }
   
   deleteUser(user: UserModel){
         console.log(user)
@@ -238,10 +240,10 @@ checkIfMatchingPasswords(passwordKey: string, passwordConfirmationKey: string) {
   }
 
   editUser(user: UserModel){
-      this.userCreate = true;
+      this.openform = true;
       this.user = user
       this.edit= true;    
-
+      this.add=false
       console.log(this.user)
       this.complexForm.setValue({
           first_name: this.user.first_name,
@@ -258,6 +260,8 @@ checkIfMatchingPasswords(passwordKey: string, passwordConfirmationKey: string) {
           create_template : this.user.create_template,
           create_variabletemplate: this.user.create_variabletemplate
       })
+
+      this.user_type = user.user_type
   }
 
 
@@ -272,6 +276,6 @@ checkIfMatchingPasswords(passwordKey: string, passwordConfirmationKey: string) {
 
     search_text_changed(search_text){
         this.store.dispatch(new UserActions.Loadusers({ "skip": 0, "limit": 15, "search_text": search_text, "user_id": this.actionUser.user_id }))
-        this.userCreate = false
+        this.openform = false
       }
 }

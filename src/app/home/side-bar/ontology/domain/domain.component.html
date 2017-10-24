@@ -51,12 +51,13 @@
                     <input name="edit" type="checkbox" [disabled]="!permission_domain.permission.edit" [ngModel]="(permission$ |async)?.edit" [checked]="(permission$ |async)?.edit" id="edit" />
                     <label for="edit">Edit</label>
                 </div>
+
                 <div class="col s2">
                     <input name="delete" type="checkbox" [disabled]="!permission_domain.permission.delete" [ngModel]="(permission$ |async)?.delete"  [checked] ="(permission$ |async)?.delete"  id="delete" />
                     <label for="delete">Delete</label>
                 </div>
+                
                 <div class="col s2">
-
                           <button class="btn waves-effect waves-light" type="submit" name="action">Submit
                       <i class="material-icons right">send</i>
                       </button>
@@ -69,14 +70,20 @@
 
 <div *ngIf="domainEdit">
     <div class="col s12">
-       <form materialize class="col s12" #form="ngForm" (ngSubmit)="_editDomain(domain)">
+       <form materialize class="col s12" #form="ngForm" (ngSubmit)="_editDomain(form.value)">
           <div class="row">
-              <div class="input-field col s4">
+              <div class="col s4">
                   <input id="icon_prefix" type="text" class="validate"  [(ngModel)]="domain.module_name" name="domain_name">
               </div>
-              <div class="input-field col s4">
+              <div class="col s4">
                   <input id="icon_telephone" type="tel" class="validate"  [(ngModel)]="domain.description" name="description">
               </div>
+                
+            <div class="col s4" *ngIf="loggedUser.user_type == 'superadmin'">
+                    <input name="creation_approval" type="checkbox"  [(ngModel)]="domain.creation_approval"  [checked] ="domain.creation_approval"  id="checkbox" />
+                    <label for="checkbox">Creation Approval</label>
+            </div>
+                
           </div>
           <button class="btn waves-effect waves-light" type="submit" name="action">Submit
               <i class="material-icons right">send</i>
@@ -86,7 +93,6 @@
 </div>
 
 
-<div class="row">
 
 
 
@@ -104,6 +110,9 @@
               </div>
               
           </div>
+          
+          
+          
           <button class="btn waves-effect waves-light" type="submit" name="action">Submit
               <i class="material-icons right">send</i>
           </button>
@@ -111,7 +120,7 @@
     </div>
 </div>
 
-        <table>
+        <table materialize>
 
 
 
@@ -137,7 +146,8 @@
                     <td>{{domain.username}}</td>
                     <td>{{domain.indian_time}}</td>
                     <td>
-                        <input disable type="radio" [checked]="domain.creation_approval"/><label class="black-text flow-text"></label>
+                        <input type="checkbox" id="{{domain.module_id}}"  class="filled-in" [checked]="domain.creation_approval" [ngModel]="domain.creation_approval"  (ngModelChange)='onCheckboxChange(domain)'/><label class="black-text flow-text"></label>
+                        <label for="{{domain.module_id}}"></label>
                     </td>
                     <td>{{ domain.children}}</td>
                     <td>{{domain.status}}</td>
@@ -164,5 +174,3 @@
         </ul>
 
          
-
-</div>

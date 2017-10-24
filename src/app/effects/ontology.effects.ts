@@ -122,6 +122,15 @@ export class OntologyEffects {
         );
 
 
+    @Effect() editDomain$: Observable<Action> = this.actions$
+        .ofType(OntologyActions.EDIT_DOMAIN)
+        .map((action: OntologyActions.Editdomain) => action.payload)
+        .switchMap((payload) => 
+              this.service.Editdomain(payload)
+              .map((concept: any) => new OntologyActions.Editdomainsuccess(concept))
+              .catch(err => of(new OntologyActions.Editdomainfailure(err)))
+        );
+
 
 }
 

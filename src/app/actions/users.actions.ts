@@ -139,7 +139,7 @@ export class Edituserfailure implements Action{
 }
 
 export const EDIT_USER_SUCCESS = "[Users] Edit User Success"
-export class Editeusersuccess implements Action{
+export class Editusersuccess implements Action{
     readonly type = EDIT_USER_SUCCESS
     constructor(public payload: any){}
 }
@@ -179,7 +179,7 @@ export type Actions = Loadusers|
                         
                         Edituser|
                         Edituserfailure|
-                        Editeusersuccess|
+                        Editusersuccess|
 
                         Deleteuser|
                         Deleteuserfailure|
