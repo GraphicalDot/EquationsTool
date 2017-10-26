@@ -212,7 +212,7 @@ export class ConceptComponent implements OnInit {
 
 
     deleteModule(module) {
-
+        this.addPermissionFlag = false
         this.deleteConcept.emit(module);
         this.prereq_modules = []
         this.prereq_modules_all_parents = []

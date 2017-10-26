@@ -199,6 +199,7 @@ export class NanoskillComponent implements OnInit, OnDestroy {
                     this.loading = value
             })
 
+    
 
     };
         
@@ -210,6 +211,8 @@ export class NanoskillComponent implements OnInit, OnDestroy {
         this.selectedNanoskill.emit(module);
     }
     delete(module) {
+        this.addPermissionFlag = false
+
         this.deleteNanoskill.emit(module);
         this.prereq_modules = []
         this.prereq_modules_all_parents = []

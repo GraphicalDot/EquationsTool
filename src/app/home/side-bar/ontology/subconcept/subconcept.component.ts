@@ -202,6 +202,7 @@ export class SubconceptComponent implements OnInit, OnDestroy {
     }
 
     deleteModule(module) {
+        this.addPermissionFlag = false
         this.deleteSubconcept.emit(module);
         this.prereq_modules = []
         this.prereq_modules_all_parents = []

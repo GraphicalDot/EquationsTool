@@ -61,18 +61,18 @@
             <div class="row"  *ngIf="!edit">
                 <div class="input-field col s6">
                     <label>Password</label>
-                    <input class="form-control" type="text" class="validate" formControlName="password">
+                    <input class="form-control" type="password" class="validate" formControlName="password">
                     <div *ngIf="formErrors.password" class="alert alert-danger red">{{formErrors.password}}</div>
                 </div>
 
                 <div class="input-field col s6">
                     <label>Confirm Password</label>
-                    <input class="form-control" type="text"  class="validate" formControlName="confirm_password">
+                    <input class="form-control" type="password"  class="validate" formControlName="confirm_password">
                     <div *ngIf="formErrors.confirm_password?.notEquivalent" class="alert alert-danger red">{{formErrors.confirm_password?.notEquivalent}}</div>
                 </div>
-
             </div>
 
+            
            <div class="row">
                <div class="input-field col s6">
                   <select class="form-control"  formControlName="user_type" [(ngModel)]="user_type" [materializeSelectOptions]="selectOptions" materialize="material_select">
@@ -82,7 +82,22 @@
                 <div *ngIf="formErrors.user_type" class="alert alert-danger red">{{formErrors.user_type}}</div>
               </div>
             </div>
-           <div class="row" *ngIf="user_type == 'admin' ||user_type == 'general' ">
+
+        <div class="row" *ngIf="user_type == 'reviewer'">
+            <div class="input-field col s6">
+                  <select class="form-control"  formControlName="review_order" [materializeSelectOptions]="selectOptions" materialize="material_select">
+                        <option value="" disabled selected>Review Order</option>
+                      <option *ngFor="let value of review_order" [ngValue]="value">{{value}}</option>
+                  </select>
+
+              </div>
+        </div>
+
+
+
+
+
+        <div class="row" *ngIf="user_type == 'admin' ||user_type == 'general' ">
             <div class="input-field col s6">
                   <select class="form-control"  formControlName="create_domain" [materializeSelectOptions]="selectOptions" materialize="material_select">
                         <option value="" disabled selected>Create Domain Permissions</option>

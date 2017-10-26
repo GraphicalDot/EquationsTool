@@ -19,5 +19,6 @@ export interface UserModel{
     create_domain?: boolean,
     create_variable?: boolean,
     create_template?: boolean,
-   create_variabletemplate?: boolean
+   create_variabletemplate?: boolean,
+   review_order?: number
 }

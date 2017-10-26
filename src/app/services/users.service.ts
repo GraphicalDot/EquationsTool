@@ -28,6 +28,7 @@ export class UsersService {
       params.set("limit", payload.limit)
       params.set("search_text", payload.search_text)
       params.set("user_id", payload.user_id)
+      params.set("filter_permission", payload.filter_permission)
 
       console.log(params)
       let headers = new Headers(this.headerContent);

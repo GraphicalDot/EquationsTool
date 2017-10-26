@@ -10,7 +10,7 @@ import * as actions from '../../../../actions/ontology.actions';
 import * as Permissionactions from '../../../../actions/permissions.actions'
 import {NgxPaginationModule} from 'ngx-pagination';
 import { toast } from 'angular2-materialize';
-
+import * as UserActions from '../../../../actions/users.actions';
 
 /*
 Intend to use normalizer to make things easier for ngrx store
@@ -65,6 +65,7 @@ export class DomainComponent implements OnInit, OnDestroy {
     public pages: number[];
     public domain_count$: Observable<number>
     public loading: boolean = false
+
    //public user$: Observable<UserModel>;
    
     @Output() selectedDomain = new EventEmitter<DomainModel>();
@@ -80,14 +81,10 @@ export class DomainComponent implements OnInit, OnDestroy {
                         this.domain_count$ = this.store.select(fromRoot.getDomainCount)
                         this.users$ = this.store.select(fromRoot.getUsers);
                         this.permission$ = this.store.select(fromRoot.getDomainPermission)
-    
-
-
 
                     }
 
     ngOnInit(){
-
         this.store.select(fromRoot.getDomainPages)
         .subscribe(value => {
             //this.pages = new Array(value);//create an empty array with length 45
@@ -128,6 +125,7 @@ export class DomainComponent implements OnInit, OnDestroy {
             })
 
         this.store.dispatch(new actions.Loaddomain({"user_id": this.loggedUser.user_id, "skip": 0, "limit": 15, "search_text": null}))
+        this.store.dispatch(new UserActions.Loadusers({"skip": 0, "limit": 1000, "search_text": null, "user_id": this.loggedUser.user_id, "filter_permission": true}))
 
     };
     ngOnDestroy(){};
@@ -136,6 +134,8 @@ export class DomainComponent implements OnInit, OnDestroy {
     }
     
     domaindelete(domain) {
+        this.addPermissionFlag = false
+
         this.deleteDomain.emit(domain);
     }
 

@@ -1,3 +1,4 @@
+import { indexDebugNode } from '@angular/core/src/debug/debug_node';
 import { ActionReducer, Action, State } from '@ngrx/store';
 import { UserModel} from '../models/user.model';
 //import {ONTOLOGY_ACTIONS} from "./ontology.actions";
@@ -162,6 +163,7 @@ export function UsersReducer(state = initialState, action: UserActions.Actions):
                         var newModules = estateclone.users
                         var indexOfObject = newModules.findIndex(id => id.user_id === action.payload.user_id);
 
+                        console.log(indexOfObject)
                         newModules[indexOfObject] = action.payload
 
                         return Object.assign({}, state, {

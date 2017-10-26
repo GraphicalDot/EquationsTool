@@ -33,7 +33,8 @@ export class UsersComponent implements OnInit {
     users$: Observable<any>;
     user_type: string = ""
     complexForm : FormGroup;
-    user_types= ["r1", "r2", "admin", "superadmin", "general", "r3"];
+    user_types= ["admin", "superadmin", "general", "reviewer"];
+    review_order = [1, 2, 3, 4]
     create_domains = [true, false]
     public pages: number[];
 
@@ -73,7 +74,8 @@ export class UsersComponent implements OnInit {
       user_secret: ['', [Validators.required]],
       create_variable: [false],
       create_variabletemplate: [false,],
-      create_template: [false, ]
+      create_template: [false, ],
+      review_order:[false, ]
       
 
     }, {validator: this.checkIfMatchingPasswords('password', 'confirm_password')});
@@ -135,8 +137,8 @@ checkIfMatchingPasswords(passwordKey: string, passwordConfirmationKey: string) {
    'create_domain': '',
    'create_variable': '',
    'create_template': '',
-   'create_variabletemplate': ''
-  
+   'create_variabletemplate': '',
+    'review_order': ''
   };
 
   validationMessages = {
@@ -189,7 +191,9 @@ checkIfMatchingPasswords(passwordKey: string, passwordConfirmationKey: string) {
    'create_domain': {'required': 'Create Domain permissions are required'},
    'create_variable': {'required': 'Create Variable permissions are required'},
    'create_template': {'required': 'Create Template permissions are required'},
-   'create_variabletemplate': {'required': 'Create Variable Template permissions are required'}
+   'create_variabletemplate': {'required': 'Create Variable Template permissions are required'},
+   'review_order': {'required': 'Create Variable Template permissions are required'}
+
   }
 
                                                                                                  
@@ -258,7 +262,8 @@ checkIfMatchingPasswords(passwordKey: string, passwordConfirmationKey: string) {
           username: this.user.username,
           create_variable: this.user.create_variable,
           create_template : this.user.create_template,
-          create_variabletemplate: this.user.create_variabletemplate
+          create_variabletemplate: this.user.create_variabletemplate,
+          review_order: this.user.review_order
       })
 
       this.user_type = user.user_type
