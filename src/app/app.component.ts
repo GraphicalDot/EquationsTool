@@ -5,6 +5,7 @@ import * as fromRoot from "./reducers";
 import {State, Store} from "@ngrx/store"
 import {Observable} from "rxjs/Rx"
 
+
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -24,7 +25,7 @@ export class AppComponent {
           console.log(this.userData);
           //this.user_id$ = this.store.select(fromRoot.getLoggedUserId)
           this.store.dispatch(go(['/login']));
-          
+
 
 
   }

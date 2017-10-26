@@ -80,7 +80,6 @@
                       <option *ngFor="let user_type of user_types" [ngValue]="user_type">{{user_type}}</option>
                   </select>
                 <div *ngIf="formErrors.user_type" class="alert alert-danger red">{{formErrors.user_type}}</div>
-
               </div>
             </div>
            <div class="row" *ngIf="user_type == 'admin' ||user_type == 'general' ">

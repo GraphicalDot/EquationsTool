@@ -45,7 +45,8 @@ export class LoginComponent implements OnInit, OnDestroy {
             console.log("Authenticated value" + value)
           this.store.dispatch(go("/home"));
         });
-    
+        
+        
   }
 
   ngOnDestroy(){

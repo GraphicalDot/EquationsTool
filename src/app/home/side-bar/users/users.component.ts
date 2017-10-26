@@ -195,7 +195,7 @@ checkIfMatchingPasswords(passwordKey: string, passwordConfirmationKey: string) {
                                                                                                  
   ngOnInit() {
     this.openform = false;
-    this.store.dispatch(new UserActions.Loadusers({"skip": 0, "limit": 15, "search_text": null, "user_id": this.actionUser.user_id}))
+    this.store.dispatch(new UserActions.Loadusers({"skip": 0, "limit": 1000, "search_text": null, "user_id": this.actionUser.user_id}))
     
   }
 
