@@ -66,6 +66,9 @@ export class NanoskillComponent implements OnInit, OnDestroy {
     private difficulty = []
     private bloom_taxonomy = []
     private skip_nanoskills = []
+    private creationData
+    private creationDataSettings
+
     
     @Output() selectedNanoskill = new EventEmitter<NanoskillModel>();
     @Output() submitNanoskill = new EventEmitter<NanoskillModel>();
@@ -91,10 +94,13 @@ export class NanoskillComponent implements OnInit, OnDestroy {
                                 {"id": 3, "itemName": "Evaluating"}, {"id": 4, "itemName": "Synthesizing"}, 
                                 {"id": 5, "itemName": "Comprehending"}, {"id": 6, "itemName": "Remembering"} ]
 
-        this.difficultyData = [{"id": 1, "itemName": "First"}, {"id": 2, "itemName": "Second"}, 
-                        {"id": 3, "itemName": "Third"}, 
-                        {"id": 4, "itemName": "Fourth"}, {"id": 6, "itemName": "Fifth"} ]
-
+        this.difficultyData = [{"id": 1, "itemName": "Easy"}, {"id": 2, "itemName": "Medium"}, 
+                        {"id": 3, "itemName": "Hard"} ]
+        this.creationData = [{"id": 1, "itemName": true}, {"id": 2, "itemName": false}] 
+        this.creationDataSettings = { 
+                                  singleSelection: true, 
+                                  text:"Creation Approval",
+                                };   
         this.preReqModulesOtherDomainsSettings = { 
                             singleSelection: false, 
                             text:"Prequisite Nanoskills  Other Subconcepts",
@@ -199,7 +205,7 @@ export class NanoskillComponent implements OnInit, OnDestroy {
                     this.loading = value
             })
 
-    
+
 
     };
         
@@ -226,7 +232,8 @@ export class NanoskillComponent implements OnInit, OnDestroy {
         var data = Object.assign({}, this.module, {"prereq_modules_all_parents": this.modify_data(this.module.prereq_modules_all_parents), 
                                         "prereq_modules": this.modify_data(this.module.prereq_modules), 
                                         "difficulty": this.modify_data(this.module.difficulty), 
-                                        "bloom_taxonomy": this.modify_data(this.module.bloom_taxonomy)                                      
+                                        "bloom_taxonomy": this.modify_data(this.module.bloom_taxonomy), 
+                                        "creation_approval": this.module.creation_approval[0].itemName                                      
                 })
 
         console.log(data)
@@ -278,12 +285,20 @@ export class NanoskillComponent implements OnInit, OnDestroy {
       var prereq_modules_all_parents = this.module.prereq_modules_all_parents
       var prereq_modules = this.module.prereq_modules
       var skip_nanoskills = this.module.skip_nanoskills
+      var creation_approval = this.module.creation_approval
 
       this.module.bloom_taxonomy = this.convert_data(taxonomy)
       this.module.difficulty = this.convert_data(difficulty)
       this.module.prereq_modules_all_parents = this.convert_data(prereq_modules_all_parents)
       this.module.prereq_modules = this.convert_data(prereq_modules)
       this.module.skip_nanoskills = this.convert_data(skip_nanoskills)
+
+     this.creationData.forEach((data, index) => {
+            if(data.itemName == creation_approval){
+                this.module.creation_approval = [data]
+            }
+    
+    })
 
     }
 

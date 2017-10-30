@@ -70,11 +70,9 @@
 <div *ngIf="moduleEdit">
     <div class="row">
        <form materialize class="col s12" #editform="ngForm" (ngSubmit)="submitEditForm(editform.value)">
-
           <button class="btn waves-effect waves-light" type="submit" name="action">Submit
               <i class="material-icons right">send</i>
           </button>  
-            
              <div class="row">
                     <div class="input-field col s6">
                           <input id="icon_prefix" type="text" class="validate" disabled [(ngModel)]="module.module_name" name="module.module_name" required ng-pristine>
@@ -83,6 +81,7 @@
                       <input id="icon_telephone" type="text" class="validate"  [(ngModel)]="module.description" name="module.description" required>
                         <label>Description</label>
                 </div>
+
             </div>
 
             
@@ -96,7 +95,22 @@
               
             </div>
 
+    <div class="row">
+                <div class="input-field col s12">
+                      <input id="icon_telephone" type="text" class="validate"  [(ngModel)]="module.connection" name="module.connection" required>
+                        <label>Connection</label>
+                </div>
+    </div>       
         </form>
+    </div>
+
+
+    <div class="row">
+              <div class="col s6">
+                    <angular2-multiselect [data]="creationData" [(ngModel)]="module.creation_approval" 
+                        [settings]="creationDataSettings" 
+                        ></angular2-multiselect>
+              </div>
     </div>
     <div class="row">
               <div class="col s6">
@@ -123,6 +137,7 @@
               </div>
     </div>
 
+
 </div>
 
 
@@ -141,13 +156,22 @@
                           <input id="icon_prefix" type="text" class="validate"  [(ngModel)]="module_name" name="module_name" required ng-pristine>
                         <label>Name</label>
                      </div>
-                <div class="input-field col s6">
+                    <div class="input-field col s6">
                       <input id="icon_telephone" type="text" class="validate"  [(ngModel)]="description" name="description" required>
                         <label>Description</label>
-                </div>
+                    </div>
               
+                 
+
+            </div>
+
+    <div class="row">
+                <div class="input-field col s12">
+                      <input id="icon_telephone" type="text" class="validate"  [(ngModel)]="connection" name="connection" required>
+                        <label>Connection</label>
                 </div>
-        </form>
+    </div>       
+     </form>
     </div>
     <div class="row">
               <div class="col s6">
@@ -170,17 +194,15 @@
               <div class="col s6">
                       <angular2-multiselect [data]="bloomTaxonomyData" [(ngModel)]="bloom_taxonomy" 
                             [settings]="bloomTaxonomySettings"></angular2-multiselect>
-
               </div>
     </div>
 
+
 </div>
+
 
 <div class="row">
         <table>
-
-
-
         <thead>
           <tr>
               <th>Name</th>
@@ -195,7 +217,6 @@
               <th>Add Permissions</th>
           </tr>
         </thead>
-
         <tbody *ngFor="let domain of concepts$ | async">
             <tr>
                     <td>{{domain.module_name}}</td>
@@ -212,8 +233,6 @@
                     <td><button class="btn waves-effect waves-light small" (click)="selectModule(domain)"><i class="material-icons">add_box</i></button></td>
                     <td><button class="btn waves-effect waves-light small" (click)="addPermissions(domain)"><i class="material-icons">add_box</i></button></td>
             </tr>
-
-
         </tbody>
         </table>
          <ul materialize class="pagination">
@@ -221,5 +240,4 @@
                  <a href="javascript:void(0)" (click)="pageConceptChanged(page, $event)">{{page}}</a>
             </li>
         </ul>
-
 </div>

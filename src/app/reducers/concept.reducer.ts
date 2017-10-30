@@ -190,13 +190,12 @@ export function ConceptReducer(state = initialState,  action: ConceptActions.Act
 
 
             case ConceptActions.EDIT_CONCEPT_SUCCESS:
-                        console.log(action.payload)
                         let estateclone = _.cloneDeep(state);
                         
                         var newModules = estateclone.modules
-                        var indexOfObject = newModules.findIndex(id => id.module_id === action.payload.module_id);
+                        var indexOfObject = newModules.findIndex(id => id.module_id === action.payload.module.module_id);
 
-                        newModules[indexOfObject] = action.payload
+                        newModules[indexOfObject] = action.payload.module
 
                         return Object.assign({}, state, {
                             modules: newModules, loaded: true, loading: false, 

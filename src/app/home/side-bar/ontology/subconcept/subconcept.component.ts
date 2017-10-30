@@ -66,6 +66,8 @@ export class SubconceptComponent implements OnInit, OnDestroy {
     private bloom_taxonomy = []
     private module_name: string 
     private module_id: string
+    private creationData 
+    private creationDataSettings
 
     @Output() selectedSubconcept = new EventEmitter<SubconceptModel>();
     @Output() submitSubconcept = new EventEmitter<SubconceptModel>();
@@ -92,10 +94,15 @@ export class SubconceptComponent implements OnInit, OnDestroy {
                         {"id": 5, "itemName": "Comprehending"}, {"id": 6, "itemName": "Remembering"} ]
 
     
-        this.difficultyData = [{"id": 1, "itemName": "First"}, {"id": 2, "itemName": "Second"}, 
-                        {"id": 3, "itemName": "Third"}, 
-                        {"id": 4, "itemName": "Fourth"}, {"id": 6, "itemName": "Fifth"} ]
+        this.difficultyData = [{"id": 1, "itemName": "Easy"}, {"id": 2, "itemName": "Medium"}, 
+                        {"id": 3, "itemName": "Hard"} ]
 
+        
+        this.creationData = [{"id": 1, "itemName": true}, {"id": 2, "itemName": false}] 
+        this.creationDataSettings = { 
+                                  singleSelection: true, 
+                                  text:"Creation Approval",
+                                };   
         this.preReqModulesOtherDomainsSettings = { 
                             singleSelection: false, 
                             text:"Prequisite Subconcepts  Other Concepts",
@@ -246,7 +253,9 @@ export class SubconceptComponent implements OnInit, OnDestroy {
         var data = Object.assign({}, this.module, {"prereq_modules_all_parents": this.modify_data(this.module.prereq_modules_all_parents), 
                                         "prereq_modules": this.modify_data(this.module.prereq_modules), 
                                         "difficulty": this.modify_data(this.module.difficulty), 
-                                        "bloom_taxonomy": this.modify_data(this.module.bloom_taxonomy)                                      
+                                        "bloom_taxonomy": this.modify_data(this.module.bloom_taxonomy),
+                                         "creation_approval": this.module.creation_approval[0].itemName                                     
+                                      
                 })
 
         console.log(data)
@@ -264,11 +273,19 @@ export class SubconceptComponent implements OnInit, OnDestroy {
       var difficulty = this.module.difficulty
       var prereq_modules_all_parents = this.module.prereq_modules_all_parents
       var prereq_modules = this.module.prereq_modules
+      var creation_approval = this.module.creation_approval
       this.module.bloom_taxonomy = this.convert_data(taxonomy)
       this.module.difficulty = this.convert_data(difficulty)
       this.module.prereq_modules_all_parents = this.convert_data(prereq_modules_all_parents)
       this.module.prereq_modules = this.convert_data(prereq_modules)
-
+    //Backend saves creation_approval value as boolean to be rendered by this select option 
+    //it has to be in for [{"itemName": ture, "id": 1}]
+      this.creationData.forEach((data, index) => {
+            if(data.itemName == creation_approval){
+                this.module.creation_approval = [data]
+            }
+    
+    })
     }
 
 

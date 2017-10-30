@@ -66,6 +66,8 @@ export class ConceptComponent implements OnInit {
     private bloom_taxonomy = []
     private module_name: string 
     private module_id: string
+    private creationData
+    private creationDataSettings
 
     @Output() selectedConceptModule = new EventEmitter<ConceptModel>();
     @Output() submitConcept = new EventEmitter<ConceptModel>();
@@ -84,7 +86,6 @@ export class ConceptComponent implements OnInit {
         this.users$ = this.store.select(fromRoot.getUsers);
         this.permission$ = this.store.select(fromRoot.getDomainPermission)
 
-        this.module_count$.subscribe((value) => console.log(value))
         this.permission$ = this.store.select(fromRoot.getConceptPermission)
 
     }
@@ -94,10 +95,18 @@ export class ConceptComponent implements OnInit {
                                 {"id": 3, "itemName": "Evaluating"}, {"id": 4, "itemName": "Synthesizing"}, 
                                 {"id": 5, "itemName": "Comprehending"}, {"id": 6, "itemName": "Remembering"} ]
 
-            this.difficultyData = [{"id": 1, "itemName": "First"}, {"id": 2, "itemName": "Second"}, 
-                                {"id": 3, "itemName": "Third"}, 
-                                {"id": 4, "itemName": "Fourth"}, {"id": 6, "itemName": "Fifth"} ]
+            this.difficultyData = [{"id": 1, "itemName": "Easy"}, {"id": 2, "itemName": "Medium"}, 
+                                 {"id": 3, "itemName": "Hard"} ]
  
+
+            this.creationData = [{"id": 1, "itemName": true}, {"id": 2, "itemName": false}] 
+            this.creationDataSettings = { 
+                                  singleSelection: true, 
+                                  text:"Creation Approval",
+                                  //unSelectAllText:'UnSelect All',
+                                  //enableSearchFilter: true,
+                                 // classes:"myclass custom-class"
+                                };   
                 this.preReqModulesOtherDomainsSettings = { 
                                   singleSelection: false, 
                                   text:"Prequisite Concepts  Other Domains",
@@ -138,7 +147,6 @@ export class ConceptComponent implements OnInit {
 
         this.store.select(fromRoot.getConceptPages)
         .subscribe(value => {
-            console.log(value)
             //this.pages = new Array(value);//create an empty array with length 45
             this.pages = Array(value).fill(0).map((e,i)=>i+1)
 
@@ -199,8 +207,6 @@ export class ConceptComponent implements OnInit {
                     this.loading = value
             })
 
-
-
     };
         
     ngOnDestroy(
@@ -244,6 +250,7 @@ export class ConceptComponent implements OnInit {
 
 
     submitForm(module: ConceptModel){
+        console.log(module)
         this.moduleCreate = false;  
         
         var data = Object.assign({}, module, {"prereq_modules_all_parents": this.modify_data(this.prereq_modules_all_parents), 
@@ -259,10 +266,12 @@ export class ConceptComponent implements OnInit {
 
     submitEditForm(module: ConceptModel){
         event.preventDefault()
+        console.log(this.module.creation_approval)
         var data = Object.assign({}, this.module, {"prereq_modules_all_parents": this.modify_data(this.module.prereq_modules_all_parents), 
                                         "prereq_modules": this.modify_data(this.module.prereq_modules), 
                                         "difficulty": this.modify_data(this.module.difficulty), 
-                                        "bloom_taxonomy": this.modify_data(this.module.bloom_taxonomy)                                      
+                                        "bloom_taxonomy": this.modify_data(this.module.bloom_taxonomy),                                      
+                                        "creation_approval": this.module.creation_approval[0].itemName                                     
                 })
 
         console.log(data)
@@ -275,17 +284,28 @@ export class ConceptComponent implements OnInit {
       this.moduleCreate = false; //This will close the add new nanoskill form just to avoid confusion   
       this.module = module;
       console.log("Edit clicked")
-      console.log(module)
       this.module =  _.cloneDeep(module);
       var taxonomy = this.module.bloom_taxonomy
       var difficulty = this.module.difficulty
       var prereq_modules_all_parents = this.module.prereq_modules_all_parents
       var prereq_modules = this.module.prereq_modules
+      var creation_approval = this.module.creation_approval
       this.module.bloom_taxonomy = this.convert_data(taxonomy)
       this.module.difficulty = this.convert_data(difficulty)
       this.module.prereq_modules_all_parents = this.convert_data(prereq_modules_all_parents)
       this.module.prereq_modules = this.convert_data(prereq_modules)
-
+      
+      
+    //Backend saves creation_approval value as boolean to be rendered by this select option 
+    //it has to be in for [{"itemName": ture, "id": 1}]
+      this.creationData.forEach((data, index) => {
+            if(data.itemName == creation_approval){
+                this.module.creation_approval = [data]
+            }
+    
+    })
+      
+    
     }
 
     //When user clicks on submit after editing the module
